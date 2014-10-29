@@ -1,0 +1,95 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+
+\title{List of sensor fault detection methods}
+\author{Georg Jäger}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\begin{abstract}
+ This document is meant to list up different methods for sensor fault detection. Furthermore, all methods should be classified whether they can handle specific fault types or not. As we assume the sensor signal as the only input of the fault detection methods, another classification is done concerning the dynamic of the input signal. This classification is done by deciding whether a method is able to detect a specific fault type in a high/middle/low dynamic signal. 
+\end{abstract}
+
+\section{Preparation}
+ 
+\subsection{Fault model}  
+  We want to classify sensor fault detection methods concerning specific fault types, the first step is to introduce the underlaying fault model. The model used for this analysis was investigated by Sebastian Zug et. al. %\cite{Zug}.
+  
+  %include graphic of fault model
+  %Explanation about the model
+
+\subsection{Process model}
+
+
+\section{Methods for sensor fault detection}
+
+  %explanation about different categories of methods
+  %we only take data-driven methods into account
+
+\subsection{Recognizing patterns of sensor faults}
+
+Multi-Layer-Perceptron
+
+Time-Delay neural network
+
+Wavelet-Analysis
+
+Hidden-Markov-Models
+
+Support-Vector-Machines
+
+Fuzzy-Classifier
+
+Nearest-Neighbor-Classification 
+
+
+\subsection{Using time-redundancy for residual/symptom generation}
+
+Gradient-Checking
+
+ \begin{table}[h]
+ \caption{Classification: \glqq Limit-checking of the signals gradient \grqq}
+ \begin{tabular}{c|c|c|c}
+                    & High dynamic        & Normal dynamic        & Low dynamic \\  \hline
+ 1. Outlier         & not appropriate     &      OK               &       Well
+ \end{tabular}
+ \label{tab:lc_gradient}
+ \end{table}
+
+Average-Checking
+
+Variance-Checking
+
+Auto-correlation-analysis
+
+Fourier-Analysis
+
+Spectrum-Analysis
+
+PCA (AANN)
+
+
+\subsection{Using process models for residual/symptom generation}
+  
+MLP's
+
+Recurrent neural network (Elman-Network, NARX)
+
+State-Observer
+
+HMM??
+
+Method of (extended) least squares
+
+Transfer-Functions(DGL)
+
+
+
+
+\end{document}
