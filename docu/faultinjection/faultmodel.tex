@@ -1,0 +1,65 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+
+\title{model for data centric sensor faults}
+\author{Maik Riestock}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\begin{abstract}
+This document presents a generic model for the description of data centric sensor faults. Based on this description is ..
+\end{abstract}
+
+
+\section{Concept}
+ 
+\subsection{classes and types}  
+
+
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{l|cc}
+		Klasse 		& Typ					& Abkürzung	\\
+		\hline
+		Offset		& nicht korrelierend	& nco	\\
+					& Werte-korrelierend	& vco	\\
+					& Zeit-korrelierend		& tco	\\
+		Noise		& nicht korrelierend	& ncn	\\
+					& Werte-korrelierend	& vcn	\\
+					& Zeit-korrelierend		& tcn	\\								
+		Outlier		& -						& out	\\		
+		Spike		& -						& spi	\\
+		Stuck-At	& Zero					& stz	\\
+					& X						& stx	\\
+		Saturation	& -						& sat	\\
+		Delay		& nicht korrelierend	& ncd	\\
+					& Zeit-korrelierend		& vcd	\\													
+        \end{tabular}
+        \caption[Übersicht der Fehlertypen]{Übersicht der Klassen mit deren verschiedenen Typen}
+        \label{tab:typen}
+    \end{center}
+\end{table}
+
+\subsection{occurence}
+
+\subsection{characteristic}
+
+
+
+\section{Implementation}
+
+\subsection{modularisation}
+
+
+
+
+
+
+
+\end{document}
