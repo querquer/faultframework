@@ -19,7 +19,7 @@
 \section{Preparation}
  
 \subsection{Fault model}  
-  We want to classify sensor fault detection methods concerning specific fault types, the first step is to introduce the underlaying fault model. The model used for this analysis was investigated by Sebastian Zug et. al. %\cite{Zug}.
+  We want to classify sensor fault detection methods concerning specific fault types. The first step is to introduce the underlaying fault model. The model used for this analysis was investigated by Sebastian Zug et. al. %\cite{Zug}.
   
   %include graphic of fault model
   %Explanation about the model
@@ -29,8 +29,14 @@
 
 \section{Methods for sensor fault detection}
 
-  %explanation about different categories of methods
-  %we only take data-driven methods into account
+Sensor fault detection was addressed by many scientific publications and papers before. Therefore a lot of different approaches available. As the primary focus is on the framework, we only analyze some data-driven techniques on detecting sensor faults. This means, the input of every detection method is a signal representing the observations of an sensor over time. Beside this, we assume only one-dimensional sensors, e.g distance sensors. As the database will be of the same dimension as the input of the methods, the dimension will be 2. 
+
+Furthermore, we want to provide a kind of categorization of this data-driven methods: 
+There are three different types of data-driven methods. At first, the fault detection techniques based on pattern recognition. This type of methods analyze the input data in order to find specified patterns, such as fault patterns. Prominent examples of this category are neural networks like \textit{Time-Delay neural networks} and also classifications-methods like nearest-neighbor-classification.
+
+Another type of detection techniques are using time-redundancy for residual or symptom generation. This methods tries to find redundant information in a time-series, such as the average which must be in a certain interval. If this information is deviating from normal values, sensor faults are detected. Examples of this category are \textit{Limit Checking} on the gradient of a signal or an auto-correlation-analysis.
+
+The last type are using models of the underlaying process. By predicting and comparing the sensor observations, they can generate a residual. The process model can be obtained by different approaches. As an example, one could use recurrent neural networks (Elman-networks, NARX) in order to \glqq learn \grqq the model. Another possibility is to determine the transfer function of the system.
 
 \subsection{Recognizing patterns of sensor faults}
 

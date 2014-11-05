@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1414489126 "Detectors.tex" "Detectors.pdf" "Detectors" 1414489126
+["pdflatex"] 1414832908 "Detectors.tex" "Detectors.pdf" "Detectors" 1414833151
   "/etc/texmf/web2c/texmf.cnf" 1413972347 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecrm1095.tfm" 1136768653 3584 929cdff2b7a8c11bd4d49fd68cb0ae70 ""
@@ -23,6 +23,7 @@
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmr10.tfm" 1254938640 12056 7e13df7fe4cbce21b072ba7c4f4deb6e ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmr12.tfm" 1254938640 12092 7b1546e2d096cfd5dcbd4049b0b1ec2e ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmr17.tfm" 1254938640 12156 ca1ae6a3c8564e89597f1f993fba1608 ""
+  "/usr/share/texmf/fonts/tfm/public/lm/ec-lmri10.tfm" 1254938640 17148 9556e1b5f936b77a796f68d2d559ba99 ""
   "/usr/share/texmf/fonts/tfm/public/lm/lmex10.tfm" 1254938640 992 ce925c9346c7613270a79afbee98c070 ""
   "/usr/share/texmf/fonts/tfm/public/lm/lmmi10.tfm" 1254938640 1528 6d36b2385e0ca062a654de6ac59cb34f ""
   "/usr/share/texmf/fonts/tfm/public/lm/lmmi12.tfm" 1254938640 1524 753b192b18f2991794f9d41a8228510b ""
@@ -40,6 +41,7 @@
   "/usr/share/texmf/fonts/type1/public/lm/lmr10.pfb" 1254938640 119235 f35b44530a1d90eb90fe15d9cba67ea0 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmr12.pfb" 1254938640 113634 f99c44d58bae0863375faf0e1d74d612 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmr17.pfb" 1254938640 119752 1bd8d06e4079df624bf59ce3ad7c9aa6 ""
+  "/usr/share/texmf/fonts/type1/public/lm/lmri10.pfb" 1254938640 112593 fda2373ba4420af33949610de4c28fe8 ""
   "/usr/share/texmf/tex/latex/lm/lmodern.sty" 1256929440 1606 c17281c7cff2bbd7ff0173e1433487ec ""
   "/usr/share/texmf/tex/latex/lm/omllmm.fd" 1256929440 888 44447a3a3af84a22454ef89500942d93 ""
   "/usr/share/texmf/tex/latex/lm/omslmsy.fd" 1256929440 805 af340a8260c447aa315cfc740ff0152f ""
@@ -49,9 +51,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1392645748 31083 1dfd8bf685ce0009c40532fedf8a7c53 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1413975497 126069 0222b23a901b32953bca35c6eca06001 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1413975499 1342097 87f553978cc25c7e7c9c64898b08bc36 ""
-  "Detectors.aux" 1414489126 1036 714413a5c64299d0b71868d603058e15 ""
-  "Detectors.tex" 1414489124 2290 b2035ebdbc87847e4b5f8842a0934973 ""
-  "Detectors.toc" 1414489126 571 a6e697b568f41de1262b001cc434539f ""
+  "Detectors.aux" 1414832908 1034 50d17fcba710dc1e28828c0bae09c3a6 ""
+  "Detectors.tex" 1414832906 4031 4ac6355a6b51513edf6d22dbfecc8b82 ""
+  "Detectors.toc" 1414832908 571 7267bd7c07cecf7b6cafd7f0ce9f3912 ""
   (generated)
   "Detectors.log"
   "Detectors.pdf"
