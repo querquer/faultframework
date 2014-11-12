@@ -4,6 +4,8 @@
 \usepackage{lmodern}
 \usepackage[ngerman]{babel}
 \usepackage{cite}
+\usepackage{rotating}
+\usepackage{graphicx}
 
 \newcommand{\specialcell}[2][c]{%
   \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
@@ -24,10 +26,17 @@
 \section{Preparation}
  
 \subsection{Fault model}  
-  We want to classify sensor fault detection methods concerning specific fault types. The first step is to introduce the underlaying fault model. The model used for this analysis was investigated by Sebastian Zug et. al. %\cite{Zug}.
+  We want to classify sensor fault detection methods concerning specific fault types. The first step is to introduce the underlaying fault model. The model used for this analysis was investigated by Sebastian Zug \cite{Z11}.
   
-  %include graphic of fault model
-  %Explanation about the model
+  
+ \begin{figure}[ht]
+	\centering
+  \includegraphics[scale=0.7]{faultmodel.pdf}
+	\caption{Faultmodel investigated by Sebastian Zug}
+	\label{fig:faultmodel}
+\end{figure}
+
+
 
 \subsection{Process model}
 
@@ -45,23 +54,23 @@ The last type are using models of the underlaying process. By predicting and com
 
 \subsection{Detection methods}
 
-\begin{table}[h]
+\begin{sidewaystable}[h]
  \caption{Summary of all detection methods}
  \begin{tabular}{|c|c|c|c|}
     Name                                & Features                    & Design-Time     & Run-Time   \\  \hline
     1. \textit{Limit Checking}          & \specialcell[c]{Gradient, Average, \\NLPCA-based residual,...} & \specialcell[c]{Find best feature and\\ determine correct threshold} & \specialcell[c]{Calculate feature \\check threshold} \\ \hline
     2. \textit{Adaptive Thresholds}     & \specialcell[c]{Gradient, Average, \\NLPCA-based residual,...} & \specialcell[c]{Find best feature and\\ determing threshold function} & \specialcell[c]{Calculate feature\\ calculate current threshold\\ check threshold } \\ \hline
-    3. \textit{Multi-Layer-Perceptron (MLP)} & Everything is possible & \specialcell[c]{Get Database \\ Determine best features\\ Train MLP} & \specialcell[c]{Calculate feature\\ Determine output of MLP} \\ \hline
+    3. \textit{Multi-Layer-Perceptron} & Everything is possible & \specialcell[c]{Get Database \\ Determine best features\\ Train MLP} & \specialcell[c]{Calculate feature\\ Determine output of MLP} \\ \hline
     4. \textit{State Observer}          & ODE describing the system   & Determine ODE   & calculate state-space using ODE \\ \hline
     5. \textit{Time-Delay Neural Network} & Everything is possible    & \specialcell[c]{Get Database \\ Determine best features\\ Train NN}   & \specialcell[c]{Calculate features\\ transfer to running window\\ determine output of NN} \\ \hline
     6. \textit{Recurrent Neural Network} & Everything is possible     & \specialcell[c]{Get Database\\ Determine best features\\ Train NN} & \specialcell[c]{Calculate features\\ determine output of NN\\ generate residual by comparing \\output of NN with real sensor data} \\ \hline
     7. \textit{Hidden Markov Model} & Possibilities of every state & \specialcell[c]{Determine relevant states\\ Calculate probabilities of transision} & Update HMM-States \\ \hline
     8. \textit{Wavelet-Analysis}     & - & Determine correct Wavelets  & Wavelet-Analysis needs a convolution \\ \hline
-    9. \textit{Fourier-Analysis}    & Calculate running window of signal & \specialcell[c]{determine normal \\frequencies and amplitudes} & online fourier-transformation of signal \\ \hline
-    10. \textit{Auto-Correlation-Analysis} & - & determine normal autocorrelation of signal & requires convolution of signal \\ \hline
+    9. \textit{Fourier-Analysis}    & Calculate running window of signal & \specialcell[c]{determine normal \\frequencies and amplitudes} & online fourier-transformation\\ \hline
+    10. \textit{Auto-Correlation-Analysis} & - & \specialcell[c]{determine normal\\ autocorrelation of signal} & requires convolution of signal \\ \hline
  \end{tabular}
- \label{tab:lc_gradient}
- \end{table}
+ \label{tab:methods}
+ \end{sidewaystable}
  
  \begin{table}[h]
  \caption{Classification: \glqq Limit-checking of the signals gradient \grqq}
@@ -95,15 +104,6 @@ Nearest-Neighbor-Classification
 
 Gradient-Checking
 
- \begin{table}[h]
- \caption{Classification: \glqq Limit-checking of the signals gradient \grqq}
- \begin{tabular}{c|c|c|c}
-                    & High dynamic        & Normal dynamic        & Low dynamic \\  \hline
- 1. Outlier         & not appropriate     &      OK               &       Well
- \end{tabular}
- \label{tab:lc_gradient}
- \end{table}
-
 Average-Checking
 
 Variance-Checking
@@ -131,7 +131,8 @@ Method of (extended) least squares
 
 Transfer-Functions(DGL)
 
-
+\bibliography{Literature}{}
+\bibliographystyle{plain}
 
 
 \end{document}
