@@ -1,0 +1,13 @@
+Overview Model-Parameters:
+
+	sample_time	specifies the length of every timestep
+	SimLength	Specifies length of whole simulation 
+
+Notes on Implementing:
+
+	- Do not limit the simulation-time of any submodel, always use 'inf'. As we will stop the Main-model after a certain time, 
+	all submodels will stop to. Therefore there is no need to specify the simulation-time inside of any submodel.
+
+	- Please always comment Matlab-Code in order to produce a more understandable system.
+
+	
