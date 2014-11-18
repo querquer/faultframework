@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<injection>
+    <campaign>
+		<label>no faults</label>
+		<id>0</id>
+		<file>XML/faultKonf_00.xml</file>
+		<description> none faults are injected </description>
+    </campaign>
+	<campaign>
+		<label>default</label>
+		<id>1</id>
+		<file>XML/faultKonf_01.xml</file>
+		<description> tco and vcn </description>
+    </campaign>
+	<campaign>
+		<label>fault set 2</label>
+		<id>2</id>
+		<file>XML/faultKonf_02.xml</file>
+		<description> no description</description>
+    </campaign>
+    <campaign>
+        <label>fault set 3</label>
+        <id>3</id>
+        <file>XML/faultKonf_03.xml</file>
+        <description> no description </description>
+    </campaign>   
+	<campaign>
+		<label>fault set 4</label>
+		<id>4</id>
+		<file>XML/faultKonf_04.xml</file>
+		<description> no description </description>
+    </campaign>
+	<campaign>
+		<label>fault set 5</label>
+		<id>5</id>
+		<file>XML/faultKonf_05.xml</file>
+		<description> no description </description>
+    </campaign>
+	<campaign>
+		<label>MotorCurrent</label>
+		<id>6</id>
+		<file>XML/MC_confFile.xml</file>
+		<description> -- </description>
+    </campaign>
+	<campaign>
+		<label>RPM</label>
+		<id>7</id>
+		<file>XML/RPM_confFile.xml</file>
+		<description> -- </description>
+    </campaign>
+	<campaign>
+		<label> Eva 1</label>
+		<id>8</id>
+		<file>XML/faultKonf_Eva01.xml</file>
+		<description> Eva Run 01 "inverted pendulum" </description>
+    </campaign>
+	<campaign>
+		<label> Eva RUC</label>
+		<id>9</id>
+		<file>XML/faultKonf_EvaRUC.xml</file>
+		<description> Evaluation of the RUC - Realistic Use Case </description>
+    </campaign>
+	<global>
+		<fault occ='0.002' activation='0' id='2'>value correlated noise</fault>
+		<fault occ='0.002' activation='0' id='3'>time correlated noise</fault>
+		<fault occ='0.05' activation='0' id='5'>const noise</fault>
+		<fault occ='0.002' activation='0' id='6'>outlier</fault>
+		<fault occ='0.002' activation='0' id='7'>spike</fault>
+		<fault occ='0.002' activation='0' id='8'>stuck at zero</fault>
+		<fault occ='0.002' activation='0' id='9'>stuck at x</fault>
+	</global>
+</injection>

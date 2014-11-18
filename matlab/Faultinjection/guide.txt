@@ -1,0 +1,59 @@
+__________Model Description:
+
+
+1 Input 	= sensor value
+2 Input 	= xml id
+1 Output 	= faulty sensor value 
+2 Output	= trigger signal
+
+
+
+
+
+__________Configuration with XML:		explained in cutouts!
+
+
+_____injection campaign:		campaign configuration file
+<campaign>
+	<label>no faults</label>     								# name of the injection
+	<id>0</id>													# XML-id is configured with the module
+	<file>XML/faultKonf_00.xml</file>							# associated XML-file
+	<description> none faults are injected </description>		# short description what fault are injected
+</campaign>
+
+note: linkage of id and file must be unique!
+
+
+
+_____faultKonf_XX:  			fault configuration file
+<fault>
+	<!-- value correlated noise; f(x)= (input * factor) * (noise(variance)) -->    			   						# "mathematical" description 												(do not edit)
+	<label>value correlated noise</label>																			# name of the vault															(do not edit)
+	<id>2</id>																										# internal id of the fault													(do not edit)
+	<activation>0</activation>																						# 0: fault is NOT injected --- 1: fault is injected; 
+	<permanent>0</permanent>																						# 0: fault is not permanent activated --- 1: fault is permanent activated 	(do not edit)
+	<occurrence>0.0</occurrence>																					# probability that the fault appears in one time step
+	<factor type='param'>0.05</factor>																				# internal factor to edit appearance, like in mathematical description
+	<pdf min="0.05" max="6" step_size="0.1">  ( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) ) </pdf>			# probability density function describes the distribution of the values		(do not edit)
+	<!-- min="0.05" max="5" step_size="0.1" log: ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) )  --> 		# backup, not used functions												(do not edit)
+	<!-- normal: ( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )   -->										# backup, not used functions												(do not edit)
+</fault>
+
+
+
+
+__________Use Case Description:
+
+1. Open campaign configuration file 
+2. Searching for an entry with a not used XML-file or just creates a new entry
+2. remember linkage of XML-id and XML-file
+3. Open the specific fault configuration file
+4. set fault configuration: most likely
+	a) activation
+	b) occurrence
+	c) factor
+5. Run set_global_attr.m
+6. Open Model
+7. Set configuration input to the XML-id
+8. Run Model
+9. Enjoy the imperfection!
