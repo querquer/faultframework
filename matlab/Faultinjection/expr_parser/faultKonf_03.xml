@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<injection>
+    <fault>
+		<label>time correlated offset</label>
+		<correlation>sin(x)</correlation>
+	</fault>
+    <fault>
+		<label>time correlated noise</label>
+		<c>exp(x + 1)</c>
+	</fault>
+</injection>
