@@ -57,3 +57,4 @@ __________Use Case Description:
 7. Set configuration input to the XML-id
 8. Run Model
 9. Enjoy the imperfection!
+(BUG: current folder in the workspace must be the faultinjection folder!!)
