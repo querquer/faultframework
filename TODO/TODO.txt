@@ -1,4 +1,4 @@
-Maik:
+﻿Maik:
 	- Prozessmodel erstellen (schwache, mittlere und hohe Dynamik)
 	- Fehlerinjektion in Hauptmodell einfügen + eventuell kleine Anleitung?!
 	- Konzept für GUI und mögliche Umsetzung
@@ -8,6 +8,7 @@ Jonas:
 	- Implementierung in Simulink
 	- Parallele Dokumentation
 		- Theoretische Grundüberlegungen
+	- Filter Evaluieren... wie?
 Georg:
 	- Dokumentation vervollständigen (Tabelle + Theorie)
 	- Implementierung verschiedener Detektoren
