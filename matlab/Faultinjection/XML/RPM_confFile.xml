@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<injection>
+    <campaign>
+        <!-- NOT BEING PARSED, for future implementation -->
+        <sampletime>0.001</sampletime>
+        <simulationlegth>10</simulationlegth>
+		<schedule></schedule>
+    </campaign>
+    
+	<fault>
+        <!-- value correlated offset; f(x)= input - (input x factor) -->
+		<label>value correlated offset</label>
+		<id>0</id>
+        <activation>0</activation>
+		<permanent>0</permanent>
+        <factor type='param'>0.9</factor>
+	</fault>
+    <fault>
+        <!-- time correlated offset; f(t)= amplitude * (simulationtime/simulationlength) -->
+		<label>time correlated offset</label>
+		<id>1</id>
+        <activation>1</activation>
+		<permanent>1</permanent>
+		<correlation>sin(x)</correlation>
+		<amplitude type='param'>20</amplitude>
+	</fault>
+    <fault>
+        <!-- value correlated noise; f(x)= (input * factor) * (noise(variance)) -->        
+		<label>value correlated noise</label>
+		<id>2</id>
+        <activation>1</activation>
+		<permanent>0</permanent>
+        <occurrence>0.3</occurrence>
+		<factor type='param'>0.03</factor>
+		<pdf min="0.05" max="6" step_size="0.1">  ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) )  </pdf>
+		<!-- min="0.05" max="5" step_size="0.1" log: ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) )  --> 
+		<!-- min="0.05" max="6" step_size="0.1"  normal: ( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )  -->
+	</fault>
+    <fault>
+        <!-- time correlated noise; f(t)= (noise(variance)) * (simulationtime/simulationlength) -->
+		<label>time correlated noise</label>
+		<id>3</id>
+        <activation>0</activation>
+		<permanent>1</permanent>
+        <occurrence>0.2</occurrence>
+        <correlation>cos(x)</correlation>
+        <factor type='param'>3</factor>
+		<pdf min="0.05" max="5" step_size="0.1">  ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) ) </pdf>
+	</fault>
+    <fault>
+        <!-- constant offset; f(x)= amplitude -->
+		<label>const offset</label>
+		<id>4</id>
+        <activation>0</activation>
+		<permanent>0</permanent>
+		<amplitude type='param'>8</amplitude>
+	</fault>
+    <fault>
+        <!-- constant noise; f(x)= (noise(variance)) -->
+        <label>const noise</label>
+		<id>5</id>
+        <activation>1</activation>
+		<permanent>0</permanent>
+        <occurrence>0.2</occurrence>
+		<factor type='param'>10</factor>
+		<pdf min="0.05" max="5" step_size="0.1">  ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) ) </pdf>
+	</fault>
+    <fault>
+        <!-- outlier; f(x)= rand*amplitude ; negative = 0, positive outlier, negative = 1, positive and negative outlier -->
+		<label>outlier</label>
+		<id>6</id>
+        <activation>0</activation>
+		<permanent>0</permanent>
+        <occurrence>0.001</occurrence>
+		<amplitude type='param'>20</amplitude>
+		<negative type='param'>1</negative>
+	</fault>
+    <fault>
+        <!-- spike DOES NOT WORK -->
+		<label>spike</label>
+		<id>7</id>
+        <activation>0</activation>
+		<permanent>0</permanent>
+        <occurrence>0.01</occurrence>
+		<amplitude type='param'>5</amplitude>
+		<length type='param'>20</length>
+		<slope type='param'>0.5</slope>
+	</fault>
+    <fault>
+        <!-- stuck at zero; f(x)= 0 -->
+		<label>stuck at zero</label>
+		<id>8</id>
+        <activation>0</activation>
+		<permanent>0</permanent>
+        <occurrence>0.002</occurrence>
+	</fault>
+    <fault>
+        <!-- stuck at x; f(x)= (top-bottom)*rand+bottom, positive outlier, negative = 1, positive and negative outlier -->
+		<label>stuck at x</label>
+		<id>9</id>
+        <activation>0</activation>
+		<permanent>0</permanent>
+        <occurrence>0.002</occurrence>
+		<max type='param'>15</max>
+        <min type='param'>3</min>
+	</fault>
+    <fault>
+        <!-- stuck at x; f(x)= top, if(x>top) and bot, if(x < bottom) -->
+		<label>saturation</label>
+		<id>10</id>
+        <activation>1</activation>
+		<permanent>0</permanent>
+		<top type='param'>40</top>
+		<bottom type='param'>-25</bottom>
+	</fault>
+    <fault>
+        <!-- constant delay -->
+		<label>const delay</label>
+		<id>11</id>
+        <activation>0</activation>
+		<permanent>0</permanent>
+		<delay type='param'>0.3</delay>
+	</fault>
+    <fault>
+        <!-- time correlated delay -->
+		<label>time correlated delay</label>
+		<id>12</id>
+        <activation>0</activation>
+		<permanent>1</permanent>
+		<correlation>sin(x)+cos(x)</correlation>
+		<delay type='param'>2</delay>
+	</fault>
+</injection>
