@@ -27,7 +27,8 @@ std::string getXMLFile(int xml_id)
 {
 	xml_document<> doc;
 	xml_node<> * root_node;
-	ifstream theFile ("injection_campaign.xml");
+	ifstream theFile;
+    theFile.open("injection_campaign.xml",std::fstream::in | std::fstream::out | std::fstream::app);
 
 	if (!theFile.is_open())
 		return "";
@@ -87,7 +88,8 @@ double pars_fcn(double fault_id,double sampletime, double simlength, double init
 	xml_document<> doc;
 	xml_node<> * root_node;
 	string xml_file = getXMLFile(xml_id);
-	ifstream theFile (xml_file);
+	ifstream theFile;
+    theFile.open(xml_file.c_str(),std::fstream::in | std::fstream::out | std::fstream::app);
 
 
 	if (!theFile.is_open())

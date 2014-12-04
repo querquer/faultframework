@@ -18331,7 +18331,7 @@ namespace exprtk
    }
 
 }
-
+/*
 #   ifndef NOMINMAX
 #      define NOMINMAX
 #   endif
@@ -18339,8 +18339,8 @@ namespace exprtk
 #      define WIN32_LEAN_AND_MEAN
 #   endif
 #   include <windows.h>
+*/
 
-/*
 #ifdef WIN32
 #   ifndef NOMINMAX
 #      define NOMINMAX
@@ -18353,7 +18353,7 @@ namespace exprtk
 #   include <sys/time.h>
 #   include <sys/types.h>
 #endif
-*/
+
 
 namespace exprtk
 {

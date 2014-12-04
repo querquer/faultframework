@@ -18,7 +18,8 @@ double global_occ(int fault_id)
 	// start parsing
 	xml_document<> doc;
 	xml_node<> * root_node;
-	ifstream theFile ("injection_campaign.xml");
+	ifstream theFile;
+    theFile.open("injection_campaign.xml",std::fstream::in | std::fstream::out | std::fstream::app);
 
 	if (!theFile.is_open())
 		return 0;

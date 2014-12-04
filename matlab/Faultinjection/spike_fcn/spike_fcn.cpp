@@ -19,7 +19,8 @@ std::string getXMLFile(int xml_id)
 {
 	xml_document<> doc;
 	xml_node<> * root_node;
-	ifstream theFile ("injection_campaign.xml");
+	ifstream theFile;
+    theFile.open("injection_campaign.xml",std::fstream::in | std::fstream::out | std::fstream::app);
 
 	if (!theFile.is_open())
 		return "";
@@ -78,7 +79,8 @@ double spike_fcn(int fault_id, int xml_id, double length, double timestep)
 	xml_document<> doc;
 	xml_node<> * root_node;
 	string xmlFile = getXMLFile(xml_id);
-	ifstream theFile (xmlFile);
+	ifstream theFile;
+    theFile.open(xmlFile.c_str(),std::fstream::in | std::fstream::out | std::fstream::app);
 
 	if (!theFile.is_open())
 		return 0;

@@ -25,7 +25,8 @@ std::string getXMLFile(int xml_id)
 {
 	xml_document<> doc;
 	xml_node<> * root_node;
-	ifstream theFile ("injection_campaign.xml");
+	ifstream theFile;
+    theFile.open("injection_campaign.xml",std::fstream::in | std::fstream::out | std::fstream::app);
 
 	if (!theFile.is_open())
 		return "";
@@ -83,7 +84,8 @@ int schedule_fcn(double simlength, double simtime, int fault_id, int xml_id)
 	xml_document<> doc;
 	xml_node<> * root_node;
 	string xml_file = getXMLFile(xml_id);
-	ifstream theFile (xml_file);
+	ifstream theFile;
+    theFile.open(xml_file.c_str(),std::fstream::in | std::fstream::out | std::fstream::app);
 
 	if (!theFile.is_open())
 		return 0;
@@ -178,7 +180,7 @@ int schedule_fcn(double simlength, double simtime, int fault_id, int xml_id)
 			temp.push_back(p_set.at(j));
 		p_set = temp;
 
-		// an die zweite hälfte das i-te element anfügen
+		// an die zweite hï¿½lfte das i-te element anfï¿½gen
 		for(unsigned int j = 0; j < size; ++j)
 			p_set.at(size+j).append(t_set.at(i));	
 	}

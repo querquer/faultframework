@@ -9,6 +9,10 @@
 #include <time.h>
 #include <ctime>
 
+#ifdef __linux__
+    #include <sstream>
+#endif
+
 using namespace std;
 
 
@@ -19,11 +23,18 @@ int logger(int xml_id, double step, double value, double *act_bus, double *ampl_
 	struct tm * now = localtime( & t );
 
 	string fileName = "log/LOG_";
-	fileName.append(to_string((long double)(xml_id)));
-	fileName.append(".txt");
-
+    
+    #ifdef __linux__
+        stringstream ss;
+        ss << (long double)(xml_id);
+        fileName.append(ss.str());
+        fileName.append(".txt");
+    #else
+        fileName.append(to_string((long double)(xml_id)));
+        fileName.append(".txt");
+    #endif
 	
-	logFile.open (fileName, fstream::in | fstream::out | fstream::app);
+	logFile.open (fileName.c_str(), fstream::in | fstream::out | fstream::app);
 	
 	vector<string> str_list;
 	str_list.push_back("vco");
