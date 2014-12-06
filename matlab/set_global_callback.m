@@ -4,7 +4,7 @@
 
 SimLength = 40;
 SampleTime = 0.01;
-sample_time = 0.01;
+load('Faultinjection/TriggerBus.mat');
 GlobalSeed = 10;
 
 
