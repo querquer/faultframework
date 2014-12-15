@@ -8,7 +8,7 @@ function set_filter(model_file)
 load_system('Filter.slx');
 
 %set the parameter or the model reference block
-set_param('Filter/Model/' ,'ModelNameDialog', model_file);
+set_param('Filter/Filter/' ,'ModelNameDialog', model_file);
 
 %save the changed system
 close_system('Filter.slx',1);
