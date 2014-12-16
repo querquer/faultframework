@@ -56,7 +56,7 @@
 		<id>5</id>
         <activation>1</activation>
 		<permanent>0</permanent>
-        <occurrence>0.05</occurrence>
+        <occurrence>0.05</occurrence><!--0.05-->
 		<factor type='param'>0.5</factor>
 		<pdf min="0.05" max="5" step_size="0.1">  ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) ) </pdf>
 	</fault>
@@ -66,8 +66,8 @@
 		<id>6</id>
         <activation>1</activation>
 		<permanent>0</permanent>
-        <occurrence>0.006</occurrence>
-		<amplitude type='param'>0.55</amplitude>
+        <occurrence>0.0006</occurrence> <!--0.006-->
+		<amplitude type='param'>1</amplitude>
 		<negative type='param'>0</negative>
 	</fault>
     <fault>
@@ -75,7 +75,7 @@
 		<id>7</id>
         <activation>0</activation>
 		<permanent>0</permanent>
-        <occurrence>0.015</occurrence>
+        <occurrence>0.0</occurrence>
 		<factor type='param'>2</factor>
 		<length type='param'>0.2</length>
 		<amplitude>( 1 / (sqrt(2*3.1416*0.5) ) ) * exp( -( ((x)^2) / 0.2) ) * 1.772455</amplitude> 
