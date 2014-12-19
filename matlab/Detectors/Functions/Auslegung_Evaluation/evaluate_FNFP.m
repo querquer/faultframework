@@ -1,4 +1,4 @@
-function [fp, fn] = evaluate_FNFP(trigger, detection, max_delay)
+function [fn, fp] = evaluate_FNFP(trigger, detection, max_delay)
 %EVALUATE Calculates false-positive-rate and false-negative-rate
 %   Based on the detection results 'detection' and the trigger signal, we
 %   can calculate the false-positives and false-negatives. As some
