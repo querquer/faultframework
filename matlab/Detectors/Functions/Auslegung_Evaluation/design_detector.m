@@ -15,17 +15,36 @@ try
 catch err
 end
 
-%cnt = 1;
     function FNFP = opt_fun(x)
             %get detection results for test data. This function must be
             %implemented by the detector itself.
             %det has to match to the format of 'trigger'
             det = feval(fun_config_dependend_output, x,data, trigger);
+            
+            %check format of output
+            sd = size(det);
+            st = size(trigger);
+            wformat = 0;
+            if(sd == st)
+                for i = 1:sd(1,2);
+                    sd1 = size(det(i).data);sd = size(det);
+                    sd2 = size(trigger(i).data);
+                    
+                    if(sd1 ~= sd2)
+                        wformat = 1;
+                    end
+                end
+            end
+            
+            if(wformat == 1)
+                msgID = 'design_detector:wrong_format';
+                msg = 'Format of the detection output does not match to the expected output! Check the implementation of "output_detector*.m';
+                baseException = MException(msgID,msg);
+                throw(baseException);
+            end
+            
             [FN, FP] = evaluate_FNFP(trigger, det, max_delay);
             FNFP = (FN + FP)/2; 
-            
-            %disp([num2str(cnt) '. Iteration: FVal: ' num2str(FNFP) ' x: ' num2str(x)]);
-            %cnt = cnt + 1;
     end
 
     %function to check whether the gradient of function-values is low or

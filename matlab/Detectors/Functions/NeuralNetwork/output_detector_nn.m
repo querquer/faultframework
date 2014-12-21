@@ -1,38 +1,34 @@
-function det = output_detector_nn( x, data, trigger)
+function out = output_detector_nn( x, data, trigger)
 %DETECTION designs a detector and calculates its output based on the input
 %given by 'data'
 %   Detailed explanation goes here
 
+%design neural network based on parameters in 'x'
 net = design_nn(x);
 
-%calculate input data
-wsize = round(x(3)) + 1;
-inp = createInput_NN(data,wsize);
-
+%loop throug every fault type
 sd = size(data);
-trg = trigger(1,wsize:sd(1,2));
-
-
-%train NN
-net = unconfigure(net);
-net = init(net);
-
-%try to parallelise training of NN
-%implement parallelsation here.
-try
-    net = train(net, inp, trg);%, 'useParallel','yes');
-catch err
-    net = train(net, inp, trg);
+st = size(trigger);
+if(sd(1,1) ~= st(1,1))
+    msgID = 'output_detector_nn:data format';
+    msg = 'Number of samples in "data" does not match number of samples in "trigger"! Is the format of "data" or "trigger" wrong?';
+    baseException = MException(msgID,msg);
+    throw(baseException);
 end
 
-%save trained NN
-%save('net_trained.mat', 'net');
+%get output for every fault type
+for i = 1:sd(1,1)
+    dt = data(i).data;
+    trg = trigger(i).data;
+    
+    windowsize = round(x(3)) + 1;
+    lc_threshold = x(4);
+    det = output_single_nn(net, windowsize, lc_threshold, dt, trg); 
+    
+    out(i).name = trigger(i).name;
+    out(i).data = det;
+   
+end
 
-%calculate output of NN given 'data'
-det = sim(net,inp);
-
-det = lc_check(det,x(4));
-z = zeros(1,wsize-1);
-det = [z det];
 end
 
