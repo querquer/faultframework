@@ -1,4 +1,4 @@
-function net = design_nn( x )
+function net = design_nn(x)
 %DESIGN_NN designs a neural network based on specified parameters 'x'
 %   Detailed explanation goes here
 

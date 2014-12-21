@@ -1,7 +1,7 @@
-function [filename, fn, fp] = create_detector( x, data, trigger, max_delay )
+function [fn, fp] = create_detector_nn( x, data, trigger, max_delay, path_and_name )
 %CREATE_DETECTOR creates simulink-model based on parameters in 'x'
 %   Detailed explanation goes here
-filename = 'NN_Detector.slx';
+
 %Train NN with specific parameters several times and use the best one.
 net = design_nn(x);
 
@@ -33,7 +33,7 @@ conf{1} = num2str(x(3));
 set_param([tmp '/Delay Line'], 'MaskValues', conf);
 
 %save model
-save_system(tmp, filename);
+save_system(tmp, path_and_name);
 close_system(tmp, false);
 close_system(src, false);
 end

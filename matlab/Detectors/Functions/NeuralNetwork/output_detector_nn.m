@@ -1,4 +1,4 @@
-function det = detection( x, data, trigger)
+function det = output_detector_nn( x, data, trigger)
 %DETECTION designs a detector and calculates its output based on the input
 %given by 'data'
 %   Detailed explanation goes here
@@ -32,5 +32,7 @@ end
 det = sim(net,inp);
 
 det = lc_check(det,x(4));
+z = zeros(1,wsize-1);
+det = [z det];
 end
 

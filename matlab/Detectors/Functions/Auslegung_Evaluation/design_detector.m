@@ -1,4 +1,4 @@
-function [x, fval, exitflag, fn, fp] = design_detector(data, trigger, detector, max_delay, grad_thr)
+function [x, fval, exitflag, fn, fp] = design_detector(data, trigger, max_delay, grad_thr, path_and_name, fun_starting_point, fun_config_dependend_output, fun_create)
 %DESIGN_DETECTOR Designs a specific detector by minimizing the
 %false-negatives and false-positives.
 
@@ -6,7 +6,7 @@ function [x, fval, exitflag, fn, fp] = design_detector(data, trigger, detector, 
 
 %generate starting point for optimisation. This function must be
 %implemented by the detector itself.
-x = generate_starting_point();
+x = feval(fun_starting_point);
 
 %try to open a parallelisation pool in order to enable possible
 %sub-routines to make use of it.
@@ -19,10 +19,9 @@ end
     function FNFP = opt_fun(x)
             %get detection results for test data. This function must be
             %implemented by the detector itself.
-            
-            det = detection(x,data, trigger);
-            st = size(trigger);
-            [FN, FP] = evaluate_FNFP(trigger(1,round(x(3)) + 1:st(1,2)), det, max_delay);
+            %det has to match to the format of 'trigger'
+            det = feval(fun_config_dependend_output, x,data, trigger);
+            [FN, FP] = evaluate_FNFP(trigger, det, max_delay);
             FNFP = (FN + FP)/2; 
             
             %disp([num2str(cnt) '. Iteration: FVal: ' num2str(FNFP) ' x: ' num2str(x)]);
@@ -59,7 +58,7 @@ options = optimset('OutputFcn', @terminate);
 
 %create detector as Simulink-Model. This function must be implemented by
 %the detector itself.
-[file, fn, fp] = create_detector(x, data, trigger, max_delay);
+[fn, fp] = feval(fun_create, x, data, trigger, max_delay, path_and_name);
 
 
 end
