@@ -1,40 +1,51 @@
-function [fn, fp] = create_detector_nn( x, data, trigger, max_delay, path_and_name )
-%CREATE_DETECTOR creates simulink-model based on parameters in 'x'
+function [fn, fp] = create_detector_nn( x, data, trigger, max_delay, path_and_name  )
+%CREATE_DETECTOR_NN Creates a detector for all fault types represented in
+%"data" and "trigger". The designed detector is saved at specified path
+%"path_and_name".
+
 %   Detailed explanation goes here
 
-%Train NN with specific parameters several times and use the best one.
-net = design_nn(x);
+%determine path from "path_and_name"
+tmp = 'current_detector_template';
+if(exist(tmp, 'file'))
+    delete(tmp);
+end
 
-[net, fn, fp] = train_nn(net, data, trigger, x(3), x(4), max_delay);
+copyfile('nn_detector_template.slx', [tmp '.slx']);
 
-%build simulink Model
-src = gensim(net, -1);
 
-tmp = 'nn_template';
 load_system([tmp '.slx']);
 
-%copy nn from 'untitled' to tmp
-h = add_block([src '/' net.name], [tmp '/' net.name]);
+[path, name] = extract_path(path_and_name);
+cd(path);
 
-%connect lines
-%get handles of ports
-ports_nn = get_param(h, 'PortHandles');
-ports_trans = get_param([tmp '/Transpose'], 'PortHandles');
-ports_sw = get_param([tmp '/Switch'], 'PortHandles');
+st = size(trigger);
+for i = 1:st(1,2);
+    %create a detector for every single fault type
+    [fn, fp] = create_single_nn(x, data(i).data, trigger(i).trigger, max_delay, ['nn_' trigger(i).name '.slx']);
+    
+    %copy trained nn-block into final model of detector
+    src = ['nn_' trigger(i).name];
+    load_system([src '.slx']);
+    
+    
+    
+    h = add_block([src '/Subsystem'], [tmp '/' trigger(i).name]);
 
-%connect
-add_line(tmp, ports_trans.Outport(1), ports_nn.Inport(1));
-add_line(tmp, ports_nn.Outport(1), ports_sw.Inport(2));
+    %get current param of MinMax-Block
+    num = str2num(get_param([tmp '/MinMax'], 'Inputs'));
+    %add one input
+    num = num + 1;
+    set_param([tmp '/MinMax'], 'Inputs', num2str(num));
+    
+    %connect new block
+    ports_in = get_param([tmp '/Signal'], 'PortHandles');
+    ports_sub = get_param([tmp '/' trigger(i).name], 'PortHandles');
+    ports_max = get_param([tmp '/MinMax'], 'PortHandles');
+    
+    %add lines
+    add_line([tmp '/Subsystem'], ports_trans.Outport(1), ports_nn.Inport(1));
+end
 
-%change windowsize
-%get current config
-conf = get_param([tmp '/Delay Line'], 'MaskValues');
-conf{1} = num2str(x(3));
-set_param([tmp '/Delay Line'], 'MaskValues', conf);
-
-%save model
-save_system(tmp, path_and_name);
-close_system(tmp, false);
-close_system(src, false);
 end
 

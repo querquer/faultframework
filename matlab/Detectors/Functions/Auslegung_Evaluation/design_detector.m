@@ -20,31 +20,19 @@ end
             %implemented by the detector itself.
             %det has to match to the format of 'trigger'
             det = feval(fun_config_dependend_output, x,data, trigger);
+            %calculate false-positve and false-negative rate
+            [FN, FP] = evaluation(trigger, det, max_delay);
             
-            %check format of output
-            sd = size(det);
-            st = size(trigger);
-            wformat = 0;
-            if(sd == st)
-                for i = 1:sd(1,2);
-                    sd1 = size(det(i).data);sd = size(det);
-                    sd2 = size(trigger(i).data);
-                    
-                    if(sd1 ~= sd2)
-                        wformat = 1;
-                    end
-                end
+            %determine one value measuring the performance of the system in
+            %order to avoid multi-objectiv optimisation. Possible
+            %future-work: use multi-objectiv optimisation here!
+            sf = size(FN);
+            sum = 0;
+            for i = 1:sf(1,2);
+                sum = sum + (FN(i).fn_rate + FP(i).fp_rate)/2;
             end
             
-            if(wformat == 1)
-                msgID = 'design_detector:wrong_format';
-                msg = 'Format of the detection output does not match to the expected output! Check the implementation of "output_detector*.m';
-                baseException = MException(msgID,msg);
-                throw(baseException);
-            end
-            
-            [FN, FP] = evaluate_FNFP(trigger, det, max_delay);
-            FNFP = (FN + FP)/2; 
+            FNFP = sum/sf(1,2);
     end
 
     %function to check whether the gradient of function-values is low or
