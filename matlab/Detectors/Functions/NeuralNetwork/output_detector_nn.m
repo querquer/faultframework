@@ -9,7 +9,7 @@ net = design_nn(x);
 %loop throug every fault type
 sd = size(data);
 st = size(trigger);
-if(sd(1,1) ~= st(1,1))
+if(sd(1,2) ~= st(1,2))
     msgID = 'output_detector_nn:data format';
     msg = 'Number of samples in "data" does not match number of samples in "trigger"! Is the format of "data" or "trigger" wrong?';
     baseException = MException(msgID,msg);
@@ -17,7 +17,7 @@ if(sd(1,1) ~= st(1,1))
 end
 
 %get output for every fault type
-for i = 1:sd(1,1)
+for i = 1:sd(1,2)
     dt = data(i).data;
     trg = trigger(i).data;
     

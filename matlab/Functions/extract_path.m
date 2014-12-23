@@ -5,18 +5,20 @@ function [path, name] = extract_path(path_and_name)
 if(isunix)
     %search for last "/"
     k = strfind(path_and_name, '/');
-    sk = size(k);
-    sp = size(path_and_name);
-    path = path_and_name(1:k(sk(1,2)));
-    name = path_and_name(k(sk(1,2))+1:sp(1,2));
 else
     %search for last "\"
     k = strfind(path_and_name, '\');
-    sk = size(k);
-    sp = size(path_and_name);
+end
+
+ sk = size(k);
+ sp = size(path_and_name);
+ if(sk(1,1) > 0)
     path = path_and_name(1:k(sk(1,2)));
     name = path_and_name(k(sk(1,2))+1:sp(1,2));
-end
+ else
+    path = pwd;
+    name = path_and_name;
+ end
 
 end
 

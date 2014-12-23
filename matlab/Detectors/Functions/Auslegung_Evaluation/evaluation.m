@@ -11,7 +11,7 @@ if(sd == st)
     fields = {'name', 'data'};
     if(isfield(detection, fields))   
         for i = 1:sd(1,2); 
-            sd1 = size(det(i).data);
+            sd1 = size(detection(i).data);
             sd2 = size(trigger(i).data);
                     
             if(sd1 ~= sd2)

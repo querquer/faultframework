@@ -43,7 +43,12 @@ set_param([tmp '/Subsystem/Delay Line'], 'MaskValues', conf);
 
 %save model
 save_system(tmp, path_and_name);
+
 close_system(tmp, false);
 close_system(src, false);
+
+if(exist([tmp '.slx'], 'file'))
+    delete([tmp '.slx']);
+end
 end
 
