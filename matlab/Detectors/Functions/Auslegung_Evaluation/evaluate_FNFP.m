@@ -1,4 +1,4 @@
-function [fp, fn] = evaluate_FNFP(trigger, detection, max_delay)
+function [fn, fp] = evaluate_FNFP(trigger, detection, max_delay)
 %EVALUATE Calculates false-positive-rate and false-negative-rate
 %   Based on the detection results 'detection' and the trigger signal, we
 %   can calculate the false-positives and false-negatives. As some
@@ -6,7 +6,8 @@ function [fp, fn] = evaluate_FNFP(trigger, detection, max_delay)
 %   maximum delay of an detection result.
 
 %generate vector, where every 1 means: fault was injected, but not
-%detected, every -1 means: fault was detected, but not injected
+%detected --> false-negative, every -1 means: fault was detected, but not injected -->
+%false-positive
 res = trigger - detection;
 
 %get size of vector
@@ -17,6 +18,8 @@ s2 = st(1,2);
 if(s1 > s2)
     ind = s1;
     res = transpose(res);
+    trigger = transpose(trigger);
+    detection = transpose(detection);
 else
     ind = s2;
 end
@@ -26,23 +29,42 @@ ind_1 = 0;
 pos_fn = 0;
 fn = 0;
 fp = 0;
+rp = 0;
+rn = 0;
+
 for i=1:ind
+    
     if(res(i) == -1)
-        %decide whether it is a false-negative or a delayed detection
-        if(ind_1 == 0)
+        %decide whether it is a false-positive or a delayed detection
+        if(pos_fn == 0)
             fp = fp + 1;
         else
             %check for max_delay
             delay = i - ind_1;
-            if(max_delay < delay)
+            if(delay > max_delay)
                 fp = fp + 1;
             else
                 %detected fault with an acceptable delay --> can not be a
-                %false-negatives
+                %false-negative but is a right-positive, as we did not
+                %count it when we recognized the 1
                 pos_fn = 0;
+                rp = rp + 1;
+                %furthermore we have a right-negative, as we would have a
+                %zero here, when the failure was detected without the delay
+                rn = rn + 1;
             end
         end
     end
+    
+    %count rn and rp
+    if(res(i) == 0)
+        if(trigger(i) == 0 && detection(i) == 0)
+            rn = rn + 1;
+        else
+            rp = rp + 1;
+        end
+    end
+    
     
     %faults were injected, but not detected immediatly
     if(res(i) == 1)
@@ -65,8 +87,8 @@ end
 
 
 %convert fn/fp to rates
-fn = fn/ind;
-fp = fp/ind;
+fn = fn/(rp+fn);
+fp = fp/(rn+fp);
 
 end
 

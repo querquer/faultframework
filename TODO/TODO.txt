@@ -2,6 +2,9 @@
 	- Prozessmodel erstellen (schwache, mittlere und hohe Dynamik)
 	- Fehlerinjektion in Hauptmodell einfügen + eventuell kleine Anleitung?!
 	- Konzept für GUI und mögliche Umsetzung
+	- weitere Prozessmodelle mit reellem Hintergrund
+	- Fehlerinjektionsframework -> S-Functions anpassen, sodass man nicht zwangsläufig in dem Ordner sein muss
+	- TriggerBus-Objekt: Variablennamen in die Namen der zugehörigen Fehler ändern
 Jonas:
 	- Tabelle von Filtern
 		-> auch Filter betrachten, die Detektionsergebnisse berücksichtigen
