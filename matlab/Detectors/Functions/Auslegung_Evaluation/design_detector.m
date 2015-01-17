@@ -1,8 +1,12 @@
-function [x, fval, exitflag, fn, fp] = design_detector(data, trigger, max_delay, grad_thr, path_and_name, fun_starting_point, fun_config_dependend_output, fun_create)
+function [x, fval, exitflag, fn, fp] = design_detector(data, trigger, max_delay, grad_thr, path_and_name, path_detector)
 %DESIGN_DETECTOR Designs a specific detector by minimizing the
 %false-negatives and false-positives.
 
 %   Detailed explanation goes here
+
+
+%get function handles
+[fun_starting_point,fun_config_dependend_output, fun_create] = find_functions(path_detector);
 
 %generate starting point for optimisation. This function must be
 %implemented by the detector itself.
@@ -30,6 +34,8 @@ end
             sum = 0;
             for i = 1:sf(1,2);
                 sum = sum + (FN(i).fn_rate + FP(i).fp_rate)/2;
+                disp(['FN :' num2str(FN(i).fn_rate)]);
+                disp(['FP :' num2str(FP(i).fp_rate)]);
             end
             
             FNFP = sum/sf(1,2);
@@ -65,8 +71,13 @@ options = optimset('OutputFcn', @terminate);
 
 %create detector as Simulink-Model. This function must be implemented by
 %the detector itself.
-[fn, fp] = feval(fun_create, x, data, trigger, max_delay, path_and_name);
-
+curr_dir = pwd;
+cd(path_detector);
+feval(fun_create, x, data, trigger, max_delay, path_and_name);
+cd(curr_dir);
+%need to implement a final evaluation.
+fn = 0;
+fp = 0;
 
 end
 

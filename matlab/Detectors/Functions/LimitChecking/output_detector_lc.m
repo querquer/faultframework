@@ -16,11 +16,30 @@ end
 %get output for every fault type
 for i = 1:sd(1,2)
     dt = data(i).data;
+    windowsize = round(x((i-1)*3 + 3));
+    if(windowsize <= 0)
+        windowsize = 1;
+    end
     
-    sout = newton_polynom(x((i-1)*25+1:i*25), dt);
+    fun = round(x((i-1)*3 + 2));
+    if(fun <= 0)
+        fun = 1;
+    else
+        if(fun > 3)
+            fun = 3;
+        end
+    end
     
-    det = [0,0,sout];
-    det = lc_check(det, x((i-1)*25+1);
+    switch fun
+        case 1
+            sout = running_gradient(dt);
+        case 2
+            sout = running_mean(dt, windowsize);
+        case 3
+            sout = running_var(dt, windowsize);
+    end
+   
+    det = lc_check(sout, x((i-1)*3 + 1));
     
     out(i).name = trigger(i).name;
     out(i).data = det;

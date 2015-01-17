@@ -1,7 +1,66 @@
-function [ output_args ] = create_detector_lc( input_args )
+function  create_detector_lc(  x, data, trigger, max_delay, path_and_name )
 %CREATE_DETECTOR_LC Summary of this function goes here
 %   Detailed explanation goes here
 
+tmp = 'current_detector_template';
+if(exist([tmp '.slx'], 'file'))
+    delete([tmp '.slx']);
+end
 
+copyfile('lc_detector_template.slx', [tmp '.slx']);
+
+
+load_system([tmp '.slx']);
+%determine path from "path_and_name"
+[path, name] = extract_path(path_and_name);
+curr_dir = pwd;
+cd(path);
+
+st = size(trigger);
+for i = 1:st(1,2);
+    %create a detector for every single fault type
+    disp(trigger(i).name);
+    src = ['lc_' trigger(i).name num2str(round(rand*1000))];
+    create_single_lc(x, [src '.slx']);
+
+    %copy trained lc-block into final model of detector
+    load_system([src '.slx']);
+    
+    
+    
+    h = add_block([src '/Subsystem'], [tmp '/' trigger(i).name]);
+
+    %get current param of MinMax-Block
+    num = str2double(get_param([tmp '/MinMax'], 'Inputs'));
+    %add one input
+    if(i > 1)
+        num = num + 1;
+    end
+    set_param([tmp '/MinMax'], 'Inputs', num2str(num));
+    
+    %connect new block
+    ports_sig = get_param([tmp '/Signal'], 'PortHandles');
+    ports_sub = get_param([tmp '/' trigger(i).name], 'PortHandles');
+    ports_max = get_param([tmp '/MinMax'], 'PortHandles');
+    
+    %add lines
+    add_line(tmp, ports_sig.Outport(1), ports_sub.Inport(1));
+    add_line(tmp, ports_sub.Outport(1), ports_max.Inport(num));
+    
+    %close src
+    close_system(src, false);
+    delete([src '.slx']);
+    
+end
+
+save_system(tmp, name);
+
+close_system(tmp, false);
+
+if(exist([tmp '.slx'], 'file'))
+    delete([tmp '.slx']);
+end
+
+cd(curr_dir);
 end
 

@@ -1,6 +1,7 @@
 function m = running_sum(data, window_size)
-%RUNNING_VAR Summary of this function goes here
-%   Detailed explanation goes here
+%RUNNING_SUM produces a running window of size "window_size" and sums it
+%up.
+
 sd = size(data);
 
 if(sd(1,1) > sd(1,2))
