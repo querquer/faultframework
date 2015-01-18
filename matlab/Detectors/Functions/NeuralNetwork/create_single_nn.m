@@ -38,7 +38,8 @@ add_line([tmp '/Subsystem'], ports_nn.Outport(1), ports_sw.Inport(2));
 %change windowsize
 %get current config
 conf = get_param([tmp '/Subsystem/Delay Line'], 'MaskValues');
-conf{1} = num2str(x(3));
+wsize = round(x(3)) + 1;
+conf{1} = num2str(wsize);
 set_param([tmp '/Subsystem/Delay Line'], 'MaskValues', conf);
 
 %save model

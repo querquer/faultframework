@@ -32,7 +32,7 @@ net.inputConnect(1,:) = 1;
 
 %Change size of hidden layers
 for i = 1:2
-net.layers{i,1}.size = round(x(4+i)) + 1;
+    net.layers{i,1}.size = round(x(4+i)) + 1;
 end
 
 end

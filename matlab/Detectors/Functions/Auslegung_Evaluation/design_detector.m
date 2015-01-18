@@ -1,4 +1,4 @@
-function [x, fval, exitflag, fn, fp] = design_detector(data, trigger, max_delay, grad_thr, path_and_name, path_detector)
+function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, max_delay, grad_thr, path_and_name, path_detector, evaluation_model)
 %DESIGN_DETECTOR Designs a specific detector by minimizing the
 %false-negatives and false-positives.
 
@@ -75,9 +75,11 @@ curr_dir = pwd;
 cd(path_detector);
 feval(fun_create, x, data, trigger, max_delay, path_and_name);
 cd(curr_dir);
-%need to implement a final evaluation.
-fn = 0;
-fp = 0;
 
+
+%use Evaluation.slx to get final fn/fp-rates.
+out = run_evaluation_model(data, sampletime, path_and_name, evaluation_model);
+[FN_final, FP_final] = evaluation(trigger, out, max_delay);
+ 
 end
 
