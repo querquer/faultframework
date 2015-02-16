@@ -6,12 +6,8 @@
 	- Fehlerinjektionsframework -> S-Functions anpassen, sodass man nicht zwangsläufig in dem Ordner sein muss
 	- TriggerBus-Objekt: Variablennamen in die Namen der zugehörigen Fehler ändern
 Jonas:
-	- Tabelle von Filtern
-		-> auch Filter betrachten, die Detektionsergebnisse berücksichtigen
-	- Implementierung in Simulink
-	- Parallele Dokumentation
-		- Theoretische Grundüberlegungen
 	- Filter Evaluieren... wie?
+	- Filterparameter automatisch Festlegen
 Georg:
 	- Dokumentation vervollständigen (Tabelle + Theorie)
 	- Implementierung verschiedener Detektoren
