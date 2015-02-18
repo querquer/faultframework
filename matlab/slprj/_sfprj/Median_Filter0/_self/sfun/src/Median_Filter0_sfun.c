@@ -1,8 +1,8 @@
 /* Include files */
 
-#include "Median_Filter_sfun.h"
-#include "Median_Filter_sfun_debug_macros.h"
-#include "c1_Median_Filter.h"
+#include "Median_Filter0_sfun.h"
+#include "Median_Filter0_sfun_debug_macros.h"
+#include "c1_Median_Filter0.h"
 
 /* Type Definitions */
 
@@ -11,32 +11,32 @@
 /* Variable Declarations */
 
 /* Variable Definitions */
-uint32_T _Median_FilterMachineNumber_;
+uint32_T _Median_Filter0MachineNumber_;
 
 /* Function Declarations */
 
 /* Function Definitions */
-void Median_Filter_initializer(void)
+void Median_Filter0_initializer(void)
 {
 }
 
-void Median_Filter_terminator(void)
+void Median_Filter0_terminator(void)
 {
 }
 
 /* SFunction Glue Code */
-unsigned int sf_Median_Filter_method_dispatcher(SimStruct *simstructPtr,
+unsigned int sf_Median_Filter0_method_dispatcher(SimStruct *simstructPtr,
   unsigned int chartFileNumber, const char* specsCksum, int_T method, void *data)
 {
   if (chartFileNumber==1) {
-    c1_Median_Filter_method_dispatcher(simstructPtr, method, data);
+    c1_Median_Filter0_method_dispatcher(simstructPtr, method, data);
     return 1;
   }
 
   return 0;
 }
 
-unsigned int sf_Median_Filter_process_check_sum_call( int nlhs, mxArray * plhs[],
+unsigned int sf_Median_Filter0_process_check_sum_call( int nlhs, mxArray * plhs[],
   int nrhs, const mxArray * prhs[] )
 {
 
@@ -56,10 +56,10 @@ unsigned int sf_Median_Filter_process_check_sum_call( int nlhs, mxArray * plhs[]
     mxGetString(prhs[1], commandName,sizeof(commandName)/sizeof(char));
     commandName[(sizeof(commandName)/sizeof(char)-1)] = '\0';
     if (!strcmp(commandName,"machine")) {
-      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1992428260U);
-      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3745935095U);
-      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1745995980U);
-      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1391527152U);
+      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3957520477U);
+      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(4282468276U);
+      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2142590790U);
+      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(900292000U);
     } else if (!strcmp(commandName,"exportedFcn")) {
       ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(0U);
       ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(0U);
@@ -76,8 +76,8 @@ unsigned int sf_Median_Filter_process_check_sum_call( int nlhs, mxArray * plhs[]
       switch (chartFileNumber) {
        case 1:
         {
-          extern void sf_c1_Median_Filter_get_check_sum(mxArray *plhs[]);
-          sf_c1_Median_Filter_get_check_sum(plhs);
+          extern void sf_c1_Median_Filter0_get_check_sum(mxArray *plhs[]);
+          sf_c1_Median_Filter0_get_check_sum(plhs);
           break;
         }
 
@@ -96,10 +96,10 @@ unsigned int sf_Median_Filter_process_check_sum_call( int nlhs, mxArray * plhs[]
       return 0;
     }
   } else {
-    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(4147807237U);
-    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2264362188U);
-    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2279257786U);
-    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1488106490U);
+    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(120865407U);
+    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2460849910U);
+    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(4268154756U);
+    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(4284423875U);
   }
 
   return 1;
@@ -112,7 +112,7 @@ unsigned int sf_Median_Filter_process_check_sum_call( int nlhs, mxArray * plhs[]
 
 }
 
-unsigned int sf_Median_Filter_autoinheritance_info( int nlhs, mxArray * plhs[],
+unsigned int sf_Median_Filter0_autoinheritance_info( int nlhs, mxArray * plhs[],
   int nrhs, const mxArray * prhs[] )
 {
 
@@ -138,8 +138,8 @@ unsigned int sf_Median_Filter_autoinheritance_info( int nlhs, mxArray * plhs[],
      case 1:
       {
         if (strcmp(aiChksum, "qRTw7S0uUJcYkuMzes7cPC") == 0) {
-          extern mxArray *sf_c1_Median_Filter_get_autoinheritance_info(void);
-          plhs[0] = sf_c1_Median_Filter_get_autoinheritance_info();
+          extern mxArray *sf_c1_Median_Filter0_get_autoinheritance_info(void);
+          plhs[0] = sf_c1_Median_Filter0_get_autoinheritance_info();
           break;
         }
 
@@ -162,8 +162,8 @@ unsigned int sf_Median_Filter_autoinheritance_info( int nlhs, mxArray * plhs[],
 
 }
 
-unsigned int sf_Median_Filter_get_eml_resolved_functions_info( int nlhs, mxArray
-  * plhs[], int nrhs, const mxArray * prhs[] )
+unsigned int sf_Median_Filter0_get_eml_resolved_functions_info( int nlhs,
+  mxArray * plhs[], int nrhs, const mxArray * prhs[] )
 {
 
 #ifdef MATLAB_MEX_FILE
@@ -185,9 +185,9 @@ unsigned int sf_Median_Filter_get_eml_resolved_functions_info( int nlhs, mxArray
      case 1:
       {
         extern const mxArray
-          *sf_c1_Median_Filter_get_eml_resolved_functions_info(void);
+          *sf_c1_Median_Filter0_get_eml_resolved_functions_info(void);
         mxArray *persistentMxArray = (mxArray *)
-          sf_c1_Median_Filter_get_eml_resolved_functions_info();
+          sf_c1_Median_Filter0_get_eml_resolved_functions_info();
         plhs[0] = mxDuplicateArray(persistentMxArray);
         mxDestroyArray(persistentMxArray);
         break;
@@ -208,7 +208,7 @@ unsigned int sf_Median_Filter_get_eml_resolved_functions_info( int nlhs, mxArray
 
 }
 
-unsigned int sf_Median_Filter_third_party_uses_info( int nlhs, mxArray * plhs[],
+unsigned int sf_Median_Filter0_third_party_uses_info( int nlhs, mxArray * plhs[],
   int nrhs, const mxArray * prhs[] )
 {
   char commandName[64];
@@ -231,8 +231,8 @@ unsigned int sf_Median_Filter_third_party_uses_info( int nlhs, mxArray * plhs[],
      case 1:
       {
         if (strcmp(tpChksum, "SW5ZGjv36JkbfHpgz88NmE") == 0) {
-          extern mxArray *sf_c1_Median_Filter_third_party_uses_info(void);
-          plhs[0] = sf_c1_Median_Filter_third_party_uses_info();
+          extern mxArray *sf_c1_Median_Filter0_third_party_uses_info(void);
+          plhs[0] = sf_c1_Median_Filter0_third_party_uses_info();
           break;
         }
       }
@@ -245,7 +245,7 @@ unsigned int sf_Median_Filter_third_party_uses_info( int nlhs, mxArray * plhs[],
   return 1;
 }
 
-unsigned int sf_Median_Filter_updateBuildInfo_args_info( int nlhs, mxArray *
+unsigned int sf_Median_Filter0_updateBuildInfo_args_info( int nlhs, mxArray *
   plhs[], int nrhs, const mxArray * prhs[] )
 {
   char commandName[64];
@@ -268,8 +268,8 @@ unsigned int sf_Median_Filter_updateBuildInfo_args_info( int nlhs, mxArray *
      case 1:
       {
         if (strcmp(tpChksum, "SW5ZGjv36JkbfHpgz88NmE") == 0) {
-          extern mxArray *sf_c1_Median_Filter_updateBuildInfo_args_info(void);
-          plhs[0] = sf_c1_Median_Filter_updateBuildInfo_args_info();
+          extern mxArray *sf_c1_Median_Filter0_updateBuildInfo_args_info(void);
+          plhs[0] = sf_c1_Median_Filter0_updateBuildInfo_args_info();
           break;
         }
       }
@@ -282,33 +282,33 @@ unsigned int sf_Median_Filter_updateBuildInfo_args_info( int nlhs, mxArray *
   return 1;
 }
 
-void Median_Filter_debug_initialize(struct SfDebugInstanceStruct* debugInstance)
+void Median_Filter0_debug_initialize(struct SfDebugInstanceStruct* debugInstance)
 {
-  _Median_FilterMachineNumber_ = sf_debug_initialize_machine(debugInstance,
-    "Median_Filter","sfun",0,1,0,0,0);
+  _Median_Filter0MachineNumber_ = sf_debug_initialize_machine(debugInstance,
+    "Median_Filter0","sfun",0,1,0,0,0);
   sf_debug_set_machine_event_thresholds(debugInstance,
-    _Median_FilterMachineNumber_,0,0);
+    _Median_Filter0MachineNumber_,0,0);
   sf_debug_set_machine_data_thresholds(debugInstance,
-    _Median_FilterMachineNumber_,0);
+    _Median_Filter0MachineNumber_,0);
 }
 
-void Median_Filter_register_exported_symbols(SimStruct* S)
+void Median_Filter0_register_exported_symbols(SimStruct* S)
 {
 }
 
 static mxArray* sRtwOptimizationInfoStruct= NULL;
-mxArray* load_Median_Filter_optimization_info(void)
+mxArray* load_Median_Filter0_optimization_info(void)
 {
   if (sRtwOptimizationInfoStruct==NULL) {
-    sRtwOptimizationInfoStruct = sf_load_rtw_optimization_info("Median_Filter",
-      "Median_Filter");
+    sRtwOptimizationInfoStruct = sf_load_rtw_optimization_info("Median_Filter0",
+      "Median_Filter0");
     mexMakeArrayPersistent(sRtwOptimizationInfoStruct);
   }
 
   return(sRtwOptimizationInfoStruct);
 }
 
-void unload_Median_Filter_optimization_info(void)
+void unload_Median_Filter0_optimization_info(void)
 {
   if (sRtwOptimizationInfoStruct!=NULL) {
     mxDestroyArray(sRtwOptimizationInfoStruct);

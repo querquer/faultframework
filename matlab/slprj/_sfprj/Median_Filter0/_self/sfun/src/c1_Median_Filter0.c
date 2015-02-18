@@ -2,12 +2,12 @@
 
 #include <stddef.h>
 #include "blas.h"
-#include "Median_Filter_sfun.h"
-#include "c1_Median_Filter.h"
+#include "Median_Filter0_sfun.h"
+#include "c1_Median_Filter0.h"
 #include "mwmathutil.h"
 #define CHARTINSTANCE_CHARTNUMBER      (chartInstance->chartNumber)
 #define CHARTINSTANCE_INSTANCENUMBER   (chartInstance->instanceNumber)
-#include "Median_Filter_sfun_debug_macros.h"
+#include "Median_Filter0_sfun_debug_macros.h"
 #define _SF_MEX_LISTEN_FOR_CTRL_C(S)   sf_mex_listen_for_ctrl_c(sfGlobalDebugInstanceStruct,S);
 
 /* Type Definitions */
@@ -23,48 +23,48 @@ static const char * c1_debug_family_names[9] = { "i", "test_vector", "nargin",
   "nargout", "data_in", "old_vector", "order", "new_vector", "data_out" };
 
 /* Function Declarations */
-static void initialize_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void initialize_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance);
-static void initialize_params_c1_Median_Filter(SFc1_Median_FilterInstanceStruct *
-  chartInstance);
-static void enable_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void initialize_params_c1_Median_Filter0
+  (SFc1_Median_Filter0InstanceStruct *chartInstance);
+static void enable_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance);
-static void disable_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void disable_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance);
-static void c1_update_debugger_state_c1_Median_Filter
-  (SFc1_Median_FilterInstanceStruct *chartInstance);
-static const mxArray *get_sim_state_c1_Median_Filter
-  (SFc1_Median_FilterInstanceStruct *chartInstance);
-static void set_sim_state_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void c1_update_debugger_state_c1_Median_Filter0
+  (SFc1_Median_Filter0InstanceStruct *chartInstance);
+static const mxArray *get_sim_state_c1_Median_Filter0
+  (SFc1_Median_Filter0InstanceStruct *chartInstance);
+static void set_sim_state_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_st);
-static void finalize_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void finalize_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance);
-static void sf_gateway_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void sf_gateway_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance);
-static void initSimStructsc1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void initSimStructsc1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance);
 static void init_script_number_translation(uint32_T c1_machineNumber, uint32_T
   c1_chartNumber, uint32_T c1_instanceNumber);
 static const mxArray *c1_sf_marshallOut(void *chartInstanceVoid, void *c1_inData);
-static real_T c1_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static real_T c1_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_data_out, const char_T *c1_identifier);
-static real_T c1_b_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static real_T c1_b_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId);
 static void c1_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c1_mxArrayInData, const char_T *c1_varName, void *c1_outData);
 static const mxArray *c1_b_sf_marshallOut(void *chartInstanceVoid, void
   *c1_inData);
-static void c1_c_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static void c1_c_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_new_vector, const char_T *c1_identifier,
   real_T c1_y[100]);
-static void c1_d_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static void c1_d_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId,
   real_T c1_y[100]);
 static void c1_b_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c1_mxArrayInData, const char_T *c1_varName, void *c1_outData);
 static const mxArray *c1_c_sf_marshallOut(void *chartInstanceVoid, real_T
   c1_inData_data[], int32_T c1_inData_sizes[2]);
-static void c1_e_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static void c1_e_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId,
   real_T c1_y_data[], int32_T c1_y_sizes[2]);
 static void c1_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
@@ -73,61 +73,62 @@ static void c1_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
 static void c1_info_helper(const mxArray **c1_info);
 static const mxArray *c1_emlrt_marshallOut(const char * c1_u);
 static const mxArray *c1_b_emlrt_marshallOut(const uint32_T c1_u);
-static real_T c1_median(SFc1_Median_FilterInstanceStruct *chartInstance, real_T
+static real_T c1_median(SFc1_Median_Filter0InstanceStruct *chartInstance, real_T
   c1_x_data[], int32_T c1_x_sizes);
-static void c1_eml_switch_helper(SFc1_Median_FilterInstanceStruct *chartInstance);
-static void c1_eml_sort_idx(SFc1_Median_FilterInstanceStruct *chartInstance,
+static void c1_eml_switch_helper(SFc1_Median_Filter0InstanceStruct
+  *chartInstance);
+static void c1_eml_sort_idx(SFc1_Median_Filter0InstanceStruct *chartInstance,
   real_T c1_x_data[], int32_T c1_x_sizes, int32_T c1_idx_data[], int32_T
   *c1_idx_sizes);
 static const mxArray *c1_d_sf_marshallOut(void *chartInstanceVoid, void
   *c1_inData);
-static int32_T c1_f_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static int32_T c1_f_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId);
 static void c1_d_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c1_mxArrayInData, const char_T *c1_varName, void *c1_outData);
-static uint8_T c1_g_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
-  *chartInstance, const mxArray *c1_b_is_active_c1_Median_Filter, const char_T
-  *c1_identifier);
-static uint8_T c1_h_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static uint8_T c1_g_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
+  *chartInstance, const mxArray *c1_b_is_active_c1_Median_Filter0, const char_T *
+  c1_identifier);
+static uint8_T c1_h_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId);
-static void init_dsm_address_info(SFc1_Median_FilterInstanceStruct
+static void init_dsm_address_info(SFc1_Median_Filter0InstanceStruct
   *chartInstance);
 
 /* Function Definitions */
-static void initialize_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void initialize_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance)
 {
   chartInstance->c1_sfEvent = CALL_EVENT;
   _sfTime_ = sf_get_time(chartInstance->S);
-  chartInstance->c1_is_active_c1_Median_Filter = 0U;
+  chartInstance->c1_is_active_c1_Median_Filter0 = 0U;
 }
 
-static void initialize_params_c1_Median_Filter(SFc1_Median_FilterInstanceStruct *
-  chartInstance)
+static void initialize_params_c1_Median_Filter0
+  (SFc1_Median_Filter0InstanceStruct *chartInstance)
 {
   (void)chartInstance;
 }
 
-static void enable_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void enable_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance)
 {
   _sfTime_ = sf_get_time(chartInstance->S);
 }
 
-static void disable_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void disable_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance)
 {
   _sfTime_ = sf_get_time(chartInstance->S);
 }
 
-static void c1_update_debugger_state_c1_Median_Filter
-  (SFc1_Median_FilterInstanceStruct *chartInstance)
+static void c1_update_debugger_state_c1_Median_Filter0
+  (SFc1_Median_Filter0InstanceStruct *chartInstance)
 {
   (void)chartInstance;
 }
 
-static const mxArray *get_sim_state_c1_Median_Filter
-  (SFc1_Median_FilterInstanceStruct *chartInstance)
+static const mxArray *get_sim_state_c1_Median_Filter0
+  (SFc1_Median_Filter0InstanceStruct *chartInstance)
 {
   const mxArray *c1_st;
   const mxArray *c1_y = NULL;
@@ -161,7 +162,7 @@ static const mxArray *get_sim_state_c1_Median_Filter
   sf_mex_assign(&c1_c_y, sf_mex_create("y", c1_b_u, 0, 0U, 1U, 0U, 2, 1, 100),
                 false);
   sf_mex_setcell(c1_y, 1, c1_c_y);
-  c1_b_hoistedGlobal = chartInstance->c1_is_active_c1_Median_Filter;
+  c1_b_hoistedGlobal = chartInstance->c1_is_active_c1_Median_Filter0;
   c1_c_u = c1_b_hoistedGlobal;
   c1_d_y = NULL;
   sf_mex_assign(&c1_d_y, sf_mex_create("y", &c1_c_u, 3, 0U, 0U, 0U, 0), false);
@@ -170,7 +171,7 @@ static const mxArray *get_sim_state_c1_Median_Filter
   return c1_st;
 }
 
-static void set_sim_state_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void set_sim_state_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_st)
 {
   const mxArray *c1_u;
@@ -190,21 +191,21 @@ static void set_sim_state_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
     (*c1_new_vector)[c1_i1] = c1_dv0[c1_i1];
   }
 
-  chartInstance->c1_is_active_c1_Median_Filter = c1_g_emlrt_marshallIn
+  chartInstance->c1_is_active_c1_Median_Filter0 = c1_g_emlrt_marshallIn
     (chartInstance, sf_mex_dup(sf_mex_getcell(c1_u, 2)),
-     "is_active_c1_Median_Filter");
+     "is_active_c1_Median_Filter0");
   sf_mex_destroy(&c1_u);
-  c1_update_debugger_state_c1_Median_Filter(chartInstance);
+  c1_update_debugger_state_c1_Median_Filter0(chartInstance);
   sf_mex_destroy(&c1_st);
 }
 
-static void finalize_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void finalize_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance)
 {
   (void)chartInstance;
 }
 
-static void sf_gateway_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void sf_gateway_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance)
 {
   real_T c1_hoistedGlobal;
@@ -357,7 +358,7 @@ static void sf_gateway_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
   *c1_b_data_out = c1_data_out;
   _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 0U, chartInstance->c1_sfEvent);
   _SFD_SYMBOL_SCOPE_POP();
-  _SFD_CHECK_FOR_STATE_INCONSISTENCY(_Median_FilterMachineNumber_,
+  _SFD_CHECK_FOR_STATE_INCONSISTENCY(_Median_Filter0MachineNumber_,
     chartInstance->chartNumber, chartInstance->instanceNumber);
   for (c1_i9 = 0; c1_i9 < 100; c1_i9++) {
     _SFD_DATA_RANGE_CHECK((*c1_b_new_vector)[c1_i9], 1U);
@@ -371,7 +372,7 @@ static void sf_gateway_c1_Median_Filter(SFc1_Median_FilterInstanceStruct
   _SFD_DATA_RANGE_CHECK(*c1_b_data_out, 4U);
 }
 
-static void initSimStructsc1_Median_Filter(SFc1_Median_FilterInstanceStruct
+static void initSimStructsc1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   *chartInstance)
 {
   (void)chartInstance;
@@ -390,8 +391,8 @@ static const mxArray *c1_sf_marshallOut(void *chartInstanceVoid, void *c1_inData
   const mxArray *c1_mxArrayOutData = NULL;
   real_T c1_u;
   const mxArray *c1_y = NULL;
-  SFc1_Median_FilterInstanceStruct *chartInstance;
-  chartInstance = (SFc1_Median_FilterInstanceStruct *)chartInstanceVoid;
+  SFc1_Median_Filter0InstanceStruct *chartInstance;
+  chartInstance = (SFc1_Median_Filter0InstanceStruct *)chartInstanceVoid;
   c1_mxArrayOutData = NULL;
   c1_u = *(real_T *)c1_inData;
   c1_y = NULL;
@@ -400,7 +401,7 @@ static const mxArray *c1_sf_marshallOut(void *chartInstanceVoid, void *c1_inData
   return c1_mxArrayOutData;
 }
 
-static real_T c1_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static real_T c1_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_data_out, const char_T *c1_identifier)
 {
   real_T c1_y;
@@ -413,7 +414,7 @@ static real_T c1_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
   return c1_y;
 }
 
-static real_T c1_b_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static real_T c1_b_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId)
 {
   real_T c1_y;
@@ -432,8 +433,8 @@ static void c1_sf_marshallIn(void *chartInstanceVoid, const mxArray
   const char_T *c1_identifier;
   emlrtMsgIdentifier c1_thisId;
   real_T c1_y;
-  SFc1_Median_FilterInstanceStruct *chartInstance;
-  chartInstance = (SFc1_Median_FilterInstanceStruct *)chartInstanceVoid;
+  SFc1_Median_Filter0InstanceStruct *chartInstance;
+  chartInstance = (SFc1_Median_Filter0InstanceStruct *)chartInstanceVoid;
   c1_data_out = sf_mex_dup(c1_mxArrayInData);
   c1_identifier = c1_varName;
   c1_thisId.fIdentifier = c1_identifier;
@@ -454,8 +455,8 @@ static const mxArray *c1_b_sf_marshallOut(void *chartInstanceVoid, void
   int32_T c1_i12;
   real_T c1_u[100];
   const mxArray *c1_y = NULL;
-  SFc1_Median_FilterInstanceStruct *chartInstance;
-  chartInstance = (SFc1_Median_FilterInstanceStruct *)chartInstanceVoid;
+  SFc1_Median_Filter0InstanceStruct *chartInstance;
+  chartInstance = (SFc1_Median_Filter0InstanceStruct *)chartInstanceVoid;
   c1_mxArrayOutData = NULL;
   for (c1_i11 = 0; c1_i11 < 100; c1_i11++) {
     c1_b_inData[c1_i11] = (*(real_T (*)[100])c1_inData)[c1_i11];
@@ -471,7 +472,7 @@ static const mxArray *c1_b_sf_marshallOut(void *chartInstanceVoid, void
   return c1_mxArrayOutData;
 }
 
-static void c1_c_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static void c1_c_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_new_vector, const char_T *c1_identifier,
   real_T c1_y[100])
 {
@@ -483,7 +484,7 @@ static void c1_c_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
   sf_mex_destroy(&c1_new_vector);
 }
 
-static void c1_d_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static void c1_d_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId,
   real_T c1_y[100])
 {
@@ -507,8 +508,8 @@ static void c1_b_sf_marshallIn(void *chartInstanceVoid, const mxArray
   emlrtMsgIdentifier c1_thisId;
   real_T c1_y[100];
   int32_T c1_i14;
-  SFc1_Median_FilterInstanceStruct *chartInstance;
-  chartInstance = (SFc1_Median_FilterInstanceStruct *)chartInstanceVoid;
+  SFc1_Median_Filter0InstanceStruct *chartInstance;
+  chartInstance = (SFc1_Median_Filter0InstanceStruct *)chartInstanceVoid;
   c1_new_vector = sf_mex_dup(c1_mxArrayInData);
   c1_identifier = c1_varName;
   c1_thisId.fIdentifier = c1_identifier;
@@ -536,8 +537,8 @@ static const mxArray *c1_c_sf_marshallOut(void *chartInstanceVoid, real_T
   int32_T c1_i16;
   real_T c1_u_data[100];
   const mxArray *c1_y = NULL;
-  SFc1_Median_FilterInstanceStruct *chartInstance;
-  chartInstance = (SFc1_Median_FilterInstanceStruct *)chartInstanceVoid;
+  SFc1_Median_Filter0InstanceStruct *chartInstance;
+  chartInstance = (SFc1_Median_Filter0InstanceStruct *)chartInstanceVoid;
   c1_mxArrayOutData = NULL;
   c1_b_inData_sizes[0] = 1;
   c1_b_inData_sizes[1] = c1_inData_sizes[1];
@@ -562,7 +563,7 @@ static const mxArray *c1_c_sf_marshallOut(void *chartInstanceVoid, real_T
   return c1_mxArrayOutData;
 }
 
-static void c1_e_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static void c1_e_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId,
   real_T c1_y_data[], int32_T c1_y_sizes[2])
 {
@@ -612,8 +613,8 @@ static void c1_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
   real_T c1_y_data[100];
   int32_T c1_loop_ub;
   int32_T c1_i20;
-  SFc1_Median_FilterInstanceStruct *chartInstance;
-  chartInstance = (SFc1_Median_FilterInstanceStruct *)chartInstanceVoid;
+  SFc1_Median_Filter0InstanceStruct *chartInstance;
+  chartInstance = (SFc1_Median_Filter0InstanceStruct *)chartInstanceVoid;
   c1_test_vector = sf_mex_dup(c1_mxArrayInData);
   c1_identifier = c1_varName;
   c1_thisId.fIdentifier = c1_identifier;
@@ -632,7 +633,7 @@ static void c1_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
   sf_mex_destroy(&c1_mxArrayInData);
 }
 
-const mxArray *sf_c1_Median_Filter_get_eml_resolved_functions_info(void)
+const mxArray *sf_c1_Median_Filter0_get_eml_resolved_functions_info(void)
 {
   const mxArray *c1_nameCaptureInfo = NULL;
   c1_nameCaptureInfo = NULL;
@@ -1973,7 +1974,7 @@ static const mxArray *c1_b_emlrt_marshallOut(const uint32_T c1_u)
   return c1_y;
 }
 
-static real_T c1_median(SFc1_Median_FilterInstanceStruct *chartInstance, real_T
+static real_T c1_median(SFc1_Median_Filter0InstanceStruct *chartInstance, real_T
   c1_x_data[], int32_T c1_x_sizes)
 {
   real_T c1_y;
@@ -2116,12 +2117,13 @@ static real_T c1_median(SFc1_Median_FilterInstanceStruct *chartInstance, real_T
   return c1_y;
 }
 
-static void c1_eml_switch_helper(SFc1_Median_FilterInstanceStruct *chartInstance)
+static void c1_eml_switch_helper(SFc1_Median_Filter0InstanceStruct
+  *chartInstance)
 {
   (void)chartInstance;
 }
 
-static void c1_eml_sort_idx(SFc1_Median_FilterInstanceStruct *chartInstance,
+static void c1_eml_sort_idx(SFc1_Median_Filter0InstanceStruct *chartInstance,
   real_T c1_x_data[], int32_T c1_x_sizes, int32_T c1_idx_data[], int32_T
   *c1_idx_sizes)
 {
@@ -2464,8 +2466,8 @@ static const mxArray *c1_d_sf_marshallOut(void *chartInstanceVoid, void
   const mxArray *c1_mxArrayOutData = NULL;
   int32_T c1_u;
   const mxArray *c1_y = NULL;
-  SFc1_Median_FilterInstanceStruct *chartInstance;
-  chartInstance = (SFc1_Median_FilterInstanceStruct *)chartInstanceVoid;
+  SFc1_Median_Filter0InstanceStruct *chartInstance;
+  chartInstance = (SFc1_Median_Filter0InstanceStruct *)chartInstanceVoid;
   c1_mxArrayOutData = NULL;
   c1_u = *(int32_T *)c1_inData;
   c1_y = NULL;
@@ -2474,7 +2476,7 @@ static const mxArray *c1_d_sf_marshallOut(void *chartInstanceVoid, void
   return c1_mxArrayOutData;
 }
 
-static int32_T c1_f_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static int32_T c1_f_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId)
 {
   int32_T c1_y;
@@ -2493,8 +2495,8 @@ static void c1_d_sf_marshallIn(void *chartInstanceVoid, const mxArray
   const char_T *c1_identifier;
   emlrtMsgIdentifier c1_thisId;
   int32_T c1_y;
-  SFc1_Median_FilterInstanceStruct *chartInstance;
-  chartInstance = (SFc1_Median_FilterInstanceStruct *)chartInstanceVoid;
+  SFc1_Median_Filter0InstanceStruct *chartInstance;
+  chartInstance = (SFc1_Median_Filter0InstanceStruct *)chartInstanceVoid;
   c1_b_sfEvent = sf_mex_dup(c1_mxArrayInData);
   c1_identifier = c1_varName;
   c1_thisId.fIdentifier = c1_identifier;
@@ -2506,21 +2508,21 @@ static void c1_d_sf_marshallIn(void *chartInstanceVoid, const mxArray
   sf_mex_destroy(&c1_mxArrayInData);
 }
 
-static uint8_T c1_g_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
-  *chartInstance, const mxArray *c1_b_is_active_c1_Median_Filter, const char_T
-  *c1_identifier)
+static uint8_T c1_g_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
+  *chartInstance, const mxArray *c1_b_is_active_c1_Median_Filter0, const char_T *
+  c1_identifier)
 {
   uint8_T c1_y;
   emlrtMsgIdentifier c1_thisId;
   c1_thisId.fIdentifier = c1_identifier;
   c1_thisId.fParent = NULL;
   c1_y = c1_h_emlrt_marshallIn(chartInstance, sf_mex_dup
-    (c1_b_is_active_c1_Median_Filter), &c1_thisId);
-  sf_mex_destroy(&c1_b_is_active_c1_Median_Filter);
+    (c1_b_is_active_c1_Median_Filter0), &c1_thisId);
+  sf_mex_destroy(&c1_b_is_active_c1_Median_Filter0);
   return c1_y;
 }
 
-static uint8_T c1_h_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
+static uint8_T c1_h_emlrt_marshallIn(SFc1_Median_Filter0InstanceStruct
   *chartInstance, const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId)
 {
   uint8_T c1_y;
@@ -2532,7 +2534,7 @@ static uint8_T c1_h_emlrt_marshallIn(SFc1_Median_FilterInstanceStruct
   return c1_y;
 }
 
-static void init_dsm_address_info(SFc1_Median_FilterInstanceStruct
+static void init_dsm_address_info(SFc1_Median_Filter0InstanceStruct
   *chartInstance)
 {
   (void)chartInstance;
@@ -2559,7 +2561,7 @@ extern void utFree(void*);
 
 #endif
 
-void sf_c1_Median_Filter_get_check_sum(mxArray *plhs[])
+void sf_c1_Median_Filter0_get_check_sum(mxArray *plhs[])
 {
   ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(4252611395U);
   ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3694260940U);
@@ -2567,7 +2569,7 @@ void sf_c1_Median_Filter_get_check_sum(mxArray *plhs[])
   ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(260067762U);
 }
 
-mxArray *sf_c1_Median_Filter_get_autoinheritance_info(void)
+mxArray *sf_c1_Median_Filter0_get_autoinheritance_info(void)
 {
   const char *autoinheritanceFields[] = { "checksum", "inputs", "parameters",
     "outputs", "locals" };
@@ -2701,30 +2703,30 @@ mxArray *sf_c1_Median_Filter_get_autoinheritance_info(void)
   return(mxAutoinheritanceInfo);
 }
 
-mxArray *sf_c1_Median_Filter_third_party_uses_info(void)
+mxArray *sf_c1_Median_Filter0_third_party_uses_info(void)
 {
   mxArray * mxcell3p = mxCreateCellMatrix(1,0);
   return(mxcell3p);
 }
 
-mxArray *sf_c1_Median_Filter_updateBuildInfo_args_info(void)
+mxArray *sf_c1_Median_Filter0_updateBuildInfo_args_info(void)
 {
   mxArray *mxBIArgs = mxCreateCellMatrix(1,0);
   return mxBIArgs;
 }
 
-static const mxArray *sf_get_sim_state_info_c1_Median_Filter(void)
+static const mxArray *sf_get_sim_state_info_c1_Median_Filter0(void)
 {
   const char *infoFields[] = { "chartChecksum", "varInfo" };
 
   mxArray *mxInfo = mxCreateStructMatrix(1, 1, 2, infoFields);
   const char *infoEncStr[] = {
-    "100 S1x3'type','srcId','name','auxInfo'{{M[1],M[9],T\"data_out\",},{M[1],M[5],T\"new_vector\",},{M[8],M[0],T\"is_active_c1_Median_Filter\",}}"
+    "100 S1x3'type','srcId','name','auxInfo'{{M[1],M[9],T\"data_out\",},{M[1],M[5],T\"new_vector\",},{M[8],M[0],T\"is_active_c1_Median_Filter0\",}}"
   };
 
   mxArray *mxVarInfo = sf_mex_decode_encoded_mx_struct_array(infoEncStr, 3, 10);
   mxArray *mxChecksum = mxCreateDoubleMatrix(1, 4, mxREAL);
-  sf_c1_Median_Filter_get_check_sum(&mxChecksum);
+  sf_c1_Median_Filter0_get_check_sum(&mxChecksum);
   mxSetField(mxInfo, 0, infoFields[0], mxChecksum);
   mxSetField(mxInfo, 0, infoFields[1], mxVarInfo);
   return mxInfo;
@@ -2734,10 +2736,10 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
   fullDebuggerInitialization)
 {
   if (!sim_mode_is_rtw_gen(S)) {
-    SFc1_Median_FilterInstanceStruct *chartInstance;
+    SFc1_Median_Filter0InstanceStruct *chartInstance;
     ChartRunTimeInfo * crtInfo = (ChartRunTimeInfo *)(ssGetUserData(S));
     ChartInfoStruct * chartInfo = (ChartInfoStruct *)(crtInfo->instanceInfo);
-    chartInstance = (SFc1_Median_FilterInstanceStruct *)
+    chartInstance = (SFc1_Median_Filter0InstanceStruct *)
       chartInfo->chartInstance;
     if (ssIsFirstInitCond(S) && fullDebuggerInitialization==1) {
       /* do this only if simulation is starting */
@@ -2745,7 +2747,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
         unsigned int chartAlreadyPresent;
         chartAlreadyPresent = sf_debug_initialize_chart
           (sfGlobalDebugInstanceStruct,
-           _Median_FilterMachineNumber_,
+           _Median_Filter0MachineNumber_,
            1,
            1,
            1,
@@ -2761,15 +2763,15 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
            (void *)S);
 
         /* Each instance must initialize ist own list of scripts */
-        init_script_number_translation(_Median_FilterMachineNumber_,
+        init_script_number_translation(_Median_Filter0MachineNumber_,
           chartInstance->chartNumber,chartInstance->instanceNumber);
         if (chartAlreadyPresent==0) {
           /* this is the first instance */
           sf_debug_set_chart_disable_implicit_casting
-            (sfGlobalDebugInstanceStruct,_Median_FilterMachineNumber_,
+            (sfGlobalDebugInstanceStruct,_Median_Filter0MachineNumber_,
              chartInstance->chartNumber,1);
           sf_debug_set_chart_event_thresholds(sfGlobalDebugInstanceStruct,
-            _Median_FilterMachineNumber_,
+            _Median_Filter0MachineNumber_,
             chartInstance->chartNumber,
             0,
             0,
@@ -2845,7 +2847,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
       }
     } else {
       sf_debug_reset_current_state_configuration(sfGlobalDebugInstanceStruct,
-        _Median_FilterMachineNumber_,chartInstance->chartNumber,
+        _Median_Filter0MachineNumber_,chartInstance->chartNumber,
         chartInstance->instanceNumber);
     }
   }
@@ -2856,33 +2858,34 @@ static const char* sf_get_instance_specialization(void)
   return "SW5ZGjv36JkbfHpgz88NmE";
 }
 
-static void sf_opaque_initialize_c1_Median_Filter(void *chartInstanceVar)
+static void sf_opaque_initialize_c1_Median_Filter0(void *chartInstanceVar)
 {
-  chart_debug_initialization(((SFc1_Median_FilterInstanceStruct*)
+  chart_debug_initialization(((SFc1_Median_Filter0InstanceStruct*)
     chartInstanceVar)->S,0);
-  initialize_params_c1_Median_Filter((SFc1_Median_FilterInstanceStruct*)
+  initialize_params_c1_Median_Filter0((SFc1_Median_Filter0InstanceStruct*)
     chartInstanceVar);
-  initialize_c1_Median_Filter((SFc1_Median_FilterInstanceStruct*)
-    chartInstanceVar);
-}
-
-static void sf_opaque_enable_c1_Median_Filter(void *chartInstanceVar)
-{
-  enable_c1_Median_Filter((SFc1_Median_FilterInstanceStruct*) chartInstanceVar);
-}
-
-static void sf_opaque_disable_c1_Median_Filter(void *chartInstanceVar)
-{
-  disable_c1_Median_Filter((SFc1_Median_FilterInstanceStruct*) chartInstanceVar);
-}
-
-static void sf_opaque_gateway_c1_Median_Filter(void *chartInstanceVar)
-{
-  sf_gateway_c1_Median_Filter((SFc1_Median_FilterInstanceStruct*)
+  initialize_c1_Median_Filter0((SFc1_Median_Filter0InstanceStruct*)
     chartInstanceVar);
 }
 
-extern const mxArray* sf_internal_get_sim_state_c1_Median_Filter(SimStruct* S)
+static void sf_opaque_enable_c1_Median_Filter0(void *chartInstanceVar)
+{
+  enable_c1_Median_Filter0((SFc1_Median_Filter0InstanceStruct*) chartInstanceVar);
+}
+
+static void sf_opaque_disable_c1_Median_Filter0(void *chartInstanceVar)
+{
+  disable_c1_Median_Filter0((SFc1_Median_Filter0InstanceStruct*)
+    chartInstanceVar);
+}
+
+static void sf_opaque_gateway_c1_Median_Filter0(void *chartInstanceVar)
+{
+  sf_gateway_c1_Median_Filter0((SFc1_Median_Filter0InstanceStruct*)
+    chartInstanceVar);
+}
+
+extern const mxArray* sf_internal_get_sim_state_c1_Median_Filter0(SimStruct* S)
 {
   ChartRunTimeInfo * crtInfo = (ChartRunTimeInfo *)(ssGetUserData(S));
   ChartInfoStruct * chartInfo = (ChartInfoStruct *)(crtInfo->instanceInfo);
@@ -2892,9 +2895,9 @@ extern const mxArray* sf_internal_get_sim_state_c1_Median_Filter(SimStruct* S)
   int mxError = 0;
   prhs[0] = mxCreateString("chart_simctx_raw2high");
   prhs[1] = mxCreateDoubleScalar(ssGetSFuncBlockHandle(S));
-  prhs[2] = (mxArray*) get_sim_state_c1_Median_Filter
-    ((SFc1_Median_FilterInstanceStruct*)chartInfo->chartInstance);/* raw sim ctx */
-  prhs[3] = (mxArray*) sf_get_sim_state_info_c1_Median_Filter();/* state var info */
+  prhs[2] = (mxArray*) get_sim_state_c1_Median_Filter0
+    ((SFc1_Median_Filter0InstanceStruct*)chartInfo->chartInstance);/* raw sim ctx */
+  prhs[3] = (mxArray*) sf_get_sim_state_info_c1_Median_Filter0();/* state var info */
   mxError = sf_mex_call_matlab(1, plhs, 4, prhs, "sfprivate");
   mxDestroyArray(prhs[0]);
   mxDestroyArray(prhs[1]);
@@ -2907,7 +2910,7 @@ extern const mxArray* sf_internal_get_sim_state_c1_Median_Filter(SimStruct* S)
   return plhs[0];
 }
 
-extern void sf_internal_set_sim_state_c1_Median_Filter(SimStruct* S, const
+extern void sf_internal_set_sim_state_c1_Median_Filter0(SimStruct* S, const
   mxArray *st)
 {
   ChartRunTimeInfo * crtInfo = (ChartRunTimeInfo *)(ssGetUserData(S));
@@ -2918,7 +2921,7 @@ extern void sf_internal_set_sim_state_c1_Median_Filter(SimStruct* S, const
   int mxError = 0;
   prhs[0] = mxCreateString("chart_simctx_high2raw");
   prhs[1] = mxDuplicateArray(st);      /* high level simctx */
-  prhs[2] = (mxArray*) sf_get_sim_state_info_c1_Median_Filter();/* state var info */
+  prhs[2] = (mxArray*) sf_get_sim_state_info_c1_Median_Filter0();/* state var info */
   mxError = sf_mex_call_matlab(1, plhs, 3, prhs, "sfprivate");
   mxDestroyArray(prhs[0]);
   mxDestroyArray(prhs[1]);
@@ -2927,33 +2930,33 @@ extern void sf_internal_set_sim_state_c1_Median_Filter(SimStruct* S, const
     sf_mex_error_message("Stateflow Internal Error: \nError calling 'chart_simctx_high2raw'.\n");
   }
 
-  set_sim_state_c1_Median_Filter((SFc1_Median_FilterInstanceStruct*)
+  set_sim_state_c1_Median_Filter0((SFc1_Median_Filter0InstanceStruct*)
     chartInfo->chartInstance, mxDuplicateArray(plhs[0]));
   mxDestroyArray(plhs[0]);
 }
 
-static const mxArray* sf_opaque_get_sim_state_c1_Median_Filter(SimStruct* S)
+static const mxArray* sf_opaque_get_sim_state_c1_Median_Filter0(SimStruct* S)
 {
-  return sf_internal_get_sim_state_c1_Median_Filter(S);
+  return sf_internal_get_sim_state_c1_Median_Filter0(S);
 }
 
-static void sf_opaque_set_sim_state_c1_Median_Filter(SimStruct* S, const mxArray
-  *st)
+static void sf_opaque_set_sim_state_c1_Median_Filter0(SimStruct* S, const
+  mxArray *st)
 {
-  sf_internal_set_sim_state_c1_Median_Filter(S, st);
+  sf_internal_set_sim_state_c1_Median_Filter0(S, st);
 }
 
-static void sf_opaque_terminate_c1_Median_Filter(void *chartInstanceVar)
+static void sf_opaque_terminate_c1_Median_Filter0(void *chartInstanceVar)
 {
   if (chartInstanceVar!=NULL) {
-    SimStruct *S = ((SFc1_Median_FilterInstanceStruct*) chartInstanceVar)->S;
+    SimStruct *S = ((SFc1_Median_Filter0InstanceStruct*) chartInstanceVar)->S;
     ChartRunTimeInfo * crtInfo = (ChartRunTimeInfo *)(ssGetUserData(S));
     if (sim_mode_is_rtw_gen(S) || sim_mode_is_external(S)) {
       sf_clear_rtw_identifier(S);
-      unload_Median_Filter_optimization_info();
+      unload_Median_Filter0_optimization_info();
     }
 
-    finalize_c1_Median_Filter((SFc1_Median_FilterInstanceStruct*)
+    finalize_c1_Median_Filter0((SFc1_Median_Filter0InstanceStruct*)
       chartInstanceVar);
     utFree((void *)chartInstanceVar);
     if (crtInfo != NULL) {
@@ -2966,12 +2969,12 @@ static void sf_opaque_terminate_c1_Median_Filter(void *chartInstanceVar)
 
 static void sf_opaque_init_subchart_simstructs(void *chartInstanceVar)
 {
-  initSimStructsc1_Median_Filter((SFc1_Median_FilterInstanceStruct*)
+  initSimStructsc1_Median_Filter0((SFc1_Median_Filter0InstanceStruct*)
     chartInstanceVar);
 }
 
 extern unsigned int sf_machine_global_initializer_called(void);
-static void mdlProcessParameters_c1_Median_Filter(SimStruct *S)
+static void mdlProcessParameters_c1_Median_Filter0(SimStruct *S)
 {
   int i;
   for (i=0;i<ssGetNumRunTimeParams(S);i++) {
@@ -2983,15 +2986,15 @@ static void mdlProcessParameters_c1_Median_Filter(SimStruct *S)
   if (sf_machine_global_initializer_called()) {
     ChartRunTimeInfo * crtInfo = (ChartRunTimeInfo *)(ssGetUserData(S));
     ChartInfoStruct * chartInfo = (ChartInfoStruct *)(crtInfo->instanceInfo);
-    initialize_params_c1_Median_Filter((SFc1_Median_FilterInstanceStruct*)
+    initialize_params_c1_Median_Filter0((SFc1_Median_Filter0InstanceStruct*)
       (chartInfo->chartInstance));
   }
 }
 
-static void mdlSetWorkWidths_c1_Median_Filter(SimStruct *S)
+static void mdlSetWorkWidths_c1_Median_Filter0(SimStruct *S)
 {
   if (sim_mode_is_rtw_gen(S) || sim_mode_is_external(S)) {
-    mxArray *infoStruct = load_Median_Filter_optimization_info();
+    mxArray *infoStruct = load_Median_Filter0_optimization_info();
     int_T chartIsInlinable =
       (int_T)sf_is_chart_inlinable(sf_get_instance_specialization(),infoStruct,1);
     ssSetStateflowIsInlinable(S,chartIsInlinable);
@@ -3042,21 +3045,21 @@ static void mdlSetWorkWidths_c1_Median_Filter(SimStruct *S)
   ssSupportsMultipleExecInstances(S,1);
 }
 
-static void mdlRTW_c1_Median_Filter(SimStruct *S)
+static void mdlRTW_c1_Median_Filter0(SimStruct *S)
 {
   if (sim_mode_is_rtw_gen(S)) {
     ssWriteRTWStrParam(S, "StateflowChartType", "Embedded MATLAB");
   }
 }
 
-static void mdlStart_c1_Median_Filter(SimStruct *S)
+static void mdlStart_c1_Median_Filter0(SimStruct *S)
 {
-  SFc1_Median_FilterInstanceStruct *chartInstance;
+  SFc1_Median_Filter0InstanceStruct *chartInstance;
   ChartRunTimeInfo * crtInfo = (ChartRunTimeInfo *)utMalloc(sizeof
     (ChartRunTimeInfo));
-  chartInstance = (SFc1_Median_FilterInstanceStruct *)utMalloc(sizeof
-    (SFc1_Median_FilterInstanceStruct));
-  memset(chartInstance, 0, sizeof(SFc1_Median_FilterInstanceStruct));
+  chartInstance = (SFc1_Median_Filter0InstanceStruct *)utMalloc(sizeof
+    (SFc1_Median_Filter0InstanceStruct));
+  memset(chartInstance, 0, sizeof(SFc1_Median_Filter0InstanceStruct));
   if (chartInstance==NULL) {
     sf_mex_error_message("Could not allocate memory for chart instance.");
   }
@@ -3064,24 +3067,26 @@ static void mdlStart_c1_Median_Filter(SimStruct *S)
   chartInstance->chartInfo.chartInstance = chartInstance;
   chartInstance->chartInfo.isEMLChart = 1;
   chartInstance->chartInfo.chartInitialized = 0;
-  chartInstance->chartInfo.sFunctionGateway = sf_opaque_gateway_c1_Median_Filter;
+  chartInstance->chartInfo.sFunctionGateway =
+    sf_opaque_gateway_c1_Median_Filter0;
   chartInstance->chartInfo.initializeChart =
-    sf_opaque_initialize_c1_Median_Filter;
-  chartInstance->chartInfo.terminateChart = sf_opaque_terminate_c1_Median_Filter;
-  chartInstance->chartInfo.enableChart = sf_opaque_enable_c1_Median_Filter;
-  chartInstance->chartInfo.disableChart = sf_opaque_disable_c1_Median_Filter;
+    sf_opaque_initialize_c1_Median_Filter0;
+  chartInstance->chartInfo.terminateChart =
+    sf_opaque_terminate_c1_Median_Filter0;
+  chartInstance->chartInfo.enableChart = sf_opaque_enable_c1_Median_Filter0;
+  chartInstance->chartInfo.disableChart = sf_opaque_disable_c1_Median_Filter0;
   chartInstance->chartInfo.getSimState =
-    sf_opaque_get_sim_state_c1_Median_Filter;
+    sf_opaque_get_sim_state_c1_Median_Filter0;
   chartInstance->chartInfo.setSimState =
-    sf_opaque_set_sim_state_c1_Median_Filter;
+    sf_opaque_set_sim_state_c1_Median_Filter0;
   chartInstance->chartInfo.getSimStateInfo =
-    sf_get_sim_state_info_c1_Median_Filter;
+    sf_get_sim_state_info_c1_Median_Filter0;
   chartInstance->chartInfo.zeroCrossings = NULL;
   chartInstance->chartInfo.outputs = NULL;
   chartInstance->chartInfo.derivatives = NULL;
-  chartInstance->chartInfo.mdlRTW = mdlRTW_c1_Median_Filter;
-  chartInstance->chartInfo.mdlStart = mdlStart_c1_Median_Filter;
-  chartInstance->chartInfo.mdlSetWorkWidths = mdlSetWorkWidths_c1_Median_Filter;
+  chartInstance->chartInfo.mdlRTW = mdlRTW_c1_Median_Filter0;
+  chartInstance->chartInfo.mdlStart = mdlStart_c1_Median_Filter0;
+  chartInstance->chartInfo.mdlSetWorkWidths = mdlSetWorkWidths_c1_Median_Filter0;
   chartInstance->chartInfo.extModeExec = NULL;
   chartInstance->chartInfo.restoreLastMajorStepConfiguration = NULL;
   chartInstance->chartInfo.restoreBeforeLastMajorStepConfiguration = NULL;
@@ -3099,25 +3104,25 @@ static void mdlStart_c1_Median_Filter(SimStruct *S)
   chart_debug_initialization(S,1);
 }
 
-void c1_Median_Filter_method_dispatcher(SimStruct *S, int_T method, void *data)
+void c1_Median_Filter0_method_dispatcher(SimStruct *S, int_T method, void *data)
 {
   switch (method) {
    case SS_CALL_MDL_START:
-    mdlStart_c1_Median_Filter(S);
+    mdlStart_c1_Median_Filter0(S);
     break;
 
    case SS_CALL_MDL_SET_WORK_WIDTHS:
-    mdlSetWorkWidths_c1_Median_Filter(S);
+    mdlSetWorkWidths_c1_Median_Filter0(S);
     break;
 
    case SS_CALL_MDL_PROCESS_PARAMETERS:
-    mdlProcessParameters_c1_Median_Filter(S);
+    mdlProcessParameters_c1_Median_Filter0(S);
     break;
 
    default:
     /* Unhandled method */
     sf_mex_error_message("Stateflow Internal Error:\n"
-                         "Error calling c1_Median_Filter_method_dispatcher.\n"
+                         "Error calling c1_Median_Filter0_method_dispatcher.\n"
                          "Can't handle method %d.\n", method);
     break;
   }

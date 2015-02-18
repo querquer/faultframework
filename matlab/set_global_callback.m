@@ -2,7 +2,7 @@
 
 % global parameter
 
-SimLength = 40;
+SimLength = 20;
 SampleTime = 0.01;
 load('Faultinjection/TriggerBus.mat');
 GlobalSeed = 10;
