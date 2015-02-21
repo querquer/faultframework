@@ -1,7 +1,7 @@
-function [config, quality] = none()
+function [config, quality, dist] = none()
 
 config = 0;
-quality = filter_evaluation;
+[quality, dist] = filter_evaluation;
 
 end
 
