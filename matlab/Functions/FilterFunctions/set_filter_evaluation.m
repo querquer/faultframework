@@ -1,6 +1,6 @@
 function set_filter_evaluation(model_file)
-%SET_FILTER Summary of this function goes here
-%   We assume, that the model where we want to change the filter is still
+%SET_FILTER set another evaluation model
+%   We assume, that the model where we want to change the filter_evaluation is still
 %   named 'Filter.slx' and is reachable from the current directory.
 %   Furthermore the model_file is also assumed to be reachable.
 
