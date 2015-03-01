@@ -6,6 +6,7 @@ tmp = 'current_detector_template';
 if(exist([tmp '.slx'], 'file'))
     delete([tmp '.slx']);
 end
+close_system(tmp, false);
 
 copyfile('lc_detector_template.slx', [tmp '.slx']);
 
@@ -13,8 +14,8 @@ copyfile('lc_detector_template.slx', [tmp '.slx']);
 load_system([tmp '.slx']);
 %determine path from "path_and_name"
 [path, name] = extract_path(path_and_name);
-curr_dir = pwd;
-cd(path);
+%curr_dir = pwd;
+%cd(path);
 
 st = size(trigger);
 for i = 1:st(1,2);
@@ -52,8 +53,9 @@ for i = 1:st(1,2);
     delete([src '.slx']);
     
 end
-
-save_system(tmp, name);
+s = size(name);
+close_system(name(1:s(1,2)-4), false);
+save_system(tmp, path_and_name);
 
 close_system(tmp, false);
 
@@ -61,6 +63,6 @@ if(exist([tmp '.slx'], 'file'))
     delete([tmp '.slx']);
 end
 
-cd(curr_dir);
+%cd(curr_dir);
 end
 

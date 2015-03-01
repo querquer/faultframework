@@ -34,39 +34,29 @@ end
             sum = 0;
             for i = 1:sf(1,2);
                 sum = sum + (FN(i).fn_rate + FP(i).fp_rate)/2;
-                disp(['FN :' num2str(FN(i).fn_rate)]);
-                disp(['FP :' num2str(FP(i).fp_rate)]);
+
             end
             
             FNFP = sum/sf(1,2);
     end
 
-    %function to check whether the gradient of function-values is low or
-    %not. If it is low, we will stop optimisation.
-    last_fval = -1;
-    function stop = terminate(x,optimvalues,state)
-        stop = false;
-        %Check if we are at the end of an iteration
-        if(isequal(state,'iter'))
-            if(last_fval > -1)
-                %calculate gradient
-                grad = optimvalues.fval - last_fval;
-                disp(grad);
-                %stop if gradient is low
-                if(abs(grad) <= grad_thr)
-                    stop = true;
-                end
-            else
-                last_fval = optimvalues.fval;
-            end
-        end
-    end
+  
 
 
 %format of x: e.g.: x = [-1.2, 1]. Go to 'generate_starting_point.m' for
 %detail information on a specific detector.
-options = optimset('OutputFcn', @terminate);
-[x,fval,exitflag] = fminsearch(@opt_fun,x, options);
+
+sx = size(x);
+options = gaoptimset('TolFun', grad_thr);
+options = gaoptimset(options,'Display', 'iter');
+options = gaoptimset(options,'UseParallel', true);
+if(sx(1,2) <= 5)
+    options = gaoptimset(options,'PopulationSize',25);
+else
+    options = gaoptimset(options,'PopulationSize',50);
+end
+    
+[x,fval,exitflag] = ga(@opt_fun,sx(1,2),[],[],[],[],[],[],[],options);
 
 
 %create detector as Simulink-Model. This function must be implemented by
@@ -78,7 +68,10 @@ cd(curr_dir);
 
 
 %use Evaluation.slx to get final fn/fp-rates.
-out = run_evaluation_model(data, sampletime, path_and_name, evaluation_model);
+[path, name] = extract_path(path_and_name);
+addpath(path);
+
+out = run_evaluation_model(data, sampletime, name, evaluation_model);
 [FN_final, FP_final] = evaluation(trigger, out, max_delay);
  
 end
