@@ -2,7 +2,48 @@ function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger
 %DESIGN_DETECTOR Designs a specific detector by minimizing the
 %false-negatives and false-positives.
 
-%   Detailed explanation goes here
+%% Design_Detector
+% This function represents the core of the automated configuration of a
+% sensor fault detector. The algorithm is based on an optimization
+% algorithm, namely a genetic algorithm. Using the function
+% 'generate_starting_point', 'output_detector' and 'create_detector' allows
+% the optimization algorithm to determine the best configuration 'x' of the
+% specified type of sensor fault detectors. The function
+% 'generate_starting_point' returns an initial configuration 'x'. Based on
+% such a configuration, 'output_detector' produces a sample output, which
+% is evaluated in terms of false-positives and false-negatives. Both values
+% are used for assesing configurations. Due to the genetic algorithm and
+% based on the implementation of the detector dependend functions
+% ('generate_starting_point', 'output_detecotr', 'create_detector') the run
+% time of this function can increase up to several hours.
+
+%% Input Parameters
+%% Bulleted List
+% * 'data': Array of structures with field 'name' specifying the fault type
+% represented by this sample data and field 'data' which contains the
+% sample data. Every entry represents a different fault type. 
+% * 'trigger': Array of structures with field 'name specifying the fault
+% type represented by this sample data and field 'trigger' which is another
+% array consisting of zeros (sample data at the same index in 'data' is not
+% faulty) and ones (sample data at the same index in 'data' is faulty).
+% * 'sampletime': The resulting Simulink model representing the designed
+% detector will have this Sample Time. 
+% * 'max_delay': Defines the maximum delay of an detection result. If a
+% failure occured at time t = 0, the detector will detect it at least at t
+% = 'sampletime' * 'max_delay'. 'max_delay' has to be a natural number.
+% * 'grad_thr': This value is a threshold for limiting the computation time
+% of the optimization algorithm and is used to specify the
+% 'function tolerance' of the genetic algorithm. For more information on
+% this parameter see:
+% <http://de.mathworks.com/help/gads/genetic-algorithm-options.html#f8335
+% FunctionTolerance>
+% * 'path_and_name': Defines the output path and name of the resulting
+% sensor fault detector.
+% * 'path_detector': Defines the path of the used detector. This path is
+% used to search for the detector specific functions
+% 'generate_starting_point', 'output_detector' and 'create_detector'.
+% * 'evaluation_model': Defines the path and the name of the simulink model 
+% used to evaluate the resulting detector in terms of false-negatives and false-positives. 
 
 
 %get function handles

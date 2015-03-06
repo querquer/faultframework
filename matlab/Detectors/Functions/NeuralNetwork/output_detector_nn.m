@@ -6,6 +6,10 @@ function out = output_detector_nn( x, data, trigger)
 %design neural network based on parameters in 'x'
 net = design_nn(x);
 
+if(x(3) < 0)
+    x(3) = 0;
+end
+
 %loop throug every fault type
 sd = size(data);
 st = size(trigger);

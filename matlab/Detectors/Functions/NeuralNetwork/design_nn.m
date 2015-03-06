@@ -22,9 +22,17 @@ end
 %   4: Threshold for limit checking
 %   5-6: Number of neurons per hidden layer
 
+if(x(1) >= 0)
+    net.trainParam.goal = x(1);
+else
+    net.trainParam.goal = 0;
+end
 
-net.trainParam.goal = x(1);
-net.trainParam.epochs = round(x(2)) + 1;
+if(x(2) >= 0)
+    net.trainParam.epochs = round(x(2)) + 1;
+else
+    net.trainParam.epochs = 0;
+end
 
 %Connect inputs to first layer
 net.inputConnect(1,:) = 1;
@@ -32,7 +40,11 @@ net.inputConnect(1,:) = 1;
 
 %Change size of hidden layers
 for i = 1:2
-    net.layers{i,1}.size = round(x(4+i)) + 1;
+    if(x(4+i) >= 0)
+        net.layers{i,1}.size = round(x(4+i)) + 1;
+    else
+        net.layers{i,1}.size = 0;
+    end
 end
 
 end
