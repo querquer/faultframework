@@ -18,7 +18,6 @@ function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger
 % time of this function can increase up to several hours.
 
 %% Input Parameters
-%% Bulleted List
 % * 'data': Array of structures with field 'name' specifying the fault type
 % represented by this sample data and field 'data' which contains the
 % sample data. Every entry represents a different fault type. 
@@ -45,9 +44,18 @@ function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger
 % * 'evaluation_model': Defines the path and the name of the simulink model 
 % used to evaluate the resulting detector in terms of false-negatives and false-positives. 
 
+%% Optional Parameters
+% Using a genetic algorithm to design a sensor fault detector can have a
+% disadvantage concerning the computation time. Depending on the
+% implementation of 'output_detector', which is called for every evaluation
+% made by the genetic algorithm, the computation time can increase.
+% Therefore it can be beneficial to set parameters of the genetic algorithm
+% based on the knowledge about the current type of detector. Hence, an
+% optional function 'set_ga_options' can be implemented which is called
+% right before starting the genetic algorithm.
 
 %get function handles
-[fun_starting_point,fun_config_dependend_output, fun_create] = find_functions(path_detector);
+[fun_starting_point,fun_config_dependend_output, fun_create, fun_ga_options] = find_functions(path_detector);
 
 %generate starting point for optimisation. This function must be
 %implemented by the detector itself.
@@ -84,18 +92,23 @@ end
   
 
 
-%format of x: e.g.: x = [-1.2, 1]. Go to 'generate_starting_point.m' for
-%detail information on a specific detector.
-
+%configure genetic algorithm
 sx = size(x);
 options = gaoptimset('TolFun', grad_thr);
 options = gaoptimset(options,'Display', 'iter');
 options = gaoptimset(options,'UseParallel', true);
+
 if(sx(1,2) <= 5)
     options = gaoptimset(options,'PopulationSize',25);
 else
     options = gaoptimset(options,'PopulationSize',50);
 end
+
+%check whether there are detector specific setting for ga-options
+if(isempty(fun_ga_options) == 0)
+    options = feval(fun_ga_options);
+end
+
     
 [x,fval,exitflag] = ga(@opt_fun,sx(1,2),[],[],[],[],[],[],[],options);
 

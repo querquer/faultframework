@@ -1,6 +1,10 @@
 function [inputfile, outputfile] = prepare_evaluation_model( data, sampletime, detector, evaluation_model)
 %PREPARE_EVALUATION adapts parameter of evaluation model
-%   Detailed explanation goes here
+%   In order to provide some information about the returned detector, we
+%   need to evaluate the resulting Simulink model one last time. This is
+%   done by referencing the created Simulink model inside a separate
+%   evaluation model. Therefore some parameters of this evaluation model
+%   has to be adapted.
 
 %filenames
 if(isunix)

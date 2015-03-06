@@ -1,9 +1,12 @@
 function [fn, fp] = evaluation(trigger, detection, max_delay)
 %EVALUATION calculates false-positve rate and false-negativ rate for all
 %fault types in 'trigger'
-%   Detailed explanation goes here
+%   As we assume that 'trigger', as well as 'detection' containing data for
+%   different fault types, we just check the format of this variables and
+%   determine the false-positives-rates and false-negatives-rates for every
+%   fault type by calling the function 'evaluation_FNFP'. 
 
-%check format
+%check format of input data
 sd = size(detection);
 st = size(trigger);
 

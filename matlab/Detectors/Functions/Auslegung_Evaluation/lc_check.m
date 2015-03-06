@@ -1,6 +1,8 @@
 function det = lc_check( detection, threshold )
-%LC_CHECK Summary of this function goes here
-%   Detailed explanation goes here
+%LC_CHECK checks the every value of 'detection' whether its greater or
+%equal(1) to 'threshold' or smaller(0). Depending on this comparsion a new array
+%consisting of zeros and ones is generated and returned.
+
 sd = size(detection);
 
 det = zeros(sd(1,1), sd(1,2));
