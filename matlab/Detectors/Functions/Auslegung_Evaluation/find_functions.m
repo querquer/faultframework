@@ -50,7 +50,7 @@ if(isempty(file))
    fun_ga_options = [];
 else
     sf = size(file);
-    fun_starting_point = str2func(file(1:sf(1,2)-2));
+    fun_ga_options = str2func(file(1:sf(1,2)-2));
 end
 end
 

@@ -1,4 +1,4 @@
-function x0 = generate_starting_point_nn()
+function x0 = generate_starting_point_nn(num_faults)
 %GENERATE_STARTING_POINT This function returns a starting point for a
 %optimisation-algorithm. 
 %   The automated designing of a sensorfaultdetector is done by applying a

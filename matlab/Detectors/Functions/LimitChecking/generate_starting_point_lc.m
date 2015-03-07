@@ -1,4 +1,4 @@
-function x0 = generate_starting_point_lc()
+function x0 = generate_starting_point_lc(num_faults)
 %GENERATE_STARTING_POINT_LC This function returns a starting point for a
 %optimisation-algorithm. 
 %   The automated designing of a sensorfaultdetector is done by applying a

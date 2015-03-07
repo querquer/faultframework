@@ -59,7 +59,8 @@ function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger
 
 %generate starting point for optimisation. This function must be
 %implemented by the detector itself.
-x = feval(fun_starting_point);
+sd = size(data);
+x = feval(fun_starting_point, sd(1,2));
 
 %try to open a parallelisation pool in order to enable possible
 %sub-routines to make use of it.
@@ -106,7 +107,7 @@ end
 
 %check whether there are detector specific setting for ga-options
 if(isempty(fun_ga_options) == 0)
-    options = feval(fun_ga_options);
+    options = feval(fun_ga_options, options);
 end
 
     
