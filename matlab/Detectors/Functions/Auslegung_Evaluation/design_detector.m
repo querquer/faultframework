@@ -1,7 +1,4 @@
-function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, max_delay, grad_thr, path_and_name, path_detector, evaluation_model)
-%DESIGN_DETECTOR Designs a specific detector by minimizing the false-negatives and false-positives.
-
-%% Design_Detector
+%% DESIGN_DETECTOR 
 % This function represents the core of the automated configuration of a
 % sensor fault detector. The algorithm is based on an optimization
 % algorithm, namely a genetic algorithm. Using the function
@@ -44,8 +41,8 @@ function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger
 % used to evaluate the resulting detector in terms of false-negatives and false-positives. 
 
 %% Optional Parameters
-% Using a genetic algorithm to design a sensor fault detector can have a
-% disadvantage concerning the computation time. Depending on the
+% Using a genetic algorithm to design a sensor fault detector can have
+% disadvantages concerning the computation time. Depending on the
 % implementation of 'output_detector', which is called for every evaluation
 % made by the genetic algorithm, the computation time can increase.
 % Therefore it can be beneficial to set parameters of the genetic algorithm
@@ -53,22 +50,30 @@ function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger
 % optional function 'set_ga_options' can be implemented which is called
 % right before starting the genetic algorithm.
 
+%% Implementation
+
+function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, max_delay, grad_thr, path_and_name, path_detector, evaluation_model)
+
 %get function handles
 [fun_starting_point,fun_config_dependend_output, fun_create, fun_ga_options] = find_functions(path_detector);
 
+%%
 %generate starting point for optimisation. This function must be
 %implemented by the detector itself.
 sd = size(data);
 x = feval(fun_starting_point, sd(1,2));
 
+%%
 %try to open a parallelisation pool in order to enable possible
 %sub-routines to make use of it.
 try
     pool = parpool();
 catch err
 end
-
+%%
+% Definition of fitness-function
     function FNFP = opt_fun(x)
+          
             %get detection results for test data. This function must be
             %implemented by the detector itself.
             %det has to match to the format of 'trigger'
@@ -91,7 +96,7 @@ end
 
   
 
-
+%%
 %configure genetic algorithm
 sx = size(x);
 options = gaoptimset('TolFun', grad_thr);
@@ -109,10 +114,12 @@ if(isempty(fun_ga_options) == 0)
     options = feval(fun_ga_options, options);
 end
 
+%%
+% Start optimization with respect to defined options.
     
 [x,fval,exitflag] = ga(@opt_fun,sx(1,2),[],[],[],[],[],[],[],options);
 
-
+%%
 %create detector as Simulink-Model. This function must be implemented by
 %the detector itself.
 curr_dir = pwd;
@@ -120,7 +127,7 @@ cd(path_detector);
 feval(fun_create, x, data, trigger, max_delay, path_and_name);
 cd(curr_dir);
 
-
+%%
 %use Evaluation.slx to get final fn/fp-rates.
 [path, name] = extract_path(path_and_name);
 addpath(path);

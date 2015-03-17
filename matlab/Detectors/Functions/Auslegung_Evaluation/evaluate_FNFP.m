@@ -1,26 +1,30 @@
-function [fn, fp] = evaluate_FNFP(trigger, detection, max_delay)
-%EVALUATE_FNFP Calculates false-positive-rate and false-negative-rate
-%   Based on the detection results 'detection' and the trigger signal, we
-%   can calculate the false-positives and false-negatives. As some
-%   detection-methods may have a kind of delay, the user can specify the
-%   maximum delay of an detection result.
+%% evaluate_FNFP
+% Based on the detection results "detection" and the trigger signal, we
+% can calculate the false-positives and false-negatives. As some
+% detection-methods may have a kind of delay, the user can specify the
+% maximum delay of an detection result.
 
 %% Evaluate False-Negatives False-Positives
 % This function determines the false-positive-rate as well as the
 % false-negative rate by comparing the detection results('detection') with
 % the correct results('trigger'). Both values are calculated by using
-% the following equations: $$ false-negatives = \frac{f_n}{r_p + f_n} $$ $$ false-positives = \frac{f_p}{r_n + fp}$$
-% where:
+% the following equations: $$ false-negatives = \frac{f_n}{r_p + f_n} $$    $$ false-positives = \frac{f_p}{r_n + fp}$$
+% 
+%
 % * $f_n$: number of false-negatives detections
 % * $f_p$: number of false-positives detections
 % * $r_n$: number of right-negatives detections
-% * $r_p$: number of right-positives detections.
+% * $r_p$: number of right-positives detections
+%
 % Furthermore we have to considere some kind of detection delay, if specified by the
 % user. This is taken into account during determining this values.
 
-%generate vector, where every 1 means: fault was injected, but not
-%detected --> false-negative, every -1 means: fault was detected, but not injected -->
-%false-positive
+function [fn, fp] = evaluate_FNFP(trigger, detection, max_delay)
+
+%%
+% generate vector, where every 1 means: fault was injected, but not
+% detected --> false-negative, every -1 means: fault was detected, but not injected -->
+% false-positive
 res = trigger - detection;
 
 %get size of vector
@@ -45,6 +49,8 @@ fp = 0;
 rp = 0;
 rn = 0;
 
+%% 
+% Determine values of fn, fp, rn, rp
 for i=1:ind
     
     if(res(i) == -1)
@@ -98,8 +104,8 @@ for i=1:ind
     end
 end
 
-
-%convert fn/fp to rates
+%%
+% convert fn/fp to rates
 fn = fn/(rp+fn);
 fp = fp/(rn+fp);
 
