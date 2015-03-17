@@ -7,7 +7,7 @@ function det = output_single_hmm(x,data,trigger)
 
 %number of parts has to be greater then zero
 if(x(1) >=1)
-    nth = x(1);
+    nth = round(x(1));
 else
     nth = 1;
 end
@@ -15,6 +15,12 @@ end
 a = x(2) * double(x(2) > 0);
 %param b
 b = x(3) * double(x(3) > 0);
+
+%window size
+ws = round(x(4));
+if(ws < 1)
+    ws = 1;
+end
 
 sd = size(data);
 seq = ones(1,sd(1,2));
@@ -30,7 +36,17 @@ end
 trigger = trigger + 1;
 [trans_est, emis_est] = hmmestimate(seq,trigger);
 
-det = hmmviterbi(seq,trans_est,emis_est);
+%determine detection output by assuming only a window of size x(4)
+for i=1:sd(1,2)-(ws-1)
+    wseq = seq(:,i:(i+(ws-1)));
+    sdet = hmmviterbi(wseq,trans_est,emis_est);
+    
+    if(i==1)
+        det = sdet;
+    else
+        det = [det , sdet(:, ws)];
+    end
+end
 det = det -1;
 end
 

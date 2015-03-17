@@ -1,6 +1,5 @@
 function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, max_delay, grad_thr, path_and_name, path_detector, evaluation_model)
-%DESIGN_DETECTOR Designs a specific detector by minimizing the
-%false-negatives and false-positives.
+%DESIGN_DETECTOR Designs a specific detector by minimizing the false-negatives and false-positives.
 
 %% Design_Detector
 % This function represents the core of the automated configuration of a

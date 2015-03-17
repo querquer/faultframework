@@ -19,6 +19,8 @@ x(2) = 1;
 %b
 x(3) = 1;
 
+%Window size
+x(4) = 5;
 
 for i = 1:num_faults
     if(i==1)
