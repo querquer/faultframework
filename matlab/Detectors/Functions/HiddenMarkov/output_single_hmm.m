@@ -6,10 +6,10 @@ function det = output_single_hmm(x,data,trigger)
 %partitioning data
 
 %number of parts has to be greater then zero
-if(x(1) >=1)
+if(x(1) >=2)
     nth = round(x(1));
 else
-    nth = 1;
+    nth = 2;
 end
 %param a
 a = x(2) * double(x(2) > 0);

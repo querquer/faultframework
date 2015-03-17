@@ -2,7 +2,7 @@ function  create_detector_hm(x, data, trigger, max_delay, path_and_name)
 %CREATE_DETECTOR_HM Summary of this function goes here
 %   Detailed explanation goes here
 
-tmp = 'current_detector_template';
+tmp = ['current_detector_template' num2str(round(rand*1000))];
 if(exist([tmp '.slx'], 'file'))
     delete([tmp '.slx']);
 end

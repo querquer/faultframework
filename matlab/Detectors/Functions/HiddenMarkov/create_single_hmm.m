@@ -3,10 +3,10 @@ function [ fn, fp ] = create_single_hmm( x, data, trigger, max_delay, path_and_n
 %   Detailed explanation goes here
 
 %get configuration parameters from x
-if(x(1) >=1)
+if(x(1) >=2)
     nth = round(x(1));
 else
-    nth = 1;
+    nth = 2;
 end
 
 %param a
