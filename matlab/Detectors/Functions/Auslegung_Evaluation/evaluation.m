@@ -8,7 +8,7 @@
 % determine the false-positives-rates and false-negatives-rates for every
 % fault type by calling the function 'evaluation_FNFP'.
 
-function [fn, fp] = evaluation(trigger, detection, max_delay)
+function [fn, fp] = evaluation(trigger, detection)
 
 %check format of input data
 sd = size(detection);
@@ -45,7 +45,7 @@ end
 st = size(trigger);
 
 for i = 1:st(1,2)
-    [neg, pos] = evaluate_FNFP(trigger(i).data, detection(i).data, max_delay);
+    [neg, pos] = evaluate_FNFP(trigger(i).data, detection(i).data);
     fn(i).name = trigger(i).name;
     fn(i).fn_rate = neg;
     fp(i).name = trigger(i).name;

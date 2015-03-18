@@ -1,4 +1,4 @@
-function  create_detector_hm(x, data, trigger, max_delay, path_and_name)
+function  create_detector_hm(x, data, trigger, path_and_name)
 %CREATE_DETECTOR_HM Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -23,7 +23,7 @@ for i = 1:st(1,2);
     src = ['hmm_' trigger(i).name num2str(round(rand*1000))];
     %get configuration for specific fault type
     
-    [fn, fp] = create_single_hmm(x((i-1)*nx+1:i*nx), data(i).data, trigger(i).data, max_delay, [src '.slx']);
+    [fn, fp] = create_single_hmm(x((i-1)*nx+1:i*nx), data(i).data, trigger(i).data, [src '.slx']);
     FN(i).name = trigger(i).name;
     FN(i).fn_rate = fn;
     FP(i).name = trigger(i).name;

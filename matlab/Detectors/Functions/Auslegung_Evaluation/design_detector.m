@@ -52,7 +52,7 @@
 
 %% Implementation
 
-function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, max_delay, grad_thr, path_and_name, path_detector, evaluation_model)
+function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
 
 %get function handles
 [fun_starting_point,fun_config_dependend_output, fun_create, fun_ga_options] = find_functions(path_detector);
@@ -79,7 +79,7 @@ end
             %det has to match to the format of 'trigger'
             det = feval(fun_config_dependend_output, x,data, trigger);
             %calculate false-positve and false-negative rate
-            [FN, FP] = evaluation(trigger, det, max_delay);
+            [FN, FP] = evaluation(trigger, det);
             
             %determine one value measuring the performance of the system in
             %order to avoid multi-objectiv optimisation. Possible
@@ -124,7 +124,7 @@ end
 %the detector itself.
 curr_dir = pwd;
 cd(path_detector);
-feval(fun_create, x, data, trigger, max_delay, path_and_name);
+feval(fun_create, x, data, trigger, path_and_name);
 cd(curr_dir);
 
 %%
@@ -133,7 +133,7 @@ cd(curr_dir);
 addpath(path);
 
 out = run_evaluation_model(data, sampletime, name, evaluation_model);
-[FN_final, FP_final] = evaluation(trigger, out, max_delay);
+[FN_final, FP_final] = evaluation(trigger, out);
  
 end
 

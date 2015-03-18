@@ -1,4 +1,4 @@
-function [ fn, fp ] = create_single_hmm( x, data, trigger, max_delay, path_and_name  )
+function [ fn, fp ] = create_single_hmm( x, data, trigger, path_and_name  )
 %CREATE_SINGLE_HMM Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -50,7 +50,7 @@ end
 det = det -1;
 
 
-[fn, fp] = evaluate_FNFP(trigger, det, max_delay);
+[fn, fp] = evaluate_FNFP(trigger, det);
 
 
 %build simulink Model
@@ -74,11 +74,11 @@ set_param([tmp '/Detector_Single_Fault/Delay Line'], 'MaskValues', conf);
 
 %set trans_est
 %construct matrix-string
-str =mat2str(trans_est);
+str =mat2str_hmm(trans_est);
 set_param([tmp '/Detector_Single_Fault/trans_est'], 'Value', str);
 
 %set emis_est
-str =mat2str(emis_est);
+str =mat2str_hmm(emis_est);
 set_param([tmp '/Detector_Single_Fault/emis_est'], 'Value', str);
 
 %set min_data

@@ -1,4 +1,4 @@
-function [FN, FP] = create_detector_nn( x, data, trigger, max_delay, path_and_name  )
+function [FN, FP] = create_detector_nn( x, data, trigger,  path_and_name  )
 %CREATE_DETECTOR_NN Creates a detector for all fault types represented in
 %"data" and "trigger". The designed detector is saved at specified path
 %"path_and_name".
@@ -6,7 +6,7 @@ function [FN, FP] = create_detector_nn( x, data, trigger, max_delay, path_and_na
 %   Detailed explanation goes here
 
 
-tmp = 'current_detector_template';
+tmp = ['current_detector_template' num2str(round(rand*1000))];
 if(exist([tmp '.slx'], 'file'))
     delete([tmp '.slx']);
 end
@@ -15,17 +15,13 @@ copyfile('nn_detector_template.slx', [tmp '.slx']);
 
 
 load_system([tmp '.slx']);
-%determine path from "path_and_name"
-[path, name] = extract_path(path_and_name);
-curr_dir = pwd;
-cd(path);
 
 st = size(trigger);
 for i = 1:st(1,2);
     %create a detector for every single fault type
     disp(trigger(i).name);
     src = ['nn_' trigger(i).name num2str(round(rand*1000))];
-    [fn, fp] = create_single_nn(x, data(i).data, trigger(i).data, max_delay, [src '.slx']);
+    [fn, fp] = create_single_nn(x, data(i).data, trigger(i).data, [src '.slx']);
     FN(i).name = trigger(i).name;
     FN(i).fn_rate = fn;
     FP(i).name = trigger(i).name;
@@ -59,6 +55,11 @@ for i = 1:st(1,2);
     delete([src '.slx']);
     
 end
+
+%determine path from "path_and_name"
+[path, name] = extract_path(path_and_name);
+curr_dir = pwd;
+cd(path);
 
 save_system(tmp, name);
 

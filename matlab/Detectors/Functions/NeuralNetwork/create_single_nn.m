@@ -1,4 +1,4 @@
-function [fn, fp] = create_single_nn( x, data, trigger, max_delay, path_and_name )
+function [fn, fp] = create_single_nn( x, data, trigger, path_and_name )
 %CREATE_DETECTOR creates simulink-model containing a single neural network to detect one fault type. 
 %The neural network is configured based on parameters in 'x'
 %   Detailed explanation goes here
@@ -6,12 +6,12 @@ function [fn, fp] = create_single_nn( x, data, trigger, max_delay, path_and_name
 %Train NN with specific parameters several times and use the best one.
 net = design_nn(x);
 
-[net, fn, fp] = train_nn(net, data, trigger, x(3), x(4), max_delay);
+[net, fn, fp] = train_nn(net, data, trigger, x(3), x(4));
 
 %build simulink Model
 src = gensim(net, -1);
 file = 'nn_template.slx';
-tmp = 'current_template';
+tmp = ['current_template' num2str(round(rand*1000))];
 
 %copy template to generate a file to work on.
 if(exist([tmp '.slx'], 'file'))

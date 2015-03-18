@@ -31,7 +31,7 @@ end
 if(x(2) >= 0)
     net.trainParam.epochs = round(x(2)) + 1;
 else
-    net.trainParam.epochs = 0;
+    net.trainParam.epochs = 1;
 end
 
 %Connect inputs to first layer
@@ -43,7 +43,7 @@ for i = 1:2
     if(x(4+i) >= 0)
         net.layers{i,1}.size = round(x(4+i)) + 1;
     else
-        net.layers{i,1}.size = 0;
+        net.layers{i,1}.size = 1;
     end
 end
 
