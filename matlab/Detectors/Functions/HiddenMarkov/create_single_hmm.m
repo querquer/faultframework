@@ -3,22 +3,12 @@ function [ fn, fp ] = create_single_hmm( x, data, trigger, path_and_name  )
 %   Detailed explanation goes here
 
 %get configuration parameters from x
-if(x(1) >=2)
     nth = round(x(1));
-else
-    nth = 2;
-end
 
-%param a
-a = x(2) * double(x(2) > 0);
-%param b
-b = x(3) * double(x(3) > 0);
 
 %window size
-ws = round(x(4));
-if(ws < 1)
-    ws = 1;
-end
+ws = round(x(2));
+
 
 sd = size(data);
 seq = ones(1,sd(1,2));
@@ -28,7 +18,7 @@ seq = ones(1,sd(1,2));
 
 for i=1:nth-1
 
-    th = get_thresholds(i/nth,a,b, min_data, max_data);
+    th = min_data + (max_data-min_data)*(i/nth);
     seq = seq + double(data >= th);
 end
 

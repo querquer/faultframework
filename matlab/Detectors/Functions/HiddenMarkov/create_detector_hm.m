@@ -1,4 +1,4 @@
-function  create_detector_hm(x, data, trigger, path_and_name)
+function  create_detector_hm(x_list, data, trigger, path_and_name)
 %CREATE_DETECTOR_HM Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -10,20 +10,17 @@ end
 copyfile('hmm_detector_template.slx', [tmp '.slx']);
 
 load_system([tmp '.slx']);
+
 %determine path from "path_and_name"
 [path, name] = extract_path(path_and_name);
 
-
 st = size(trigger);
-sx = size(x);
-nx = sx(1,2)/st(1,2);
-
 for i = 1:st(1,2);
     %create a detector for every single fault type
     src = ['hmm_' trigger(i).name num2str(round(rand*1000))];
     %get configuration for specific fault type
     
-    [fn, fp] = create_single_hmm(x((i-1)*nx+1:i*nx), data(i).data, trigger(i).data, [src '.slx']);
+    [fn, fp] = create_single_hmm(x_list{i}, data(i).data, trigger(i).data, [src '.slx']);
     FN(i).name = trigger(i).name;
     FN(i).fn_rate = fn;
     FP(i).name = trigger(i).name;

@@ -6,21 +6,10 @@ function det = output_single_hmm(x,data,trigger)
 %partitioning data
 
 %number of parts has to be greater then zero
-if(x(1) >=2)
-    nth = round(x(1));
-else
-    nth = 2;
-end
-%param a
-a = x(2) * double(x(2) > 0);
-%param b
-b = x(3) * double(x(3) > 0);
+nth = round(x(1));
 
 %window size
-ws = round(x(4));
-if(ws < 1)
-    ws = 1;
-end
+ws = round(x(2));
 
 sd = size(data);
 seq = ones(1,sd(1,2));
@@ -28,7 +17,7 @@ seq = ones(1,sd(1,2));
 for i=1:nth-1
     min_data = min(data);
     max_data = max(data);
-    th = get_thresholds(i/nth,a,b, min_data, max_data);
+    th = min_data + (max_data-min_data)*(i/nth);
     seq = seq + double(data >= th);
 end
 
@@ -36,7 +25,7 @@ end
 trigger = trigger + 1;
 [trans_est, emis_est] = hmmestimate(seq,trigger);
 
-%determine detection output by assuming only a window of size x(4)
+%determine detection output by assuming only a window of size x(2)
 for i=1:sd(1,2)-(ws-1)
     wseq = seq(:,i:(i+(ws-1)));
     sdet = hmmviterbi(wseq,trans_est,emis_est);

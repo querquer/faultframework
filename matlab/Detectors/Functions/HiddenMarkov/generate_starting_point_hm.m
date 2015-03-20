@@ -1,4 +1,4 @@
-function x0 = generate_starting_point_hm(num_faults)
+function [x0, IntCon, LB, UB, ConstraintFunction] = generate_starting_point_hm()
 %GENERATE_STARTING_POINT Generates a first configuration of a Hidden Markov
 %Model
 
@@ -9,26 +9,21 @@ function x0 = generate_starting_point_hm(num_faults)
 % get the best partition.
 
 % Number of thresholds
-x(1) = 25;
-
-%% Defining thresholds
-% --> using a function
-
-%a
-x(2) = 1;
-%b
-x(3) = 1;
+x0(1) = 25;
 
 %Window size
-x(4) = 5;
+x0(2) = 5;
 
-for i = 1:num_faults
-    if(i==1)
-        x0 = x;
-    else
-        x0 = [x0 x];
-    end
-end
+%% Lower bounds
+LB = [1, 1];
 
+%% Upper bounds
+UB = [500, 100];
+
+%% Integer values
+IntCon = [1,2];
+
+%% Constraint function
+ConstraintFunction = [];
 end
 

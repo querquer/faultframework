@@ -2,7 +2,7 @@ function  create_single_lc(x, path_and_name )
 %CREATE_SINGLE_LC Summary of this function goes here
 %   Detailed explanation goes here
 file = 'lc_template.slx';
-tmp = 'current_template';
+tmp = ['current_template' num2str(round(rand*1000))];
 
 %copy template to generate a file to work on.
 if(exist([tmp '.slx'], 'file'))
@@ -13,21 +13,9 @@ copyfile(file, [tmp '.slx']);
 
 load_system([tmp '.slx']);
 
-
+% determine configuration from 'x'
 windowsize = round(x(3));
-if(windowsize <= 0)
-    windowsize = 1;
-end
-
 fun = round(x(2));
-if(fun <= 0)
-    fun = 1;
-else
-    if(fun > 3)
-        fun = 3;
-    end
-end
-
 threshold = x(1);
     
 %change windowsize
@@ -47,6 +35,7 @@ save_system(tmp, path_and_name);
 
 close_system(tmp, false);
 
+% delete temporarily model
 if(exist([tmp '.slx'], 'file'))
     delete([tmp '.slx']);
 end

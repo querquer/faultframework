@@ -1,4 +1,4 @@
-function [fn, fp] = evaluate_FNFP2(trigger, detection)
+function [fn, fp] = evaluate_FNFP(trigger, detection)
 %EVALUATE_FNFP2 Summary of this function goes here
 %   Detailed explanation goes here
 r = trigger - detection;

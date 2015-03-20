@@ -52,83 +52,90 @@
 
 %% Implementation
 
-function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
+function [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
+
+%% TODO 
+% Implement checking of all input-values in order to be correct formated.
 
 %get function handles
 [fun_starting_point,fun_config_dependend_output, fun_create, fun_ga_options] = find_functions(path_detector);
 
 %%
-%generate starting point for optimisation. This function must be
-%implemented by the detector itself.
-sd = size(data);
-x = feval(fun_starting_point, sd(1,2));
+% try to open a parallelisation pool in order to enable possible
+% sub-routines to make use of it.
+use_parallel = true;
 
-%%
-%try to open a parallelisation pool in order to enable possible
-%sub-routines to make use of it.
 try
-    pool = parpool();
+    if(use_parallel)
+        pool = parpool();
+    end
 catch err
 end
+
 %%
 % Definition of fitness-function
     function FNFP = opt_fun(x)
           
-            %get detection results for test data. This function must be
-            %implemented by the detector itself.
-            %det has to match to the format of 'trigger'
-            det = feval(fun_config_dependend_output, x,data, trigger);
-            %calculate false-positve and false-negative rate
-            [FN, FP] = evaluation(trigger, det);
+            % get detection results for test data. This function must be
+            % implemented by the detector itself.
+            % det has to match to the format of 'trigger'
+            det = feval(fun_config_dependend_output, x ,data(i), trigger(i));
+            % calculate false-positve and false-negative rate
+            [FN, FP] = evaluate_FNFP(trigger(i).data, det.data);
             
-            %determine one value measuring the performance of the system in
-            %order to avoid multi-objectiv optimisation. Possible
-            %future-work: use multi-objectiv optimisation here!
-            sf = size(FN);
-            sum = 0;
-            for i = 1:sf(1,2);
-                sum = sum + (FN(i).fn_rate + FP(i).fp_rate)/2;
-
-            end
+            % determine one value measuring the performance of the system in
+            % order to avoid multi-objectiv optimisation. Possible
+            % future-work: use multi-objectiv optimisation here!
             
-            FNFP = sum/sf(1,2);
+            % Another possibility would be to use F-Score here.
+            FNFP = (FN+FP)/2;
     end
 
+sd = size(data);
+%%
+% generate starting point for optimisation. This function must be
+% implemented by the detector itself.
+for i = 1:sd(1,2)
+    
+    disp_dbg(['Start designing detector for fault type ' data(i).name ]);
+    [x, IntCon, LB, UB, ConstraintFunction] = feval(fun_starting_point);
   
 
-%%
-%configure genetic algorithm
-sx = size(x);
-options = gaoptimset('TolFun', grad_thr);
-options = gaoptimset(options,'Display', 'iter');
-options = gaoptimset(options,'UseParallel', true);
+    %%
+    % configure genetic algorithm
+    sx = size(x);
+    options = gaoptimset('TolFun', grad_thr);
+    options = gaoptimset(options,'Display', 'iter');
+    options = gaoptimset(options,'UseParallel', use_parallel);
 
-if(sx(1,2) <= 5)
-    options = gaoptimset(options,'PopulationSize',25);
-else
-    options = gaoptimset(options,'PopulationSize',50);
+    if(sx(1,2) <= 5)
+        options = gaoptimset(options,'PopulationSize',25);
+    else
+        options = gaoptimset(options,'PopulationSize',50);
+    end
+
+    % check whether there are detector specific setting for ga-options
+    if(isempty(fun_ga_options) == 0)
+        options = feval(fun_ga_options, options);
+    end
+
+    %%
+    % Start optimization with respect to defined options.
+
+    [x,fval,exitflag] = ga(@opt_fun,sx(1,2),[],[],[],[],LB,UB,ConstraintFunction,IntCon,options);
+    x_list{i} = x;
 end
 
-%check whether there are detector specific setting for ga-options
-if(isempty(fun_ga_options) == 0)
-    options = feval(fun_ga_options, options);
-end
-
 %%
-% Start optimization with respect to defined options.
-    
-[x,fval,exitflag] = ga(@opt_fun,sx(1,2),[],[],[],[],[],[],[],options);
-
-%%
-%create detector as Simulink-Model. This function must be implemented by
-%the detector itself.
+% create detector as Simulink-Model. This function must be implemented by
+% the detector itself.
 curr_dir = pwd;
 cd(path_detector);
-feval(fun_create, x, data, trigger, path_and_name);
+feval(fun_create, x_list, data, trigger, path_and_name);
 cd(curr_dir);
 
 %%
-%use Evaluation.slx to get final fn/fp-rates.
+% use Evaluation.slx to get final fn/fp-rates.
 [path, name] = extract_path(path_and_name);
 addpath(path);
 

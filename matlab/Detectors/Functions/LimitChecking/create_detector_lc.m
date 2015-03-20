@@ -1,8 +1,8 @@
-function  create_detector_lc(  x, data, trigger, path_and_name )
+function  create_detector_lc(x_list, data, trigger, path_and_name )
 %CREATE_DETECTOR_LC Summary of this function goes here
 %   Detailed explanation goes here
 
-tmp = 'current_detector_template';
+tmp = ['current_detector_template' num2str(round(rand*1000))];
 if(exist([tmp '.slx'], 'file'))
     delete([tmp '.slx']);
 end
@@ -12,22 +12,17 @@ copyfile('lc_detector_template.slx', [tmp '.slx']);
 
 
 load_system([tmp '.slx']);
-%determine path from "path_and_name"
-[path, name] = extract_path(path_and_name);
-%curr_dir = pwd;
-%cd(path);
+
 
 st = size(trigger);
 for i = 1:st(1,2);
     %create a detector for every single fault type
     disp(trigger(i).name);
     src = ['lc_' trigger(i).name num2str(round(rand*1000))];
-    create_single_lc(x, [src '.slx']);
+    create_single_lc(x_list{i}, [src '.slx']);
 
     %copy trained lc-block into final model of detector
     load_system([src '.slx']);
-    
-    
     
     h = add_block([src '/Subsystem'], [tmp '/' trigger(i).name]);
 
@@ -53,6 +48,12 @@ for i = 1:st(1,2);
     delete([src '.slx']);
     
 end
+
+%determine path from "path_and_name"
+[path, name] = extract_path(path_and_name);
+curr_dir = pwd;
+cd(path);
+
 s = size(name);
 close_system(name(1:s(1,2)-4), false);
 save_system(tmp, path_and_name);
@@ -63,6 +64,6 @@ if(exist([tmp '.slx'], 'file'))
     delete([tmp '.slx']);
 end
 
-%cd(curr_dir);
+cd(curr_dir);
 end
 
