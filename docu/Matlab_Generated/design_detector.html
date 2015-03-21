@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>DESIGN_DETECTOR</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-03-17"><meta name="DC.source" content="design_detector.m"><style type="text/css">
+      --><title>DESIGN_DETECTOR</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-03-21"><meta name="DC.source" content="design_detector.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,84 +66,99 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>DESIGN_DETECTOR</h1><!--introduction--><p>This function represents the core of the automated configuration of a sensor fault detector. The algorithm is based on an optimization algorithm, namely a genetic algorithm. Using the function 'generate_starting_point', 'output_detector' and 'create_detector' allows the optimization algorithm to determine the best configuration 'x' of the specified type of sensor fault detectors. The function 'generate_starting_point' returns an initial configuration 'x'. Based on such a configuration, 'output_detector' produces a sample output, which is evaluated in terms of false-positives and false-negatives. Both values are used for assesing configurations. Due to the genetic algorithm and based on the implementation of the detector dependend functions ('generate_starting_point', 'output_detecotr', 'create_detector') the run time of this function can increase up to several hours.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Input Parameters</a></li><li><a href="#2">Optional Parameters</a></li><li><a href="#3">Implementation</a></li></ul></div><h2>Input Parameters<a name="1"></a></h2><div><ul><li>'data': Array of structures with field 'name' specifying the fault type represented by this sample data and field 'data' which contains the sample data. Every entry represents a different fault type.</li><li>'trigger': Array of structures with field 'name specifying the fault type represented by this sample data and field 'trigger' which is another array consisting of zeros (sample data at the same index in 'data' is not faulty) and ones (sample data at the same index in 'data' is faulty).</li><li>'sampletime': The resulting Simulink model representing the designed detector will have this Sample Time.</li><li>'max_delay': Defines the maximum delay of an detection result. If a failure occured at time t = 0, the detector will detect it at least at t = 'sampletime' * 'max_delay'. 'max_delay' has to be a natural number.</li><li>'grad_thr': This value is a threshold for limiting the computation time of the optimization algorithm and is used to specify the 'function tolerance' of the genetic algorithm. For more information on this parameter see: <a href="http://de.mathworks.com/help/gads/genetic-algorithm-options.html#f8335">FunctionTolerance</a></li><li>'path_and_name': Defines the output path and name of the resulting sensor fault detector.</li><li>'path_detector': Defines the path of the used detector. This path is used to search for the detector specific functions 'generate_starting_point', 'output_detector' and 'create_detector'.</li><li>'evaluation_model': Defines the path and the name of the simulink model used to evaluate the resulting detector in terms of false-negatives and false-positives.</li></ul></div><h2>Optional Parameters<a name="2"></a></h2><p>Using a genetic algorithm to design a sensor fault detector can have disadvantages concerning the computation time. Depending on the implementation of 'output_detector', which is called for every evaluation made by the genetic algorithm, the computation time can increase. Therefore it can be beneficial to set parameters of the genetic algorithm based on the knowledge about the current type of detector. Hence, an optional function 'set_ga_options' can be implemented which is called right before starting the genetic algorithm.</p><h2>Implementation<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, max_delay, grad_thr, path_and_name, path_detector, evaluation_model)
-</pre><pre class="codeinput"><span class="comment">%get function handles</span>
+  </style></head><body><div class="content"><h1>DESIGN_DETECTOR</h1><!--introduction--><p>This function represents the core of the automated configuration of a sensor fault detector. The algorithm is based on an optimization algorithm, namely a genetic algorithm. Beside the optimization of a good configuration, another challenge is to cope with various capabilites of different detector types. Therefore the current implementation finds a single configuration for every fault type and constructs a separate detector for each of them. At the end, all detectors are placed into one simulink model, where the maximum of their outputs is found. This is used as the detection result.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Specifying a detector type</a></li><li><a href="#4">Input Parameters</a></li><li><a href="#5">Optional Parameters</a></li><li><a href="#6">Implementation</a></li><li><a href="#8">TODO</a></li></ul></div><h2>Specifying a detector type<a name="1"></a></h2><p>The user will chose one type out of severals. In order to support as much detector types as possible, one can extend it by implementing new detectors. This can be done by simple specifying at least three functions:</p><div><ul><li>'generate_starting_point*.m',</li><li>'output_detector*.m' and</li><li>'create_detector*.m'.</li></ul></div><p>The star '*' is symbolic and is meant to add a concret name. Using this functions implemented by an expert allows the optimization algorithm to determine the best configuration 'x' of the specified type of sensor fault detectors. The function 'generate_starting_point' returns an initial configuration 'x'. Based on such a configuration, 'output_detector' produces a sample output, which is evaluated in terms of false-positives and false-negatives. Both values are used for assesing configurations. The function 'create_detector' is used to generate a specific simulink model containing a configured detector with respect to a given configuration 'x'. Due to the nature of genetic algorithms and based on the implementation of the detector dependend functions ('generate_starting_point', 'output_detecotr', 'create_detector') the run time of this function can increase up to several hours.</p><h2>Input Parameters<a name="4"></a></h2><div><ul><li>'data': Array of structures with field 'name' specifying the fault type represented by this sample data and field 'data' which contains the sample data. Every entry represents a different fault type.</li><li>'trigger': Array of structures with field 'name specifying the fault type represented by this sample data and field 'trigger' which is another array consisting of zeros (sample data at the same index in 'data' is not faulty) and ones (sample data at the same index in 'data' is faulty).</li><li>'sampletime': The resulting Simulink model representing the designed detector will have this Sample Time.</li><li>'grad_thr': This value is a threshold for limiting the computation time of the optimization algorithm and is used to specify the 'function tolerance' of the genetic algorithm. For more information on this parameter see: <a href="http://de.mathworks.com/help/gads/genetic-algorithm-options.html#f8335">FunctionTolerance</a></li><li>'path_and_name': Defines the output path and name of the resulting sensor fault detector.</li><li>'path_detector': Defines the path of the used detector. This path is used to search for the detector specific functions 'generate_starting_point', 'output_detector' and 'create_detector'.</li><li>'evaluation_model': Defines the path and the name of the simulink model used to evaluate the resulting detector in terms of false-negatives and false-positives.</li></ul></div><h2>Optional Parameters<a name="5"></a></h2><p>Using a genetic algorithm to design a sensor fault detector can have disadvantages concerning the computation time. Depending on the implementation of 'output_detector', which is called for every evaluation made by the genetic algorithm, the computation time can increase. Therefore it can be beneficial to set parameters of the genetic algorithm based on the knowledge about the current type of detector. Hence, an optional function 'set_ga_options' can be implemented which is called right before starting the genetic algorithm.</p><h2>Implementation<a name="6"></a></h2><pre class="codeinput"><span class="keyword">function</span> [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
+</pre><h2>TODO<a name="8"></a></h2><p>Implement checking of all input-values in order to be correct formated.</p><pre class="codeinput"><span class="comment">%get function handles</span>
 [fun_starting_point,fun_config_dependend_output, fun_create, fun_ga_options] = find_functions(path_detector);
-</pre><pre class="codeinput"><span class="comment">%generate starting point for optimisation. This function must be</span>
-<span class="comment">%implemented by the detector itself.</span>
-sd = size(data);
-x = feval(fun_starting_point, sd(1,2));
-</pre><pre class="codeinput"><span class="comment">%try to open a parallelisation pool in order to enable possible</span>
-<span class="comment">%sub-routines to make use of it.</span>
+</pre><p>try to open a parallelisation pool in order to enable possible sub-routines to make use of it.</p><pre class="codeinput">use_parallel = true;
+
 <span class="keyword">try</span>
-    pool = parpool();
+    <span class="keyword">if</span>(use_parallel)
+        pool = parpool();
+    <span class="keyword">end</span>
 <span class="keyword">catch</span> err
 <span class="keyword">end</span>
 </pre><p>Definition of fitness-function</p><pre class="codeinput">    <span class="keyword">function</span> FNFP = opt_fun(x)
 
-            <span class="comment">%get detection results for test data. This function must be</span>
-            <span class="comment">%implemented by the detector itself.</span>
-            <span class="comment">%det has to match to the format of 'trigger'</span>
-            det = feval(fun_config_dependend_output, x,data, trigger);
-            <span class="comment">%calculate false-positve and false-negative rate</span>
-            [FN, FP] = evaluation(trigger, det, max_delay);
+            <span class="comment">% get detection results for test data. This function must be</span>
+            <span class="comment">% implemented by the detector itself.</span>
+            <span class="comment">% det has to match to the format of 'trigger'</span>
+            det = feval(fun_config_dependend_output, x ,data(i), trigger(i));
+            <span class="comment">% calculate false-positve and false-negative rate</span>
+            [FN, FP] = evaluate_FNFP(trigger(i).data, det.data);
 
-            <span class="comment">%determine one value measuring the performance of the system in</span>
-            <span class="comment">%order to avoid multi-objectiv optimisation. Possible</span>
-            <span class="comment">%future-work: use multi-objectiv optimisation here!</span>
-            sf = size(FN);
-            sum = 0;
-            <span class="keyword">for</span> i = 1:sf(1,2);
-                sum = sum + (FN(i).fn_rate + FP(i).fp_rate)/2;
+            <span class="comment">% determine one value measuring the performance of the system in</span>
+            <span class="comment">% order to avoid multi-objectiv optimisation. Possible</span>
+            <span class="comment">% future-work: use multi-objectiv optimisation here!</span>
 
-            <span class="keyword">end</span>
-
-            FNFP = sum/sf(1,2);
+            <span class="comment">% Another possibility would be to use F-Score here.</span>
+            FNFP = (FN+FP)/2;
     <span class="keyword">end</span>
-</pre><pre class="codeinput"><span class="comment">%configure genetic algorithm</span>
-sx = size(x);
-options = gaoptimset(<span class="string">'TolFun'</span>, grad_thr);
-options = gaoptimset(options,<span class="string">'Display'</span>, <span class="string">'iter'</span>);
-options = gaoptimset(options,<span class="string">'UseParallel'</span>, true);
 
-<span class="keyword">if</span>(sx(1,2) &lt;= 5)
-    options = gaoptimset(options,<span class="string">'PopulationSize'</span>,25);
-<span class="keyword">else</span>
-    options = gaoptimset(options,<span class="string">'PopulationSize'</span>,50);
-<span class="keyword">end</span>
+sd = size(data);
+</pre><p>generate starting point for optimisation. This function must be implemented by the detector itself.</p><pre class="codeinput"><span class="keyword">for</span> i = 1:sd(1,2)
+</pre><pre class="codeinput">    disp_dbg([<span class="string">'Start designing detector for fault type '</span> data(i).name ]);
+    [x, IntCon, LB, UB, ConstraintFunction] = feval(fun_starting_point);
+</pre><p>configure genetic algorithm</p><pre class="codeinput">    sx = size(x);
+    options = gaoptimset(<span class="string">'TolFun'</span>, grad_thr);
+    options = gaoptimset(options,<span class="string">'Display'</span>, <span class="string">'iter'</span>);
+    options = gaoptimset(options,<span class="string">'UseParallel'</span>, use_parallel);
 
-<span class="comment">%check whether there are detector specific setting for ga-options</span>
-<span class="keyword">if</span>(isempty(fun_ga_options) == 0)
-    options = feval(fun_ga_options, options);
-<span class="keyword">end</span>
-</pre><p>Start optimization with respect to defined options.</p><pre class="codeinput">[x,fval,exitflag] = ga(@opt_fun,sx(1,2),[],[],[],[],[],[],[],options);
-</pre><pre class="codeinput"><span class="comment">%create detector as Simulink-Model. This function must be implemented by</span>
-<span class="comment">%the detector itself.</span>
-curr_dir = pwd;
+    <span class="keyword">if</span>(sx(1,2) &lt;= 5)
+        options = gaoptimset(options,<span class="string">'PopulationSize'</span>,25);
+    <span class="keyword">else</span>
+        options = gaoptimset(options,<span class="string">'PopulationSize'</span>,50);
+    <span class="keyword">end</span>
+
+    <span class="comment">% check whether there are detector specific setting for ga-options</span>
+    <span class="keyword">if</span>(isempty(fun_ga_options) == 0)
+        options = feval(fun_ga_options, options);
+    <span class="keyword">end</span>
+</pre><p>Start optimization with respect to defined options.</p><pre class="codeinput">    [x,fval,exitflag] = ga(@opt_fun,sx(1,2),[],[],[],[],LB,UB,ConstraintFunction,IntCon,options);
+    x_list{i} = x;
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p>create detector as Simulink-Model. This function must be implemented by the detector itself.</p><pre class="codeinput">curr_dir = pwd;
 cd(path_detector);
-feval(fun_create, x, data, trigger, max_delay, path_and_name);
+feval(fun_create, x_list, data, trigger, path_and_name);
 cd(curr_dir);
-</pre><pre class="codeinput"><span class="comment">%use Evaluation.slx to get final fn/fp-rates.</span>
-[path, name] = extract_path(path_and_name);
+</pre><p>use Evaluation.slx to get final fn/fp-rates.</p><pre class="codeinput">[path, name] = extract_path(path_and_name);
 addpath(path);
 
 out = run_evaluation_model(data, sampletime, name, evaluation_model);
-[FN_final, FP_final] = evaluation(trigger, out, max_delay);
+[FN_final, FP_final] = evaluation(trigger, out);
 </pre><pre class="codeinput"><span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% DESIGN_DETECTOR 
 % This function represents the core of the automated configuration of a
 % sensor fault detector. The algorithm is based on an optimization
-% algorithm, namely a genetic algorithm. Using the function
-% 'generate_starting_point', 'output_detector' and 'create_detector' allows
+% algorithm, namely a genetic algorithm. Beside the optimization of a good 
+% configuration, another challenge is to cope with various capabilites of 
+% different detector types. Therefore the current implementation finds a single
+% configuration for every fault type and constructs a separate detector for each of them.
+% At the end, all detectors are placed into one simulink model, where the 
+% maximum of their outputs is found. This is used as the detection result. 
+
+%% Specifying a detector type
+% The user will chose one type out of severals. In order to support as much 
+% detector types as possible, one can extend it by implementing new detectors. 
+% This can be done by simple specifying at least three functions: 
+%% 
+% * 'generate_starting_point*.m', 
+% * 'output_detector*.m' and 
+% * 'create_detector*.m'. 
+
+%%
+% The star '*' is symbolic and is meant to add a concret name. Using this
+% functions implemented by an expert allows
 % the optimization algorithm to determine the best configuration 'x' of the
 % specified type of sensor fault detectors. The function
 % 'generate_starting_point' returns an initial configuration 'x'. Based on
 % such a configuration, 'output_detector' produces a sample output, which
 % is evaluated in terms of false-positives and false-negatives. Both values
-% are used for assesing configurations. Due to the genetic algorithm and
-% based on the implementation of the detector dependend functions
+% are used for assesing configurations. The function 'create_detector' is 
+% used to generate a specific simulink model containing a configured detector 
+% with respect to a given configuration 'x'. Due to the nature of genetic 
+% algorithms and based on the implementation of the detector dependend functions
 % ('generate_starting_point', 'output_detecotr', 'create_detector') the run
 % time of this function can increase up to several hours.
 
@@ -157,9 +172,6 @@ out = run_evaluation_model(data, sampletime, name, evaluation_model);
 % faulty) and ones (sample data at the same index in 'data' is faulty).
 % * 'sampletime': The resulting Simulink model representing the designed
 % detector will have this Sample Time. 
-% * 'max_delay': Defines the maximum delay of an detection result. If a
-% failure occured at time t = 0, the detector will detect it at least at t
-% = 'sampletime' * 'max_delay'. 'max_delay' has to be a natural number.
 % * 'grad_thr': This value is a threshold for limiting the computation time
 % of the optimization algorithm and is used to specify the
 % 'function tolerance' of the genetic algorithm. For more information on
@@ -186,88 +198,95 @@ out = run_evaluation_model(data, sampletime, name, evaluation_model);
 
 %% Implementation
 
-function [x, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, max_delay, grad_thr, path_and_name, path_detector, evaluation_model)
+function [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
+
+%% TODO 
+% Implement checking of all input-values in order to be correct formated.
 
 %get function handles
 [fun_starting_point,fun_config_dependend_output, fun_create, fun_ga_options] = find_functions(path_detector);
 
 %%
-%generate starting point for optimisation. This function must be
-%implemented by the detector itself.
-sd = size(data);
-x = feval(fun_starting_point, sd(1,2));
+% try to open a parallelisation pool in order to enable possible
+% sub-routines to make use of it.
+use_parallel = true;
 
-%%
-%try to open a parallelisation pool in order to enable possible
-%sub-routines to make use of it.
 try
-    pool = parpool();
+    if(use_parallel)
+        pool = parpool();
+    end
 catch err
 end
+
 %%
 % Definition of fitness-function
     function FNFP = opt_fun(x)
           
-            %get detection results for test data. This function must be
-            %implemented by the detector itself.
-            %det has to match to the format of 'trigger'
-            det = feval(fun_config_dependend_output, x,data, trigger);
-            %calculate false-positve and false-negative rate
-            [FN, FP] = evaluation(trigger, det, max_delay);
+            % get detection results for test data. This function must be
+            % implemented by the detector itself.
+            % det has to match to the format of 'trigger'
+            det = feval(fun_config_dependend_output, x ,data(i), trigger(i));
+            % calculate false-positve and false-negative rate
+            [FN, FP] = evaluate_FNFP(trigger(i).data, det.data);
             
-            %determine one value measuring the performance of the system in
-            %order to avoid multi-objectiv optimisation. Possible
-            %future-work: use multi-objectiv optimisation here!
-            sf = size(FN);
-            sum = 0;
-            for i = 1:sf(1,2);
-                sum = sum + (FN(i).fn_rate + FP(i).fp_rate)/2;
-
-            end
+            % determine one value measuring the performance of the system in
+            % order to avoid multi-objectiv optimisation. Possible
+            % future-work: use multi-objectiv optimisation here!
             
-            FNFP = sum/sf(1,2);
+            % Another possibility would be to use F-Score here.
+            FNFP = (FN+FP)/2;
     end
 
+sd = size(data);
+%%
+% generate starting point for optimisation. This function must be
+% implemented by the detector itself.
+for i = 1:sd(1,2)
+    
+    disp_dbg(['Start designing detector for fault type ' data(i).name ]);
+    [x, IntCon, LB, UB, ConstraintFunction] = feval(fun_starting_point);
   
 
-%%
-%configure genetic algorithm
-sx = size(x);
-options = gaoptimset('TolFun', grad_thr);
-options = gaoptimset(options,'Display', 'iter');
-options = gaoptimset(options,'UseParallel', true);
+    %%
+    % configure genetic algorithm
+    sx = size(x);
+    options = gaoptimset('TolFun', grad_thr);
+    options = gaoptimset(options,'Display', 'iter');
+    options = gaoptimset(options,'UseParallel', use_parallel);
 
-if(sx(1,2) <= 5)
-    options = gaoptimset(options,'PopulationSize',25);
-else
-    options = gaoptimset(options,'PopulationSize',50);
+    if(sx(1,2) <= 5)
+        options = gaoptimset(options,'PopulationSize',25);
+    else
+        options = gaoptimset(options,'PopulationSize',50);
+    end
+
+    % check whether there are detector specific setting for ga-options
+    if(isempty(fun_ga_options) == 0)
+        options = feval(fun_ga_options, options);
+    end
+
+    %%
+    % Start optimization with respect to defined options.
+
+    [x,fval,exitflag] = ga(@opt_fun,sx(1,2),[],[],[],[],LB,UB,ConstraintFunction,IntCon,options);
+    x_list{i} = x;
 end
 
-%check whether there are detector specific setting for ga-options
-if(isempty(fun_ga_options) == 0)
-    options = feval(fun_ga_options, options);
-end
-
 %%
-% Start optimization with respect to defined options.
-    
-[x,fval,exitflag] = ga(@opt_fun,sx(1,2),[],[],[],[],[],[],[],options);
-
-%%
-%create detector as Simulink-Model. This function must be implemented by
-%the detector itself.
+% create detector as Simulink-Model. This function must be implemented by
+% the detector itself.
 curr_dir = pwd;
 cd(path_detector);
-feval(fun_create, x, data, trigger, max_delay, path_and_name);
+feval(fun_create, x_list, data, trigger, path_and_name);
 cd(curr_dir);
 
 %%
-%use Evaluation.slx to get final fn/fp-rates.
+% use Evaluation.slx to get final fn/fp-rates.
 [path, name] = extract_path(path_and_name);
 addpath(path);
 
 out = run_evaluation_model(data, sampletime, name, evaluation_model);
-[FN_final, FP_final] = evaluation(trigger, out, max_delay);
+[FN_final, FP_final] = evaluation(trigger, out);
  
 end
 

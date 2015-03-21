@@ -1,15 +1,34 @@
 %% DESIGN_DETECTOR 
 % This function represents the core of the automated configuration of a
 % sensor fault detector. The algorithm is based on an optimization
-% algorithm, namely a genetic algorithm. Using the function
-% 'generate_starting_point', 'output_detector' and 'create_detector' allows
+% algorithm, namely a genetic algorithm. Beside the optimization of a good 
+% configuration, another challenge is to cope with various capabilites of 
+% different detector types. Therefore the current implementation finds a single
+% configuration for every fault type and constructs a separate detector for each of them.
+% At the end, all detectors are placed into one simulink model, where the 
+% maximum of their outputs is found. This is used as the detection result. 
+
+%% Specifying a detector type
+% The user will chose one type out of severals. In order to support as much 
+% detector types as possible, one can extend it by implementing new detectors. 
+% This can be done by simple specifying at least three functions: 
+%% 
+% * 'generate_starting_point*.m', 
+% * 'output_detector*.m' and 
+% * 'create_detector*.m'. 
+
+%%
+% The star '*' is symbolic and is meant to add a concret name. Using this
+% functions implemented by an expert allows
 % the optimization algorithm to determine the best configuration 'x' of the
 % specified type of sensor fault detectors. The function
 % 'generate_starting_point' returns an initial configuration 'x'. Based on
 % such a configuration, 'output_detector' produces a sample output, which
 % is evaluated in terms of false-positives and false-negatives. Both values
-% are used for assesing configurations. Due to the genetic algorithm and
-% based on the implementation of the detector dependend functions
+% are used for assesing configurations. The function 'create_detector' is 
+% used to generate a specific simulink model containing a configured detector 
+% with respect to a given configuration 'x'. Due to the nature of genetic 
+% algorithms and based on the implementation of the detector dependend functions
 % ('generate_starting_point', 'output_detecotr', 'create_detector') the run
 % time of this function can increase up to several hours.
 
@@ -23,9 +42,6 @@
 % faulty) and ones (sample data at the same index in 'data' is faulty).
 % * 'sampletime': The resulting Simulink model representing the designed
 % detector will have this Sample Time. 
-% * 'max_delay': Defines the maximum delay of an detection result. If a
-% failure occured at time t = 0, the detector will detect it at least at t
-% = 'sampletime' * 'max_delay'. 'max_delay' has to be a natural number.
 % * 'grad_thr': This value is a threshold for limiting the computation time
 % of the optimization algorithm and is used to specify the
 % 'function tolerance' of the genetic algorithm. For more information on
