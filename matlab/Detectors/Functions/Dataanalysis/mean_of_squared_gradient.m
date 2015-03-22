@@ -1,10 +1,12 @@
-function mean = mean_of_squared_gradient( data)
-%MEAN_OF_GRADIENT calculates the mean of the gradient of the signal
-%   The Input 'data' is assumed to be 1-dimensional array representing a
-%   time series of a signal, e.g. a output-signal of a sensor. By
-%   calculating the gradient of the signal in a first step and using matrix
-%   operations in a second step, the mean of the squared gradient is determined.
+%% mean_of_squared_gradient 
+% This function calculates the mean of the gradient of the signal.
+% The Input 'data' is assumed to be 1-dimensional array representing a
+% time series of a signal, e.g. a output-signal of a sensor. By
+% calculating the gradient of the signal in a first step and using matrix
+% operations in a second step, the mean of the squared gradient is determined.
 
+
+function mean = mean_of_squared_gradient( data)
 
     sd = size(data);
     

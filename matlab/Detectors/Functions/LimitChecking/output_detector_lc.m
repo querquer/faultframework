@@ -1,3 +1,11 @@
+%% Example implementation of 'output_detector*.m'
+% This function is meant to compute the configuration dependend output of a
+% detector for a given input 'data'. As some detectors are configured by
+% learning from data, an additional input 'trigger' is provided which
+% contains the classification results. E.g. every faulty timestep in 'data'
+% is marked by a '1' in 'trigger'. Futrhermore every faultfree timestep is
+% marked by a '0'.
+
 function out = output_detector_lc( x, data, trigger )
 %OUTPUT_DETECTOR_LC calculates the output of a detector based on limit
 %checking with respect to configuration "x"
