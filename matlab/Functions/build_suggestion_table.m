@@ -23,9 +23,9 @@ while(failure(1)==0 || failure(2)==0 || failure(3)==0 || failure(4)==0 || failur
     LookupTable(i,2).filter = {'Median_Filter', 'DiscreteFIR_Filter', 'Discrete_Filter', 'None'};
     LookupTable(i,3).filter = {'Median_Filter', 'DiscreteFIR_Filter', 'Discrete_Filter', 'None'};
 
-    LookupTable(i,1).detector = {'LimitChecking_Average', 'LimitChecking_Gradient', 'LimitChecking_RunningMean', 'NN_Detector', 'TDNN_Outlier', 'TDNN_StuckAt', 'None'};
-    LookupTable(i,2).detector = {'LimitChecking_Average', 'LimitChecking_Gradient', 'LimitChecking_RunningMean', 'NN_Detector', 'TDNN_Outlier', 'TDNN_StuckAt', 'None'};
-    LookupTable(i,3).detector = {'LimitChecking_Average', 'LimitChecking_Gradient', 'LimitChecking_RunningMean', 'NN_Detector', 'TDNN_Outlier', 'TDNN_StuckAt', 'None'};
+    LookupTable(i,1).detector = {'LimitChecking', 'NeuralNetwork', 'HiddenMarkovModel', 'None'};
+    LookupTable(i,2).detector = {'LimitChecking', 'NeuralNetwork', 'HiddenMarkovModel', 'None'};
+    LookupTable(i,3).detector = {'LimitChecking', 'NeuralNetwork', 'HiddenMarkovModel', 'None'};
 
 end
 %   save the table
