@@ -16,5 +16,15 @@ line = bi2de(failures);                                     % gives a decimal nu
 detectors = LookupTable.LookupTable(line,dynamic).detector; % get the detector list
 filters = LookupTable.LookupTable(line,dynamic).filter;     % get the filter list
 
+% sort filters and detectors
+
+% sort detectors
+sd = size(detectors);
+for i = 1:sd(1,2)
+    
+end
+
+% sort filters
+
 end
 

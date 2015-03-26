@@ -1,16 +1,17 @@
-﻿Maik:
-	- Prozessmodel erstellen (schwache, mittlere und hohe Dynamik)
-	- Fehlerinjektion in Hauptmodell einfügen + eventuell kleine Anleitung?!
-	- Konzept für GUI und mögliche Umsetzung
-	- weitere Prozessmodelle mit reellem Hintergrund
-	- Fehlerinjektionsframework -> S-Functions anpassen, sodass man nicht zwangsläufig in dem Ordner sein muss
-	- TriggerBus-Objekt: Variablennamen in die Namen der zugehörigen Fehler ändern
-Jonas:
-	- Filter Evaluieren... wie?
-	- Filterparameter automatisch Festlegen
-Georg:
-	- Dokumentation vervollständigen (Tabelle + Theorie)
-	- Implementierung verschiedener Detektoren
-	- Evaluationssmöglichkeiten, Performancemaße festlegen und implementieren
-	- Struktur vom Framework --> Wie können alle Teile möglichst dynamisch ausgetauscht werden?
+Maik:
+	- Trigger-Bus Fehlernamen angeben
+	- Generate Data für default-Modelle (low, middle, high) --> jede Fehlerkombination und in einzelne .mat-Dateien spliten.
+	- low, midle, high-Modelle begrenzter Wertebereich.
+	- are you sure pop-up
+	- set up faults --> impliziert suggest_solution
+	- fault-gui explain generated faults #justsaying
+ 
+	- functionsdefinition:
+		name* (filename/testdata, smapletime, path_to_detector, path_save_new_detector)
 
+Georg/Jonas:
+	- add struct lookup tale
+	- sort sugest_solution
+
+Georg:
+	- classify process model --> thresholds?!

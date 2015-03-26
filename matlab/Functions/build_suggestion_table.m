@@ -19,13 +19,22 @@ while(failure(1)==0 || failure(2)==0 || failure(3)==0 || failure(4)==0 || failur
     LookupTable(i,2).failure_build = failure;
     LookupTable(i,3).failure_build = failure;
     
-    LookupTable(i,1).filter = {'Median_Filter', 'DiscreteFIR_Filter', 'Discrete_Filter', 'None'};
-    LookupTable(i,2).filter = {'Median_Filter', 'DiscreteFIR_Filter', 'Discrete_Filter', 'None'};
-    LookupTable(i,3).filter = {'Median_Filter', 'DiscreteFIR_Filter', 'Discrete_Filter', 'None'};
+    filter.name = 'None';
+    filter.quality = 99;
+    
+    LookupTable(i,1).filter = {filter};
+    LookupTable(i,2).filter = {filter};
+    LookupTable(i,3).filter = {filter};
+    
+    % Default detector
+    detector.name = 'None';
+    detector.fn_rate = 1;
+    detector.fp_rate = 1;
+    detector.path = 'No_Path';
 
-    LookupTable(i,1).detector = {'LimitChecking', 'NeuralNetwork', 'HiddenMarkovModel', 'None'};
-    LookupTable(i,2).detector = {'LimitChecking', 'NeuralNetwork', 'HiddenMarkovModel', 'None'};
-    LookupTable(i,3).detector = {'LimitChecking', 'NeuralNetwork', 'HiddenMarkovModel', 'None'};
+    LookupTable(i,1).detector = {detector};
+    LookupTable(i,2).detector = {detector};
+    LookupTable(i,3).detector = {detector};
 
 end
 %   save the table

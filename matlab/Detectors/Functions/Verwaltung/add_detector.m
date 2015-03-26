@@ -44,6 +44,7 @@ for class = 1:3
         new_detector.fn_rates = FN_final;
         new_detector.fp_rates = FP_final;
         new_detector.name = name_detector;
+        new_detector.path = path_detector;
         
         % Add entry to existing entries
         detectors{sd(1,2) + 1} = new_detector;
