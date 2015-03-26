@@ -19,12 +19,9 @@ while(failure(1)==0 || failure(2)==0 || failure(3)==0 || failure(4)==0 || failur
     LookupTable(i,2).failure_build = failure;
     LookupTable(i,3).failure_build = failure;
     
-    filter.name = 'None';
-    filter.quality = 99;
-    
-    LookupTable(i,1).filter = {filter};
-    LookupTable(i,2).filter = {filter};
-    LookupTable(i,3).filter = {filter};
+    LookupTable(i,1).filter = {};
+    LookupTable(i,2).filter = {};
+    LookupTable(i,3).filter = {};
     
     % Default detector
     detector.name = 'None';

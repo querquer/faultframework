@@ -36,7 +36,7 @@ elseif(strcmp(filter,'DiscreteFIR_Filter'))
     [config, quality, dist] = discretefir_filter();
 elseif(strcmp(filter,'Kalman_Filter'))
     [config, quality, dist] = kalman_filter();
-else    % if ther is no configurationfunction use the default
+else    % if ther is no configurationfunction, use the default
     [config, quality, dist] = none();
 end
 
