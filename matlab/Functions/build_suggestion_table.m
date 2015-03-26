@@ -19,9 +19,18 @@ while(failure(1)==0 || failure(2)==0 || failure(3)==0 || failure(4)==0 || failur
     LookupTable(i,2).failure_build = failure;
     LookupTable(i,3).failure_build = failure;
     
+<<<<<<< HEAD
     LookupTable(i,1).filter = {};
     LookupTable(i,2).filter = {};
     LookupTable(i,3).filter = {};
+=======
+    filter.name = 'None';
+    filter.quality = 99;
+    
+    LookupTable(i,1).filter(1) = filter;
+    LookupTable(i,2).filter(1) = filter;
+    LookupTable(i,3).filter(1) = filter;
+>>>>>>> 814b58c366bddbebcac0a01ba6dbc6a71370fef6
     
     % Default detector
     detector.name = 'None';
@@ -29,9 +38,9 @@ while(failure(1)==0 || failure(2)==0 || failure(3)==0 || failure(4)==0 || failur
     detector.fp_rate = 1;
     detector.path = 'No_Path';
 
-    LookupTable(i,1).detector = {detector};
-    LookupTable(i,2).detector = {detector};
-    LookupTable(i,3).detector = {detector};
+    LookupTable(i,1).detector(1) = detector;
+    LookupTable(i,2).detector(1) = detector;
+    LookupTable(i,3).detector(1) = detector;
 
 end
 %   save the table
