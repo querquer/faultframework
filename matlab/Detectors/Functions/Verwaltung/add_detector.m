@@ -47,10 +47,7 @@ for class = 1:3
         new_detector.path = path_detector;
         
         % Add entry to existing entries
-        detectors{sd(1,2) + 1} = new_detector;
-        
-        % Save LokkupTable to file
-        LoopupTable(line, class).detector = detectors;
+        LoopupTable(line, class).detector(sd(1,2) + 1) = new_detector;
         save(path_and_name_lookup, 'LookupTable');
         
         % Remove temporarily configured detector
