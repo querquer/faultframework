@@ -8,7 +8,7 @@ function set_processModel(model_file)
 load_system('Processmodel.slx');
 
 %set the parameter or the model reference block
-set_param('Processmodel/Process Model' ,'ModelNameDialog', model_file);
+set_param('Processmodel/Processmodel' ,'ModelNameDialog', model_file);
 
 %save the changed system
 close_system('Processmodel.slx',1);
