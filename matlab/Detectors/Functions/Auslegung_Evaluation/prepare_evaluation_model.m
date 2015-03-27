@@ -48,6 +48,7 @@ set_param([modelname '/Model'], 'ModelName', detector);
 set_param([modelname '/From File'], 'FileName', inputfile);
 set_param([modelname '/To File'], 'FileName',outputfile);
 set_param(modelname , 'StopTime', num2str(t-sampletime));
+set_param(modelname, 'FixedStep', num2str(sampletime));
 evalin('base', ['SampleTime = ' num2str(sampletime)]);
 
 save_system([evaluation_model '.slx']);
