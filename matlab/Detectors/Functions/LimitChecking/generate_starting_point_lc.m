@@ -30,14 +30,14 @@ IntCon = [2,3];
 % limited to any values, therefore we assign a '-Inf' to its lower bound.
 % As we only provide some function to chose from, the parameter 'Function'
 % should not be lower then 1, likewise the window size.
-LB = [-Inf, 1, 1];
+LB = [-30, 1, 1];
 
 %% Upper bounds
 % In order to specifie the upper bounds of each parameter, we can define
 % the array 'UB' like we did before. The threshold should not be limited to
 % any value, therefore we assign a 'Inf'. The function parameter is limited
 % up to 3 and the window size should not be greater then 100.
-UB = [Inf, 3, 100 ];
+UB = [30, 3, 100 ];
 
 %% Nonlinear constraints
 % We do not have any nonlinear constraints here. For an example on this,

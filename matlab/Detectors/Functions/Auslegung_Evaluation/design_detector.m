@@ -68,7 +68,7 @@
 
 %% Implementation
 
-function [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
+function [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data_multifault, data_eval_multifault, data_singlefault, trigger_multifault, trigger_eval_multifault, trigger_singlefault, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
 
 %% TODO 
 % Implement checking of all input-values in order to be correct formated.
@@ -91,7 +91,6 @@ end
 %%
 % Definition of fitness-function
     function FNFP = opt_fun(x)
-          
             % get detection results for test data. This function must be
             % implemented by the detector itself.
             % det has to match to the format of 'trigger'
@@ -157,13 +156,13 @@ addpath(path);
 
 data = data_singlefault;
 sd = size(data);
-data(sd(1,2)+1).data = data_multifault(1).data;
-data(sd(1,2)+1).name = 'Multifault';
+data(sd(1,2)+1).data = data_eval_multifault.data;
+data(sd(1,2)+1).name = data_eval_multifault.name;
 
 trigger = trigger_singlefault;
 st = size(trigger);
-trigger(st(1,2) + 1).data = trigger_multifault(1).data;
-trigger(st(1,2) + 1).name = 'Multifault';
+trigger(st(1,2) + 1).data = trigger_eval_multifault.data;
+trigger(st(1,2) + 1).name = trigger_eval_multifault.name;
 out = run_evaluation_model(data, sampletime, name, evaluation_model);
 [FN_final, FP_final] = evaluation(trigger, out);
  
