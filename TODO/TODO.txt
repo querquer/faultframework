@@ -1,5 +1,4 @@
 Maik:
-	- Trigger-Bus Fehlernamen angeben
 	- Generate Data für default-Modelle (low, middle, high) --> jede Fehlerkombination und in einzelne .mat-Dateien spliten.
 	- low, midle, high-Modelle begrenzter Wertebereich.
 	- are you sure pop-up
