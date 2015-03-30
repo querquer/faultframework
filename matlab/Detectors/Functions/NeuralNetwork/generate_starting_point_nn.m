@@ -48,7 +48,7 @@ LB = [0, 1, 1, 0, 1, 1];
 
 %% Upper bounds
 
-UB = [0.5, 1000, 100, 1, 75, 50];
+UB = [0.5, 1000, 25, 1, 15, 10];
 
 %% Nonlineare Constraints
     function [c, ceq] = constraints(x)

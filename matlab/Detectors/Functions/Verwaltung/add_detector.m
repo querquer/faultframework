@@ -17,7 +17,7 @@ for class = 1:3
     for com = 1:8191
         
         % Generate data
-        [data, trigger] = generate_faulty_data_detector(models{class});
+        [data, trigger] = get_classification_data_detector(models{class});
         
         % Configure detector
         if(isunix())

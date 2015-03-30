@@ -14,7 +14,7 @@
 function options = set_ga_options_lc(options)
 
 options = gaoptimset(options,'TolFun', 0.005);
-options = gaoptimset(options,'PopulationSize', 50);
+options = gaoptimset(options,'PopulationSize', 300);
 options = gaoptimset(options,'StallGenLimit', 25);
 
 end

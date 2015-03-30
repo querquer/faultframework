@@ -15,7 +15,7 @@
 		<label>time correlated offset</label>
 		<id>1</id>
         <activation>0</activation>
-		<permanent>1</permanent>
+		<permanent>0</permanent>
 		<correlation>sin(x)</correlation>
 		<amplitude type='param'>5</amplitude>
 	</fault>
@@ -36,7 +36,7 @@
 		<label>time correlated noise</label>
 		<id>3</id>
         <activation>0</activation>
-		<permanent>1</permanent>
+		<permanent>0</permanent>
         <occurrence>0.2</occurrence>
         <correlation>cos(x)</correlation>
         <factor type='param'>3</factor>
@@ -47,14 +47,14 @@
 		<label>const offset</label>
 		<id>4</id>
         <activation>0</activation>
-		<permanent>1</permanent>
+		<permanent>0</permanent>
 		<amplitude type='param'>8</amplitude>
 	</fault>
     <fault>
         <!-- constant noise; f(x) = noise(distribution)*factor -->
         <label>const noise</label>
 		<id>5</id>
-        <activation>0</activation>
+        <activation>1</activation>
 		<permanent>0</permanent>
         <occurrence>0.2</occurrence>
 		<factor type='param'>3</factor>
@@ -64,7 +64,7 @@
         <!-- outlier; f(x)= rand*amplitude ; negative = 0, positive outlier, negative = 1, positive and negative outlier -->
 		<label>outlier</label>
 		<id>6</id>
-        <activation>0</activation>
+        <activation>1</activation>
 		<permanent>0</permanent>
         <occurrence>0.2</occurrence>
 		<amplitude type='param'>10</amplitude>
@@ -85,7 +85,7 @@
         <!-- stuck at zero; f(x)= 0 -->
 		<label>stuck at zero</label>
 		<id>8</id>
-        <activation>0</activation>
+        <activation>1</activation>
 		<permanent>0</permanent>
         <occurrence>0.015</occurrence>
 		<length type='param'>0.2</length>
@@ -94,7 +94,7 @@
         <!-- stuck at x; f(x)= (top-bottom)*rand+bottom, positive outlier, negative = 1, positive and negative outlier -->
 		<label>stuck at x</label>
 		<id>9</id>
-        <activation>0</activation>
+        <activation>1</activation>
 		<permanent>0</permanent>
         <occurrence>0.015</occurrence>
 		<top type='param'>15</top>
@@ -123,7 +123,7 @@
 		<label>time correlated delay</label>
 		<id>12</id>
         <activation>0</activation>
-		<permanent>1</permanent>
+		<permanent>0</permanent>
 		<correlation>sin(x)+cos(x)</correlation>
 		<delay type='param'>2</delay>
 	</fault>

@@ -25,7 +25,8 @@ for i = 1:sd(1,2)
     det = f.data(2,:);
     
     out(i).name = data(i).name;
-    out(i).data = det;
+    sd = size(det);
+    out(i).data = [det(1,2:sd(1,2)),0];
     
     % Delete temporary files
     delete(inputfile, outputfile);

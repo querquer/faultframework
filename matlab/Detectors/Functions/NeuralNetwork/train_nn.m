@@ -23,7 +23,7 @@ for i = 1:10
     det = sim(n, inp);
     det = lc_check(det, lc_thr);
     st = size(trigger);
-    [fn, fp] = evaluate_FNFP(trigger(1,round(windowsize) + 1:st(1,2)), det);
+    [fn, fp] = calculate_fnfp(trigger(1,round(windowsize) + 1:st(1,2)), det);
     
     %check, whether its better or not
     if(exist('best_net', 'var'))

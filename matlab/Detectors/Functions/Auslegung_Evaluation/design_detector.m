@@ -68,7 +68,7 @@
 
 %% Implementation
 
-function [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
+function [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data_multifault, data_eval_multifault, data_singlefault, trigger_multifault, trigger_eval_multifault, trigger_singlefault, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
 
 %% TODO 
 % Implement checking of all input-values in order to be correct formated.
@@ -91,13 +91,12 @@ end
 %%
 % Definition of fitness-function
     function FNFP = opt_fun(x)
-          
             % get detection results for test data. This function must be
             % implemented by the detector itself.
             % det has to match to the format of 'trigger'
-            det = feval(fun_config_dependend_output, x ,data(i), trigger(i));
+            det = feval(fun_config_dependend_output, x ,data_multifault(i), trigger_multifault(i));
             % calculate false-positve and false-negative rate
-            [FN, FP] = evaluate_FNFP(trigger(i).data, det.data);
+            [FN, FP] = calculate_fnfp(trigger_multifault(i).data, det.data);
             
             % determine one value measuring the performance of the system in
             % order to avoid multi-objectiv optimisation. Possible
@@ -107,13 +106,13 @@ end
             FNFP = (FN+FP)/2;
     end
 
-sd = size(data);
+sd = size(data_multifault);
 %%
 % generate starting point for optimisation. This function must be
 % implemented by the detector itself.
 for i = 1:sd(1,2)
     
-    disp_dbg(['Start designing detector for fault type ' data(i).name ]);
+    disp_dbg(['Start designing detector for fault type ' data_multifault(i).name ]);
     [x, IntCon, LB, UB, ConstraintFunction] = feval(fun_starting_point);
   
 
@@ -147,7 +146,7 @@ end
 % the detector itself.
 curr_dir = pwd;
 cd(path_detector);
-feval(fun_create, x_list, data, trigger, path_and_name);
+feval(fun_create, x_list, data_multifault, trigger_multifault, path_and_name);
 cd(curr_dir);
 
 %%
@@ -155,6 +154,15 @@ cd(curr_dir);
 [path, name] = extract_path(path_and_name);
 addpath(path);
 
+data = data_singlefault;
+sd = size(data);
+data(sd(1,2)+1).data = data_eval_multifault.data;
+data(sd(1,2)+1).name = data_eval_multifault.name;
+
+trigger = trigger_singlefault;
+st = size(trigger);
+trigger(st(1,2) + 1).data = trigger_eval_multifault.data;
+trigger(st(1,2) + 1).name = trigger_eval_multifault.name;
 out = run_evaluation_model(data, sampletime, name, evaluation_model);
 [FN_final, FP_final] = evaluation(trigger, out);
  
