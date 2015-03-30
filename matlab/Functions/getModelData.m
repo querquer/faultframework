@@ -43,9 +43,5 @@ end
 % Close system
 close_system(pmodel, false);
 
-% Delete 'gendata'
-evalin('base', 'clear gendata');
-
-
 end
 
