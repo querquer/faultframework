@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<injection>
+   <campaign>
+      <label>no faults</label>
+      <id>0</id>
+      <file>Faultinjection/XML/faultKonf_Eva01.xml</file>
+      <description> do not change </description>
+   </campaign>
+   <global>
+      <fault activation="0" id="2" occ="0.002">value correlated noise</fault>
+      <fault activation="0" id="3" occ="0.002">time correlated noise</fault>
+      <fault activation="0" id="5" occ="0.05">const noise</fault>
+      <fault activation="0" id="6" occ="0.002">outlier</fault>
+      <fault activation="0" id="7" occ="0.002">spike</fault>
+      <fault activation="0" id="8" occ="0.002">stuck at zero</fault>
+      <fault activation="0" id="9" occ="0.002">stuck at x</fault>
+   </global>
+</injection>
