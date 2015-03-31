@@ -56,10 +56,28 @@ end
 
 detectors = sorted_detectors;
 
-% sort filters
+%% sort filters
+% filters are sorted by the quality. If the quality of two filters is equal
+% the decision is made by the average distance (dist). 
+% The sorting algorithm is a bubblesort.
+
 sf = size(filters);
-for i = 1:sf(1,2)
-    
+for m = 1:sf(1,2)
+    for n = 1:(sf(1,2)-1)
+        if filters(n).quality > filters(n+1).quality
+            % swap
+            anna = filters(n);
+            filters(n) = filters(n+1);
+            filters(n+1) = anna;
+        elseif filters(n).quality == filters(n+1).quality
+            if filters(n).dist > filters(n+1).dist
+                % swap
+                anna = filters(n);
+                filters(n) = filters(n+1);
+                filters(n+1) = anna;
+            end
+        end
+    end
 end
 
 end

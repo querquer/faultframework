@@ -19,19 +19,14 @@ while(failure(1)==0 || failure(2)==0 || failure(3)==0 || failure(4)==0 || failur
     LookupTable(i,2).failure_build = failure;
     LookupTable(i,3).failure_build = failure;
     
-<<<<<<< HEAD
-    LookupTable(i,1).filter = {};
-    LookupTable(i,2).filter = {};
-    LookupTable(i,3).filter = {};
-=======
-    filter.name = 'None';
+    filter.name = 'donNotUseThisFilter';
     filter.quality = 99;
+    filter.dist = 99;
     
     LookupTable(i,1).filter(1) = filter;
     LookupTable(i,2).filter(1) = filter;
     LookupTable(i,3).filter(1) = filter;
->>>>>>> 814b58c366bddbebcac0a01ba6dbc6a71370fef6
-    
+
     % Default detector
     detector.name = 'None';
     detector.fn_rate = 1;
