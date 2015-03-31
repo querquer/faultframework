@@ -83,8 +83,12 @@ gui_faultlist;
 
 % --- Executes on button press in pushbutton2.
 function pushbutton2_Callback(hObject, eventdata, handles)
-runScheduleMode;
-convertFaultyData;
+des = gui_continue();
+if(des == 1)
+    runScheduleMode;
+	convertFaultyData;
+end
+
 % hObject    handle to pushbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -398,11 +402,14 @@ end
 
 % --- Executes on button press in pushbutton20.
 function pushbutton20_Callback(hObject, eventdata, handles)
-try
-    sel_filter = evalin('base','sel_filter');
-    set_filter(sel_filter);
-catch
-    display('Error: Missing Data for Start Design Filter!')
+des = gui_continue();
+if(des == 1)
+    try
+        sel_filter = evalin('base','sel_filter');
+        set_filter(sel_filter);
+    catch
+        display('Error: Missing Data for Start Design Filter!')
+    end
 end
 % hObject    handle to pushbutton20 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -411,7 +418,8 @@ end
 
 % --- Executes on button press in pushbutton18.
 function pushbutton18_Callback(hObject, eventdata, handles)
-if(1 == 0)
+des = gui_continue();
+if(des == 1)
     try
         data_multifault = evalin('base','data_multifault');
         data_singlefault = evalin('base','data_singlefault');
