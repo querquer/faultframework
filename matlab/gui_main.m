@@ -420,6 +420,7 @@ if(1 == 0)
         sampletime = evalin('base','sampletime');
         path_and_name = evalin('base','path_and_name');
         path_detector = evalin('base','path_detector');
+        display('Start Design Detector');
         start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, sampletime, path_and_name, path_detector);
     catch
         display('Error: Missing Data for Start Design Detector!')
