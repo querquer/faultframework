@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 25-Mar-2015 18:55:41
+% Last Modified by GUIDE v2.5 31-Mar-2015 14:11:16
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -173,17 +173,6 @@ plotFaultyData;
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton4.
-function pushbutton4_Callback(hObject, eventdata, handles)
-try
-    set_processModel(evalin('base','processModelName'));
-catch
-    display('Error: Could not load process model!');
-end
-% hObject    handle to pushbutton4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
 
 
 function edit6_Callback(hObject, eventdata, handles)
@@ -212,10 +201,10 @@ end
 % --- Executes on button press in pushbutton5.
 function pushbutton5_Callback(hObject, eventdata, handles)
 try
-    classify_processmodel((evalin('base','processModelName')),(evalin('base','SimLength')));
+    prozess_dynamic = classify_processmodel((evalin('base','processModelName')),(evalin('base','SimLength')));
+    assignin('base','prozess_dynamic',prozess_dynamic);
 catch 
     display('Error: Could not classify the process model!');
-    
 end
 
 % hObject    handle to pushbutton5 (see GCBO)
@@ -378,6 +367,8 @@ items = get(hObject,'String');
 index_selected = get(hObject,'Value');
 item_selected = items{index_selected};
 set_processModel(item_selected);
+assignin('base','processModelName',item_selected);
+assignin('base','path_and_name',strcat('ProzessModel/',item_selected));
 % hObject    handle to popupmenu5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -414,6 +405,90 @@ function pushbutton20_Callback(hObject, eventdata, handles)
 
 % --- Executes on button press in pushbutton18.
 function pushbutton18_Callback(hObject, eventdata, handles)
+if(1 == 0)
+    try
+        data_multifault = evalin('base','data_multifault');
+        data_singlefault = evalin('base','data_singlefault');
+        trigger_multifault = evalin('base','trigger_multifault');
+        trigger_singlefault = evalin('base','trigger_singlefault');
+        sampletime = evalin('base','sampletime');
+        path_and_name = evalin('base','path_and_name');
+        path_detector = evalin('base','path_detector');
+        start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, sampletime, path_and_name, path_detector);
+    catch
+        display('Error: Missing Data for Start Design Detector!')
+    end
+end
 % hObject    handle to pushbutton18 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton21.
+function pushbutton21_Callback(hObject, eventdata, handles)
+try
+    failures = evalin('base','act_vec');
+catch
+    display('Error: Could not find a Fault Konfiguration');
+end
+try
+    dynamic = evalin('base','prozess_dynamic');
+catch
+    display('Error: Could not find a Prozess Model. Please run Classify Prozessmodel!');
+end
+sug_sol = suggest_solution( dynamic, failures);
+%assignin('base','sug_sol',sug_sol);
+
+%% update detector table table
+detectorTable = findobj(gcf,'Tag','detectorTable');
+
+for idx=1:length(sug_sol)
+    det_cell{idx,1} = sug_sol{idx,1}.name;
+    det_cell{idx,2} = sug_sol{idx,1}.fn_rate;
+    det_cell{idx,3} = sug_sol{idx,1}.fp_rate;
+    det_cell{idx,4} = sug_sol{idx,1}.path;
+end
+
+set(detectorTable,'data',det_cell);
+
+%% update filter table
+filterTable = findobj(gcf,'Tag','filterTable');
+
+for idx=1:length(sug_sol)
+    fil_cell{idx,1} = sug_sol{idx,1}.name;
+    fil_cell{idx,2} = sug_sol{idx,1}.fn_rate;
+    fil_cell{idx,3} = sug_sol{idx,1}.fp_rate;
+    fil_cell{idx,4} = sug_sol{idx,1}.path;
+end
+
+set(filterTable,'data',fil_cell);
+% hObject    handle to pushbutton21 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+% --- Executes during object creation, after setting all properties.
+function detectorTable_CreateFcn(hObject, eventdata, handles)
+
+% hObject    handle to detectorTable (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes when selected cell(s) is changed in detectorTable.
+function detectorTable_CellSelectionCallback(hObject, eventdata, handles)
+data = get(hObject,'Data');
+indices = eventdata.Indices;
+r = indices(:,1);
+c = indices(:,2);
+linear_index = sub2ind(size(data),r,c);
+selected_vals = data(linear_index);
+path_detector = data{r,4};
+assignin('base','path_detector',path_detector);
+%path_detector
+%selection_sum = sum(sum(selected_vals))
+% hObject    handle to detectorTable (see GCBO)
+% eventdata  structure with the following fields (see UITABLE)
+%	Indices: row and column indices of the cell(s) currently selecteds
 % handles    structure with handles and user data (see GUIDATA)

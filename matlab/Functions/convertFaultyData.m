@@ -56,7 +56,6 @@ end
 
 if(debugMode == 1)
     assignin('base','faulty_data_struct',faulty_data_struct);
-    display('faulty_data_struct');
 end
 
 %% fill data_singlefault
@@ -75,7 +74,6 @@ end
 
 if(debugMode == 1)
     assignin('base','data_singlefault',data_singlefault);
-    display('data_singlefault');
 end
 
 %% trigger convert to array
@@ -97,7 +95,6 @@ trigger_arr(13).data = double(trigger_struct(1).time_correlated_delay.data);
 
 if(debugMode == 1)
     assignin('base','trigger_arr',trigger_arr);
-    display('trigger_arr');
 end
 
 %% fill trigger_singlefault
@@ -129,7 +126,6 @@ end
 
 if(debugMode == 1)
     assignin('base','trigger_singlefault',trigger_singlefault);
-    display('trigger_singlefault');
 end
 
 
@@ -139,7 +135,6 @@ data_multifault = transpose(faulty_data_struct(num_data).value.Data);
 
 if(debugMode == 1)
     assignin('base','data_multifault',data_multifault);
-    display('data_multifault');
 end
 
 %% fill trigger_multifault
@@ -162,6 +157,5 @@ end
 
 if(debugMode == 1)
     assignin('base','trigger_multifault',trigger_multifault);
-    display('trigger_multifault');
 end
 
