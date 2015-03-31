@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 31-Mar-2015 14:11:16
+% Last Modified by GUIDE v2.5 31-Mar-2015 14:37:37
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -398,6 +398,12 @@ end
 
 % --- Executes on button press in pushbutton20.
 function pushbutton20_Callback(hObject, eventdata, handles)
+try
+    sel_filter = evalin('base','sel_filter');
+    set_filter(sel_filter);
+catch
+    display('Error: Missing Data for Start Design Filter!')
+end
 % hObject    handle to pushbutton20 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -489,6 +495,22 @@ assignin('base','path_detector',path_detector);
 %path_detector
 %selection_sum = sum(sum(selected_vals))
 % hObject    handle to detectorTable (see GCBO)
+% eventdata  structure with the following fields (see UITABLE)
+%	Indices: row and column indices of the cell(s) currently selecteds
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes when selected cell(s) is changed in filterTable.
+function filterTable_CellSelectionCallback(hObject, eventdata, handles)
+data = get(hObject,'Data');
+indices = eventdata.Indices;
+r = indices(:,1);
+c = indices(:,2);
+linear_index = sub2ind(size(data),r,c);
+selected_vals = data(linear_index);
+sel_filter = data{r,1};
+assignin('base','sel_filter',sel_filter);
+% hObject    handle to filterTable (see GCBO)
 % eventdata  structure with the following fields (see UITABLE)
 %	Indices: row and column indices of the cell(s) currently selecteds
 % handles    structure with handles and user data (see GUIDATA)
