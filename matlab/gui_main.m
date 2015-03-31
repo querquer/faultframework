@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 31-Mar-2015 14:37:37
+% Last Modified by GUIDE v2.5 31-Mar-2015 17:35:24
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -73,42 +73,42 @@ function varargout = main_gui_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
-% --- Executes on button press in pushbutton1.
-function pushbutton1_Callback(hObject, eventdata, handles)
+% --- Executes on button press in pushbutton_setfault.
+function pushbutton_setfault_Callback(hObject, eventdata, handles)
 gui_faultlist;
-% hObject    handle to pushbutton1 (see GCBO)
+% hObject    handle to pushbutton_setfault (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton2.
-function pushbutton2_Callback(hObject, eventdata, handles)
+% --- Executes on button press in pushbutton_gentestdata.
+function pushbutton_gentestdata_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
     runScheduleMode;
 	convertFaultyData;
 end
 
-% hObject    handle to pushbutton2 (see GCBO)
+% hObject    handle to pushbutton_gentestdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
 
-function edit3_Callback(hObject, eventdata, handles)
+function edit_simlength_Callback(hObject, eventdata, handles)
 assignin('base','SimLength', str2double(get(hObject,'string')));
-% hObject    handle to edit3 (see GCBO)
+% hObject    handle to edit_simlength (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit3 as text
-%        str2double(get(hObject,'String')) returns contents of edit3 as a double
+% Hints: get(hObject,'String') returns contents of edit_simlength as text
+%        str2double(get(hObject,'String')) returns contents of edit_simlength as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit3_CreateFcn(hObject, eventdata, handles)
+function edit_simlength_CreateFcn(hObject, eventdata, handles)
 assignin('base','SimLength', 10);
-% hObject    handle to edit3 (see GCBO)
+% hObject    handle to edit_simlength (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -120,20 +120,20 @@ end
 
 
 
-function edit4_Callback(hObject, eventdata, handles)
+function edit_sampletime_Callback(hObject, eventdata, handles)
 assignin('base','SampleTime', str2double(get(hObject,'string')));
-% hObject    handle to edit4 (see GCBO)
+% hObject    handle to edit_sampletime (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit4 as text
-%        str2double(get(hObject,'String')) returns contents of edit4 as a double
+% Hints: get(hObject,'String') returns contents of edit_sampletime as text
+%        str2double(get(hObject,'String')) returns contents of edit_sampletime as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit4_CreateFcn(hObject, eventdata, handles)
+function edit_sampletime_CreateFcn(hObject, eventdata, handles)
 assignin('base','SampleTime', 0.01);
-% hObject    handle to edit4 (see GCBO)
+% hObject    handle to edit_sampletime (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -145,20 +145,20 @@ end
 
 
 
-function edit5_Callback(hObject, eventdata, handles)
+function edit_globalseed_Callback(hObject, eventdata, handles)
 assignin('base','GlobalSeed', str2double(get(hObject,'string')));
-% hObject    handle to edit5 (see GCBO)
+% hObject    handle to edit_globalseed (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit5 as text
-%        str2double(get(hObject,'String')) returns contents of edit5 as a double
+% Hints: get(hObject,'String') returns contents of edit_globalseed as text
+%        str2double(get(hObject,'String')) returns contents of edit_globalseed as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit5_CreateFcn(hObject, eventdata, handles)
+function edit_globalseed_CreateFcn(hObject, eventdata, handles)
 assignin('base','GlobalSeed', 10);
-% hObject    handle to edit5 (see GCBO)
+% hObject    handle to edit_globalseed (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -202,8 +202,8 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton5.
-function pushbutton5_Callback(hObject, eventdata, handles)
+% --- Executes on button press in pushbutton_classify.
+function pushbutton_classify_Callback(hObject, eventdata, handles)
 try
     prozess_dynamic = classify_processmodel((evalin('base','processModelName')),(evalin('base','SimLength')));
     assignin('base','prozess_dynamic',prozess_dynamic);
@@ -211,21 +211,21 @@ catch
     display('Error: Could not classify the process model!');
 end
 
-% hObject    handle to pushbutton5 (see GCBO)
+% hObject    handle to pushbutton_classify (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton1.
+% --- Executes on button press in pushbutton_setfault.
 function pushbutton6_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
+% hObject    handle to pushbutton_setfault (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton2.
+% --- Executes on button press in pushbutton_gentestdata.
 function pushbutton7_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton2 (see GCBO)
+% hObject    handle to pushbutton_gentestdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -239,30 +239,30 @@ function pushbutton8_Callback(hObject, eventdata, handles)
 
 
 
-% --- Executes on selection change in popupmenu1.
-function popupmenu1_Callback(hObject, eventdata, handles)
+% --- Executes on selection change in popupmenu_faultkonf.
+function popupmenu_faultkonf_Callback(hObject, eventdata, handles)
 items = get(hObject,'String');
 index_selected = get(hObject,'Value');
 item_selected = items{index_selected};
 loadFaultKonf(item_selected);
 countFaults(item_selected);
-% hObject    handle to popupmenu1 (see GCBO)
+% hObject    handle to popupmenu_faultkonf (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu1 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu1
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_faultkonf contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_faultkonf
 
 
 % --- Executes during object creation, after setting all properties.
-function popupmenu1_CreateFcn(hObject, eventdata, handles)
+function popupmenu_faultkonf_CreateFcn(hObject, eventdata, handles)
 try
     konf_array = find_konfiguration('Faultinjection/XML');
 catch
     konf_array = 'no konfiguration found';
 end
 set(hObject,'String',konf_array);
-% hObject    handle to popupmenu1 (see GCBO)
+% hObject    handle to popupmenu_faultkonf (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -365,31 +365,31 @@ function pushbutton17_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on selection change in popupmenu5.
-function popupmenu5_Callback(hObject, eventdata, handles)
+% --- Executes on selection change in popupmenu_pm.
+function popupmenu_pm_Callback(hObject, eventdata, handles)
 items = get(hObject,'String');
 index_selected = get(hObject,'Value');
 item_selected = items{index_selected};
 set_processModel(item_selected);
 assignin('base','processModelName',item_selected);
 assignin('base','path_and_name',strcat('ProzessModel/',item_selected));
-% hObject    handle to popupmenu5 (see GCBO)
+% hObject    handle to popupmenu_pm (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu5 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu5
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_pm contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_pm
 
 
 % --- Executes during object creation, after setting all properties.
-function popupmenu5_CreateFcn(hObject, eventdata, handles)
+function popupmenu_pm_CreateFcn(hObject, eventdata, handles)
 try
     model_array = find_models('ProcessModel');
 catch
     model_array = 'no model found';
 end
 set(hObject,'String',model_array);
-% hObject    handle to popupmenu5 (see GCBO)
+% hObject    handle to popupmenu_pm (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -400,8 +400,8 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton20.
-function pushbutton20_Callback(hObject, eventdata, handles)
+% --- Executes on button press in pushbutton_desfil.
+function pushbutton_desfil_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
     try
@@ -411,13 +411,13 @@ if(des == 1)
         display('Error: Missing Data for Start Design Filter!')
     end
 end
-% hObject    handle to pushbutton20 (see GCBO)
+% hObject    handle to pushbutton_desfil (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton18.
-function pushbutton18_Callback(hObject, eventdata, handles)
+% --- Executes on button press in pushbutton_desdet.
+function pushbutton_desdet_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
     try
@@ -434,22 +434,30 @@ if(des == 1)
         display('Error: Missing Data for Start Design Detector!')
     end
 end
-% hObject    handle to pushbutton18 (see GCBO)
+% hObject    handle to pushbutton_desdet (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton21.
-function pushbutton21_Callback(hObject, eventdata, handles)
+% --- Executes on button press in pushbutton_sugsol.
+function pushbutton_sugsol_Callback(hObject, eventdata, handles)
 try
     failures = evalin('base','act_vec');
-catch
-    display('Error: Could not find a Fault Konfiguration');
+catch ME
+    msgID = 'sugSol:NoActVec';
+    msg = 'Could not find variable: act_vec. Please set up a fault konfiguration at first!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
 end
 try
     dynamic = evalin('base','prozess_dynamic');
-catch
-    display('Error: Could not find a Prozess Model. Please run Classify Prozessmodel!');
+catch ME
+    msgID = 'sugSol:NoDynamic';
+    msg = 'Could not find variable: prozess_dynamic. Please run classify processmodel at first!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
 end
 sug_sol = suggest_solution( dynamic, failures);
 %assignin('base','sug_sol',sug_sol);
@@ -477,7 +485,7 @@ for idx=1:length(sug_sol)
 end
 
 set(filterTable,'data',fil_cell);
-% hObject    handle to pushbutton21 (see GCBO)
+% hObject    handle to pushbutton_sugsol (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -522,4 +530,32 @@ assignin('base','sel_filter',sel_filter);
 % hObject    handle to filterTable (see GCBO)
 % eventdata  structure with the following fields (see UITABLE)
 %	Indices: row and column indices of the cell(s) currently selecteds
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton22.
+function pushbutton22_Callback(hObject, eventdata, handles)
+path_and_name = evalin('base','processModelName');
+simlength = evalin('base','SimLength');
+gendata = getModelData(path_and_name, simlength);
+assignin('base','gendata',gendata);
+% hObject    handle to pushbutton22 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in plot_gendata.
+function plot_gendata_Callback(hObject, eventdata, handles)
+try
+    figure();
+    plot(evalin('base','gendata'));
+catch ME
+    msgID = 'plotGenData:NoData';
+    msg = 'No data were found. Please run the processmodel at first.';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
+end
+% hObject    handle to plot_gendata (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
