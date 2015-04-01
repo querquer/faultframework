@@ -139,6 +139,8 @@ last_phase_end = phase_length*num_data;
 
 counter = 0;
 for idx=1:length(act_vec)
+
+   
     if(act_vec(idx) == 1)
         counter = counter +1;
         
