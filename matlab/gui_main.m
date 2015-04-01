@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 31-Mar-2015 17:35:24
+% Last Modified by GUIDE v2.5 01-Apr-2015 08:35:30
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -559,3 +559,117 @@ end
 % hObject    handle to plot_gendata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton_addDetctor.
+function pushbutton_addDetctor_Callback(hObject, eventdata, handles)
+popupmenu_detector = findobj(gcf,'Tag','popupmenu_detector');
+items = get(popupmenu_detector,'String');
+index_selected = get(popupmenu_detector,'Value');
+item_selected = items{index_selected};
+set_detector(item_selected);
+% hObject    handle to pushbutton_addDetctor (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton_addFilter.
+function pushbutton_addFilter_Callback(hObject, eventdata, handles)
+popupmenu_filter = findobj(gcf,'Tag','popupmenu_filter');
+items = get(popupmenu_filter,'String');
+index_selected = get(popupmenu_filter,'Value');
+item_selected = items{index_selected};
+set_filter(item_selected);
+% hObject    handle to pushbutton_addFilter (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on selection change in popupmenu_detector.
+function popupmenu_detector_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu_detector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_detector contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_detector
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu_detector_CreateFcn(hObject, eventdata, handles)
+try
+    detector_array = find_models('Detectors');
+catch
+    detector_array = 'no detector found';
+end
+set(hObject,'String',detector_array);
+% hObject    handle to popupmenu_detector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in popupmenu_filter.
+function popupmenu_filter_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu_filter (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_filter contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_filter
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu_filter_CreateFcn(hObject, eventdata, handles)
+try
+    filter_array = find_models('Filter');
+catch
+    filter_array = 'no filter found';
+end
+set(hObject,'String',filter_array);
+% hObject    handle to popupmenu_filter (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in popupmenu_detector.
+function popupmenu8_Callback(hObject, eventdata, handles)
+
+% hObject    handle to popupmenu_detector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_detector contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_detector
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu8_CreateFcn(hObject, eventdata, handles)
+
+% hObject    handle to popupmenu_detector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function pushbutton_addDetctor_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pushbutton_addDetctor (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
