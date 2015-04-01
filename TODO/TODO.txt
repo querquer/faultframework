@@ -1,16 +1,16 @@
 Maik:
-	- Generate Data für default-Modelle (low, middle, high) --> jede Fehlerkombination und in einzelne .mat-Dateien spliten.
-	- low, midle, high-Modelle begrenzter Wertebereich.
-	- are you sure pop-up
-	- set up faults --> impliziert suggest_solution
-	- fault-gui explain generated faults #justsaying
- 
-	- functionsdefinition:
-		name* (filename/testdata, smapletime, path_to_detector, path_save_new_detector)
-
-Georg/Jonas:
-	- add struct lookup tale
-	- sort sugest_solution
+	- Auswahl Detektor --> Ordner/Browse
+	- Working-Bildchen
+	- Check for process-dynamic
+	- extra .m für Dokumentation
+	- browse path_and_name
+	- add button export
 
 Georg:
 	- classify process model --> thresholds?!
+
+Jonas:
+	- paste filter to specified path --> export_fiter
+	- integrate setFilter into getConfig
+	- triggerbus umbauen
+	- add filter input hinzufügen
