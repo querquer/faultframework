@@ -459,17 +459,17 @@ catch ME
     ME = addCause(ME,baseException);
     throw(ME);
 end
-sug_sol = suggest_solution( dynamic, failures);
-%assignin('base','sug_sol',sug_sol);
+[det, fil] = suggest_solution( dynamic, failures);
+
 
 %% update detector table table
 detectorTable = findobj(gcf,'Tag','detectorTable');
 
-for idx=1:length(sug_sol)
-    det_cell{idx,1} = sug_sol{idx,1}.name;
-    det_cell{idx,2} = sug_sol{idx,1}.fn_rate;
-    det_cell{idx,3} = sug_sol{idx,1}.fp_rate;
-    det_cell{idx,4} = sug_sol{idx,1}.path;
+for idx=1:length(det)
+    det_cell{idx,1} = det(idx).name;
+    det_cell{idx,2} = det(idx).fn_rate;
+    det_cell{idx,3} = det(idx).fp_rate;
+    det_cell{idx,4} = det(idx).path;
 end
 
 set(detectorTable,'data',det_cell);
@@ -477,11 +477,10 @@ set(detectorTable,'data',det_cell);
 %% update filter table
 filterTable = findobj(gcf,'Tag','filterTable');
 
-for idx=1:length(sug_sol)
-    fil_cell{idx,1} = sug_sol{idx,1}.name;
-    fil_cell{idx,2} = sug_sol{idx,1}.fn_rate;
-    fil_cell{idx,3} = sug_sol{idx,1}.fp_rate;
-    fil_cell{idx,4} = sug_sol{idx,1}.path;
+for idx=1:length(fil)
+    fil_cell{idx,1} = fil(idx).name;
+    fil_cell{idx,2} = fil(idx).quality;
+    fil_cell{idx,3} = fil(idx).dist;
 end
 
 set(filterTable,'data',fil_cell);
