@@ -10,7 +10,5 @@ Georg:
 	- classify process model --> thresholds?!
 
 Jonas:
-	- paste filter to specified path --> export_fiter
-	- integrate setFilter into getConfig
 	- triggerbus umbauen
 	- add filter input hinzufügen
