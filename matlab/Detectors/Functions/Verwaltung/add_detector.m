@@ -7,19 +7,24 @@
 function add_detector(path_detector, name_detector, path_and_name_lookup, path_data)
 
 % Model containing low, middle and high dynamics
-class{3} = 'low.slx';
-class{2} = 'middle.slx';
-class{1} = 'high.slx';
+class{3} = 'low';
+class{2} = 'middle';
+class{1} = 'high';
 % Loop through low, middle and high dynamics
 for c = 1:3
 
     % Loop through all fault combinations
-    files = getAvailableFaultCombinations();
+    files = getAvailableFaultCombinations(path_data, class{c});
     sizef = size(files);
     for com = 1:sizef(1,2)
         
+        % Skip this file if there are no faults injected
+        if(sum(files(com).faultComb) == 0)
+            continue;
+        end
+        
         % Generate data
-        [data, trigger] = get_classification_data_detector(files(com).path);
+        [data_multifault, data_singlefault, trigger_multifault, trigger_singlefault] = getClassificationDataDetector(files, com);
         
         % Configure detector
         if(isunix())
@@ -29,9 +34,7 @@ for c = 1:3
         end
         
         sampletime = 0.05;
-        evaluation_model = 'Evaluation';
-        grad_thr = 0.005;
-        [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data, trigger, sampletime, grad_thr, path_and_name, path_detector, evaluation_model);
+        [FN_final, FP_final] =  start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, sampletime, path_and_name, path_detector);
         
         % Load LookupTable
         t = load(path_and_name_lookup);

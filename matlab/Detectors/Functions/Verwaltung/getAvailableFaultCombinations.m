@@ -31,23 +31,7 @@ list =  dir(current_path);
                     end
                     
                     %read fault combination from string
-                    % find binary numer in string --> _*_
-                    ind = strfind(name, '_');
-                    str_num = name(ind(1,1)+1:ind(1,2)-1);
-                    % insert ',' after every number to convert to binary
-                    % afterwards
-                    sstr = size(str_num);
-                    for k=1:sstr(1,2)-1
-                        if(k==1)
-                            new_str = [str_num(k) ','];
-                        else
-                            new_str = [new_str str_num(k) ','];
-                        end
-                    end
-                    new_str = [new_str str_num(sstr(1,2))];
-                    
-                    % convert to binary number
-                    files(sf).faultComb = str2num(new_str);
+                    files(sf).faultComb = filename2bi(name);
                     
                     sf = sf + 1;
                 end
