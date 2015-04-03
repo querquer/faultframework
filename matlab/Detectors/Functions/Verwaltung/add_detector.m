@@ -4,20 +4,22 @@
 % and fault combinations. This is done for an examplary process model
 % containing high, middle and low dynamics. 
 
-function add_detector(path_detector, name_detector, path_and_name_lookup)
+function add_detector(path_detector, name_detector, path_and_name_lookup, path_data)
 
 % Model containing low, middle and high dynamics
-models{3} = 'low.slx';
-models{2} = 'middle.slx';
-models{1} = 'high.slx';
+class{3} = 'low.slx';
+class{2} = 'middle.slx';
+class{1} = 'high.slx';
 % Loop through low, middle and high dynamics
-for class = 1:3
+for c = 1:3
 
     % Loop through all fault combinations
-    for com = 1:8191
+    files = getAvailableFaultCombinations();
+    sizef = size(files);
+    for com = 1:sizef(1,2)
         
         % Generate data
-        [data, trigger] = get_classification_data_detector(models{class});
+        [data, trigger] = get_classification_data_detector(files(com).path);
         
         % Configure detector
         if(isunix())
@@ -36,8 +38,8 @@ for class = 1:3
         LookupTable = t.LookupTable;
         
         % Get current detectors
-        line = bi2de(failures);
-        detectors = LookupTable(line,class).detector;
+        line = bi2de(files(com).faultComb);
+        detectors = LookupTable(line,c).detector;
         
         % Create new entry
         sd = size(detectors);
@@ -47,7 +49,7 @@ for class = 1:3
         new_detector.path = path_detector;
         
         % Add entry to existing entries
-        LoopupTable(line, class).detector(sd(1,2) + 1) = new_detector;
+        LoopupTable(line, c).detector(sd(1,2) + 1) = new_detector;
         save(path_and_name_lookup, 'LookupTable');
         
         % Remove temporarily configured detector
