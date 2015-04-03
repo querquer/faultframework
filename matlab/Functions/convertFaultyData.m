@@ -42,14 +42,14 @@ fault_types = {'value_correlated_offset','time_correlated_offset','value_correla
 debugMode = 1;
 
 %% prepare faulty_data to a struct array
-
-phase_length = (SimLength/2^num_faults)*(1/SampleTime);
 num_data = 2^num_faults;
+phase_length = (SimLength/num_data)*(1/SampleTime);
+
 
 faulty_data_struct = struct();
 for idx=1:num_data
-    array_start = phase_length*(idx-1)+1;
-    array_end = phase_length*idx;
+    array_start = int32(phase_length*(idx-1)+2);
+    array_end = int32(phase_length*idx);
 
     faulty_data_struct(idx).value = getsamples(faulty_data,[array_start:array_end]);
 end
@@ -96,26 +96,36 @@ end
 
 %% fill trigger_singlefault
 
-
-counter = 1;
-phase_length = (SimLength/2^num_faults)*(1/SampleTime);
-num_data = 2^num_faults;
-
-
-for idx=1:length(act_vec)
-    if(act_vec(idx) == 1)
-        counter = counter + 1;
+if(1 == 1)
+    counter = 1;
+    for idy = 1+1:num_faults+1
+        phase_start = int32(phase_length*idy+2);
+        phase_end = int32(phase_length*(idy+1));
         
-        %delete first sample
-        %trigger_arr(idx).data(1) = [];
         curr_trigger = transpose(trigger_arr(idx).data);
+        trigger_vec = findTrigger(trigger_arr,idy,phase_length);
+
+        for idz = 1:length(trigger_vec)          
+            if(trigger_vec(idz) == 1)
+                trigger_singlefault_temp(counter).name = fault_types(idz);
+                trigger_singlefault_temp(counter).data = getsamples(curr_trigger,[phase_start:phase_end]);
+            end
+        end
+        counter = counter + 1;
+    end
+    
+    %sort trigger_singlefault with fault_types
+    counter = 1;
+    for ida = 1:length(fault_types)
+        for idb = 1:length(trigger_singlefault_temp)
+            
+            if(strcmp(fault_types(ida),trigger_singlefault_temp(idb).name))
+                trigger_singlefault(counter).name = fault_types(ida);
+                trigger_singlefault(counter).data = trigger_singlefault_temp(idb).data;
+                counter = counter + 1;
+            end
+        end
         
-        % determine the location of the correct phase
-        array_start = phase_length*(counter-1)+1;
-        array_end = phase_length*counter;
-        
-        trigger_singlefault(counter-1).name = fault_types(idx);
-        trigger_singlefault(counter-1).data = getsamples(curr_trigger,[array_start:array_end]);
     end
 end
 
@@ -134,8 +144,8 @@ end
 
 %% fill trigger_multifault
 
-last_phase_start = phase_length*(num_data-1)+1;
-last_phase_end = phase_length*num_data;
+last_phase_start = int32(phase_length*(num_data-1)+1);
+last_phase_end = int32(phase_length*num_data);
 
 counter = 0;
 for idx=1:length(act_vec)
@@ -151,6 +161,7 @@ for idx=1:length(act_vec)
 end
 
 if(debugMode == 1)
+    display('Successfully generated faulty data!');
     assignin('base','trigger_multifault',trigger_multifault);
 end
 

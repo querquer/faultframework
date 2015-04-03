@@ -6,7 +6,7 @@
         <!-- value correlated offset; f(x)= input - (input x factor) -->
 		<label>value correlated offset</label>
 		<id>0</id>
-        <activation>1</activation>
+        <activation>0</activation>
 		<permanent>0</permanent>
         <factor type="param">0.2</factor>
 	</fault>
@@ -85,10 +85,10 @@
         <!-- stuck at zero; f(x)= 0 -->
 		<label>stuck at zero</label>
 		<id>8</id>
-        <activation>1</activation>
+        <activation>0</activation>
 		<permanent>0</permanent>
-        <occurrence>0.03</occurrence>
-		<length type="param">0.5</length>
+        <occurrence>0.05</occurrence>
+		<length type="param">0.03</length>
 	</fault>
     <fault>
         <!-- stuck at x; f(x)= (top-bottom)*rand+bottom, positive outlier, negative = 1, positive and negative outlier -->
@@ -96,16 +96,16 @@
 		<id>9</id>
         <activation>1</activation>
 		<permanent>0</permanent>
-        <occurrence>0.03</occurrence>
-		<top type="param">4</top>
+        <occurrence>0.05</occurrence>
+		<top type="param">3</top>
         <bottom type="param">1</bottom>
-		<length type="param">0.5</length>
+		<length type="param">0.03</length>
 	</fault>
     <fault>
         <!-- stuck at x; f(x)= top, if(x>top) and bot, if(x < bottom) -->
 		<label>saturation</label>
 		<id>10</id>
-        <activation>1</activation>
+        <activation>0</activation>
 		<permanent>0</permanent>
 		<top type="param">3.8</top>
 		<bottom type="param">0</bottom>
