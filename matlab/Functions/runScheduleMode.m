@@ -1,4 +1,4 @@
-function runScheduleMode()
+function runScheduleMode(curr_file)
 %% Generate faulty_data from the entered process and fault model un schedule mode
 % At first the global variables are initalise of readed from workspace. 
 % Then it takes the actual fault konfiguration, set the mode to schedule(instead of free running)
@@ -29,11 +29,7 @@ catch
     display('Could not load variable: num_faults');
 end
 
-try
-    curr_file = evalin('base','filename');
-catch
-    curr_file = 'faultKonf_TEMP.xml';
-end
+
 curr_file_path = strcat('Faultinjection/XML/',curr_file);
 
 %% Open the actual fault konfiguration and set the schedule mode on

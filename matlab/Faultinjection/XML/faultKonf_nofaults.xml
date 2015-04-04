@@ -4,7 +4,7 @@
         <!-- NOT BEING PARSED, for future implementation -->
         <sampletime>0.001</sampletime>
         <simulationlegth>10</simulationlegth>
-		<schedule></schedule>
+		<schedule>1</schedule>
     </campaign>
     
 	<fault>
@@ -13,7 +13,7 @@
 		<id>0</id>
         <activation>0</activation>
 		<permanent>0</permanent>
-        <factor type='param'>0.9</factor>
+        <factor type="param">0.9</factor>
 	</fault>
     <fault>
         <!-- time correlated offset; f(t)= amplitude * (simulationtime/simulationlength) -->
@@ -22,7 +22,7 @@
 		<activation>0</activation>
 		<permanent>1</permanent>
 		<correlation>sin(x)</correlation>
-		<amplitude type='param'>20</amplitude>
+		<amplitude type="param">20</amplitude>
 	</fault>
     <fault>
         <!-- value correlated noise; f(x)= (input * factor) * (noise(variance)) -->        
@@ -31,8 +31,8 @@
         <activation>0</activation>
 		<permanent>0</permanent>
         <occurrence>0.2</occurrence>
-		<variance type='param'>3</variance>
-		<factor type='param'>0.05</factor>
+		<variance type="param">3</variance>
+		<factor type="param">0.05</factor>
 	</fault>
     <fault>
         <!-- time correlated noise; f(t)= (noise(variance)) * (simulationtime/simulationlength) -->
@@ -43,7 +43,7 @@
         <occurrence>0.2</occurrence>
 		<correlation>cos(x)</correlation>
 		<distribution>cos(x)</distribution>
-        <variance type='param'>3</variance>
+        <variance type="param">3</variance>
 	</fault>
     <fault>
         <!-- constant offset; f(x)= amplitude -->
@@ -51,7 +51,7 @@
 		<id>4</id>
         <activation>0</activation>
 		<permanent>0</permanent>
-		<amplitude type='param'>8</amplitude>
+		<amplitude type="param">8</amplitude>
 	</fault>
     <fault>
         <!-- constant noise; f(x)= (noise(variance)) -->
@@ -60,8 +60,8 @@
         <activation>0</activation>
 		<permanent>0</permanent>
         <occurrence>0.05</occurrence>
-		<factor type='param'>5</factor>
-		<pdf min="0.05" max="5" step_size="0.1">  ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) ) </pdf>
+		<factor type="param">5</factor>
+		<pdf max="5" min="0.05" step_size="0.1">  ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) ) </pdf>
 		<!-- ( 1 / (sqrt(2*pi*x) ) ) * exp( -( (log(x)^2) / 2) ) -->
 	</fault>
     <fault>
@@ -71,8 +71,8 @@
         <activation>0</activation>
 		<permanent>0</permanent>
         <occurrence>0.001</occurrence>
-		<amplitude type='param'>15</amplitude>
-		<negative type='param'>1</negative>
+		<amplitude type="param">15</amplitude>
+		<negative type="param">1</negative>
 	</fault>
     <fault>
         <!-- spike DOES NOT WORK -->
@@ -81,10 +81,10 @@
         <activation>0</activation>
 		<permanent>0</permanent>
         <occurrence>0.01</occurrence>
-		<amplitude type='param'>5</amplitude>
-		<length type='param'>20</length>
-		<slope type='param'>0.5</slope>
-		<function min="0.05" max="5"> </function>
+		<amplitude type="param">5</amplitude>
+		<length type="param">20</length>
+		<slope type="param">0.5</slope>
+		<function max="5" min="0.05"> </function>
 	</fault>
     <fault>
         <!-- stuck at zero; f(x)= 0 -->
@@ -101,8 +101,8 @@
         <activation>0</activation>
 		<permanent>0</permanent>
         <occurrence>0.002</occurrence>
-		<top type='param'>15</top>
-        <bottom type='param'>3</bottom>
+		<top type="param">15</top>
+        <bottom type="param">3</bottom>
 	</fault>
     <fault>
         <!-- stuck at x; f(x)= top, if(x>top) and bot, if(x < bottom) -->
@@ -110,8 +110,8 @@
 		<id>10</id>
         <activation>0</activation>
 		<permanent>0</permanent>
-		<top type='param'>40</top>
-		<bottom type='param'>-25</bottom>
+		<top type="param">40</top>
+		<bottom type="param">-25</bottom>
 	</fault>
     <fault>
         <!-- constant delay -->
@@ -119,7 +119,7 @@
 		<id>11</id>
         <activation>0</activation>
 		<permanent>0</permanent>
-		<param type='param'>0.3</param>
+		<param type="param">0.3</param>
 	</fault>
     <fault>
         <!-- variable delay -->
@@ -128,6 +128,6 @@
         <activation>0</activation>
 		<permanent>1</permanent>
 		<correlation>sin(x)+cos(x)</correlation>
-		<delay type='param'>2</delay>
+		<delay type="param">2</delay>
 	</fault>
 </injection>
