@@ -7,14 +7,12 @@ function faultyData2Mat(path_and_name, act_vec, faulty_data_struct,trigger_arr, 
 
 for idx=1:length(faulty_data_struct)  
 
-
-
     % get data from faulty data struct
-    
     faulty_data_mat{1}= faulty_data_struct(idx).value;
 
     % find the active faults in the current schedule and extract them
     faulty_data_mat{2} = getTrigger(trigger_arr,idx,phase_length);
+    
     % getTrigger(trigger_arr,2,length(faulty_data_struct(1).value.data));
 
     % save data and fault trigger as .mat

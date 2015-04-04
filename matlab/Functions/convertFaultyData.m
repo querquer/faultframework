@@ -14,12 +14,6 @@ catch
 end
 
 try
-    GlobalSeed = evalin('base','GlobalSeed');
-catch
-    display('Error:Could not load GlobalSeed!')
-end
-
-try
     num_faults = evalin('base','num_faults');
 catch
     display('Error:Could not load num_faults!')
@@ -100,21 +94,21 @@ end
 if(1 == 1)
     counter = 1;
     for idy = 1+1:num_faults+1
-        phase_start = int32(phase_length*idy+2);
-        phase_end = int32(phase_length*(idy+1));
-    
-        curr_trigger = transpose(trigger_arr(idx).data);
+        phase_start = int32(phase_length*(idy-1)+2);
+        phase_end = int32(phase_length*idy);     
+        
         trigger_vec = findTrigger(trigger_arr,idy,phase_length);
-
+       
         for idz = 1:length(trigger_vec)          
             if(trigger_vec(idz) == 1)
+                curr_trigger = transpose(trigger_arr(idz).data);
                 trigger_singlefault_temp(counter).name = fault_types(idz);
                 trigger_singlefault_temp(counter).data = getsamples(curr_trigger,[phase_start:phase_end]);
             end
         end
         counter = counter + 1;
     end
-    
+    assignin('base','trigger_singlefault_temp',trigger_singlefault_temp);
     %sort trigger_singlefault with fault_types
     counter = 1;
     for ida = 1:length(fault_types)

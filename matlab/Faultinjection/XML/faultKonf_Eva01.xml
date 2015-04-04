@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <injection>
 	<!-- 1 == activated schedule, 0 == free running -->
-	<schedule>0</schedule>
+	<schedule>1</schedule>
 	<fault>
         <!-- value correlated offset; f(x)= input - (input x factor) -->
 		<label>value correlated offset</label>

@@ -65,7 +65,7 @@ thisList  = xDoc.getElementsByTagName('schedule');
 thisElement = thisList.item(0);
 thisElement.setTextContent('0');
 
-myXMLwrite(curr_file_path,xDoc);
+%myXMLwrite(curr_file_path,xDoc);
 
 
 

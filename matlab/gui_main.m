@@ -725,6 +725,7 @@ function pushbutton_chooseFaultKonf_Callback(hObject, eventdata, handles)
 [FileName_FaultKonf,PathName_FaultKonf,FilterIndex] = uigetfile('*.xml','File Selector');
 assignin('base','FileName_FaultKonf',FileName_FaultKonf);
 assignin('base','PathName_FaultKonf',PathName_FaultKonf);
+loadFaultKonf(FileName_FaultKonf);
 countFaults(FileName_FaultKonf);
 % hObject    handle to pushbutton_chooseFaultKonf (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
