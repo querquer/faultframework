@@ -4,7 +4,7 @@
         <!-- NOT BEING PARSED, for future implementation -->
         <sampletime>0.001</sampletime>
         <simulationlegth>10</simulationlegth>
-		<schedule>1</schedule>
+		<schedule>0</schedule>
     </campaign>
     
 	<fault>

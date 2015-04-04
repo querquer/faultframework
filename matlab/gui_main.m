@@ -42,7 +42,9 @@ else
     gui_mainfcn(gui_State, varargin{:});
 end
 
+
 default_settings;
+
 % End initialization code - DO NOT EDIT
 
 
@@ -88,8 +90,6 @@ function pushbutton_gentestdata_Callback(hObject, eventdata, handles)
 FileName_FaultKonf = evalin('base','FileName_FaultKonf');
 runScheduleMode(FileName_FaultKonf);
 convertFaultyData;
-
-
 % hObject    handle to pushbutton_gentestdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -724,6 +724,7 @@ function pushbutton_chooseFaultKonf_Callback(hObject, eventdata, handles)
 [FileName_FaultKonf,PathName_FaultKonf,FilterIndex] = uigetfile('*.xml','File Selector');
 assignin('base','FileName_FaultKonf',FileName_FaultKonf);
 assignin('base','PathName_FaultKonf',PathName_FaultKonf);
+countFaults(FileName_FaultKonf);
 % hObject    handle to pushbutton_chooseFaultKonf (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
