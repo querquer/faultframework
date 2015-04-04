@@ -1,3 +1,14 @@
+%% Generate_starting_point_hm
+% This function generates a possible default configuration of a Hidden
+% Markov Model. All parameters which has to be adapted in order to design a
+% sensor fault detector based on a Hidden Markov Model must be specified
+% here.
+
+%% Related Functions
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function [x0, IntCon, LB, UB, ConstraintFunction] = generate_starting_point_hm()
 %GENERATE_STARTING_POINT Generates a first configuration of a Hidden Markov
 %Model

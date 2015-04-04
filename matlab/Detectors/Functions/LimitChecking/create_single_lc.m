@@ -1,3 +1,16 @@
+%% Create_single_lc
+% This is a subroutine of create_detector_lc.m It is meant to create a
+% Simulink-Block containing a sensor fault detector detecting only one
+% fault type. This Block will be copied to another Simulink-Model, which
+% then will contain all single detectors.
+
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
+
 function  create_single_lc(x, path_and_name )
 %CREATE_SINGLE_LC Summary of this function goes here
 %   Detailed explanation goes here

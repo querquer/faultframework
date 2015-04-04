@@ -6,6 +6,12 @@
 % evaluation model. Therefore some parameters of this evaluation model
 % has to be adapted.
 
+%% Related Functions
+
+%%
+% * <extract_path.html extract_path>
+
+%% Source Code
 function [inputfile, outputfile] = prepare_evaluation_model( data, sampletime, detector, evaluation_model)
 
 % Adapting filenames based on the current plattform

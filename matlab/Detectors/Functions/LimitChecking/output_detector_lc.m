@@ -6,6 +6,16 @@
 % is marked by a '1' in 'trigger'. Futrhermore every faultfree timestep is
 % marked by a '0'.
 
+%% Related Functions
+
+%%
+% * <running_gradient.html running_gradient>
+% * <running_mean.html running_mean>
+% * <running_var.html running_var>
+% * <lc_check.html lc_check>
+
+%% Source Code
+
 function out = output_detector_lc( x, data, trigger )
 %OUTPUT_DETECTOR_LC calculates the output of a detector based on limit
 %checking with respect to configuration "x"

@@ -5,6 +5,13 @@
 % all parameters describing the detector based on 'Limit Checking' has 
 % to be defined here. 
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
+
 function [x0, IntCon, LB, UB, ConstraintFunction] = generate_starting_point_lc()
 % Parameters of a sensorfaultdetection based on limit checking.
 

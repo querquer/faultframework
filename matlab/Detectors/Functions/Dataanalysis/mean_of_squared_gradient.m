@@ -5,6 +5,12 @@
 % calculating the gradient of the signal in a first step and using matrix
 % operations in a second step, the mean of the squared gradient is determined.
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 
 function mean = mean_of_squared_gradient( data)
 

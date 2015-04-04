@@ -1,3 +1,12 @@
+%% Find_models
+% This function searches for '.slx'-Files in a specific folder.
+
+%% Related Functions
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
+
 function models = find_models(path)
 %FIND_DETECTORS Summary of this function goes here
 %   Detailed explanation goes here

@@ -2,6 +2,13 @@
 % This function searches for a binary number between two '_' in the
 % file-name given by 'str'. Then it transforms it to an binary number.
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
+
 function bi = filename2bi( str )
 %STR2BI Summary of this function goes here
 %   Detailed explanation goes here

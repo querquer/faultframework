@@ -1,3 +1,12 @@
+%% CreateInput_NN
+% This is a helper function creating the input of a neural network.
+
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function [inp] = createInput_NN(data, windowsize)
 %CREATEINPUT_NN Summary of this function goes here
 %   Detailed explanation goes here

@@ -9,6 +9,20 @@
 % genetic algorithm can be implemented and has to be named as
 % 'set_ga_options*.m'.
 
+%% Related Functions
+
+%%
+% * <rec_search.html rec_search>
+% * <generate_starting_point_lc.html fun_starting_point> (Example implementation of a generate_starting_point*.m-File)
+% * <output_detector_lc.html fun_config_dependend_output> (Example
+% implementation of a output_detector*.m-File)
+% * <create_detector_lc.html fun_create> (Example implementation of a
+% create_detector*.m-File)
+% * <set_ga_options_lc.html fun_ga_options> (Example implementation of a
+% set_ga_options*.m-File)
+
+%% Source Code
+
 function [fun_starting_point, fun_output, fun_create, fun_ga_options] = find_functions(path)
 
 

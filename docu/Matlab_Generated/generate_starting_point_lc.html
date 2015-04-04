@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Example implementation of 'generate_starting_point*.m'</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-03-22"><meta name="DC.source" content="generate_starting_point_lc.m"><style type="text/css">
+      --><title>Example implementation of 'generate_starting_point*.m'</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-04"><meta name="DC.source" content="generate_starting_point_lc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Example implementation of 'generate_starting_point*.m'</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">generate_starting_point_lc</a></li><li><a href="#3">Integer values</a></li><li><a href="#4">Lower bounds</a></li><li><a href="#5">Upper bounds</a></li><li><a href="#6">Nonlinear constraints</a></li></ul></div><h2>generate_starting_point_lc<a name="1"></a></h2><p>This function returns a starting point for a optimization-algorithm. Hence, all parameters describing the detector based on 'Limit Checking' has to be defined here.</p><pre class="codeinput"><span class="keyword">function</span> [x0, IntCon, LB, UB, ConstraintFunction] = generate_starting_point_lc()
+  </style></head><body><div class="content"><h1>Example implementation of 'generate_starting_point*.m'</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">generate_starting_point_lc</a></li><li><a href="#2">Related Functions</a></li><li><a href="#4">Source Code</a></li><li><a href="#6">Integer values</a></li><li><a href="#7">Lower bounds</a></li><li><a href="#8">Upper bounds</a></li><li><a href="#9">Nonlinear constraints</a></li></ul></div><h2>generate_starting_point_lc<a name="1"></a></h2><p>This function returns a starting point for a optimization-algorithm. Hence, all parameters describing the detector based on 'Limit Checking' has to be defined here.</p><h2>Related Functions<a name="2"></a></h2><p>There are no sub-functions implemented by ourself.</p><h2>Source Code<a name="4"></a></h2><pre class="codeinput"><span class="keyword">function</span> [x0, IntCon, LB, UB, ConstraintFunction] = generate_starting_point_lc()
 </pre><pre class="codeinput"><span class="comment">% Parameters of a sensorfaultdetection based on limit checking.</span>
 
 <span class="comment">% Threshold</span>
@@ -77,10 +77,10 @@ x0(2) = rand * 3;
 
 <span class="comment">% Window size if needed</span>
 x0(3) = rand * 5;
-</pre><h2>Integer values<a name="3"></a></h2><p>The used function for feature extraction and the window size are integer values. Here we can define, that the optimization will only produce integer values for the second and third parameter in 'x0'.</p><pre class="codeinput">IntCon = [2,3];
-</pre><h2>Lower bounds<a name="4"></a></h2><p>Sometimes parameters are only allowed to vary inside a specific range. Ths lower bound of this range can be defined here. The threshold is not limited to any values, therefore we assign a '-Inf' to its lower bound. As we only provide some function to chose from, the parameter 'Function' should not be lower then 1, likewise the window size.</p><pre class="codeinput">LB = [-Inf, 1, 1];
-</pre><h2>Upper bounds<a name="5"></a></h2><p>In order to specifie the upper bounds of each parameter, we can define the array 'UB' like we did before. The threshold should not be limited to any value, therefore we assign a 'Inf'. The function parameter is limited up to 3 and the window size should not be greater then 100.</p><pre class="codeinput">UB = [Inf, 3, 100 ];
-</pre><h2>Nonlinear constraints<a name="6"></a></h2><p>We do not have any nonlinear constraints here. For an example on this, please see function 'generate_starting_point_nn'.</p><pre class="codeinput">ConstraintFunction = [];
+</pre><h2>Integer values<a name="6"></a></h2><p>The used function for feature extraction and the window size are integer values. Here we can define, that the optimization will only produce integer values for the second and third parameter in 'x0'.</p><pre class="codeinput">IntCon = [2,3];
+</pre><h2>Lower bounds<a name="7"></a></h2><p>Sometimes parameters are only allowed to vary inside a specific range. Ths lower bound of this range can be defined here. The threshold is not limited to any values, therefore we assign a '-Inf' to its lower bound. As we only provide some function to chose from, the parameter 'Function' should not be lower then 1, likewise the window size.</p><pre class="codeinput">LB = [-30, 1, 1];
+</pre><h2>Upper bounds<a name="8"></a></h2><p>In order to specifie the upper bounds of each parameter, we can define the array 'UB' like we did before. The threshold should not be limited to any value, therefore we assign a 'Inf'. The function parameter is limited up to 3 and the window size should not be greater then 100.</p><pre class="codeinput">UB = [30, 3, 100 ];
+</pre><h2>Nonlinear constraints<a name="9"></a></h2><p>We do not have any nonlinear constraints here. For an example on this, please see function 'generate_starting_point_nn'.</p><pre class="codeinput">ConstraintFunction = [];
 </pre><pre class="codeinput"><span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
@@ -90,6 +90,13 @@ x0(3) = rand * 5;
 % This function returns a starting point for a optimization-algorithm. Hence, 
 % all parameters describing the detector based on 'Limit Checking' has 
 % to be defined here. 
+
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 
 function [x0, IntCon, LB, UB, ConstraintFunction] = generate_starting_point_lc()
 % Parameters of a sensorfaultdetection based on limit checking.
@@ -116,14 +123,14 @@ IntCon = [2,3];
 % limited to any values, therefore we assign a '-Inf' to its lower bound.
 % As we only provide some function to chose from, the parameter 'Function'
 % should not be lower then 1, likewise the window size.
-LB = [-Inf, 1, 1];
+LB = [-30, 1, 1];
 
 %% Upper bounds
 % In order to specifie the upper bounds of each parameter, we can define
 % the array 'UB' like we did before. The threshold should not be limited to
 % any value, therefore we assign a 'Inf'. The function parameter is limited
 % up to 3 and the window size should not be greater then 100.
-UB = [Inf, 3, 100 ];
+UB = [30, 3, 100 ];
 
 %% Nonlinear constraints
 % We do not have any nonlinear constraints here. For an example on this,

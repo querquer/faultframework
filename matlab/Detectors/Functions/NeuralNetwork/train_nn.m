@@ -1,3 +1,17 @@
+%% Train_nn
+% This function creates the input of a specified neural network and trains
+% it ten times in order to get the best neural network. Although the
+% structure of neural network is not changed, the resulting networks can
+% differe. This is caused by the optimization which can reach only local
+% optimas.
+
+%% Related Functions
+
+%%
+% * <createInput_NN.html createInput_NN>
+
+
+%% Source Code
 function [best_net, best_fn, best_fp] = train_nn(net, data, trigger, windowsize, lc_thr)
 %TRAIN_NN Summary of this function goes here
 %   Detailed explanation goes here

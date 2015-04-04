@@ -1,6 +1,12 @@
+%% Design_nn
+% This function designs a neural network based on specified parameters 'x'.
+
+%% Related Functions
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function net = design_nn(x)
-%DESIGN_NN designs a neural network based on specified parameters 'x'
-%   Detailed explanation goes here
 
 %load NN from file as a template
 if(exist('net_template.mat', 'file'))

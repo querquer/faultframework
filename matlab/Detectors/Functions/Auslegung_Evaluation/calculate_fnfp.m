@@ -14,6 +14,12 @@
 % * $t_p$: number of right-positives detections
 %
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function [fn, fp] = calculate_fnfp(trigger, detection)
 
 %%

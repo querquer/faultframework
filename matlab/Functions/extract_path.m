@@ -1,3 +1,13 @@
+%% Extract_path
+% This function is a helper function which extracts the name of a file and
+% the path to this file from a given path with the file name. 
+
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function [path, name] = extract_path(path_and_name)
 %EXTRACT_PATH Returns the path to a given file. "path_and_name" has to
 %contain also the path of the file.

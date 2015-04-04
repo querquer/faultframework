@@ -1,0 +1,221 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Create_detector_hm</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-04"><meta name="DC.source" content="create_detector_hm.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Create_detector_hm</h1><!--introduction--><p>This function create a Simulink model containing a sensor faut detector based on a hidden markov model. Furthermore the used parameters are specified by 'x_list'. The resulting model is placed and named as specified in 'path_and_name'.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="extract_path.html">extract_path</a></li><li><a href="create_single_hmm.html">create_single_hmm</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span>  create_detector_hm(x_list, data, trigger, path_and_name)
+<span class="comment">%CREATE_DETECTOR_HM Summary of this function goes here</span>
+<span class="comment">%   Detailed explanation goes here</span>
+
+tmp = [<span class="string">'current_detector_template'</span> num2str(round(rand*1000))];
+<span class="keyword">if</span>(exist([tmp <span class="string">'.slx'</span>], <span class="string">'file'</span>))
+    delete([tmp <span class="string">'.slx'</span>]);
+<span class="keyword">end</span>
+
+copyfile(<span class="string">'hmm_detector_template.slx'</span>, [tmp <span class="string">'.slx'</span>]);
+
+load_system([tmp <span class="string">'.slx'</span>]);
+
+<span class="comment">%determine path from "path_and_name"</span>
+[path, name] = extract_path(path_and_name);
+
+st = size(trigger);
+<span class="keyword">for</span> i = 1:st(1,2);
+    <span class="comment">%create a detector for every single fault type</span>
+    src = [<span class="string">'hmm_'</span> trigger(i).name num2str(round(rand*1000))];
+    <span class="comment">%get configuration for specific fault type</span>
+
+    [fn, fp] = create_single_hmm(x_list{i}, data(i).data, trigger(i).data, [src <span class="string">'.slx'</span>]);
+    FN(i).name = trigger(i).name;
+    FN(i).fn_rate = fn;
+    FP(i).name = trigger(i).name;
+    FP(i).fp_rate = fp;
+    <span class="comment">%copy hmm-block into final model of detector</span>
+    load_system([src <span class="string">'.slx'</span>]);
+
+    h = add_block([src <span class="string">'/Detector_Single_Fault'</span>], [tmp <span class="string">'/'</span> trigger(i).name]);
+
+    <span class="comment">%get current param of MinMax-Block</span>
+    num = str2double(get_param([tmp <span class="string">'/MinMax'</span>], <span class="string">'Inputs'</span>));
+    <span class="comment">%add one input</span>
+    <span class="keyword">if</span>(i &gt; 1)
+        num = num + 1;
+    <span class="keyword">end</span>
+    set_param([tmp <span class="string">'/MinMax'</span>], <span class="string">'Inputs'</span>, num2str(num));
+
+    <span class="comment">%connect new block</span>
+    ports_sig = get_param([tmp <span class="string">'/Signal'</span>], <span class="string">'PortHandles'</span>);
+    ports_sub = get_param([tmp <span class="string">'/'</span> trigger(i).name], <span class="string">'PortHandles'</span>);
+    ports_max = get_param([tmp <span class="string">'/MinMax'</span>], <span class="string">'PortHandles'</span>);
+
+    <span class="comment">%add lines</span>
+    add_line(tmp, ports_sig.Outport(1), ports_sub.Inport(1));
+    add_line(tmp, ports_sub.Outport(1), ports_max.Inport(num));
+
+    <span class="comment">%close src</span>
+    close_system(src, false);
+    delete([src <span class="string">'.slx'</span>]);
+
+<span class="keyword">end</span>
+curr_dir = pwd;
+cd(path);
+
+save_system(tmp, name);
+
+close_system(tmp, false);
+
+<span class="keyword">if</span>(exist([tmp <span class="string">'.slx'</span>], <span class="string">'file'</span>))
+    delete([tmp <span class="string">'.slx'</span>]);
+<span class="keyword">end</span>
+
+cd(curr_dir);
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Create_detector_hm
+% This function create a Simulink model containing a sensor faut detector
+% based on a hidden markov model. Furthermore the used parameters are
+% specified by 'x_list'. The resulting model is placed and named as
+% specified in 'path_and_name'.
+
+%% Related Functions
+
+%%
+% * <extract_path.html extract_path>
+% * <create_single_hmm.html create_single_hmm>
+
+%% Source Code
+function  create_detector_hm(x_list, data, trigger, path_and_name)
+%CREATE_DETECTOR_HM Summary of this function goes here
+%   Detailed explanation goes here
+
+tmp = ['current_detector_template' num2str(round(rand*1000))];
+if(exist([tmp '.slx'], 'file'))
+    delete([tmp '.slx']);
+end
+
+copyfile('hmm_detector_template.slx', [tmp '.slx']);
+
+load_system([tmp '.slx']);
+
+%determine path from "path_and_name"
+[path, name] = extract_path(path_and_name);
+
+st = size(trigger);
+for i = 1:st(1,2);
+    %create a detector for every single fault type
+    src = ['hmm_' trigger(i).name num2str(round(rand*1000))];
+    %get configuration for specific fault type
+    
+    [fn, fp] = create_single_hmm(x_list{i}, data(i).data, trigger(i).data, [src '.slx']);
+    FN(i).name = trigger(i).name;
+    FN(i).fn_rate = fn;
+    FP(i).name = trigger(i).name;
+    FP(i).fp_rate = fp;
+    %copy hmm-block into final model of detector
+    load_system([src '.slx']);
+    
+    h = add_block([src '/Detector_Single_Fault'], [tmp '/' trigger(i).name]);
+
+    %get current param of MinMax-Block
+    num = str2double(get_param([tmp '/MinMax'], 'Inputs'));
+    %add one input
+    if(i > 1)
+        num = num + 1;
+    end
+    set_param([tmp '/MinMax'], 'Inputs', num2str(num));
+    
+    %connect new block
+    ports_sig = get_param([tmp '/Signal'], 'PortHandles');
+    ports_sub = get_param([tmp '/' trigger(i).name], 'PortHandles');
+    ports_max = get_param([tmp '/MinMax'], 'PortHandles');
+    
+    %add lines
+    add_line(tmp, ports_sig.Outport(1), ports_sub.Inport(1));
+    add_line(tmp, ports_sub.Outport(1), ports_max.Inport(num));
+    
+    %close src
+    close_system(src, false);
+    delete([src '.slx']);
+    
+end
+curr_dir = pwd;
+cd(path);
+
+save_system(tmp, name);
+
+close_system(tmp, false);
+
+if(exist([tmp '.slx'], 'file'))
+    delete([tmp '.slx']);
+end
+
+cd(curr_dir);
+end
+
+
+##### SOURCE END #####
+--></body></html>

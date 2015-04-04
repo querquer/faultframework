@@ -1,3 +1,14 @@
+%% Output_single_hmm
+% This function calculates the configuration-based output of a single
+% sensor fault detector. Therefore a Hidden Markov model is trained and the
+% outputs of a examplary input is calculated.
+
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function det = output_single_hmm(x,data,trigger)
 %OUTPUT_SINGLE_HMM Summary of this function goes here
 %   Detailed explanation goes here

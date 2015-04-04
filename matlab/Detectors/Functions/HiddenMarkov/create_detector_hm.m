@@ -1,3 +1,16 @@
+%% Create_detector_hm
+% This function create a Simulink model containing a sensor faut detector
+% based on a hidden markov model. Furthermore the used parameters are
+% specified by 'x_list'. The resulting model is placed and named as
+% specified in 'path_and_name'.
+
+%% Related Functions
+
+%%
+% * <extract_path.html extract_path>
+% * <create_single_hmm.html create_single_hmm>
+
+%% Source Code
 function  create_detector_hm(x_list, data, trigger, path_and_name)
 %CREATE_DETECTOR_HM Summary of this function goes here
 %   Detailed explanation goes here

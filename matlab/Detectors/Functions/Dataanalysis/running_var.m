@@ -3,6 +3,12 @@
 % data and calculates the variance of all data sampls of this window.
 % Therefore we get a running variance.
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function variance = running_var(data, window_size)
 
 % Get number of samples

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>running_var</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-03-21"><meta name="DC.source" content="running_var.m"><style type="text/css">
+      --><title>running_var</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-04"><meta name="DC.source" content="running_var.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>running_var</h1><p>This function creates windows of size 'window_size' for every sample in data and calculates the variance of all data sampls of this window. Therefore we get a running variance.</p><pre class="codeinput"><span class="keyword">function</span> variance = running_var(data, window_size)
+  </style></head><body><div class="content"><h1>running_var</h1><!--introduction--><p>This function creates windows of size 'window_size' for every sample in data and calculates the variance of all data sampls of this window. Therefore we get a running variance.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><p>There are no sub-functions implemented by ourself.</p><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> variance = running_var(data, window_size)
 
 <span class="comment">% Get number of samples</span>
 sd = size(data);
@@ -100,6 +100,12 @@ variance = zeros(1,sd(1,2));
 % data and calculates the variance of all data sampls of this window.
 % Therefore we get a running variance.
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function variance = running_var(data, window_size)
 
 % Get number of samples

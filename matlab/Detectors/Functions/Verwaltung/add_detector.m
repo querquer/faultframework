@@ -4,6 +4,15 @@
 % and fault combinations. This is done for an examplary process model
 % containing high, middle and low dynamics. 
 
+%% Related Functions
+
+%%
+% * <getAvailableFaultCombinations.html getAvailableFaultCombinations>
+% * <getClassificationDataDetector.html getClassificationDataDetector>
+% * <start_designing_detector.html start_designing_detector>
+
+%% Source Code
+
 function add_detector(path_detector, name_detector, path_and_name_lookup, path_data)
 
 % Model containing low, middle and high dynamics

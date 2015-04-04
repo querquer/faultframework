@@ -1,10 +1,14 @@
+%% Generate_starting_point_nn
+% This function returns a possible starting point for a optimization
+% algorithm. All parameters neccessary to adapt in order to design a sensor
+% fault detector based on neural networks are set to default values here.
+
+%% Related Functions
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function [x0, IntCon, LB, UB, ConstraintFunction]  = generate_starting_point_nn()
-%GENERATE_STARTING_POINT This function returns a starting point for a
-%optimisation-algorithm. 
-%   The automated designing of a sensorfaultdetector is done by applying a
-%   optimisation-algorithm. This needs a starting-point. 
-
-
 
 %TRAIN PARAMETER OF NEURAL NETWORK
 

@@ -1,10 +1,17 @@
 %% faultCombis
 % This functions searches the folder specified by path_data and class in
-% order to get all fault type combinations saved until now.
+% order to get all fault type combinations saved until now. It also
+% searches in subdirectories.
 
+%% Related Functions
+
+%%
+% * <filename2bi.html filename2bi>
+
+%% Source Code
 function files = getAvailableFaultCombinations(path_data, class)
 
-%% Search for files
+% Search for files
 if(isunix())
     current_path = [path_data '/' class];
 else
@@ -37,7 +44,7 @@ list =  dir(current_path);
                 end
             end
             
-            % search for subdirectories
+            % Search for subdirectories
             if(list(i).isdir())
                 if(~strcmp(list(i).name, '.') && ~strcmp(list(i).name, '..'))
                     % go into subdirecotry
