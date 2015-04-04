@@ -2,7 +2,12 @@
 % This function produces a running window of size "window_size" and sums it
 % up.
 
+%% Related Functions
 
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function m = running_sum(data, window_size)
 
 % Get size of data

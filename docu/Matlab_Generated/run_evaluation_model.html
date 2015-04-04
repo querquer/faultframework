@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>run_evaluatioin_model</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-03-21"><meta name="DC.source" content="run_evaluation_model.m"><style type="text/css">
+      --><title>run_evaluatioin_model</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-04"><meta name="DC.source" content="run_evaluation_model.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>run_evaluatioin_model</h1><p>In order to provide some information about the returned detector, we need to evaluate the resulting Simulink model one last time. As we assume different fault types, we need to asses the resulting detector according to all these fault types.</p><pre class="codeinput"><span class="keyword">function</span> out = run_evaluation_model(data, sampletime, detector, evaluation_model)
+  </style></head><body><div class="content"><h1>run_evaluatioin_model</h1><!--introduction--><p>In order to provide some information about the returned detector, we need to evaluate the resulting Simulink model one last time. As we assume different fault types, we need to asses the resulting detector according to all these fault types.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="extract_path.html">extract_path</a></li><li><a href="prepare_evaluation_model.html">prepare_evaluation_model</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> out = run_evaluation_model(data, sampletime, detector, evaluation_model)
 
 <span class="comment">% Get number of fault types</span>
 sd = size(data);
@@ -87,7 +87,8 @@ sd = size(data);
     det = f.data(2,:);
 
     out(i).name = data(i).name;
-    out(i).data = det;
+    sd = size(det);
+    out(i).data = [det(1,2:sd(1,2)),0];
 
     <span class="comment">% Delete temporary files</span>
     delete(inputfile, outputfile);
@@ -102,6 +103,13 @@ sd = size(data);
 % assume different fault types, we need to asses the resulting detector
 % according to all these fault types. 
 
+%% Related Functions
+
+%%
+% * <extract_path.html extract_path>
+% * <prepare_evaluation_model.html prepare_evaluation_model>
+
+%% Source Code
 function out = run_evaluation_model(data, sampletime, detector, evaluation_model)
 
 % Get number of fault types
@@ -123,7 +131,8 @@ for i = 1:sd(1,2)
     det = f.data(2,:);
     
     out(i).name = data(i).name;
-    out(i).data = det;
+    sd = size(det);
+    out(i).data = [det(1,2:sd(1,2)),0];
     
     % Delete temporary files
     delete(inputfile, outputfile);

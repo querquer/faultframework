@@ -1,7 +1,15 @@
+%% Output_detector_nn
+% This function desings and trains a detector based on neural networks and caluculates
+% its outputs based on the input data given by 'data'.
+
+%% Related Functions
+
+%%
+% * <design_nn.html design_nn>
+% * <output_single_nn.html output_single_nn>
+
+%% Source Code
 function out = output_detector_nn( x, data, trigger)
-%DETECTION designs a detector and calculates its output based on the input
-%given by 'data'
-%   Detailed explanation goes here
 
 %design neural network based on parameters in 'x'
 net = design_nn(x);

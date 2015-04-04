@@ -3,6 +3,13 @@
 % The data of a timeseries is expected as data(i,:), different timeseries are
 % expected at data(:,...).
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
+
 function grad = running_gradient( data )
 
 % Check format of input data

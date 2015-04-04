@@ -2,6 +2,13 @@
 % This function produces a running window of size "window_size" containing 
 % samples from 'data' and calculates its mean value.
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
+
 function m = running_mean(data, window_size)
 
 % Get size of array 'data'

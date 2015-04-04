@@ -1,3 +1,14 @@
+%% Create_single_nn
+% Creates a simulink-model containing a single neural network to detect one fault type. 
+% The neural network is configured based on parameters in 'x'.
+
+%% Related Functions
+
+%%
+% * <design_nn.html design_nn>
+% * <train_nn.html train_nn>
+
+%% Source Code
 function [fn, fp] = create_single_nn( x, data, trigger, path_and_name )
 %CREATE_DETECTOR creates simulink-model containing a single neural network to detect one fault type. 
 %The neural network is configured based on parameters in 'x'

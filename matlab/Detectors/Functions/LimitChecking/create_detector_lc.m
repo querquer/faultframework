@@ -1,3 +1,16 @@
+%% Create Detector
+% This function builds up a Simulink-Model containing a sensor fault
+% detector based on limit checking. The model is build concerning the given
+% configuration 'x_list'. 
+
+%% Related Functions
+
+%%
+% * <extract_path.html extract_path>
+% * <create_single_lc.html create_single_lc>
+
+
+%% Source Code
 function  create_detector_lc(x_list, data, trigger, path_and_name )
 %CREATE_DETECTOR_LC Summary of this function goes here
 %   Detailed explanation goes here

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>calculate_fnfp</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-03-21"><meta name="DC.source" content="calculate_fnfp.m"><style type="text/css">
+      --><title>calculate_fnfp</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-04"><meta name="DC.source" content="calculate_fnfp.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>calculate_fnfp</h1><p>One possibility to asses sensor fault detectors is to determine the false-negatives-rate and false-positives-rates. The lower this values, the better is the detector. This function determines this rates by comparing the output ('detection') made by the detector with the correct values ('trigger') which where saved from the faultinjection-framework. Both rates are calculated by using the following equations: <img src="calculate_fnfp_eq60182.png" alt="$$ false-negatives = \frac{f_n}{r_p + f_n} $$">    <img src="calculate_fnfp_eq44894.png" alt="$$ false-positives = \frac{f_p}{r_n + fp}$">$</p><div><ul><li><img src="calculate_fnfp_eq90470.png" alt="$f_n$">: number of false-negatives detections</li><li><img src="calculate_fnfp_eq15823.png" alt="$f_p$">: number of false-positives detections</li><li><img src="calculate_fnfp_eq38123.png" alt="$t_n$">: number of right-negatives detections</li><li><img src="calculate_fnfp_eq42131.png" alt="$t_p$">: number of right-positives detections</li></ul></div><pre class="codeinput"><span class="keyword">function</span> [fn, fp] = calculate_fnfp(trigger, detection)
+  </style></head><body><div class="content"><h1>calculate_fnfp</h1><!--introduction--><p>One possibility to asses sensor fault detectors is to determine the false-negatives-rate and false-positives-rates. The lower this values, the better is the detector. This function determines this rates by comparing the output ('detection') made by the detector with the correct values ('trigger') which where saved from the faultinjection-framework. Both rates are calculated by using the following equations: <img src="calculate_fnfp_eq60182.png" alt="$$ false-negatives = \frac{f_n}{r_p + f_n} $$">    <img src="calculate_fnfp_eq44894.png" alt="$$ false-positives = \frac{f_p}{r_n + fp}$">$</p><div><ul><li><img src="calculate_fnfp_eq90470.png" alt="$f_n$">: number of false-negatives detections</li><li><img src="calculate_fnfp_eq15823.png" alt="$f_p$">: number of false-positives detections</li><li><img src="calculate_fnfp_eq38123.png" alt="$t_n$">: number of right-negatives detections</li><li><img src="calculate_fnfp_eq42131.png" alt="$t_p$">: number of right-positives detections</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><p>There are no sub-functions implemented by ourself.</p><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> [fn, fp] = calculate_fnfp(trigger, detection)
 </pre><p>By substraction the detection output from the trigger values. Now we have the following machtes:</p><div><ul><li>r(i) = -1 --&gt; <img src="calculate_fnfp_eq15823.png" alt="$f_p$"></li><li>r(i) = 1 --&gt; <img src="calculate_fnfp_eq90470.png" alt="$f_n$"></li><li>r(i) = 0 and detection(i) = 0 --&gt; <img src="calculate_fnfp_eq38123.png" alt="$t_n$"></li><li>r(i) = 0 and detection(i) = 1 --&gt; <img src="calculate_fnfp_eq42131.png" alt="$t_p$"></li></ul></div><pre class="codeinput">r = trigger - detection;
 </pre><p>Determining the values</p><pre class="codeinput"><span class="comment">% Count true-negatives</span>
 a = r(r==0 &amp; detection == 0);
@@ -106,6 +106,12 @@ fp = fp/(tn+fp);
 % * $t_p$: number of right-positives detections
 %
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function [fn, fp] = calculate_fnfp(trigger, detection)
 
 %%

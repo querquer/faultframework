@@ -1,9 +1,16 @@
-function det = output_single_nn(net, windowsize, threshold, data, trigger)
-%OUTPUT_SINGLE_NN train and calculate a neural network for only one data
-%set. We assume, that there will be one data set according to only one
-%fault type.
+%% Output_single_nn
+% This function trains and calculates the output of a single neural network
+% for only one data set. 
 
-%   Detailed explanation goes here
+%% Related Functions
+
+%%
+% * <createInput_NN.html createInput_NN>
+% * <lc_check.html lc_check>
+
+%% Source Code
+function det = output_single_nn(net, windowsize, threshold, data, trigger)
+
 %calculate input data
 inp = createInput_NN(data,windowsize);
 

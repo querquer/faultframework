@@ -1,0 +1,271 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Create_single_hmm</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-04"><meta name="DC.source" content="create_single_hmm.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Create_single_hmm</h1><!--introduction--><p>This function creates a Simulink_Block containing a Hidden Markov Model. This model represents a sensor fault detector with parameters specified in 'x' which is able to detect a single fault type. It will be placed together with other Hidden Markov Models in order to create a detector able to detect multiple fault types.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="calculate_fnfp.html">calculate_fnfp</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> [ fn, fp ] = create_single_hmm( x, data, trigger, path_and_name  )
+<span class="comment">%CREATE_SINGLE_HMM Summary of this function goes here</span>
+<span class="comment">%   Detailed explanation goes here</span>
+
+<span class="comment">%get configuration parameters from x</span>
+    nth = round(x(1));
+
+
+<span class="comment">%window size</span>
+ws = round(x(2));
+
+
+sd = size(data);
+seq = ones(1,sd(1,2));
+
+    min_data = min(data);
+    max_data = max(data);
+
+<span class="keyword">for</span> i=1:nth-1
+
+    th = min_data + (max_data-min_data)*(i/nth);
+    seq = seq + double(data &gt;= th);
+<span class="keyword">end</span>
+
+<span class="comment">%seq are all symbols emitted by hmm</span>
+trigger = trigger + 1;
+[trans_est, emis_est] = hmmestimate(seq,trigger);
+
+<span class="comment">%determine detection output by assuming only a window of size x(4)</span>
+<span class="keyword">for</span> i=1:sd(1,2)-(ws-1)
+    wseq = seq(:,i:(i+(ws-1)));
+    sdet = hmmviterbi(wseq,trans_est,emis_est);
+
+    <span class="keyword">if</span>(i==1)
+        det = sdet;
+    <span class="keyword">else</span>
+        det = [det , sdet(:, ws)];
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+det = det -1;
+
+
+[fn, fp] = calculate_fnfp(trigger, det);
+
+
+<span class="comment">%build simulink Model</span>
+file = <span class="string">'hm_template.slx'</span>;
+tmp = [<span class="string">'current_template'</span> num2str(round(rand*1000))];
+
+<span class="comment">%copy template to generate a file to work on.</span>
+<span class="keyword">if</span>(exist([tmp <span class="string">'.slx'</span>], <span class="string">'file'</span>))
+    delete([tmp <span class="string">'.slx'</span>]);
+<span class="keyword">end</span>
+
+copyfile(file, [tmp <span class="string">'.slx'</span>]);
+
+load_system([tmp <span class="string">'.slx'</span>]);
+
+<span class="comment">%change windowsize</span>
+<span class="comment">%get current config</span>
+conf = get_param([tmp <span class="string">'/Detector_Single_Fault/Delay Line'</span>], <span class="string">'MaskValues'</span>);
+conf{1} = num2str(ws);
+set_param([tmp <span class="string">'/Detector_Single_Fault/Delay Line'</span>], <span class="string">'MaskValues'</span>, conf);
+
+<span class="comment">%set trans_est</span>
+<span class="comment">%construct matrix-string</span>
+str =mat2str_hmm(trans_est);
+set_param([tmp <span class="string">'/Detector_Single_Fault/trans_est'</span>], <span class="string">'Value'</span>, str);
+
+<span class="comment">%set emis_est</span>
+str =mat2str_hmm(emis_est);
+set_param([tmp <span class="string">'/Detector_Single_Fault/emis_est'</span>], <span class="string">'Value'</span>, str);
+
+<span class="comment">%set min_data</span>
+set_param([tmp <span class="string">'/Detector_Single_Fault/min_data'</span>], <span class="string">'Value'</span>, num2str(min_data));
+
+<span class="comment">%set max_data</span>
+set_param([tmp <span class="string">'/Detector_Single_Fault/max_data'</span>], <span class="string">'Value'</span>, num2str(max_data));
+
+<span class="comment">%set num_th</span>
+set_param([tmp <span class="string">'/Detector_Single_Fault/num_th'</span>], <span class="string">'Value'</span>, num2str(nth));
+
+<span class="comment">%save model</span>
+save_system(tmp, path_and_name);
+
+close_system(tmp, false);
+
+<span class="keyword">if</span>(exist([tmp <span class="string">'.slx'</span>], <span class="string">'file'</span>))
+    delete([tmp <span class="string">'.slx'</span>]);
+<span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Create_single_hmm
+% This function creates a Simulink_Block containing a Hidden Markov Model.
+% This model represents a sensor fault detector with parameters specified
+% in 'x' which is able to detect a single fault type. It will be placed
+% together with other Hidden Markov Models in order to create a detector
+% able to detect multiple fault types.
+
+%% Related Functions
+
+%%
+% * <calculate_fnfp.html calculate_fnfp>
+
+%% Source Code
+function [ fn, fp ] = create_single_hmm( x, data, trigger, path_and_name  )
+%CREATE_SINGLE_HMM Summary of this function goes here
+%   Detailed explanation goes here
+
+%get configuration parameters from x
+    nth = round(x(1));
+
+
+%window size
+ws = round(x(2));
+
+
+sd = size(data);
+seq = ones(1,sd(1,2));
+
+    min_data = min(data);
+    max_data = max(data);
+
+for i=1:nth-1
+
+    th = min_data + (max_data-min_data)*(i/nth);
+    seq = seq + double(data >= th);
+end
+
+%seq are all symbols emitted by hmm
+trigger = trigger + 1;
+[trans_est, emis_est] = hmmestimate(seq,trigger);
+
+%determine detection output by assuming only a window of size x(4)
+for i=1:sd(1,2)-(ws-1)
+    wseq = seq(:,i:(i+(ws-1)));
+    sdet = hmmviterbi(wseq,trans_est,emis_est);
+    
+    if(i==1)
+        det = sdet;
+    else
+        det = [det , sdet(:, ws)];
+    end
+end
+det = det -1;
+
+
+[fn, fp] = calculate_fnfp(trigger, det);
+
+
+%build simulink Model
+file = 'hm_template.slx';
+tmp = ['current_template' num2str(round(rand*1000))];
+
+%copy template to generate a file to work on.
+if(exist([tmp '.slx'], 'file'))
+    delete([tmp '.slx']);
+end
+
+copyfile(file, [tmp '.slx']);
+
+load_system([tmp '.slx']);
+
+%change windowsize
+%get current config
+conf = get_param([tmp '/Detector_Single_Fault/Delay Line'], 'MaskValues');
+conf{1} = num2str(ws);
+set_param([tmp '/Detector_Single_Fault/Delay Line'], 'MaskValues', conf);
+
+%set trans_est
+%construct matrix-string
+str =mat2str_hmm(trans_est);
+set_param([tmp '/Detector_Single_Fault/trans_est'], 'Value', str);
+
+%set emis_est
+str =mat2str_hmm(emis_est);
+set_param([tmp '/Detector_Single_Fault/emis_est'], 'Value', str);
+
+%set min_data
+set_param([tmp '/Detector_Single_Fault/min_data'], 'Value', num2str(min_data));
+
+%set max_data
+set_param([tmp '/Detector_Single_Fault/max_data'], 'Value', num2str(max_data));
+
+%set num_th
+set_param([tmp '/Detector_Single_Fault/num_th'], 'Value', num2str(nth));
+
+%save model
+save_system(tmp, path_and_name);
+
+close_system(tmp, false);
+
+if(exist([tmp '.slx'], 'file'))
+    delete([tmp '.slx']);
+end
+
+end
+
+
+##### SOURCE END #####
+--></body></html>

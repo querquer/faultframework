@@ -1,0 +1,189 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Generate_starting_point_nn</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-04"><meta name="DC.source" content="generate_starting_point_nn.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Generate_starting_point_nn</h1><!--introduction--><p>This function returns a possible starting point for a optimization algorithm. All parameters neccessary to adapt in order to design a sensor fault detector based on neural networks are set to default values here.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li><li><a href="#5">Defining constraints for optimization</a></li><li><a href="#6">Lower bounds</a></li><li><a href="#7">Upper bounds</a></li><li><a href="#8">Nonlineare Constraints</a></li><li><a href="#9">Integer values</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><p>There are no sub-functions implemented by ourself.</p><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> [x0, IntCon, LB, UB, ConstraintFunction]  = generate_starting_point_nn()
+</pre><pre class="codeinput"><span class="comment">%TRAIN PARAMETER OF NEURAL NETWORK</span>
+
+<span class="comment">%Goal</span>
+x0(1) = rand * 1/1000;
+
+
+<span class="comment">%Number of epochs</span>
+x0(2) = round(rand * 1000) + 1;
+
+
+<span class="comment">%DESIGN OF NEURAL NETWORK</span>
+
+<span class="comment">%Number of Inputs --&gt; this is equal to the number of timesteps used for the</span>
+<span class="comment">%input of the neural network.</span>
+x0(3) = round(rand * 6) + 1;
+
+<span class="comment">%Threshold for limit checking</span>
+x0(4) = (randn + 50)/100;
+
+<span class="comment">%Number of neurons per hidden layer</span>
+<span class="keyword">for</span> i = 1:2
+    x0(4+i) = round(rand * 20/i);
+
+    <span class="keyword">if</span>(x0(4+i) &lt;= 1)
+        x0(4+i) = 1;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><h2>Defining constraints for optimization<a name="5"></a></h2><h2>Lower bounds<a name="6"></a></h2><div><ul><li><img src="generate_starting_point_nn_eq07384.png" alt="$$ Goal \leq 0 $$"></li><li><img src="generate_starting_point_nn_eq47265.png" alt="$$ Number of epochs \leq 1 $$"></li><li><img src="generate_starting_point_nn_eq28493.png" alt="$$ Number of inputs \leq 1 $$"></li><li><img src="generate_starting_point_nn_eq23867.png" alt="$$ Threshold for limit checking \leq 0 $$"></li><li><img src="generate_starting_point_nn_eq18420.png" alt="$$ Number of neurons of first hidden layer \leq 1 $$"></li><li><img src="generate_starting_point_nn_eq73716.png" alt="$$ Number of neurons of second hidden layer \leq 1 $$"></li></ul></div><pre class="codeinput">LB = [0, 1, 1, 0, 1, 1];
+</pre><h2>Upper bounds<a name="7"></a></h2><pre class="codeinput">UB = [0.5, 1000, 25, 1, 15, 10];
+</pre><h2>Nonlineare Constraints<a name="8"></a></h2><pre class="codeinput">    <span class="keyword">function</span> [c, ceq] = constraints(x)
+        <span class="comment">% goal should be nearly zero</span>
+        c(1) = x(1)-0.5;
+
+        <span class="comment">% first hidden layer has to be bigger than the second one</span>
+        c(2) =  x(6) - x(5);
+
+        ceq = [];
+    <span class="keyword">end</span>
+ConstraintFunction = @constraints;
+</pre><h2>Integer values<a name="9"></a></h2><pre class="codeinput">IntCon = [2, 3, 5, 6];
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Generate_starting_point_nn
+% This function returns a possible starting point for a optimization
+% algorithm. All parameters neccessary to adapt in order to design a sensor
+% fault detector based on neural networks are set to default values here.
+
+%% Related Functions
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
+function [x0, IntCon, LB, UB, ConstraintFunction]  = generate_starting_point_nn()
+
+%TRAIN PARAMETER OF NEURAL NETWORK
+
+%Goal
+x0(1) = rand * 1/1000;
+
+
+%Number of epochs
+x0(2) = round(rand * 1000) + 1; 
+
+
+%DESIGN OF NEURAL NETWORK
+
+%Number of Inputs REPLACE_WITH_DASH_DASH> this is equal to the number of timesteps used for the
+%input of the neural network.
+x0(3) = round(rand * 6) + 1;
+
+%Threshold for limit checking
+x0(4) = (randn + 50)/100;
+
+%Number of neurons per hidden layer
+for i = 1:2
+    x0(4+i) = round(rand * 20/i);
+    
+    if(x0(4+i) <= 1)
+        x0(4+i) = 1;
+    end
+end
+
+%% Defining constraints for optimization
+
+%% Lower bounds
+% * $$ Goal \leq 0 $$
+% * $$ Number of epochs \leq 1 $$
+% * $$ Number of inputs \leq 1 $$
+% * $$ Threshold for limit checking \leq 0 $$
+% * $$ Number of neurons of first hidden layer \leq 1 $$
+% * $$ Number of neurons of second hidden layer \leq 1 $$
+
+LB = [0, 1, 1, 0, 1, 1];
+
+%% Upper bounds
+
+UB = [0.5, 1000, 25, 1, 15, 10];
+
+%% Nonlineare Constraints
+    function [c, ceq] = constraints(x)
+        % goal should be nearly zero
+        c(1) = x(1)-0.5;
+        
+        % first hidden layer has to be bigger than the second one
+        c(2) =  x(6) - x(5);
+        
+        ceq = [];
+    end
+ConstraintFunction = @constraints;
+
+%% Integer values
+
+IntCon = [2, 3, 5, 6];
+
+end
+
+
+##### SOURCE END #####
+--></body></html>

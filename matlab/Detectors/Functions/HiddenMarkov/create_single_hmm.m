@@ -1,3 +1,16 @@
+%% Create_single_hmm
+% This function creates a Simulink_Block containing a Hidden Markov Model.
+% This model represents a sensor fault detector with parameters specified
+% in 'x' which is able to detect a single fault type. It will be placed
+% together with other Hidden Markov Models in order to create a detector
+% able to detect multiple fault types.
+
+%% Related Functions
+
+%%
+% * <calculate_fnfp.html calculate_fnfp>
+
+%% Source Code
 function [ fn, fp ] = create_single_hmm( x, data, trigger, path_and_name  )
 %CREATE_SINGLE_HMM Summary of this function goes here
 %   Detailed explanation goes here
@@ -40,7 +53,7 @@ end
 det = det -1;
 
 
-[fn, fp] = evaluate_FNFP(trigger, det);
+[fn, fp] = calculate_fnfp(trigger, det);
 
 
 %build simulink Model

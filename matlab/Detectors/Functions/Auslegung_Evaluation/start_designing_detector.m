@@ -3,6 +3,13 @@
 % function 'design_detector' and a detector will be desinged based on this
 % data.
 
+%% Related Functions
+
+%%
+% * <design_detector.html design_detector>
+
+
+%% Source Code
 function [fn, fp] = start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, sampletime, path_and_name, path_detector)
 
 % 'data_multifault' is assumed to contain the sensor observations where mutliple fault types were injected.

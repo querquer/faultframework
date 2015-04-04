@@ -1,7 +1,16 @@
+%% Rec_search
+% This function searchs recursively foldes for files with specific names
+% and returns its full path.
+
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
+
 function name = rec_search(path, exp)
-%REC_SEARCH searches recursive for files with specific names and returns
-%its full name
-%   Detailed explanation goes here
+
 name = [];
 curr_pwd = pwd;
 cd(path);

@@ -3,6 +3,13 @@
 %equal(1) to 'threshold' or smaller(0). Depending on this comparsion a new array
 %consisting of zeros and ones is generated and returned.
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
+
 function det = lc_check( detection, threshold )
 
 sd = size(detection);

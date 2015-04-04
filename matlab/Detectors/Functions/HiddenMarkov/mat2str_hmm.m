@@ -1,4 +1,15 @@
-function str = mat2str( data )
+%% Mat2str
+% This is a helper-function constructing a string which represents a matrix
+% specified by 'data'.
+
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+
+%% Source Code
+function str = mat2str_hmm( data )
 %MAT2STR Summary of this function goes here
 %   Detailed explanation goes here
 

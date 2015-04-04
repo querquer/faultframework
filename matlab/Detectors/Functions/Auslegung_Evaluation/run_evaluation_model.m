@@ -4,6 +4,13 @@
 % assume different fault types, we need to asses the resulting detector
 % according to all these fault types. 
 
+%% Related Functions
+
+%%
+% * <extract_path.html extract_path>
+% * <prepare_evaluation_model.html prepare_evaluation_model>
+
+%% Source Code
 function out = run_evaluation_model(data, sampletime, detector, evaluation_model)
 
 % Get number of fault types

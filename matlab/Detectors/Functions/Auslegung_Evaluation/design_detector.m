@@ -13,9 +13,11 @@
 % detector types as possible, one can extend it by implementing new detectors. 
 % This can be done by simple specifying at least three functions: 
 %% 
-% * 'generate_starting_point*.m', 
-% * 'output_detector*.m' and 
-% * 'create_detector*.m'. 
+% * 'generate_starting_point*.m' (Examples:
+% <generate_starting_point_lc.html generate_starting_point_lc> , <generate_starting_point_nn.html generate_starting_point_nn> , <generate_starting_point_hm.html generate_starting_point_hm>),
+% * 'output_detector*.m' (Examples: <output_detector_lc.html output_detector_lc> , <output_detector_nn.html output_detector_nn> , <output_detector_hm.html output_detector_hm>) and 
+% * 'create_detector*.m'(Examples: <create_detector_lc.html create_detector_lc> , <create_detector_nn.html create_detector_nn> , <create_detector_hm.html create_detector_hm> ). 
+% * Optional: 'set_ga_options*.m'. (Examples <set_ga_options_lc.html set_ga_options_lc> , <set_ga_options_nn.html set_ga_options_nn> , <set_ga_options_hmm.html set_ga_options_hm>)
 
 %%
 % The star '*' is symbolic and is meant to add a concret name. Using this
@@ -30,16 +32,25 @@
 % with respect to a given configuration 'x'. Due to the nature of genetic 
 % algorithms and based on the implementation of the detector dependend functions
 % ('generate_starting_point', 'output_detecotr', 'create_detector') the run
-% time of this function can increase up to several hours.
+% time of this function can increase up to several hours. In order to
+% enable the expert to take an effect on the genetic algorithm, the
+% function 'set_ga_options*' can be implemented. There one can change
+% options of the genetic algorithm.
 
 %% Input Parameters
-% * 'data': Array of structures with field 'name' specifying the fault type
+% * 'data_multifaule': Array of sensor observations where multiple fault types where injected.
+% * 'data_singlefault': Array of structures with field 'name' specifying the fault type
 % represented by this sample data and field 'data' which contains the
 % sample data. Every entry represents a different fault type. 
-% * 'trigger': Array of structures with field 'name specifying the fault
+% * 'trigger_multifault': Array of structures with field 'name specifying the fault
 % type represented by this sample data and field 'trigger' which is another
 % array consisting of zeros (sample data at the same index in 'data' is not
-% faulty) and ones (sample data at the same index in 'data' is faulty).
+% faulty) and ones (sample data at the same index in 'data' is faulty). The
+% trigger singlas are corresponding to the sensor observations in
+% 'data_multifault'.
+% * 'trigger_singlefault': The same structure as 'trigger_multifault', but
+% containing data corresponding to the sensor observations in
+% 'data_singlefault'.
 % * 'sampletime': The resulting Simulink model representing the designed
 % detector will have this Sample Time. 
 % * 'grad_thr': This value is a threshold for limiting the computation time
@@ -66,13 +77,29 @@
 % optional function 'set_ga_options' can be implemented which is called
 % right before starting the genetic algorithm.
 
-%% Implementation
+%% Related Functions
+
+%%
+% * <find_functions.html find_functions>
+% * <calculate_fnfp.html calculate_fnfp>
+% * <generate_starting_point_lc.html fun_starting_point> (Example implementation of a generate_starting_point*.m-File)
+% * <output_detector_lc.html fun_config_dependend_output> (Example
+% implementation of a output_detector*.m-File)
+% * <create_detector_lc.html fun_create> (Example implementation of a
+% create_detector*.m-File)
+% * <set_ga_options_lc.html fun_ga_options> (Example implementation of a
+% set_ga_options*.m-File)
+% * <extract_path.html extract_path>
+% * <run_evaluation_model.html run_evaluation_model>
+% * <evaluation.html evaluation>
+
+
+%% Source Code
 
 function [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data_multifault, data_eval_multifault, data_singlefault, trigger_multifault, trigger_eval_multifault, trigger_singlefault, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
 
 %% TODO 
-% Implement checking of all input-values in order to be correct formated.
-
+% Implement checking of all input-values to be formated correctly.
 %get function handles
 [fun_starting_point,fun_config_dependend_output, fun_create, fun_ga_options] = find_functions(path_detector);
 

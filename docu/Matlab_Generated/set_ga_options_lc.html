@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Example implementation of 'set_ga_options*.m'</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-03-22"><meta name="DC.source" content="set_ga_options_lc.m"><style type="text/css">
+      --><title>Example implementation of 'set_ga_options*.m'</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-04"><meta name="DC.source" content="set_ga_options_lc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,10 +66,10 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Example implementation of 'set_ga_options*.m'</h1><!--introduction--><p>This function enables the user to specifie parameters of the underlying genetic algorithm. See also Matlab Documentation for all options on genetic algorithmes.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">set_ga_options_lc</a></li></ul></div><h2>set_ga_options_lc<a name="1"></a></h2><p>As the computation time of the evaluation function of this type of detectors is not very high, we can increase the population size as well as the stall generation and the 'TolFun' value. By doing this, the genetic algorithm will evaluate solutions with a higher diverity on the one hand and will try to optimize good solutions for a longer time on the other hand.</p><pre class="codeinput"><span class="keyword">function</span> options = set_ga_options_lc(options)
+  </style></head><body><div class="content"><h1>Example implementation of 'set_ga_options*.m'</h1><!--introduction--><p>This function enables the user to specifie parameters of the underlying genetic algorithm. See also Matlab Documentation for all options on genetic algorithmes.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">set_ga_options_lc</a></li><li><a href="#2">Related Functions</a></li><li><a href="#4">Source Code</a></li></ul></div><h2>set_ga_options_lc<a name="1"></a></h2><p>As the computation time of the evaluation function of this type of detectors is not very high, we can increase the population size as well as the stall generation and the 'TolFun' value. By doing this, the genetic algorithm will evaluate solutions with a higher diverity on the one hand and will try to optimize good solutions for a longer time on the other hand.</p><h2>Related Functions<a name="2"></a></h2><p>There are no sub-functions implemented by ourself.</p><h2>Source Code<a name="4"></a></h2><pre class="codeinput"><span class="keyword">function</span> options = set_ga_options_lc(options)
 
 options = gaoptimset(options,<span class="string">'TolFun'</span>, 0.005);
-options = gaoptimset(options,<span class="string">'PopulationSize'</span>, 50);
+options = gaoptimset(options,<span class="string">'PopulationSize'</span>, 300);
 options = gaoptimset(options,<span class="string">'StallGenLimit'</span>, 25);
 
 <span class="keyword">end</span>
@@ -88,10 +88,17 @@ options = gaoptimset(options,<span class="string">'StallGenLimit'</span>, 25);
 % genetic algorithm will evaluate solutions with a higher diverity on the
 % one hand and will try to optimize good solutions for a longer time on the
 % other hand.
+
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function options = set_ga_options_lc(options)
 
 options = gaoptimset(options,'TolFun', 0.005);
-options = gaoptimset(options,'PopulationSize', 50);
+options = gaoptimset(options,'PopulationSize', 300);
 options = gaoptimset(options,'StallGenLimit', 25);
 
 end

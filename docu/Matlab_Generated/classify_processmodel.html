@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>classify_processmodel</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-03-23"><meta name="DC.source" content="classify_processmodel.m"><style type="text/css">
+      --><title>classify_processmodel</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-04"><meta name="DC.source" content="classify_processmodel.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>classify_processmodel</h1><p>This function produces a sample output of the specified process model in order to determine the class to which it belong.</p><pre class="codeinput"><span class="keyword">function</span> class = classify_processmodel( path_and_name, StopTime )
+  </style></head><body><div class="content"><h1>classify_processmodel</h1><!--introduction--><p>This function produces a sample output of the specified process model in order to determine the class to which it belong.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="getModelData.html">getModelData</a></li><li><a href="mean_of_squared_gradient.html">mean_of_squared_gradient</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> class = classify_processmodel( path_and_name, StopTime )
 
 <span class="comment">% Generate sample output</span>
 data = getModelData(path_and_name, StopTime);
@@ -97,6 +97,14 @@ mean = mean_of_squared_gradient(data);
 % This function produces a sample output of the specified process model in
 % order to determine the class to which it belong. 
 
+
+%% Related Functions
+
+%%
+% * <getModelData.html getModelData>
+% * <mean_of_squared_gradient.html mean_of_squared_gradient>
+
+%% Source Code
 function class = classify_processmodel( path_and_name, StopTime )
 
 % Generate sample output

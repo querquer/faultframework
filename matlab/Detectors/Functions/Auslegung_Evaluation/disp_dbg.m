@@ -2,6 +2,12 @@
 % This function extends the original Matlab function 'disp' by adding a
 % string which contains the current date and time.
 
+%% Related Functions
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
+
 function output_args = disp_dbg(str)
 % Get current date and tim
 c = clock;

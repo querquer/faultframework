@@ -1,8 +1,14 @@
-%% getClassificationDataDetector
+%% GetClassificationDataDetector
 % This function loads and formats the data from files to add a new detector
 % to the framework. 'files' is a struct and contains information of all
 % files associated wiht this class of dynamics.
 
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function  [data_multifault, data_singlefault, trigger_multifault, trigger_singlefault] = getClassificationDataDetector(files, ind)
 
 %load data_multifault and its trigger signals

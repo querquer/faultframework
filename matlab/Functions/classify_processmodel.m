@@ -2,6 +2,14 @@
 % This function produces a sample output of the specified process model in
 % order to determine the class to which it belong. 
 
+
+%% Related Functions
+
+%%
+% * <getModelData.html getModelData>
+% * <mean_of_squared_gradient.html mean_of_squared_gradient>
+
+%% Source Code
 function class = classify_processmodel( path_and_name, StopTime )
 
 % Generate sample output

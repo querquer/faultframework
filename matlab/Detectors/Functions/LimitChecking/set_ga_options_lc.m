@@ -11,6 +11,13 @@
 % genetic algorithm will evaluate solutions with a higher diverity on the
 % one hand and will try to optimize good solutions for a longer time on the
 % other hand.
+
+%% Related Functions
+
+%%
+% There are no sub-functions implemented by ourself.
+
+%% Source Code
 function options = set_ga_options_lc(options)
 
 options = gaoptimset(options,'TolFun', 0.005);

@@ -8,6 +8,13 @@
 % determine the false-positives-rates and false-negatives-rates for every
 % fault type by calling the function 'calculate_fnfp'.
 
+
+%% Related Functions
+
+%%
+% * <calculate_fnfp.html calculate_fnfp>
+
+%% Source Code
 function [fn, fp] = evaluation(trigger, detection)
 
 % Check format of input data

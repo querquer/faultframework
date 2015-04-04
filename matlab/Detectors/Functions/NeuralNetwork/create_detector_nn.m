@@ -1,11 +1,19 @@
+%% Create_detector_nn
+% Creates a detector based on the given configuration 'x_list' for all
+% fault types represented in 'data' and 'trigger'. The detector will be
+% part of a Simulink-Model whos name and path is specified in
+% 'path_and_name'.
+
+%% Related Functions
+
+%%
+% * <create_single_nn.html create_single_nn>
+% * <extract_path.html extract_path>
+
+%% Source Code
 function [FN, FP] = create_detector_nn( x_list, data, trigger,  path_and_name  )
-%CREATE_DETECTOR_NN Creates a detector for all fault types represented in
-%"data" and "trigger". The designed detector is saved at specified path
-%"path_and_name".
 
-%   Detailed explanation goes here
-
-
+% Template Simulink-model to work with
 tmp = ['current_detector_template' num2str(round(rand*1000))];
 if(exist([tmp '.slx'], 'file'))
     delete([tmp '.slx']);
