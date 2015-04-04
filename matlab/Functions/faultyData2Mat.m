@@ -1,6 +1,6 @@
 function faultyData2Mat(path_and_name, act_vec, faulty_data_struct,trigger_arr, phase_length)
 %% creates from the faulty_data_struct and trigger_arr a cell array
-% faultyData2Mat('Data/low/low', act_vec, faulty_data_struct,trigger_arr);
+% faultyData2Mat('Data/low/low', act_vec, faulty_data_struct,trigger_arr,phase_length);
 
 
 
