@@ -14,7 +14,7 @@ catch
 end
 
 try
-    evalin('base','GlobalSeed');
+    GlobalSeed = evalin('base','GlobalSeed');
 catch
     display('Error:Could not load GlobalSeed!')
 end
@@ -57,6 +57,7 @@ end
 if(debugMode == 1)
     assignin('base','faulty_data_struct',faulty_data_struct);
 end
+
 
 %% fill data_singlefault
 counter = 0;
@@ -101,7 +102,7 @@ if(1 == 1)
     for idy = 1+1:num_faults+1
         phase_start = int32(phase_length*idy+2);
         phase_end = int32(phase_length*(idy+1));
-        
+    
         curr_trigger = transpose(trigger_arr(idx).data);
         trigger_vec = findTrigger(trigger_arr,idy,phase_length);
 
@@ -144,7 +145,7 @@ end
 
 %% fill trigger_multifault
 
-last_phase_start = int32(phase_length*(num_data-1)+1);
+last_phase_start = int32(phase_length*(num_data-1)+2);
 last_phase_end = int32(phase_length*num_data);
 
 counter = 0;

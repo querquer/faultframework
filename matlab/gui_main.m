@@ -581,7 +581,7 @@ des = gui_continue();
 if(des == 1)
     FileName_Filter = evalin('base','FileName_Filter');
     PathName_Filter = evalin('base','PathName_Filter');
-    % addFilter
+    add_filter(FileName_Filter);
 end
 % hObject    handle to pushbutton_addFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -712,6 +712,7 @@ assignin('base','PathName_Filter',PathName_Filter);
 % --- Executes on button press in pushbutton_choosePM.
 function pushbutton_choosePM_Callback(hObject, eventdata, handles)
 [FileName_PM,PathName_PM,FilterIndex] = uigetfile({'*.slx';'*.m';'*.mat';'*.*'},'File Selector');
+set_processModel(FileName_PM);
 assignin('base','FileName_PM',FileName_PM);
 assignin('base','PathName_PM',PathName_PM);
 % hObject    handle to pushbutton_choosePM (see GCBO)

@@ -94,7 +94,7 @@
         <!-- stuck at x; f(x)= (top-bottom)*rand+bottom, positive outlier, negative = 1, positive and negative outlier -->
 		<label>stuck at x</label>
 		<id>9</id>
-        <activation>1</activation>
+        <activation>0</activation>
 		<permanent>0</permanent>
         <occurrence>0.05</occurrence>
 		<top type="param">3</top>

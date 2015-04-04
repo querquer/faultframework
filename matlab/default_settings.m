@@ -1,7 +1,7 @@
 %% load default setting into workspace
 
 try
-    evalin('base','isInit');
+    x = evalin('base','isInit');
 catch
 
     % global parameter
