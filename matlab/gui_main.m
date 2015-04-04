@@ -581,7 +581,7 @@ des = gui_continue();
 if(des == 1)
     FileName_Filter = evalin('base','FileName_Filter');
     PathName_Filter = evalin('base','PathName_Filter');
-    % addFilter
+    add_filter(FileName_Filter);
 end
 % hObject    handle to pushbutton_addFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
