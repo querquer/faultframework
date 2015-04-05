@@ -55,8 +55,17 @@ fn =  sum(a);
 
 %%
 % convert fn/fp to rates
-fn = fn/(tp+fn);
-fp = fp/(tn+fp);
+if(tp+fn > 0)
+    fn = fn/(tp+fn);
+else
+    fn = 0;
+end
+
+if(tn+fp >0)
+    fp = fp/(tn+fp);
+else
+    fp = 0;
+end
 
 end
 

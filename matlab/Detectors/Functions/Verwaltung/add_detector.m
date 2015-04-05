@@ -55,19 +55,22 @@ for c = 1:3
         
         % Create new entry
         sd = size(detectors);
-        new_detector.fn_rates = FN_final;
-        new_detector.fp_rates = FP_final;
-        new_detector.name = name_detector;
-        new_detector.path = path_detector;
-        
+
         % Add entry to existing entries
-        LoopupTable(line, c).detector(sd(1,2) + 1) = new_detector;
+        LookupTable(line, c).detector(sd(1,2) + 1).name = name_detector;
+        LookupTable(line, c).detector(sd(1,2) + 1).path = path_detector;
+        LookupTable(line, c).detector(sd(1,2) + 1).fn_rate = FN_final;
+        LookupTable(line, c).detector(sd(1,2) + 1).fp_rate = FP_final;
+        
         save(path_and_name_lookup, 'LookupTable');
         
         % Remove temporarily configured detector
         if(exist(path_and_name, 'file'))
             delete(path_and_name);
         end
+        
+        % Display progess
+        disp_dbg(['Progress: ' num2str(((c-1)*sizef(1,2)+com)/(3*sizef(1,2)))]);
     end
 
 end
