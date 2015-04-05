@@ -691,9 +691,12 @@ function pushbutton_export_Callback(hObject, eventdata, handles)
 
 % --- Executes on button press in pushbutton_chooseDetector.
 function pushbutton_chooseDetector_Callback(hObject, eventdata, handles)
-[FileName_Detector,PathName_Detector,FilterIndex] = uigetfile({'*.m';'*.slx';'*.mat';'*.*'},'File Selector');
-assignin('base','FileName_Detector',FileName_Detector);
-assignin('base','PathName_Detector',PathName_Detector);
+%[FileName_Detector,PathName_Detector,FilterIndex] = uigetfile({'*.m';'*.slx';'*.mat';'*.*'},'File Selector');
+%assignin('base','FileName_Detector',FileName_Detector);
+%assignin('base','PathName_Detector',PathName_Detector);
+currentFolder = pwd;
+PathName_Detector = uigetdir(pwd);
+
 % hObject    handle to pushbutton_chooseDetector (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

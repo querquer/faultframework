@@ -19,9 +19,8 @@ catch
     assignin('base','FileName_Filter',FileName_Filter);
     assignin('base','PathName_Filter',PathName_Filter);
 
-    FileName_Detector = 'Detector.slx';
+    
     PathName_Detector = 'Detector/';
-    assignin('base','FileName_Detector',FileName_Detector);
     assignin('base','PathName_Detector',PathName_Detector);
 
     FileName_FaultKonf = 'faultKonf_nofaults.xml';
