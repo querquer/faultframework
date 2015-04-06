@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 04-Apr-2015 07:11:07
+% Last Modified by GUIDE v2.5 06-Apr-2015 12:08:37
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -733,3 +733,51 @@ countFaults(FileName_FaultKonf);
 % hObject    handle to pushbutton_chooseFaultKonf (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+
+function edit_nameDetector_Callback(hObject, eventdata, handles)
+assignin('base','FileName_Detector', get(hObject,'string'));
+% hObject    handle to edit_nameDetector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_nameDetector as text
+%        str2double(get(hObject,'String')) returns contents of edit_nameDetector as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_nameDetector_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_nameDetector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit_nameFilter_Callback(hObject, eventdata, handles)
+assignin('base','FileName_Filter', get(hObject,'string'));
+% hObject    handle to edit_nameFilter (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_nameFilter as text
+%        str2double(get(hObject,'String')) returns contents of edit_nameFilter as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_nameFilter_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_nameFilter (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end

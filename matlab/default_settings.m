@@ -14,15 +14,17 @@ catch
 
 
     % Choose elements
-    FileName_Filter = 'Filter.slx';
+    FileName_Filter = 'Filter';
     PathName_Filter = 'Filter/';
     assignin('base','FileName_Filter',FileName_Filter);
     assignin('base','PathName_Filter',PathName_Filter);
 
-    
+    FileName_Detector = 'Detector';
     PathName_Detector = 'Detector/';
+    assignin('base','FileName_Detector',FileName_Detector);
     assignin('base','PathName_Detector',PathName_Detector);
 
+    
     FileName_FaultKonf = 'faultKonf_nofaults.xml';
     PathName_FaultKonf = 'Faultinjection/XML/';
     assignin('base','FileName_FaultKonf',FileName_FaultKonf);
