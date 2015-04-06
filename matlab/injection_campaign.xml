@@ -3,7 +3,7 @@
    <campaign>
       <label>no faults</label>
       <id>0</id>
-      <file>Faultinjection/XML/faultKonf_DataGen05.xml</file>
+      <file>Faultinjection/XML/faultKonf_Eva01.xml</file>
       <description> do not change </description>
    </campaign>
    <global>

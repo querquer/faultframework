@@ -45,6 +45,12 @@ myXMLwrite(curr_file_path,xDoc);
 %% Execute script which start the Fault Injection Modul
 sim('GenerateData');
 
+if(exist('faultfree_data','var'))
+    assignin('base','faultfree_data',faultfree_data);
+else
+    display('Error: Could not run fault injection in schedule mode');
+end
+
 if(exist('faulty_data','var'))
     assignin('base','faulty_data',faulty_data);
 else
