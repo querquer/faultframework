@@ -1,6 +1,8 @@
 function convertFaultyData()
-%% convertFaultyData
+%% Convert the faulty data to several spezific data types
 
+
+%% Load all needed variables from workspace
 try
     SimLength = evalin('base','SimLength');
 catch
@@ -35,10 +37,12 @@ fault_types = {'value_correlated_offset','time_correlated_offset','value_correla
 
 debugMode = 1;
 
-%% prepare faulty_data to a struct array
+%% Builds a struct array from faulty data
+% The struct array contains the data from the schedule run seperated by
+% each fault combination.
+% The amount of fault combinations is determined by 2^(number of activated faults).
 num_data = 2^num_faults;
 phase_length = (SimLength/num_data)*(1/SampleTime);
-
 
 faulty_data_struct = struct();
 for idx=1:num_data
@@ -53,7 +57,9 @@ if(debugMode == 1)
 end
 
 
-%% fill data_singlefault
+%% Builds a struct array which contains the data from the single fault run
+% The amount of single fault runs is determined only by the number of
+% activated faults.
 counter = 0;
 
 for idx=1:length(act_vec)   
@@ -68,7 +74,11 @@ if(debugMode == 1)
     assignin('base','data_singlefault',data_singlefault);
 end
 
-%% trigger convert to array
+%% Builds a struct array from the trigger data which were provided by the fault framework
+% Each element contains the trigger data of a fault for the whole schdule
+% run. There is one element for each fault.
+% The order is determined by the Trigger Bus and is based on the fault ids
+% in the fault configuration files.
 trigger_struct = evalin('base','trigger');
 
 trigger_arr(1).data = double(trigger_struct(1).value_correlated_offset.data);
@@ -89,8 +99,9 @@ if(debugMode == 1)
     assignin('base','trigger_arr',trigger_arr);
 end
 
-%% fill trigger_singlefault
-
+%% Builds a struct array which contains the trigger belonging to the data single fault array
+% The first element contains the trigger information to the first element
+% of the data trigger array.
 if(1 == 1)
     counter = 1;
     for idy = 1+1:num_faults+1
@@ -129,7 +140,9 @@ if(debugMode == 1)
 end
 
 
-%% fill data_multifault
+%% Builds a array which contains the data of the last schedule run
+% The last run in the schedule containing a fault activation with all
+% faults.
 
 data_multifault = transpose(faulty_data_struct(num_data).value.Data);
 
@@ -137,7 +150,7 @@ if(debugMode == 1)
     assignin('base','data_multifault',data_multifault);
 end
 
-%% fill trigger_multifault
+%% Builds a struct array which contains the trigger belonging to the data multi fault array
 
 last_phase_start = int32(phase_length*(num_data-1)+2);
 last_phase_end = int32(phase_length*num_data);

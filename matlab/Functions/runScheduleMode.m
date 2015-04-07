@@ -45,6 +45,7 @@ myXMLwrite(curr_file_path,xDoc);
 %% Execute script which start the Fault Injection Modul
 sim('GenerateData');
 
+%% Write the generated results from the fault injection model to the workspace
 if(exist('faultfree_data','var'))
     assignin('base','faultfree_data',faultfree_data);
 else

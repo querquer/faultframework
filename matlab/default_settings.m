@@ -30,7 +30,7 @@ catch
     assignin('base','FileName_FaultKonf',FileName_FaultKonf);
     assignin('base','PathName_FaultKonf',PathName_FaultKonf);
 
-    FileName_PM = 'middle_nuw.slx';
+    FileName_PM = 'middle_new.slx';
     PathName_PM = 'ProcessModel/';
     assignin('base','FileName_PM',FileName_PM);
     assignin('base','PathName_PM',PathName_PM);
@@ -43,6 +43,9 @@ catch
     num_faults = 0;
     assignin('base','num_faults',num_faults);
 
+    act_vec = [0 0 0 0 0 1 1 0 0 0 0 0 0];
+    assignin('base','act_vec',act_vec);
+    
     TriggerBus = load('TriggerBus.mat');
     assignin('base','TriggerBus',TriggerBus(1).TriggerBus);
 

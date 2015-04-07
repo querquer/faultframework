@@ -1,14 +1,17 @@
 function countFaults(file_name_faultKonf)
-%% Count the amount of faults were the activation is 1 in the given Fault Konfiguration
+%% Count all faults and build a activation vector from the given fault configuration file and provied them to the workspace
 
-num_faults = 0;
-act_vec = [0,0,0,0,0,0,0,0,0,0,0,0,0];
-
+% Open the XML by the given fault configuraion name
 xDoc = xmlread(strcat('Faultinjection/XML/',file_name_faultKonf));
 allFaultList  = xDoc.getElementsByTagName('fault');
 
 
-%% Iterate through the Fault Konfiguration and increment num_faults if activation is 1
+%% Iterate through the Fault Konfiguration 
+% Increment num_faults if activation is 1.
+% Set 1 in the activation vector if the corresponding fault is set as
+% activated.
+num_faults = 0;
+act_vec = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 
 for idx = 0:allFaultList.getLength-1
     thisFault = allFaultList.item(idx);
@@ -23,7 +26,7 @@ for idx = 0:allFaultList.getLength-1
     end
 end
 
-%% Write the amount of faults to the workspace
+%% Write both created varibles to the workspace
 assignin('base','num_faults', num_faults);
 assignin('base','act_vec', act_vec);
 
