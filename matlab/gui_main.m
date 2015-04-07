@@ -567,7 +567,7 @@ des = gui_continue();
 if(des == 1)
     FileName_Detector = evalin('base','FileName_Detector');
     PathName_Detector = evalin('base','PathName_Detector');
-    add_detector(PathName_Detector, FileName_Detector, '/Functions/lookuptable.mat', '/Data');
+    add_detector(PathName_Detector, FileName_Detector,[pwd '/Functions/lookuptable.mat'], [pwd '/Data']);
 end
 
 % hObject    handle to pushbutton_addDetctor (see GCBO)
