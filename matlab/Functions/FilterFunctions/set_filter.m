@@ -19,7 +19,6 @@ load_system('Filter/Filter_evaluation/quality_check.slx');
 %set the parameter or the model reference block
 set_param('quality_check/Filter/' ,'ModelNameDialog', model_file);
 
-%save the changed system
 close_system('Filter/Filter_evaluation/quality_check.slx',1);
 
 end

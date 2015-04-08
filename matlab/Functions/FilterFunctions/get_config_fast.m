@@ -27,7 +27,6 @@ function [config, quality, dist] = get_config(model_file)
 %   filtered faulty_data and the faultfree_data. To give information on the
 %   impact of the distortion of the filter. A smaller value is better.
 
-set_filter(model_file);
 
 % start the configurationfunction of the filter
 % if you add a new filter, the configuration function should be added here
