@@ -23,9 +23,6 @@ function [fn, fp] = start_designing_detector(data_multifault, data_singlefault, 
 % timestep or not. As we need to know which fault type we are confronted
 % with, the 'trigger' array should constist of a structs with the fields:
 
-%%
-% * 'name': containing the name of the fault type
-% * 'data': containing the trigger signal according to this fault type.
 
 %% build input data
 

@@ -581,7 +581,10 @@ des = gui_continue();
 if(des == 1)
     FileName_Filter = evalin('base','FileName_Filter');
     PathName_Filter = evalin('base','PathName_Filter');
-    add_filter(FileName_Filter);
+    
+    si = size(FileName_Filter);
+    name = FileName_Filter(1:si(1,2)-4);
+   add_filter(name, [pwd '/Data']);
 end
 % hObject    handle to pushbutton_addFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -676,7 +679,7 @@ function pushbutton_addDetctor_CreateFcn(hObject, eventdata, handles)
 chooseDetector = findobj(gcf,'Tag','popupmenu_detector');
 FileName_Detector = get(chooseDetector,'FileName_Detector');
 PathName_Detector = get(chooseDetector,'PathName_Detector');
-add_detector(PathName_Detector, FileName_Detector, '/Functions/lookuptable.mat', '/Data');
+add_detector(PathName_Detector, FileName_Detector,[pwd '/Functions/lookuptable.mat'],[pwd '/Data']);
 % hObject    handle to pushbutton_addDetctor (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
