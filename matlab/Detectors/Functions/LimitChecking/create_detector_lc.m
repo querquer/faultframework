@@ -73,10 +73,11 @@ save_system(tmp, path_and_name);
 
 close_system(tmp, false);
 
+cd(curr_dir);
+
+
 if(exist([tmp '.slx'], 'file'))
     delete([tmp '.slx']);
 end
-
-cd(curr_dir);
 end
 

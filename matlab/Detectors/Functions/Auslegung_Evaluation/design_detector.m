@@ -193,5 +193,12 @@ trigger(st(1,2) + 1).name = trigger_eval_multifault.name;
 out = run_evaluation_model(data, sampletime, name, evaluation_model);
 [FN_final, FP_final] = evaluation(trigger, out);
  
+sfn = size(FN_final);
+for k=1:sfn(1,2)
+    disp_dbg(FN_final(k).name);
+    disp_dbg(['fn-rate: ' num2str(FN_final(k).fn_rate)]);
+    disp_dbg(['fp-rate: ' num2str(FP_final(k).fp_rate)]);
+end
+
 end
 
