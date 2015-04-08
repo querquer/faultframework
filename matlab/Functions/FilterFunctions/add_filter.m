@@ -4,7 +4,7 @@ function add_filter( added_filter, path_trainData )
 
 set_filter(added_filter);
 
-t = load('Functions/lookuptable_test2.mat');
+t = load('Functions/lookuptable.mat');
 LookupTable = t.LookupTable;
 
 class{3} = 'low';
@@ -36,7 +36,8 @@ for c = 1:3
         [~ , new_filter.quality, new_filter.dist] = get_config_fast(added_filter);
         
         % Get current filter
-        filter = LookupTable(com,c).filter;
+        line = bi2de(files.faultComb);
+        filter = LookupTable(line,c).filter;
         sf = size(filter);
         
         % is the new Filter already in the LookupTable?
@@ -50,10 +51,10 @@ for c = 1:3
         
         if(filterPresence ~= 0)
             % overwrite existing values
-            LookupTable(com, c).filter(filterPresence) = new_filter;
+            LookupTable(line, c).filter(filterPresence) = new_filter;
         else
             % Add entry to existing entries
-            LookupTable(com, c).filter(sf(1,2) + 1) = new_filter;
+            LookupTable(line, c).filter(sf(1,2) + 1) = new_filter;
         end
 
         save('Functions/lookuptable_test2.mat', 'LookupTable');
