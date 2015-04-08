@@ -50,7 +50,7 @@ for c = 1:3
         LookupTable = t.LookupTable;
         
         % Get current detectors
-        line = bi2de(files(com).faultComb);
+        line = bib2dec13(files(com).faultComb);
         detectors = LookupTable(line,c).detector;
         
         % Create new entry
