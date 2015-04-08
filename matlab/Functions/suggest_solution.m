@@ -12,7 +12,7 @@ function [ detectors, filters ] = suggest_solution( dynamic, failures )
 
 LookupTable = load('Functions/lookuptable.mat');            % laod the lookupTable
 
-line = bi2de(failures);                                     % gives a decimal number of the failures array to get the correct line
+line = bin2dec13(failures);                                     % gives a decimal number of the failures array to get the correct line
 detectors = LookupTable.LookupTable(line,dynamic).detector; % get the detector list
 filters = LookupTable.LookupTable(line,dynamic).filter;     % get the filter list
 

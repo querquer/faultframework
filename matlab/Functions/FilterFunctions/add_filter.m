@@ -25,6 +25,7 @@ for c = 1:3
         % faultfree data
         if(sum(files(com).faultComb) == 0)
             assignin('base', 'faultfree_data', process);
+            continue;
         end
         
         % write the stuff to workspace for use in the simulation
@@ -36,8 +37,8 @@ for c = 1:3
         [~ , new_filter.quality, new_filter.dist] = get_config_fast(added_filter);
         
         % Get current filter
-        line = bi2de(files.faultComb);
-        filter = LookupTable(line,c).filter;
+        line = bin2dec13(files(com).faultComb);
+        filter = LookupTable(line, c).filter;
         sf = size(filter);
         
         % is the new Filter already in the LookupTable?
