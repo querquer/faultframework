@@ -17,5 +17,7 @@ function bin = dec2bin13(dec_nr)
     if(sb(1,2) < 13)
         bin = [zeros(1,13-sb(1,2)), bin];
     end
+    
+    bin = fliplr(bin);
 end
 
