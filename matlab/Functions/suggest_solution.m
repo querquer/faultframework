@@ -27,25 +27,51 @@ sd = size(detectors);
 for i = 1:sd(1,2)
     if(i==1)
         sorted_detectors = detectors(i);
+        % calculate overall fn/fp rate
+        sfp = size(sorted_detectors.fp_rate);
+        sumfp = 0;
+        sumfn = 0;
+        for k = 1:sfp(1,2)
+            sumfp = sorted_detectors.fp_rate(k).fp_rate + sumfp;
+            sumfn = sorted_detectors.fn_rate(k).fn_rate + sumfn;
+        end
+        
+        sorted_detectors.fp_rate = sumfp/sfp(1,2);
+        sorted_detectors.fn_rate = sumfn/sfp(1,2);
+        
     else
         ssorted = size(sorted_detectors);
         for j = 1:ssorted(1,2)
+           
+            % Calculate overall fn/fp rate for detector(i);
+            det_i = detectors(i);
+            sfp = size(det_i.fp_rate);
+            sumfp = 0;
+            sumfn = 0;
+            for k = 1:sfp(1,2)
+                sumfp = det_i.fp_rate(k).fp_rate + sumfp;
+                sumfn = det_i.fn_rate(k).fn_rate + sumfn;
+            end
+        
+            det_i.fp_rate = sumfp/sfp(1,2);
+            det_i.fn_rate = sumfn/sfp(1,2);
+            
             % Compare false-positive rate
-            if(sorted_detectors(j).fp_rate > detectors(i).fp_rate)
+            if(sorted_detectors(j).fp_rate > det_i.fp_rate)
                 part1 = sorted_detectors(1:j-1);
                 part2 = sorted_detectors(j:ssorted(1,2));
                 
-                sorted_detectors = [part1, detectors(i), part2];
+                sorted_detectors = [part1, det_i, part2];
                 break;
             else
                 % Compare false-negative rate, if both are equal in
                 % false-positive rates
-                if(sorted_detectors(j).fp_rate == detectors(i).fp_rate)
-                    if(sorted_detectors(j).fn_rate > detectors(i).fn_rate)
+                if(sorted_detectors(j).fp_rate == det_i.fp_rate)
+                    if(sorted_detectors(j).fn_rate > det_i.fn_rate)
                         part1 = sorted_detectors(1:j-1);
                         part2 = sorted_detectors(j:ssorted(1,2));
                 
-                        sorted_detectors = [part1, detectors(i), part2];
+                        sorted_detectors = [part1, det_i, part2];
                         break;
                     end
                 end
