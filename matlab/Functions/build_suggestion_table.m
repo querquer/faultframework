@@ -1,6 +1,5 @@
 function [LookupTable] = build_suggestion_table()
-%BUILD_SUGGESTION_TABLE make a new LookupTable. Executing this function can
-%take several hours!(spaeter mal ;)
+%BUILD_SUGGESTION_TABLE make a new LookupTable.
 %   Return value
 %   LookupTable:    matrix of structures. The column gives the dynamic. The
 %   line gives the enabled failures. Every field contains a struct with an
