@@ -73,7 +73,7 @@ counter = 0;
 for idx=1:length(act_vec)   
     if(act_vec(idx) == 1)
         counter = counter + 1;
-        data_singlefault(counter).name = fault_types(idx);
+        data_singlefault(counter).name = char(fault_types(idx));
         data_singlefault(counter).data = transpose(faulty_data_struct(counter+1).value.Data);
     end 
 end
@@ -121,7 +121,7 @@ if(1 == 1)
         for idz = 1:length(trigger_vec)          
             if(trigger_vec(idz) == 1)
                 curr_trigger = transpose(trigger_arr(idz).data);
-                trigger_singlefault_temp(counter).name = fault_types(idz);
+                trigger_singlefault_temp(counter).name = char(fault_types(idz));
                 trigger_singlefault_temp(counter).data = getsamples(curr_trigger,[phase_start:phase_end]);
             end
         end
@@ -134,7 +134,7 @@ if(1 == 1)
         for idb = 1:length(trigger_singlefault_temp)
             
             if(strcmp(fault_types(ida),trigger_singlefault_temp(idb).name))
-                trigger_singlefault(counter).name = fault_types(ida);
+                trigger_singlefault(counter).name = char(fault_types(ida));
                 trigger_singlefault(counter).data = trigger_singlefault_temp(idb).data;
                 counter = counter + 1;
             end
@@ -171,7 +171,7 @@ for idx=1:length(act_vec)
         %curr_trigger = delsample(trigger_arr(idx),'Index',1);
         curr_trigger = transpose(trigger_arr(idx).data);
         
-        trigger_multifault(counter).name = fault_types(idx);
+        trigger_multifault(counter).name = char(fault_types(idx));
         trigger_multifault(counter).data = getsamples(curr_trigger,[last_phase_start:last_phase_end]);
     end
 end

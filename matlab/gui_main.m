@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 09-Apr-2015 09:58:38
+% Last Modified by GUIDE v2.5 09-Apr-2015 13:52:09
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -395,8 +395,10 @@ if(des == 1)
     trigger_singlefault = evalin('base','trigger_singlefault');
     SampleTime = evalin('base','SampleTime');
     
-    path_and_name = strcat(pwd,'\test');
-    %path_and_name = evalin('base','path_and_name');
+    if exist('\Output\Designed_Detector_TEMP','file') > 0
+        delete('\Output\Designed_Detector_TEMP');
+    end
+    path_and_name = strcat(pwd,'\Output\Designed_Detector_TEMP');
     
     
     path_detector_complete = evalin('base','path_detector');
@@ -404,13 +406,11 @@ if(des == 1)
     si = size(path_detector_complete);
     path_detector = path_detector_complete(1+sa-1:si(1,2));
 
-    
-
+   
     display('Start Design Detector');
     [fn, fp] = start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, SampleTime, path_and_name, path_detector);
     % show results
-  
-    
+    result_detector(fn,fp);
 end
 % hObject    handle to pushbutton_desdet (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -651,9 +651,9 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton_export.
-function pushbutton_export_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton_export (see GCBO)
+% --- Executes on button press in pushbutton_export_detector.
+function pushbutton_export_detector_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton_export_detector (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -756,3 +756,10 @@ function edit_nameFilter_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in pushbutton_export_filter.
+function pushbutton_export_filter_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton_export_filter (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)

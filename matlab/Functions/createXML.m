@@ -6,7 +6,7 @@
 
 
 %% Source Code
-function createXML
+function createXML(filename)
 
 
 %% Creates a new XML-File
@@ -397,10 +397,10 @@ for idx = 1:numel(fault_types)
     toc.appendChild(curr_fault);
 end
 
-%% Reads the designated filename if existing
-try 
-    curr_filename = strcat('Faultinjection/XML/',evalin('base','filename'));
-catch
+%% Checks the designated filename 
+if filename > 0
+    curr_filename = strcat('Faultinjection/XML/',filename);
+else
     curr_filename = 'Faultinjection/XML/faultKonf_TEMP';
 end
 
@@ -408,7 +408,6 @@ end
 assignin('base','num_faults', num_faults);    
 
 %% Finally creation of the XML-File
-xmlFileName = [curr_filename,'.xml'];
-xmlwrite(xmlFileName,docNode);
-type(xmlFileName);
+xmlwrite(curr_filename,docNode);
+type(curr_filename);
 

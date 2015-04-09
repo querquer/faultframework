@@ -1,9 +1,9 @@
 %% Documentation Graphical User Interface
 %
-%
-% Picture Main Frame
-% <<FILENAME.PNG>>
 %%
+
+%% Image of the graphical user interface
+% <<gui_main.png>>
 
 %% Related Functions
 
@@ -21,7 +21,10 @@
 % * <start_designing_detector.html start_designing_detector>
 % * <set_filter.html set_filter>
 
+%% Related Graphical User Interfaces
 
+%%
+% * <gui_faultlist_docu.html GUI-Faultlist>
 
 
 
@@ -94,7 +97,7 @@
 % uigetfile() and calls loadFaultKonf() and countFaults()
 
 % Elemtent: *Set up Faults*
-% Funktion: Calls gui_faultlist which open a new window
+% Funktion: Calls the GUI-Faultlist
 
 % Elemtent: *Generate Test Data*
 % Funktion: Calls runScheduleMode() with the given fault configuration file

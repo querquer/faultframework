@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Documentation Graphical User Interface</h1><!--introduction--><p>Picture Main Frame <a href="<FILENAME.PNG">&lt;FILENAME.PNG</a>&gt;</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Panel: Process Model</a></li><li><a href="#4">Panel: Global Konfiguration</a></li><li><a href="#5">Panel: Import/Export</a></li><li><a href="#6">Panel: Fault Injection Modul</a></li><li><a href="#7">Panel: Fault Detection Modul</a></li><li><a href="#8">Panel: Fault Filter Modul</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="set_processModel.html">set_processModel</a></li><li><a href="getModelData.html">getModelData</a></li><li><a href="add_detector.html">add_detector</a></li><li><a href="add_filter.html">add_filter</a></li><li><a href="export_filter.html">export_filter</a></li><li><a href="loadFaultKonf.html">loadFaultKonf</a></li><li><a href="countFaults.html">countFaults</a></li><li><a href="runScheduleMode.html">runScheduleMode</a></li><li><a href="convertFaultyData.html">convertFaultyData</a></li><li><a href="suggest_solution.html">suggest_solution</a></li><li><a href="start_designing_detector.html">start_designing_detector</a></li><li><a href="set_filter.html">set_filter</a></li></ul></div><h2>Panel: Process Model<a name="3"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Choose Process Model*</span>
+  </style></head><body><div class="content"><h1>Documentation Graphical User Interface</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Image of the graphical user interface</a></li><li><a href="#2">Related Functions</a></li><li><a href="#4">Related Graphical User Interfaces</a></li><li><a href="#6">Panel: Process Model</a></li><li><a href="#7">Panel: Global Konfiguration</a></li><li><a href="#8">Panel: Import/Export</a></li><li><a href="#9">Panel: Fault Injection Modul</a></li><li><a href="#10">Panel: Fault Detection Modul</a></li><li><a href="#11">Panel: Fault Filter Modul</a></li></ul></div><h2>Image of the graphical user interface<a name="1"></a></h2><p><img vspace="5" hspace="5" src="gui_main.png" alt=""> </p><h2>Related Functions<a name="2"></a></h2><div><ul><li><a href="set_processModel.html">set_processModel</a></li><li><a href="getModelData.html">getModelData</a></li><li><a href="add_detector.html">add_detector</a></li><li><a href="add_filter.html">add_filter</a></li><li><a href="export_filter.html">export_filter</a></li><li><a href="loadFaultKonf.html">loadFaultKonf</a></li><li><a href="countFaults.html">countFaults</a></li><li><a href="runScheduleMode.html">runScheduleMode</a></li><li><a href="convertFaultyData.html">convertFaultyData</a></li><li><a href="suggest_solution.html">suggest_solution</a></li><li><a href="start_designing_detector.html">start_designing_detector</a></li><li><a href="set_filter.html">set_filter</a></li></ul></div><h2>Related Graphical User Interfaces<a name="4"></a></h2><div><ul><li><a href="gui_faultlist_docu.html">GUI-Faultlist</a></li></ul></div><h2>Panel: Process Model<a name="6"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Choose Process Model*</span>
 <span class="comment">% Funktion: Get the file name and path of the processmodel with uigetfile()</span>
 <span class="comment">% and call set_processModel() with the given informations</span>
 
@@ -80,7 +80,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 <span class="comment">% Elemtent: *Plot Process Model Data*</span>
 <span class="comment">% Funktion: Calls plot() wich _gendata_</span>
-</pre><h2>Panel: Global Konfiguration<a name="4"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Simulation Length*</span>
+</pre><h2>Panel: Global Konfiguration<a name="7"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Simulation Length*</span>
 <span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
 <span class="comment">% _SimLength_ to the workspace</span>
 
@@ -91,7 +91,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <span class="comment">% Elemtent: *Global Seed*</span>
 <span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
 <span class="comment">% _GlobalSeed_ to the workspace</span>
-</pre><h2>Panel: Import/Export<a name="5"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Detector Name*</span>
+</pre><h2>Panel: Import/Export<a name="8"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Detector Name*</span>
 <span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
 <span class="comment">% _FileName_Detector_ to the workspace</span>
 
@@ -113,12 +113,12 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 <span class="comment">% Elemtent: *Export*</span>
 <span class="comment">% Funktion: no function yet</span>
-</pre><h2>Panel: Fault Injection Modul<a name="6"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Choose Fault Injection Configuration*</span>
+</pre><h2>Panel: Fault Injection Modul<a name="9"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Choose Fault Injection Configuration*</span>
 <span class="comment">% Funktion: Get the name and the path of the fault configuration file with</span>
 <span class="comment">% uigetfile() and calls loadFaultKonf() and countFaults()</span>
 
 <span class="comment">% Elemtent: *Set up Faults*</span>
-<span class="comment">% Funktion: Calls gui_faultlist which open a new window</span>
+<span class="comment">% Funktion: Calls the GUI-Faultlist</span>
 
 <span class="comment">% Elemtent: *Generate Test Data*</span>
 <span class="comment">% Funktion: Calls runScheduleMode() with the given fault configuration file</span>
@@ -129,14 +129,14 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <span class="comment">% Funktion: Calls suggest_solution() which fills the detector/filter table</span>
 <span class="comment">% with the data of filter/detector from the LookUp-Table. These data are</span>
 <span class="comment">% fitted to the actual process model dynamic and fault activation.</span>
-</pre><h2>Panel: Fault Detection Modul<a name="7"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Detection Table*</span>
+</pre><h2>Panel: Fault Detection Modul<a name="10"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Detection Table*</span>
 <span class="comment">% Funktion: Filled with the data of detector from the LookUp-Table. These data are</span>
 <span class="comment">% fitted to the actual process model dynamic and fault activation. Elements</span>
 <span class="comment">% can be selected to choose a detector for the design detector process.</span>
 
 <span class="comment">% Elemtent: *Design Detector*</span>
 <span class="comment">% Funktion: Calls start_designing_detector()</span>
-</pre><h2>Panel: Fault Filter Modul<a name="8"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Filter Table*</span>
+</pre><h2>Panel: Fault Filter Modul<a name="11"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Filter Table*</span>
 <span class="comment">% Funktion: Filled with the data of filter from the LookUp-Table. These data are</span>
 <span class="comment">% fitted to the actual process model dynamic and fault activation. Elements</span>
 <span class="comment">% can be selected to choose a filter for the design filter process.</span>
@@ -147,10 +147,10 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 ##### SOURCE BEGIN #####
 %% Documentation Graphical User Interface
 %
-%
-% Picture Main Frame
-% <<FILENAME.PNG>>
 %%
+
+%% Image of the graphical user interface
+% <<gui_main.png>>
 
 %% Related Functions
 
@@ -168,7 +168,10 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 % * <start_designing_detector.html start_designing_detector>
 % * <set_filter.html set_filter>
 
+%% Related Graphical User Interfaces
 
+%%
+% * <gui_faultlist_docu.html GUI-Faultlist>
 
 
 
@@ -241,7 +244,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 % uigetfile() and calls loadFaultKonf() and countFaults()
 
 % Elemtent: *Set up Faults*
-% Funktion: Calls gui_faultlist which open a new window
+% Funktion: Calls the GUI-Faultlist
 
 % Elemtent: *Generate Test Data*
 % Funktion: Calls runScheduleMode() with the given fault configuration file
