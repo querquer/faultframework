@@ -108,7 +108,8 @@ assignin('base','SimLength', str2double(get(hObject,'string')));
 
 % --- Executes during object creation, after setting all properties.
 function edit_simlength_CreateFcn(hObject, eventdata, handles)
-assignin('base','SimLength', 10);
+SimLength = evalin('base','SimLength');
+set(hObject,'string',num2str(SimLength));
 % hObject    handle to edit_simlength (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -133,7 +134,8 @@ assignin('base','SampleTime', str2double(get(hObject,'string')));
 
 % --- Executes during object creation, after setting all properties.
 function edit_sampletime_CreateFcn(hObject, eventdata, handles)
-assignin('base','SampleTime', 0.01);
+SampleTime = evalin('base','SampleTime');
+set(hObject,'string',num2str(SampleTime));
 % hObject    handle to edit_sampletime (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -158,7 +160,8 @@ assignin('base','GlobalSeed', str2double(get(hObject,'string')));
 
 % --- Executes during object creation, after setting all properties.
 function edit_globalseed_CreateFcn(hObject, eventdata, handles)
-assignin('base','GlobalSeed', 10);
+GlobalSeed = evalin('base','GlobalSeed');
+set(hObject,'string',num2str(GlobalSeed));
 % hObject    handle to edit_globalseed (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -674,17 +677,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes during object creation, after setting all properties.
-function pushbutton_addDetctor_CreateFcn(hObject, eventdata, handles)
-chooseDetector = findobj(gcf,'Tag','popupmenu_detector');
-FileName_Detector = get(chooseDetector,'FileName_Detector');
-PathName_Detector = get(chooseDetector,'PathName_Detector');
-add_detector(PathName_Detector, FileName_Detector,[pwd '/Functions/lookuptable.mat'],[pwd '/Data']);
-% hObject    handle to pushbutton_addDetctor (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-
 % --- Executes on button press in pushbutton_export.
 function pushbutton_export_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_export (see GCBO)
@@ -696,7 +688,9 @@ function pushbutton_export_Callback(hObject, eventdata, handles)
 function pushbutton_chooseDetector_Callback(hObject, eventdata, handles)
 currentFolder = pwd;
 PathName_Detector = uigetdir(pwd);
-assignin('base','PathName_Detector',PathName_Detector);
+if PathName_Detector > 0
+    assignin('base','PathName_Detector',PathName_Detector);
+end
 % hObject    handle to pushbutton_chooseDetector (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -704,9 +698,11 @@ assignin('base','PathName_Detector',PathName_Detector);
 
 % --- Executes on button press in pushbutton_chooseFilter.
 function pushbutton_chooseFilter_Callback(hObject, eventdata, handles)
-[FileName_Filter,PathName_Filter,FilterIndex] = uigetfile({'*.m';'*.slx';'*.mat';'*.*'},'File Selector');
-assignin('base','FileName_Filter',FileName_Filter);
-assignin('base','PathName_Filter',PathName_Filter);
+[FileName_Filter,PathName_Filter,FilterIndex] = uigetfile('*.slx','File Selector');
+if FileName_Filter > 0
+    assignin('base','FileName_Filter',FileName_Filter);
+    assignin('base','PathName_Filter',PathName_Filter);
+end
 % hObject    handle to pushbutton_chooseFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -715,9 +711,11 @@ assignin('base','PathName_Filter',PathName_Filter);
 % --- Executes on button press in pushbutton_choosePM.
 function pushbutton_choosePM_Callback(hObject, eventdata, handles)
 [FileName_PM,PathName_PM,FilterIndex] = uigetfile({'*.slx';'*.m';'*.mat';'*.*'},'File Selector');
-set_processModel(FileName_PM);
-assignin('base','FileName_PM',FileName_PM);
-assignin('base','PathName_PM',PathName_PM);
+if FileName_PM > 0
+    set_processModel(FileName_PM);
+    assignin('base','FileName_PM',FileName_PM);
+    assignin('base','PathName_PM',PathName_PM);
+end
 % hObject    handle to pushbutton_choosePM (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -725,11 +723,14 @@ assignin('base','PathName_PM',PathName_PM);
 
 % --- Executes on button press in pushbutton_chooseFaultKonf.
 function pushbutton_chooseFaultKonf_Callback(hObject, eventdata, handles)
-[FileName_FaultKonf,PathName_FaultKonf,FilterIndex] = uigetfile('*.xml','File Selector');
-assignin('base','FileName_FaultKonf',FileName_FaultKonf);
-assignin('base','PathName_FaultKonf',PathName_FaultKonf);
-loadFaultKonf(FileName_FaultKonf);
-countFaults(FileName_FaultKonf);
+[FileName_FaultKonf,PathName_FaultKonf,FilterIndex] = uigetfile('*.xml','File Selector',strcat(pwd,'/Faultinjection/XML'));
+if FileName_FaultKonf > 0
+    assignin('base','FileName_FaultKonf',FileName_FaultKonf);
+    assignin('base','PathName_FaultKonf',PathName_FaultKonf);
+    loadFaultKonf(FileName_FaultKonf);
+    countFaults(FileName_FaultKonf);
+end
+
 % hObject    handle to pushbutton_chooseFaultKonf (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

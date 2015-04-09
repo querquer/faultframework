@@ -8,9 +8,9 @@ catch
     SimLength = 10.0;
     assignin('base','SimLength',SimLength);
     SampleTime = 0.01;
-    assignin('base','SimLength',SimLength);
+    assignin('base','SampleTime',SampleTime);
     GlobalSeed = 10.0;
-    assignin('base','SimLength',SimLength);
+    assignin('base','GlobalSeed',GlobalSeed);
 
 
     % Choose elements
