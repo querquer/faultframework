@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 06-Apr-2015 12:08:37
+% Last Modified by GUIDE v2.5 09-Apr-2015 09:58:38
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -87,9 +87,7 @@ gui_faultlist;
 
 % --- Executes on button press in pushbutton_gentestdata.
 function pushbutton_gentestdata_Callback(hObject, eventdata, handles)
-FileName_FaultKonf = evalin('base','FileName_FaultKonf');
-runScheduleMode(FileName_FaultKonf);
-convertFaultyData;
+
 % hObject    handle to pushbutton_gentestdata (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -220,29 +218,6 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton_setfault.
-function pushbutton6_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton_setfault (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton_gentestdata.
-function pushbutton7_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton_gentestdata (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton8.
-function pushbutton8_Callback(hObject, eventdata, handles)
-
-% hObject    handle to pushbutton8 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-
 % --- Executes on selection change in popupmenu_faultkonf.
 function popupmenu_faultkonf_Callback(hObject, eventdata, handles)
 items = get(hObject,'String');
@@ -341,34 +316,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton14.
-function pushbutton14_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton14 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton15.
-function pushbutton15_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton15 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton16.
-function pushbutton16_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton16 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton17.
-function pushbutton17_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton17 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
 % --- Executes on selection change in popupmenu_pm.
 function popupmenu_pm_Callback(hObject, eventdata, handles)
 items = get(hObject,'String');
@@ -409,8 +356,10 @@ function pushbutton_desfil_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
     try
+        display('Start design filter!');
         sel_filter = evalin('base','sel_filter');
-        set_filter(sel_filter);
+        set_filter(strcat(sel_filter,'.slx'));
+        display('Design filter were successful!');
     catch
         display('Error: Missing Data for Start Design Filter!')
     end
@@ -424,19 +373,44 @@ end
 function pushbutton_desdet_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
-    try
-        data_multifault = evalin('base','data_multifault');
-        data_singlefault = evalin('base','data_singlefault');
-        trigger_multifault = evalin('base','trigger_multifault');
-        trigger_singlefault = evalin('base','trigger_singlefault');
-        sampletime = evalin('base','sampletime');
-        path_and_name = evalin('base','path_and_name');
-        path_detector = evalin('base','path_detector');
-        display('Start Design Detector');
-        start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, sampletime, path_and_name, path_detector);
-    catch
-        display('Error: Missing Data for Start Design Detector!')
-    end
+
+    display('Start generate faulty data!');
+    FileName_FaultKonf = evalin('base','FileName_FaultKonf');
+    runScheduleMode(FileName_FaultKonf);
+    display('Faulty data were successfuly generated!');
+
+
+
+    display('Start converting faulty data!');
+    convertFaultyData;
+    display('Converting faulty data was successful!');  
+
+
+
+
+    
+    data_multifault = evalin('base','data_multifault');
+    data_singlefault = evalin('base','data_singlefault');
+    trigger_multifault = evalin('base','trigger_multifault');
+    trigger_singlefault = evalin('base','trigger_singlefault');
+    SampleTime = evalin('base','SampleTime');
+    
+    path_and_name = pwd;
+    %path_and_name = evalin('base','path_and_name');
+    
+    
+    path_detector_complete = evalin('base','path_detector');
+    sa = findstr(path_detector_complete, 'Detector');
+    si = size(path_detector_complete);
+    path_detector = path_detector_complete(1+sa-1:si(1,2));
+
+    
+
+    display('Start Design Detector');
+    [fn, fp] = start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, SampleTime, path_and_name, path_detector);
+    % show results
+  
+    
 end
 % hObject    handle to pushbutton_desdet (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -536,13 +510,13 @@ assignin('base','sel_filter',sel_filter);
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton22.
-function pushbutton22_Callback(hObject, eventdata, handles)
+% --- Executes on button press in pushbutton_runPM.
+function pushbutton_runPM_Callback(hObject, eventdata, handles)
 FileName_PM = evalin('base','FileName_PM');
 simlength = evalin('base','SimLength');
 gendata = getModelData(FileName_PM, simlength);
 assignin('base','gendata',gendata);
-% hObject    handle to pushbutton22 (see GCBO)
+% hObject    handle to pushbutton_runPM (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -587,7 +561,7 @@ if(des == 1)
     
     si = size(FileName_Filter);
     name = FileName_Filter(1:si(1,2)-4);
-   add_filter(name, [pwd '/Data']);
+    add_filter(name, [pwd '/Data']);
 end
 % hObject    handle to pushbutton_addFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -710,7 +684,7 @@ end
 
 % --- Executes on button press in pushbutton_choosePM.
 function pushbutton_choosePM_Callback(hObject, eventdata, handles)
-[FileName_PM,PathName_PM,FilterIndex] = uigetfile({'*.slx';'*.m';'*.mat';'*.*'},'File Selector');
+[FileName_PM,PathName_PM,FilterIndex] = uigetfile({'*.slx';'*.m';'*.mat';'*.*'},'File Selector',strcat(pwd,'/ProcessModel'));
 if FileName_PM > 0
     set_processModel(FileName_PM);
     assignin('base','FileName_PM',FileName_PM);
