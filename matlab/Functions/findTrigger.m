@@ -1,5 +1,9 @@
+%% findTrigger
+% Build a array which contains a 1 if the fault was active in the given schedule
+
+
+%% Source Code
 function trigger_vec = findTrigger(trigger_arr, schedule_nr, phase_length)
-%% Build a array which contains a 1 if the fault was active in the given schedule
 
 trigger_vec = zeros(1,13);
 

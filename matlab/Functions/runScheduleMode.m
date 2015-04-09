@@ -1,8 +1,18 @@
-function runScheduleMode(curr_file)
-%% Generate faulty_data from the entered process and fault model un schedule mode
-% At first the global variables are initalise of readed from workspace. 
+%% runScheduleMode
+% Generate faulty_data from the entered process and fault model un schedule
+% mode. At first the global variables are initalise of readed from workspace. 
 % Then it takes the actual fault konfiguration, set the mode to schedule(instead of free running)
 % Runs the Fault Injection Modul in schedule mode
+
+%% Related Functions
+
+%%
+% * <myXMLwrite.html myXMLwrite>
+
+
+%% Source Code
+function runScheduleMode(curr_file)
+%% 
 
 %% Try to read global variables from workspace, if not possible default values are used
 try

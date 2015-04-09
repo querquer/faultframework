@@ -1,6 +1,14 @@
-function convertFaultyData()
-%% Convert the faulty data to several spezific data types
+%% convertFaultyData
+% Convert the faulty data to several spezific data types
 
+%% Related Functions
+
+%%
+% * <findTrigger.html findTrigger>
+
+
+%% Source Code
+function convertFaultyData()
 
 %% Load all needed variables from workspace
 try

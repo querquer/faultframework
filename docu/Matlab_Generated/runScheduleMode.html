@@ -1,0 +1,221 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>runScheduleMode</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="runScheduleMode.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>runScheduleMode</h1><!--introduction--><p>Generate faulty_data from the entered process and fault model un schedule mode. At first the global variables are initalise of readed from workspace. Then it takes the actual fault konfiguration, set the mode to schedule(instead of free running) Runs the Fault Injection Modul in schedule mode</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li><li><a href="#5">Try to read global variables from workspace, if not possible default values are used</a></li><li><a href="#6">Open the actual fault konfiguration and set the schedule mode on</a></li><li><a href="#7">Execute script which start the Fault Injection Modul</a></li><li><a href="#8">Write the generated results from the fault injection model to the workspace</a></li><li><a href="#9">Open the actual fault konfiguration and set the schedule mode off</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="myXMLwrite.html">myXMLwrite</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> runScheduleMode(curr_file)
+</pre><h2>Try to read global variables from workspace, if not possible default values are used<a name="5"></a></h2><pre class="codeinput"><span class="keyword">try</span>
+    SimLength = evalin(<span class="string">'base'</span>,<span class="string">'SimLength'</span>);
+<span class="keyword">catch</span>
+    assignin(<span class="string">'base'</span>,<span class="string">'SimLength'</span>, 10.0);
+    SimLength = 10.0;
+<span class="keyword">end</span>
+<span class="keyword">try</span>
+    SampleTime = evalin(<span class="string">'base'</span>,<span class="string">'SampleTime'</span>);
+<span class="keyword">catch</span>
+    assignin(<span class="string">'base'</span>,<span class="string">'SampleTime'</span>, 0.01);
+    SampleTime = 0.01;
+<span class="keyword">end</span>
+<span class="keyword">try</span>
+    evalin(<span class="string">'base'</span>,<span class="string">'GlobalSeed'</span>);
+<span class="keyword">catch</span>
+    assignin(<span class="string">'base'</span>,<span class="string">'GlobalSeed'</span>, 10.0);
+<span class="keyword">end</span>
+
+<span class="keyword">try</span>
+    num_faults = evalin(<span class="string">'base'</span>,<span class="string">'num_faults'</span>);
+<span class="keyword">catch</span>
+    display(<span class="string">'Could not load variable: num_faults'</span>);
+<span class="keyword">end</span>
+
+
+curr_file_path = strcat(<span class="string">'Faultinjection/XML/'</span>,curr_file);
+</pre><h2>Open the actual fault konfiguration and set the schedule mode on<a name="6"></a></h2><pre class="codeinput">xDoc = xmlread(curr_file_path);
+
+thisList  = xDoc.getElementsByTagName(<span class="string">'schedule'</span>);
+thisElement = thisList.item(0);
+thisElement.setTextContent(<span class="string">'1'</span>);
+
+myXMLwrite(curr_file_path,xDoc);
+</pre><h2>Execute script which start the Fault Injection Modul<a name="7"></a></h2><pre class="codeinput">sim(<span class="string">'GenerateData'</span>);
+</pre><h2>Write the generated results from the fault injection model to the workspace<a name="8"></a></h2><pre class="codeinput"><span class="keyword">if</span>(exist(<span class="string">'faultfree_data'</span>,<span class="string">'var'</span>))
+    assignin(<span class="string">'base'</span>,<span class="string">'faultfree_data'</span>,faultfree_data);
+<span class="keyword">else</span>
+    display(<span class="string">'Error: Could not run fault injection in schedule mode'</span>);
+<span class="keyword">end</span>
+
+<span class="keyword">if</span>(exist(<span class="string">'faulty_data'</span>,<span class="string">'var'</span>))
+    assignin(<span class="string">'base'</span>,<span class="string">'faulty_data'</span>,faulty_data);
+<span class="keyword">else</span>
+    display(<span class="string">'Error: Could not run fault injection in schedule mode'</span>);
+<span class="keyword">end</span>
+
+<span class="keyword">if</span>(exist(<span class="string">'trigger'</span>,<span class="string">'var'</span>))
+    assignin(<span class="string">'base'</span>,<span class="string">'trigger'</span>,trigger);
+<span class="keyword">else</span>
+    display(<span class="string">'Error: Could not run fault injection in schedule mode'</span>);
+<span class="keyword">end</span>
+</pre><h2>Open the actual fault konfiguration and set the schedule mode off<a name="9"></a></h2><pre class="codeinput">xDoc = xmlread(curr_file_path);
+
+thisList  = xDoc.getElementsByTagName(<span class="string">'schedule'</span>);
+thisElement = thisList.item(0);
+thisElement.setTextContent(<span class="string">'0'</span>);
+
+<span class="comment">%myXMLwrite(curr_file_path,xDoc);</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% runScheduleMode
+% Generate faulty_data from the entered process and fault model un schedule
+% mode. At first the global variables are initalise of readed from workspace. 
+% Then it takes the actual fault konfiguration, set the mode to schedule(instead of free running)
+% Runs the Fault Injection Modul in schedule mode
+
+%% Related Functions
+
+%%
+% * <myXMLwrite.html myXMLwrite>
+
+
+%% Source Code
+function runScheduleMode(curr_file)
+%% 
+
+%% Try to read global variables from workspace, if not possible default values are used
+try
+    SimLength = evalin('base','SimLength');
+catch
+    assignin('base','SimLength', 10.0);
+    SimLength = 10.0;
+end
+try
+    SampleTime = evalin('base','SampleTime');
+catch
+    assignin('base','SampleTime', 0.01);
+    SampleTime = 0.01;
+end
+try
+    evalin('base','GlobalSeed');
+catch
+    assignin('base','GlobalSeed', 10.0);
+end
+
+try
+    num_faults = evalin('base','num_faults');
+catch
+    display('Could not load variable: num_faults');
+end
+
+
+curr_file_path = strcat('Faultinjection/XML/',curr_file);
+
+%% Open the actual fault konfiguration and set the schedule mode on
+xDoc = xmlread(curr_file_path);
+
+thisList  = xDoc.getElementsByTagName('schedule');
+thisElement = thisList.item(0);
+thisElement.setTextContent('1');
+
+myXMLwrite(curr_file_path,xDoc);
+
+
+%% Execute script which start the Fault Injection Modul
+sim('GenerateData');
+
+%% Write the generated results from the fault injection model to the workspace
+if(exist('faultfree_data','var'))
+    assignin('base','faultfree_data',faultfree_data);
+else
+    display('Error: Could not run fault injection in schedule mode');
+end
+
+if(exist('faulty_data','var'))
+    assignin('base','faulty_data',faulty_data);
+else
+    display('Error: Could not run fault injection in schedule mode');
+end
+
+if(exist('trigger','var'))
+    assignin('base','trigger',trigger);
+else
+    display('Error: Could not run fault injection in schedule mode');
+end
+
+
+%% Open the actual fault konfiguration and set the schedule mode off
+xDoc = xmlread(curr_file_path);
+
+thisList  = xDoc.getElementsByTagName('schedule');
+thisElement = thisList.item(0);
+thisElement.setTextContent('0');
+
+%myXMLwrite(curr_file_path,xDoc);
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

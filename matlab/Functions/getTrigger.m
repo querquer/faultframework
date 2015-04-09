@@ -1,6 +1,15 @@
-function trigger_phase_vec = getTrigger(trigger_arr, schedule_nr, phase_length)
-%% Builds a trigger phase vector which contains the trigger data of all active faults in the specific phase of the schedule
+%% getTrigger
+% Builds a trigger phase vector which contains the trigger data of all active faults in the specific phase of the schedule
 
+
+%% Related Functions
+
+%%
+% * <findTrigger.html findTrigger>
+
+
+%% Source Code
+function trigger_phase_vec = getTrigger(trigger_arr, schedule_nr, phase_length)
 % Call findTrigger to get the information which fault was in the given
 % phase active.
 trigger_vec = findTrigger(trigger_arr,schedule_nr,phase_length);

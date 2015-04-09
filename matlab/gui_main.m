@@ -395,7 +395,7 @@ if(des == 1)
     trigger_singlefault = evalin('base','trigger_singlefault');
     SampleTime = evalin('base','SampleTime');
     
-    path_and_name = pwd;
+    path_and_name = strcat(pwd,'\test');
     %path_and_name = evalin('base','path_and_name');
     
     

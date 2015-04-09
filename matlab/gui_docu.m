@@ -1,9 +1,27 @@
 %% Documentation Graphical User Interface
 %
 %
-
 % Picture Main Frame
 % <<FILENAME.PNG>>
+%%
+
+%% Related Functions
+
+%%
+% * <set_processModel.html set_processModel>
+% * <getModelData.html getModelData>
+% * <add_detector.html add_detector>
+% * <add_filter.html add_filter>
+% * <export_filter.html export_filter>
+% * <loadFaultKonf.html loadFaultKonf>
+% * <countFaults.html countFaults>
+% * <runScheduleMode.html runScheduleMode>
+% * <convertFaultyData.html convertFaultyData>
+% * <suggest_solution.html suggest_solution>
+% * <start_designing_detector.html start_designing_detector>
+% * <set_filter.html set_filter>
+
+
 
 
 
@@ -61,7 +79,7 @@
 % elements
 
 % Elemtent: *Add Filter*
-% Funktion: Calls add_detector() with the given data from the previous
+% Funktion: Calls add_filter() with the given data from the previous
 % elements
 
 % Elemtent: *Export*
@@ -93,33 +111,22 @@
 %%% Panel: Fault Detection Modul
 
 % Elemtent: *Detection Table*
-% Funktion: See Suggest Solution
-
-% Elemtent: *Filter Table*
-% Funktion: See Suggest Solution
+% Funktion: Filled with the data of detector from the LookUp-Table. These data are
+% fitted to the actual process model dynamic and fault activation. Elements
+% can be selected to choose a detector for the design detector process.
 
 % Elemtent: *Design Detector*
 % Funktion: Calls start_designing_detector()
 
+
+
+%%% Panel: Fault Filter Modul
+
+% Elemtent: *Filter Table*
+% Funktion: Filled with the data of filter from the LookUp-Table. These data are
+% fitted to the actual process model dynamic and fault activation. Elements
+% can be selected to choose a filter for the design filter process.
+
 % Elemtent: *Design Filter*
-% Funktion: Calls set_filter(sel_filter)
+% Funktion: Calls set_filter()
 
-
-
-% Picture Fault Injection Konfiguration Set Up
-% <<FILENAME.PNG>>
-
-%%% Panel: Process Model
-% Elemtent: *Choose Process Model*
-% Funktion:
-
-
-
-%%% Documentation Fault Parameter Window
-
-% Picture Fault Parameter Window
-% <<FILENAME.PNG>>
-
-%%% Panel: Process Model
-% Elemtent: *Choose Process Model*
-% Funktion:

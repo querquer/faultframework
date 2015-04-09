@@ -1,6 +1,14 @@
-function faultyData2Mat(path_and_name, act_vec, faulty_data_struct,trigger_arr, phase_length)
-%% Save the results from the workspace as .mat to the givon location
+%% faultyData2Mat
+% Save the results from the workspace as .mat to the givon location
 
+%% Related Functions
+
+%%
+% * <findTrigger.html findTrigger>
+% * <getTrigger.html getTrigger>
+
+%% Source Code
+function faultyData2Mat(path_and_name, act_vec, faulty_data_struct,trigger_arr, phase_length)
 
 for idx=1:length(faulty_data_struct)  
 

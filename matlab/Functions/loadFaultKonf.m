@@ -1,5 +1,9 @@
+%% loadFaultKonf
+% Set the given Fault Konfiguration File into the Injection Campaign File
+
+
+%% Source Code
 function loadFaultKonf(file_name_faultKonf)
-%% Set the given Fault Konfiguration File into the Injection Campaign File
 
 curr_file = 'injection_campaign.xml';
 

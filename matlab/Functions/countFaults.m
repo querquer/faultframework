@@ -1,5 +1,8 @@
+%% countFaults
+% Count all faults and build a activation vector from the given fault configuration file and provied them to the workspace
+
+%% Source Code
 function countFaults(file_name_faultKonf)
-%% Count all faults and build a activation vector from the given fault configuration file and provied them to the workspace
 
 % Open the XML by the given fault configuraion name
 xDoc = xmlread(strcat('Faultinjection/XML/',file_name_faultKonf));

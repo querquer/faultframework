@@ -1,0 +1,875 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>createXML</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="createXML.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>createXML</h1><!--introduction--><p>Creates a Fault Konfiguration XML-File. The script try to read variables created/enteres through the gui_faultlist/id. IF these variables are not defined, there will be set a default value instead</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li><li><a href="#3">Creates a new XML-File</a></li><li><a href="#4">Set up variable which count the number of active faults</a></li><li><a href="#5">First noce containing the schedule mode</a></li><li><a href="#6">Faultlist contains all labels of faults</a></li><li><a href="#7">Iterate through the Faultlist and creates entries for general parameters and individual parameters</a></li><li><a href="#8">Reads the designated filename if existing</a></li><li><a href="#9">Write the calculated amount of faults as variable to the workspace</a></li><li><a href="#10">Finally creation of the XML-File</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> createXML
+</pre><h2>Creates a new XML-File<a name="3"></a></h2><pre class="codeinput">docNode = com.mathworks.xml.XMLUtils.createDocument(<span class="string">'injection'</span>);
+toc = docNode.getDocumentElement;
+</pre><h2>Set up variable which count the number of active faults<a name="4"></a></h2><pre class="codeinput">num_faults = 0;
+</pre><h2>First noce containing the schedule mode<a name="5"></a></h2><pre class="codeinput">schedule_node = docNode.createElement(<span class="string">'schedule'</span>);
+schedule_node.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+toc.appendChild(schedule_node);
+</pre><h2>Faultlist contains all labels of faults<a name="6"></a></h2><pre class="codeinput">fault_types = {<span class="string">'value correlated offset'</span>,<span class="string">'time correlated offset'</span>,<span class="string">'value correlated noise'</span>,<span class="string">'time correlated noise'</span>,<span class="string">'const offset'</span>,<span class="string">'const noise'</span>,<span class="string">'outlier'</span>,<span class="string">'spike'</span>,<span class="string">'stuck at zero'</span>,<span class="string">'stuck at x'</span>,<span class="string">'saturation'</span>,<span class="string">'const delay'</span>,<span class="string">'time correlated delay'</span>};
+</pre><h2>Iterate through the Faultlist and creates entries for general parameters and individual parameters<a name="7"></a></h2><pre class="codeinput"><span class="keyword">for</span> idx = 1:numel(fault_types)
+    curr_fault = docNode.createElement(<span class="string">'fault'</span>);
+    id = idx-1;
+
+    curr_attr = docNode.createElement(<span class="string">'label'</span>);
+    curr_attr.appendChild(docNode.createTextNode(fault_types{idx}));
+    curr_fault.appendChild(curr_attr);
+
+    curr_attr = docNode.createElement(<span class="string">'id'</span>);
+    curr_attr.appendChild(docNode.createTextNode(int2str(id)));
+    curr_fault.appendChild(curr_attr);
+
+    curr_attr = docNode.createElement(<span class="string">'activation'</span>);
+    <span class="keyword">try</span>
+        curr_attr.appendChild(docNode.createTextNode(int2str(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'activation'</span>)))));
+        num_faults = num_faults +1;
+    <span class="keyword">catch</span>
+        curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+    <span class="keyword">end</span>
+    curr_fault.appendChild(curr_attr);
+
+    curr_attr = docNode.createElement(<span class="string">'occurrence'</span>);
+    <span class="keyword">try</span>
+        curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'occurrence'</span>))));
+    <span class="keyword">catch</span>
+        curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+    <span class="keyword">end</span>
+    curr_fault.appendChild(curr_attr);
+
+    curr_attr = docNode.createElement(<span class="string">'factor'</span>);
+    curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+    <span class="keyword">try</span>
+        curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'factor'</span>))));
+    <span class="keyword">catch</span>
+        curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+    <span class="keyword">end</span>
+    curr_fault.appendChild(curr_attr);
+
+    <span class="comment">% additional fault setup</span>
+    <span class="keyword">if</span>(id == 0)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span>(id == 1)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'1'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'correlation'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'correlation'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'sin(x)'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'amplitude'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'amplitude'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 2)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'pdf'</span>);
+        <span class="keyword">try</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdfmin'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,<span class="string">'0.05'</span>);
+        <span class="keyword">end</span>
+        <span class="keyword">try</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdfmax'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.setAttribute(<span class="string">'max'</span>,<span class="string">'5'</span>);
+        <span class="keyword">end</span>
+        <span class="keyword">try</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdfstep_size'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.setAttribute(<span class="string">'step_size'</span>,<span class="string">'0.1'</span>);
+        <span class="keyword">end</span>
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdf'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 3)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'1'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'pdf'</span>);
+        <span class="keyword">try</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdfmin'</span>)));
+        <span class="keyword">catch</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,<span class="string">'0.05'</span>);
+        <span class="keyword">end</span>
+        <span class="keyword">try</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdfmax'</span>)));
+        <span class="keyword">catch</span>
+            curr_attr.setAttribute(<span class="string">'max'</span>,<span class="string">'5'</span>);
+        <span class="keyword">end</span>
+        <span class="keyword">try</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdfstep_size'</span>)));
+        <span class="keyword">catch</span>
+            curr_attr.setAttribute(<span class="string">'step_size'</span>,<span class="string">'0.1'</span>);
+        <span class="keyword">end</span>
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdf'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 4)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'amplitude'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'amplitude'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 5)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'pdf'</span>);
+        <span class="keyword">try</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdfmin'</span>)));
+        <span class="keyword">catch</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,<span class="string">'0.05'</span>);
+        <span class="keyword">end</span>
+        <span class="keyword">try</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdfmax'</span>)));
+        <span class="keyword">catch</span>
+            curr_attr.setAttribute(<span class="string">'max'</span>,<span class="string">'5'</span>);
+        <span class="keyword">end</span>
+        <span class="keyword">try</span>
+            curr_attr.setAttribute(<span class="string">'min'</span>,evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdfstep_size'</span>)));
+        <span class="keyword">catch</span>
+            curr_attr.setAttribute(<span class="string">'step_size'</span>,<span class="string">'0.1'</span>);
+        <span class="keyword">end</span>
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'pdf'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 6)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'negative'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'negative'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 7)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'length'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'length'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0.2'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'amplitude'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'amplitude'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'( 1 / (sqrt(2*3.1416*0.5) ) ) * exp( -( ((x)^2) / 0.2) ) * 1.772455'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 8)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'length'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'length'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 9)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'top'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'top'</span>))));
+        <span class="keyword">catch</span>
+        	curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'bottom'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'bottom'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'length'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'length'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 10)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'top'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'top'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'bottom'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'bottom'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 11)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'param'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'param'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(id == 12)
+        curr_attr = docNode.createElement(<span class="string">'permanent'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'permanent'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'1'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+
+        curr_attr = docNode.createElement(<span class="string">'correlation'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'correlation'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'sin(x)+cos(x)'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr)
+
+        curr_attr = docNode.createElement(<span class="string">'delay'</span>);
+        curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
+        <span class="keyword">try</span>
+            curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'delay'</span>))));
+        <span class="keyword">catch</span>
+            curr_attr.appendChild(docNode.createTextNode(<span class="string">'2'</span>));
+        <span class="keyword">end</span>
+        curr_fault.appendChild(curr_attr);
+    <span class="keyword">end</span>
+
+    toc.appendChild(curr_fault);
+<span class="keyword">end</span>
+</pre><h2>Reads the designated filename if existing<a name="8"></a></h2><pre class="codeinput"><span class="keyword">try</span>
+    curr_filename = strcat(<span class="string">'Faultinjection/XML/'</span>,evalin(<span class="string">'base'</span>,<span class="string">'filename'</span>));
+<span class="keyword">catch</span>
+    curr_filename = <span class="string">'Faultinjection/XML/faultKonf_TEMP'</span>;
+<span class="keyword">end</span>
+</pre><h2>Write the calculated amount of faults as variable to the workspace<a name="9"></a></h2><pre class="codeinput">assignin(<span class="string">'base'</span>,<span class="string">'num_faults'</span>, num_faults);
+</pre><h2>Finally creation of the XML-File<a name="10"></a></h2><pre class="codeinput">xmlFileName = [curr_filename,<span class="string">'.xml'</span>];
+xmlwrite(xmlFileName,docNode);
+type(xmlFileName);
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% createXML
+% Creates a Fault Konfiguration XML-File.
+% The script try to read variables created/enteres through the
+% gui_faultlist/id. IF these variables are not defined, there will be set a default value
+% instead
+
+
+%% Source Code
+function createXML
+
+
+%% Creates a new XML-File
+docNode = com.mathworks.xml.XMLUtils.createDocument('injection');
+toc = docNode.getDocumentElement;
+
+%% Set up variable which count the number of active faults
+num_faults = 0;
+
+%% First noce containing the schedule mode
+schedule_node = docNode.createElement('schedule');
+schedule_node.appendChild(docNode.createTextNode('0'));
+toc.appendChild(schedule_node);
+
+%% Faultlist contains all labels of faults
+fault_types = {'value correlated offset','time correlated offset','value correlated noise','time correlated noise','const offset','const noise','outlier','spike','stuck at zero','stuck at x','saturation','const delay','time correlated delay'};
+
+%% Iterate through the Faultlist and creates entries for general parameters and individual parameters
+for idx = 1:numel(fault_types)
+    curr_fault = docNode.createElement('fault');
+    id = idx-1;
+    
+    curr_attr = docNode.createElement('label');
+    curr_attr.appendChild(docNode.createTextNode(fault_types{idx}));
+    curr_fault.appendChild(curr_attr);
+    
+    curr_attr = docNode.createElement('id');
+    curr_attr.appendChild(docNode.createTextNode(int2str(id)));
+    curr_fault.appendChild(curr_attr);
+    
+    curr_attr = docNode.createElement('activation');
+    try
+        curr_attr.appendChild(docNode.createTextNode(int2str(evalin('base',strcat('id',int2str(id),'activation')))));
+        num_faults = num_faults +1; 
+    catch
+        curr_attr.appendChild(docNode.createTextNode('0'));
+    end
+    curr_fault.appendChild(curr_attr);
+
+    curr_attr = docNode.createElement('occurrence');
+    try
+        curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'occurrence'))));
+    catch
+        curr_attr.appendChild(docNode.createTextNode('0'));
+    end
+    curr_fault.appendChild(curr_attr);
+    
+    curr_attr = docNode.createElement('factor');
+    curr_attr.setAttribute('type','param');
+    try
+        curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'factor'))));
+    catch
+        curr_attr.appendChild(docNode.createTextNode('0'));
+    end
+    curr_fault.appendChild(curr_attr);
+    
+    % additional fault setup
+    if(id == 0)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end 
+    if(id == 1)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('1'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('correlation');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'correlation'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('sin(x)'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('amplitude');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'amplitude'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end   
+    
+    if(id == 2)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('pdf');
+        try
+            curr_attr.setAttribute('min',(evalin('base',strcat('id',int2str(id),'pdfmin'))));
+        catch
+            curr_attr.setAttribute('min','0.05');
+        end
+        try
+            curr_attr.setAttribute('min',(evalin('base',strcat('id',int2str(id),'pdfmax'))));
+        catch
+            curr_attr.setAttribute('max','5');
+        end
+        try
+            curr_attr.setAttribute('min',(evalin('base',strcat('id',int2str(id),'pdfstep_size'))));
+        catch
+            curr_attr.setAttribute('step_size','0.1');
+        end
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'pdf'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end
+    
+    if(id == 3)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('1'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('pdf');
+        try
+            curr_attr.setAttribute('min',evalin('base',strcat('id',int2str(id),'pdfmin')));
+        catch
+            curr_attr.setAttribute('min','0.05');
+        end
+        try
+            curr_attr.setAttribute('min',evalin('base',strcat('id',int2str(id),'pdfmax')));
+        catch
+            curr_attr.setAttribute('max','5');
+        end
+        try
+            curr_attr.setAttribute('min',evalin('base',strcat('id',int2str(id),'pdfstep_size')));
+        catch
+            curr_attr.setAttribute('step_size','0.1');
+        end
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'pdf'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end    
+    
+    if(id == 4)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('amplitude');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'amplitude'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end    
+        curr_fault.appendChild(curr_attr);
+    end 
+    
+    if(id == 5)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('pdf');
+        try
+            curr_attr.setAttribute('min',evalin('base',strcat('id',int2str(id),'pdfmin')));
+        catch
+            curr_attr.setAttribute('min','0.05');
+        end
+        try
+            curr_attr.setAttribute('min',evalin('base',strcat('id',int2str(id),'pdfmax')));
+        catch
+            curr_attr.setAttribute('max','5');
+        end
+        try
+            curr_attr.setAttribute('min',evalin('base',strcat('id',int2str(id),'pdfstep_size')));
+        catch
+            curr_attr.setAttribute('step_size','0.1');
+        end
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'pdf'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end  
+    
+    if(id == 6)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('negative');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'negative'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end  
+    
+    if(id == 7)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('length');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'length'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0.2'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('amplitude');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'amplitude'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('( 1 / (sqrt(2*3.1416*0.5) ) ) * exp( -( ((x)^2) / 0.2) ) * 1.772455'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end  
+    
+    if(id == 8)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('length');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'length'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end 
+    
+    if(id == 9)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('top');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'top'))));
+        catch
+        	curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('bottom');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'bottom'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('length');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'length'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);       
+    end 
+    
+    if(id == 10)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('top');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'top'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('bottom');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'bottom'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end 
+    
+    if(id == 11)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('param');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'param'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('0'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end 
+    
+    if(id == 12)
+        curr_attr = docNode.createElement('permanent');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'permanent'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('1'));
+        end
+        curr_fault.appendChild(curr_attr);
+        
+        curr_attr = docNode.createElement('correlation');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'correlation'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('sin(x)+cos(x)'));
+        end
+        curr_fault.appendChild(curr_attr)
+        
+        curr_attr = docNode.createElement('delay');
+        curr_attr.setAttribute('type','param');
+        try
+            curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'delay'))));
+        catch
+            curr_attr.appendChild(docNode.createTextNode('2'));
+        end
+        curr_fault.appendChild(curr_attr);
+    end 
+    
+    toc.appendChild(curr_fault);
+end
+
+%% Reads the designated filename if existing
+try 
+    curr_filename = strcat('Faultinjection/XML/',evalin('base','filename'));
+catch
+    curr_filename = 'Faultinjection/XML/faultKonf_TEMP';
+end
+
+%% Write the calculated amount of faults as variable to the workspace
+assignin('base','num_faults', num_faults);    
+
+%% Finally creation of the XML-File
+xmlFileName = [curr_filename,'.xml'];
+xmlwrite(xmlFileName,docNode);
+type(xmlFileName);
+
+
+##### SOURCE END #####
+--></body></html>

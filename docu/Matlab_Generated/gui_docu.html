@@ -1,0 +1,282 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Documentation Graphical User Interface</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="gui_docu.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Documentation Graphical User Interface</h1><!--introduction--><p>Picture Main Frame <a href="<FILENAME.PNG">&lt;FILENAME.PNG</a>&gt;</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Panel: Process Model</a></li><li><a href="#4">Panel: Global Konfiguration</a></li><li><a href="#5">Panel: Import/Export</a></li><li><a href="#6">Panel: Fault Injection Modul</a></li><li><a href="#7">Panel: Fault Detection Modul</a></li><li><a href="#8">Panel: Fault Filter Modul</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="set_processModel.html">set_processModel</a></li><li><a href="getModelData.html">getModelData</a></li><li><a href="add_detector.html">add_detector</a></li><li><a href="add_filter.html">add_filter</a></li><li><a href="export_filter.html">export_filter</a></li><li><a href="loadFaultKonf.html">loadFaultKonf</a></li><li><a href="countFaults.html">countFaults</a></li><li><a href="runScheduleMode.html">runScheduleMode</a></li><li><a href="convertFaultyData.html">convertFaultyData</a></li><li><a href="suggest_solution.html">suggest_solution</a></li><li><a href="start_designing_detector.html">start_designing_detector</a></li><li><a href="set_filter.html">set_filter</a></li></ul></div><h2>Panel: Process Model<a name="3"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Choose Process Model*</span>
+<span class="comment">% Funktion: Get the file name and path of the processmodel with uigetfile()</span>
+<span class="comment">% and call set_processModel() with the given informations</span>
+
+<span class="comment">% Elemtent: *Clasify Process Model*</span>
+<span class="comment">% Funktion: Calls classify_processmodel() and write the result to the</span>
+<span class="comment">% workspace as _prozess_dynamic_</span>
+
+<span class="comment">% Elemtent: *Run Process Model*</span>
+<span class="comment">% Funktion: Calls getModelData() and write the generated data to the</span>
+<span class="comment">% workspace as _gendata_</span>
+
+<span class="comment">% Elemtent: *Plot Process Model Data*</span>
+<span class="comment">% Funktion: Calls plot() wich _gendata_</span>
+</pre><h2>Panel: Global Konfiguration<a name="4"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Simulation Length*</span>
+<span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
+<span class="comment">% _SimLength_ to the workspace</span>
+
+<span class="comment">% Elemtent: *Sample Time*</span>
+<span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
+<span class="comment">% _SampleTime_ to the workspace</span>
+
+<span class="comment">% Elemtent: *Global Seed*</span>
+<span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
+<span class="comment">% _GlobalSeed_ to the workspace</span>
+</pre><h2>Panel: Import/Export<a name="5"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Detector Name*</span>
+<span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
+<span class="comment">% _FileName_Detector_ to the workspace</span>
+
+<span class="comment">% Elemtent: *Choose Detector*</span>
+<span class="comment">% Funktion: Get the path of the detector with uigetfile()</span>
+<span class="comment">% and write it as _FilePath_Detector_ to the workspace</span>
+
+<span class="comment">% Elemtent: *Choose Filter*</span>
+<span class="comment">% Funktion: Get the name and the path of the filter with uigetfile()</span>
+<span class="comment">% and write them as _FileName_Filter_ and _FilePath_Filter_ to the workspace</span>
+
+<span class="comment">% Elemtent: *Add Detector*</span>
+<span class="comment">% Funktion: Calls add_detector() with the given data from the previous</span>
+<span class="comment">% elements</span>
+
+<span class="comment">% Elemtent: *Add Filter*</span>
+<span class="comment">% Funktion: Calls add_filter() with the given data from the previous</span>
+<span class="comment">% elements</span>
+
+<span class="comment">% Elemtent: *Export*</span>
+<span class="comment">% Funktion: no function yet</span>
+</pre><h2>Panel: Fault Injection Modul<a name="6"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Choose Fault Injection Configuration*</span>
+<span class="comment">% Funktion: Get the name and the path of the fault configuration file with</span>
+<span class="comment">% uigetfile() and calls loadFaultKonf() and countFaults()</span>
+
+<span class="comment">% Elemtent: *Set up Faults*</span>
+<span class="comment">% Funktion: Calls gui_faultlist which open a new window</span>
+
+<span class="comment">% Elemtent: *Generate Test Data*</span>
+<span class="comment">% Funktion: Calls runScheduleMode() with the given fault configuration file</span>
+<span class="comment">% and also calls convertFaultyData() to provide a proper representation of</span>
+<span class="comment">% the results</span>
+
+<span class="comment">% Elemtent: *Suggest Solution*</span>
+<span class="comment">% Funktion: Calls suggest_solution() which fills the detector/filter table</span>
+<span class="comment">% with the data of filter/detector from the LookUp-Table. These data are</span>
+<span class="comment">% fitted to the actual process model dynamic and fault activation.</span>
+</pre><h2>Panel: Fault Detection Modul<a name="7"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Detection Table*</span>
+<span class="comment">% Funktion: Filled with the data of detector from the LookUp-Table. These data are</span>
+<span class="comment">% fitted to the actual process model dynamic and fault activation. Elements</span>
+<span class="comment">% can be selected to choose a detector for the design detector process.</span>
+
+<span class="comment">% Elemtent: *Design Detector*</span>
+<span class="comment">% Funktion: Calls start_designing_detector()</span>
+</pre><h2>Panel: Fault Filter Modul<a name="8"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Filter Table*</span>
+<span class="comment">% Funktion: Filled with the data of filter from the LookUp-Table. These data are</span>
+<span class="comment">% fitted to the actual process model dynamic and fault activation. Elements</span>
+<span class="comment">% can be selected to choose a filter for the design filter process.</span>
+
+<span class="comment">% Elemtent: *Design Filter*</span>
+<span class="comment">% Funktion: Calls set_filter()</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Documentation Graphical User Interface
+%
+%
+% Picture Main Frame
+% <<FILENAME.PNG>>
+%%
+
+%% Related Functions
+
+%%
+% * <set_processModel.html set_processModel>
+% * <getModelData.html getModelData>
+% * <add_detector.html add_detector>
+% * <add_filter.html add_filter>
+% * <export_filter.html export_filter>
+% * <loadFaultKonf.html loadFaultKonf>
+% * <countFaults.html countFaults>
+% * <runScheduleMode.html runScheduleMode>
+% * <convertFaultyData.html convertFaultyData>
+% * <suggest_solution.html suggest_solution>
+% * <start_designing_detector.html start_designing_detector>
+% * <set_filter.html set_filter>
+
+
+
+
+
+%%% Panel: Process Model
+
+% Elemtent: *Choose Process Model*
+% Funktion: Get the file name and path of the processmodel with uigetfile()
+% and call set_processModel() with the given informations
+
+% Elemtent: *Clasify Process Model*
+% Funktion: Calls classify_processmodel() and write the result to the
+% workspace as _prozess_dynamic_
+
+% Elemtent: *Run Process Model*
+% Funktion: Calls getModelData() and write the generated data to the
+% workspace as _gendata_
+
+% Elemtent: *Plot Process Model Data*
+% Funktion: Calls plot() wich _gendata_
+
+
+
+%%% Panel: Global Konfiguration
+
+% Elemtent: *Simulation Length*
+% Funktion: Get the consigned data from the field and write it as
+% _SimLength_ to the workspace
+
+% Elemtent: *Sample Time*
+% Funktion: Get the consigned data from the field and write it as
+% _SampleTime_ to the workspace
+
+% Elemtent: *Global Seed*
+% Funktion: Get the consigned data from the field and write it as
+% _GlobalSeed_ to the workspace
+
+
+
+%%% Panel: Import/Export
+
+% Elemtent: *Detector Name*
+% Funktion: Get the consigned data from the field and write it as
+% _FileName_Detector_ to the workspace
+
+% Elemtent: *Choose Detector*
+% Funktion: Get the path of the detector with uigetfile()
+% and write it as _FilePath_Detector_ to the workspace
+
+% Elemtent: *Choose Filter*
+% Funktion: Get the name and the path of the filter with uigetfile()
+% and write them as _FileName_Filter_ and _FilePath_Filter_ to the workspace
+
+% Elemtent: *Add Detector*
+% Funktion: Calls add_detector() with the given data from the previous
+% elements
+
+% Elemtent: *Add Filter*
+% Funktion: Calls add_filter() with the given data from the previous
+% elements
+
+% Elemtent: *Export*
+% Funktion: no function yet
+
+
+
+%%% Panel: Fault Injection Modul
+
+% Elemtent: *Choose Fault Injection Configuration*
+% Funktion: Get the name and the path of the fault configuration file with
+% uigetfile() and calls loadFaultKonf() and countFaults()
+
+% Elemtent: *Set up Faults*
+% Funktion: Calls gui_faultlist which open a new window
+
+% Elemtent: *Generate Test Data*
+% Funktion: Calls runScheduleMode() with the given fault configuration file
+% and also calls convertFaultyData() to provide a proper representation of
+% the results
+
+% Elemtent: *Suggest Solution*
+% Funktion: Calls suggest_solution() which fills the detector/filter table
+% with the data of filter/detector from the LookUp-Table. These data are
+% fitted to the actual process model dynamic and fault activation.
+
+
+
+%%% Panel: Fault Detection Modul
+
+% Elemtent: *Detection Table*
+% Funktion: Filled with the data of detector from the LookUp-Table. These data are
+% fitted to the actual process model dynamic and fault activation. Elements
+% can be selected to choose a detector for the design detector process.
+
+% Elemtent: *Design Detector*
+% Funktion: Calls start_designing_detector()
+
+
+
+%%% Panel: Fault Filter Modul
+
+% Elemtent: *Filter Table*
+% Funktion: Filled with the data of filter from the LookUp-Table. These data are
+% fitted to the actual process model dynamic and fault activation. Elements
+% can be selected to choose a filter for the design filter process.
+
+% Elemtent: *Design Filter*
+% Funktion: Calls set_filter()
+
+
+##### SOURCE END #####
+--></body></html>

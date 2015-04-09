@@ -1,5 +1,9 @@
+%% plotPDF
+% Generate a new gui window and plot the given function in the given scope
+
+
+%% Source Code
 function plotPDF(pdf,max,min)
-%% Generate a new gui window and plot the given function in the given scope
 
 figure();
 fun = strcat ('@(x) ',pdf);
