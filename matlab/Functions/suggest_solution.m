@@ -1,22 +1,37 @@
+%% suggest_solution
+% This function give back one array for the detecors and one for the
+% filters. The information is taken from the <build_suggestion_table.html
+% lookuptable>, based on the dinamic and the failures of the proces model.
+% 
+% * *Detectors* are sorted based on the false-positive rate at first. If two
+% detectors have the same false-positive rate, they are ranked based on the
+% false-negative rate. 
+% 
+% * *Filters* are sorted based on the quality at first. If two filters have
+% the same quality, they are ranked based on the distance
+%
+
+%% Input Values
+% * *dynamic*: 1, 2 or 3. 1 is an high dynamic of the input model. 3 is a
+% low dynamic. 
+% * *failures*: must be an 1x13 Array (row vector). It is filld up with 1 or 0. 1
+%   means that the failuretype is enabled and 0 disabled. The order is the
+%   same like in the fault-trigger-bus. a0 is failures(1), and a12 is
+%   failures(13). if someday a new failuretyp is implemented, the array can be larger.
+%% Related Functions
+% * <bin2dec13.html bin2dec13>
+
+%% Source Code
+% 
 function [ detectors, filters ] = suggest_solution( dynamic, failures )
 %SUGGEST_SOLUTION gives a list of filters and detectors you can use for
 %your problem.
-%   Input values
-%   dynamic:    1, 2 or 3. 1 is an high dynamic of the input model. 3 is a
-%   low dynamic.
-%   
-%   failures:   must be an 1x13 Array (row vector). It is filld up with 1 or 0. 1
-%   means that the failuretype is enabled and 0 disabled. The order is the
-%   same like in the fault-trigger-bus. a0 is failures(1), and a12 is
-%   failures(13). if sometime a new failuretyp is the array ccan be larger.
 
-LookupTable = load('Functions/lookuptable.mat');            % laod the lookupTable
+LookupTable = load('Functions/lookuptable.mat');            % load the lookupTable
 
-line = bin2dec13(failures);                                     % gives a decimal number of the failures array to get the correct line
+line = bin2dec13(failures);                                 % gives a decimal number of the failures array to get the correct line
 detectors = LookupTable.LookupTable(line,dynamic).detector; % get the detector list
 filters = LookupTable.LookupTable(line,dynamic).filter;     % get the filter list
-
-% sort filters and detectors
 
 %% sort detectors
 % Detectors are sorted based on the false-positive rate at first. If two

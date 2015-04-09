@@ -1,0 +1,285 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>suggest_solution</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="suggest_solution.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>suggest_solution</h1><!--introduction--><p>This function give back one array for the detecors and one for the filters. The information is taken from the <a href="build_suggestion_table.html">lookuptable</a>, based on the dinamic and the failures of the proces model.</p><div><ul><li><b>Detectors</b> are sorted based on the false-positive rate at first. If two detectors have the same false-positive rate, they are ranked based on the false-negative rate.</li></ul></div><div><ul><li><b>Filters</b> are sorted based on the quality at first. If two filters have the same quality, they are ranked based on the distance</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Input Values</a></li><li><a href="#2">Related Functions</a></li><li><a href="#3">Source Code</a></li><li><a href="#5">sort detectors</a></li><li><a href="#6">sort filters</a></li></ul></div><h2>Input Values<a name="1"></a></h2><div><ul><li><b>dynamic</b>: 1, 2 or 3. 1 is an high dynamic of the input model. 3 is a low dynamic.</li><li><b>failures</b>: must be an 1x13 Array (row vector). It is filld up with 1 or 0. 1   means that the failuretype is enabled and 0 disabled. The order is the   same like in the fault-trigger-bus. a0 is failures(1), and a12 is   failures(13). if someday a new failuretyp is implemented, the array can be larger.</li></ul></div><h2>Related Functions<a name="2"></a></h2><div><ul><li><a href="bin2dec13.html">bin2dec13</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> [ detectors, filters ] = suggest_solution( dynamic, failures )
+</pre><pre class="codeinput"><span class="comment">%SUGGEST_SOLUTION gives a list of filters and detectors you can use for</span>
+<span class="comment">%your problem.</span>
+
+LookupTable = load(<span class="string">'Functions/lookuptable.mat'</span>);            <span class="comment">% load the lookupTable</span>
+
+line = bin2dec13(failures);                                 <span class="comment">% gives a decimal number of the failures array to get the correct line</span>
+detectors = LookupTable.LookupTable(line,dynamic).detector; <span class="comment">% get the detector list</span>
+filters = LookupTable.LookupTable(line,dynamic).filter;     <span class="comment">% get the filter list</span>
+</pre><h2>sort detectors<a name="5"></a></h2><p>Detectors are sorted based on the false-positive rate at first. If two detectors have the same false-positive rate, they are ranked based on the false-negative rate.</p><pre class="codeinput">sd = size(detectors);
+
+<span class="keyword">for</span> i = 1:sd(1,2)
+    <span class="keyword">if</span>(i==1)
+        sorted_detectors = detectors(i);
+        <span class="comment">% calculate overall fn/fp rate</span>
+        sfp = size(sorted_detectors.fp_rate);
+        sumfp = 0;
+        sumfn = 0;
+        <span class="keyword">for</span> k = 1:sfp(1,2)
+            sumfp = sorted_detectors.fp_rate(k).fp_rate + sumfp;
+            sumfn = sorted_detectors.fn_rate(k).fn_rate + sumfn;
+        <span class="keyword">end</span>
+
+        sorted_detectors.fp_rate = sumfp/sfp(1,2);
+        sorted_detectors.fn_rate = sumfn/sfp(1,2);
+
+    <span class="keyword">else</span>
+        ssorted = size(sorted_detectors);
+        <span class="keyword">for</span> j = 1:ssorted(1,2)
+
+            <span class="comment">% Calculate overall fn/fp rate for detector(i);</span>
+            det_i = detectors(i);
+            sfp = size(det_i.fp_rate);
+            sumfp = 0;
+            sumfn = 0;
+            <span class="keyword">for</span> k = 1:sfp(1,2)
+                sumfp = det_i.fp_rate(k).fp_rate + sumfp;
+                sumfn = det_i.fn_rate(k).fn_rate + sumfn;
+            <span class="keyword">end</span>
+
+            det_i.fp_rate = sumfp/sfp(1,2);
+            det_i.fn_rate = sumfn/sfp(1,2);
+
+            <span class="comment">% Compare false-positive rate</span>
+            <span class="keyword">if</span>(sorted_detectors(j).fp_rate &gt; det_i.fp_rate)
+                part1 = sorted_detectors(1:j-1);
+                part2 = sorted_detectors(j:ssorted(1,2));
+
+                sorted_detectors = [part1, det_i, part2];
+                <span class="keyword">break</span>;
+            <span class="keyword">else</span>
+                <span class="comment">% Compare false-negative rate, if both are equal in</span>
+                <span class="comment">% false-positive rates</span>
+                <span class="keyword">if</span>(sorted_detectors(j).fp_rate == det_i.fp_rate)
+                    <span class="keyword">if</span>(sorted_detectors(j).fn_rate &gt; det_i.fn_rate)
+                        part1 = sorted_detectors(1:j-1);
+                        part2 = sorted_detectors(j:ssorted(1,2));
+
+                        sorted_detectors = [part1, det_i, part2];
+                        <span class="keyword">break</span>;
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+detectors = sorted_detectors;
+</pre><h2>sort filters<a name="6"></a></h2><p>filters are sorted by the quality. If the quality of two filters is equal the decision is made by the average distance (dist). The sorting algorithm is a bubblesort.</p><pre class="codeinput">sf = size(filters);
+<span class="keyword">for</span> m = 1:sf(1,2)
+    <span class="keyword">for</span> n = 1:(sf(1,2)-1)
+        <span class="keyword">if</span> filters(n).quality &gt; filters(n+1).quality
+            <span class="comment">% swap</span>
+            anna = filters(n);
+            filters(n) = filters(n+1);
+            filters(n+1) = anna;
+        <span class="keyword">elseif</span> filters(n).quality == filters(n+1).quality
+            <span class="keyword">if</span> filters(n).dist &gt; filters(n+1).dist
+                <span class="comment">% swap</span>
+                anna = filters(n);
+                filters(n) = filters(n+1);
+                filters(n+1) = anna;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% suggest_solution
+% This function give back one array for the detecors and one for the
+% filters. The information is taken from the <build_suggestion_table.html
+% lookuptable>, based on the dinamic and the failures of the proces model.
+% 
+% * *Detectors* are sorted based on the false-positive rate at first. If two
+% detectors have the same false-positive rate, they are ranked based on the
+% false-negative rate. 
+% 
+% * *Filters* are sorted based on the quality at first. If two filters have
+% the same quality, they are ranked based on the distance
+%
+
+%% Input Values
+% * *dynamic*: 1, 2 or 3. 1 is an high dynamic of the input model. 3 is a
+% low dynamic. 
+% * *failures*: must be an 1x13 Array (row vector). It is filld up with 1 or 0. 1
+%   means that the failuretype is enabled and 0 disabled. The order is the
+%   same like in the fault-trigger-bus. a0 is failures(1), and a12 is
+%   failures(13). if someday a new failuretyp is implemented, the array can be larger.
+%% Related Functions
+% * <bin2dec13.html bin2dec13>
+
+%% Source Code
+% 
+function [ detectors, filters ] = suggest_solution( dynamic, failures )
+%SUGGEST_SOLUTION gives a list of filters and detectors you can use for
+%your problem.
+
+LookupTable = load('Functions/lookuptable.mat');            % load the lookupTable
+
+line = bin2dec13(failures);                                 % gives a decimal number of the failures array to get the correct line
+detectors = LookupTable.LookupTable(line,dynamic).detector; % get the detector list
+filters = LookupTable.LookupTable(line,dynamic).filter;     % get the filter list
+
+%% sort detectors
+% Detectors are sorted based on the false-positive rate at first. If two
+% detectors have the same false-positive rate, they are ranked based on the
+% false-negative rate.
+sd = size(detectors);
+
+for i = 1:sd(1,2)
+    if(i==1)
+        sorted_detectors = detectors(i);
+        % calculate overall fn/fp rate
+        sfp = size(sorted_detectors.fp_rate);
+        sumfp = 0;
+        sumfn = 0;
+        for k = 1:sfp(1,2)
+            sumfp = sorted_detectors.fp_rate(k).fp_rate + sumfp;
+            sumfn = sorted_detectors.fn_rate(k).fn_rate + sumfn;
+        end
+        
+        sorted_detectors.fp_rate = sumfp/sfp(1,2);
+        sorted_detectors.fn_rate = sumfn/sfp(1,2);
+        
+    else
+        ssorted = size(sorted_detectors);
+        for j = 1:ssorted(1,2)
+           
+            % Calculate overall fn/fp rate for detector(i);
+            det_i = detectors(i);
+            sfp = size(det_i.fp_rate);
+            sumfp = 0;
+            sumfn = 0;
+            for k = 1:sfp(1,2)
+                sumfp = det_i.fp_rate(k).fp_rate + sumfp;
+                sumfn = det_i.fn_rate(k).fn_rate + sumfn;
+            end
+        
+            det_i.fp_rate = sumfp/sfp(1,2);
+            det_i.fn_rate = sumfn/sfp(1,2);
+            
+            % Compare false-positive rate
+            if(sorted_detectors(j).fp_rate > det_i.fp_rate)
+                part1 = sorted_detectors(1:j-1);
+                part2 = sorted_detectors(j:ssorted(1,2));
+                
+                sorted_detectors = [part1, det_i, part2];
+                break;
+            else
+                % Compare false-negative rate, if both are equal in
+                % false-positive rates
+                if(sorted_detectors(j).fp_rate == det_i.fp_rate)
+                    if(sorted_detectors(j).fn_rate > det_i.fn_rate)
+                        part1 = sorted_detectors(1:j-1);
+                        part2 = sorted_detectors(j:ssorted(1,2));
+                
+                        sorted_detectors = [part1, det_i, part2];
+                        break;
+                    end
+                end
+            end
+        end
+    end
+end
+
+detectors = sorted_detectors;
+
+%% sort filters
+% filters are sorted by the quality. If the quality of two filters is equal
+% the decision is made by the average distance (dist). 
+% The sorting algorithm is a bubblesort.
+
+sf = size(filters);
+for m = 1:sf(1,2)
+    for n = 1:(sf(1,2)-1)
+        if filters(n).quality > filters(n+1).quality
+            % swap
+            anna = filters(n);
+            filters(n) = filters(n+1);
+            filters(n+1) = anna;
+        elseif filters(n).quality == filters(n+1).quality
+            if filters(n).dist > filters(n+1).dist
+                % swap
+                anna = filters(n);
+                filters(n) = filters(n+1);
+                filters(n+1) = anna;
+            end
+        end
+    end
+end
+
+end
+
+
+##### SOURCE END #####
+--></body></html>

@@ -1,3 +1,16 @@
+%% build_trigger
+% This function extract the process model and the trigger data from a
+% special input file. Than it generates the triggerbus as input for the
+% FailureProcessing.slx. Therefor the it fills the unactivated fauilures
+% with zeros.
+%
+
+%% Related Functions
+% * <filename2bi.html filename2bi>
+%
+
+%% Source Code
+
 function [ process, triggerBus] = build_trigger( input_file )
 %BUILD_TRIGGERBUS returns from a .mat file the triggerbus and the
 %process data

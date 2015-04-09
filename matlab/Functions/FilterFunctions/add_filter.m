@@ -9,6 +9,8 @@
 % * <build_trigger.html build_trigger>
 % * <bin2dec13.html bin2dec13>
 
+%% Anleitung Filter selber bauen
+% TODO: mit inhalt füllen
 %% Source Code
 
 function add_filter( added_filter, path_trainData )
