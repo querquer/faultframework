@@ -22,6 +22,9 @@ function [fn, fp] = start_designing_detector(data_multifault, data_singlefault, 
 % Trigger singals representing whether a specific fault type was injected at the according
 % timestep or not. As we need to know which fault type we are confronted
 % with, the 'trigger' array should constist of a structs with the fields:
+% 'sampletime' will be used to set the SampleTime of the resulting Simulink-Model
+% 'path_and_name' describes the path and the name of the resulting detector.
+% 'path_detector' is the path to the folder in which are all files placed for this detector.
 
 
 %% build input data
