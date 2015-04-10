@@ -355,14 +355,20 @@ end
 function pushbutton_desfil_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
+    display('Start generate faulty data!');
+    FileName_FaultKonf = evalin('base','FileName_FaultKonf');
+    runScheduleMode(FileName_FaultKonf);
+    display('Faulty data were successfuly generated!');
+
+    display('Start converting faulty data!');
+    convertFaultyData;
+    display('Converting faulty data was successful!');  
+   
     
     display('Start design filter!');
     sel_filter = evalin('base','sel_filter');
     [config, quality, dist] = get_config(strcat(sel_filter,'.slx'))
-    assignin('base','config',config);
-    assignin('base','quality',quality);
-    assignin('base','dist',dist);
-    %resulst_filter(config, quality, dist);
+    result_filter(config, quality, dist);
     display('Design filter were successful!');
     
 end

@@ -8,16 +8,16 @@ function result_filter(config, quality, dist)
 
 f = figure('Position',[440 500 461 146]);
       
-for idx=1:length(fn)
-    mat{idx,1} = fn(idx).name;
-    mat{idx,2} = fn(idx).fn_rate;
-    mat{idx,3} = fp(idx).fp_rate;
-end       
+
+mat{1,1} = config;
+mat{1,2} = quality;
+mat{1,3} = dist;
+  
    
 
 
 % Create the column and row names in cell arrays 
-cnames = {'Name','FP-Rate','FN-Rate'};
+cnames = {'Config','Quality','Dist'};
 
 % Create the uitable
 t = uitable(f,'Data',mat,...
