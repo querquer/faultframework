@@ -1,3 +1,9 @@
+%% set_filter_evaluation
+% This function set another filter evaluation method in the Filter.slx
+%
+
+%% Source Code
+
 function set_filter_evaluation(model_file)
 %SET_FILTER set another evaluation model
 %   We assume, that the model where we want to change the filter_evaluation is still

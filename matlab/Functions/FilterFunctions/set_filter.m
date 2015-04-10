@@ -1,3 +1,9 @@
+%% set_filter
+% This function set another filter in the Filter.slx
+%
+
+%% Source Code
+
 function set_filter(model_file)
 %SET_FILTER set another filter
 %   We assume, that the model where we want to change the filter is still

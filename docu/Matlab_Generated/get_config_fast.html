@@ -1,0 +1,144 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>get_config_fast</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="get_config_fast.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>get_config_fast</h1><!--introduction--><p>Same funktion like <a href="get_config.html">get_config</a> with the difference that the filter is not set. This should save some time. Fore example while building the <a href="build_suggestion_table.html">lookuptable</a>.</p><p>Run the actual set filter with different configurations and find the best. The configurations and how they are changed is specified in the .m funktion of the filter. For example for the Median_Filter.slx the configuration options wich will be testet are specified in the median_filter.m</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Input Value</a></li><li><a href="#2">Return Values</a></li><li><a href="#3">Add New Filter</a></li><li><a href="#4">Source Code</a></li></ul></div><h2>Input Value<a name="1"></a></h2><div><ul><li><b>model_file</b>:   The name of the filter you want to use</li></ul></div><h2>Return Values<a name="2"></a></h2><div><ul><li><b>config</b>:       a value witch can tell you, witch configuration is the                   best.</li><li><b>quality</b>:      delivers a quality indication. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li><li><b>dist</b>:         delivers a indication how much differ the faultfree and the filtered                   data. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li></ul></div><h2>Add New Filter<a name="3"></a></h2><p>TODO: inhalt schreiben</p><h2>Source Code<a name="4"></a></h2><pre class="codeinput"><span class="keyword">function</span> [config, quality, dist] = get_config_fast(model_file)
+<span class="comment">%GET_CONFIG set and return the best config of the filter.</span>
+
+<span class="comment">%   ######## ADD NEW FILTER #########</span>
+<span class="comment">%   if you add a new filter, you should write a function wich trys</span>
+<span class="comment">%   different configurations and you should pass it here like the given</span>
+<span class="comment">%   examples. If not, you will get zero as configuration and the default</span>
+<span class="comment">%   configuration will be used.</span>
+
+<span class="comment">% start the configurationfunction of the filter</span>
+<span class="comment">% if you add a new filter, the configuration function should be added here</span>
+<span class="keyword">if</span>(strcmp(model_file,<span class="string">'Median_Filter'</span>))
+    [config, quality, dist] = median_filter();
+<span class="keyword">elseif</span>(strcmp(model_file,<span class="string">'Discrete_Filter'</span>))
+    [config, quality, dist] = discrete_filter();
+<span class="keyword">elseif</span>(strcmp(model_file,<span class="string">'DiscreteFIR_Filter'</span>))
+    [config, quality, dist] = discretefir_filter();
+<span class="comment">% elseif(strcmp(filter,'Kalman_Filter'))</span>
+<span class="comment">%     [config, quality, dist] = kalman_filter();</span>
+<span class="keyword">else</span>    <span class="comment">% if ther is no configurationfunction, use the default</span>
+    [config, quality, dist] = none();
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% get_config_fast
+% Same funktion like <get_config.html get_config> with the difference that
+% the filter is not set. This should save some time. Fore example while
+% building the <build_suggestion_table.html lookuptable>.
+%
+% Run the actual set filter with different configurations and find the best. The
+% configurations and how they are changed is specified in the .m funktion
+% of the filter. For example for the Median_Filter.slx the configuration
+% options wich will be testet are specified in the median_filter.m
+
+%% Input Value
+% * *model_file*:   The name of the filter you want to use
+
+%% Return Values
+% * *config*:       a value witch can tell you, witch configuration is the
+%                   best.
+% * *quality*:      delivers a quality indication. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+% * *dist*:         delivers a indication how much differ the faultfree and the filtered
+%                   data. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+
+%% Add New Filter
+% TODO: inhalt schreiben
+%
+
+%% Source Code
+
+function [config, quality, dist] = get_config_fast(model_file)
+%GET_CONFIG set and return the best config of the filter.
+
+%   ######## ADD NEW FILTER #########
+%   if you add a new filter, you should write a function wich trys
+%   different configurations and you should pass it here like the given
+%   examples. If not, you will get zero as configuration and the default
+%   configuration will be used.
+
+% start the configurationfunction of the filter
+% if you add a new filter, the configuration function should be added here
+if(strcmp(model_file,'Median_Filter'))
+    [config, quality, dist] = median_filter();
+elseif(strcmp(model_file,'Discrete_Filter'))
+    [config, quality, dist] = discrete_filter();
+elseif(strcmp(model_file,'DiscreteFIR_Filter'))
+    [config, quality, dist] = discretefir_filter();
+% elseif(strcmp(filter,'Kalman_Filter'))
+%     [config, quality, dist] = kalman_filter();
+else    % if ther is no configurationfunction, use the default
+    [config, quality, dist] = none();
+end
+
+
+##### SOURCE END #####
+--></body></html>

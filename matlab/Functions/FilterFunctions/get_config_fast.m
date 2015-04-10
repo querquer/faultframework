@@ -1,32 +1,37 @@
-function [config, quality, dist] = get_config(model_file)
+%% get_config_fast
+% Same funktion like <get_config.html get_config> with the difference that
+% the filter is not set. This should save some time. Fore example while
+% building the <build_suggestion_table.html lookuptable>.
+%
+% Run the actual set filter with different configurations and find the best. The
+% configurations and how they are changed is specified in the .m funktion
+% of the filter. For example for the Median_Filter.slx the configuration
+% options wich will be testet are specified in the median_filter.m
+
+%% Input Value
+% * *model_file*:   The name of the filter you want to use
+
+%% Return Values
+% * *config*:       a value witch can tell you, witch configuration is the
+%                   best.
+% * *quality*:      delivers a quality indication. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+% * *dist*:         delivers a indication how much differ the faultfree and the filtered
+%                   data. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+
+%% Add New Filter
+% TODO: inhalt schreiben
+%
+
+%% Source Code
+
+function [config, quality, dist] = get_config_fast(model_file)
 %GET_CONFIG set and return the best config of the filter.
-%   Run the filter with different configurations and find the best. The
-%   configurations and how they are changed is specified in the .m funktion
-%   of the filter. For example for the Median_Filter.slx the configuration
-%   options wich will be testet are specified in the median_filter.m
-% 
+
 %   ######## ADD NEW FILTER #########
 %   if you add a new filter, you should write a function wich trys
 %   different configurations and you should pass it here like the given
 %   examples. If not, you will get zero as configuration and the default
 %   configuration will be used.
-%   
-% 
-%   input value
-%   model_file: The name of the filter you want to use
-%   
-%   Return values
-%   config:     The best parameters for the filter
-%
-%   quality:        gives the average difference between the filtered faulty_data
-%   and the filtered faultfree_data, when the faulttrigger is active. This
-%   is to give an quality value wich not depend on fauilures caused by
-%   distortion of the filter. A smaller value is better.
-%
-%   average_dist:   gives the average difference between the
-%   filtered faulty_data and the faultfree_data. To give information on the
-%   impact of the distortion of the filter. A smaller value is better.
-
 
 % start the configurationfunction of the filter
 % if you add a new filter, the configuration function should be added here

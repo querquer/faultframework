@@ -1,0 +1,201 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>LookupTable / build_suggestion_table</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="build_suggestion_table.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>LookupTable / build_suggestion_table</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">LookupTable</a></li><li><a href="#2">build_suggestion_table</a></li><li><a href="#3">Related Functions</a></li><li><a href="#4">Source Code</a></li></ul></div><h2>LookupTable<a name="1"></a></h2><p>If you have to calculate, wich detector and filter is the best for your problem, it takes much time. Therefor the FaultFramework contain a lookuptable.</p><p>In this table the collums are the dynamic of the processmodel. The dynamic is low, middel or high.</p><p>The lines are defined by the activ faults. In the Framework the activ faults are represented by an 1x13 row vector. This can also seen as an binary number. We can convert the line number to a binary number and so we get the activ faults for the line.</p><p>A cell contain a struct with:</p><div><ul><li><b>failure_build</b>:    The 1x13 row vector witch represent the activated faults.</li><li><b>filter</b>:           Contain an array of structs. One struct is an filter with a name, a quality value(quality) and the average distant(dist) between the filtered data and the unfiltered data.</li><li><b>detector</b>:         Contain an array of structs. One struct is an detector with a name, a false-negativ-rate(fn_rate), false-positiv-rate(fp_rate) and the path, where the detector is to find.</li></ul></div><p>the initial lookuptable is build by the function build_suggestion_table. With the function add_filter respectiv add_detector you can add new content.</p><h2>build_suggestion_table<a name="2"></a></h2><p>This function build the initial lookuptable. The table is filled up with dummy values.</p><h2>Related Functions<a name="3"></a></h2><div><ul><li><a href="dec2bin13.html">dec2bin13</a></li></ul></div><h2>Source Code<a name="4"></a></h2><pre class="codeinput"><span class="keyword">function</span> [LookupTable] = build_suggestion_table()
+<span class="comment">%BUILD_SUGGESTION_TABLE make a new LookupTable.</span>
+<span class="comment">%   Return value</span>
+<span class="comment">%   LookupTable:    matrix of structures. The column gives the dynamic. The</span>
+<span class="comment">%   line gives the enabled failures. Every field contains a struct with an</span>
+<span class="comment">%   filter array and an detector array. it is an sorted list, were the</span>
+<span class="comment">%   first should be the best and the last the worst.</span>
+
+LookupTable = [];
+failure = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+i = 0;
+
+<span class="comment">%   build the table until every error is enabled</span>
+<span class="keyword">while</span>(failure(1)==0 || failure(2)==0 || failure(3)==0 || failure(4)==0 || failure(5)==0 || failure(6)==0 || failure(7)==0 || failure(8)==0 || failure(9)==0 || failure(10)==0 || failure(11)==0 || failure(12)==0 || failure(13)==0)
+    i = i+1;
+    failure = dec2bin13(i);                      <span class="comment">% make an binary row vector wich specify the enabled failures</span>
+    LookupTable(i,1).failure_build = failure;
+    LookupTable(i,2).failure_build = failure;
+    LookupTable(i,3).failure_build = failure;
+
+    filter.name = <span class="string">'donNotUseThisFilter'</span>;
+    filter.quality = 99;
+    filter.dist = 99;
+
+    LookupTable(i,1).filter(1) = filter;
+    LookupTable(i,2).filter(1) = filter;
+    LookupTable(i,3).filter(1) = filter;
+
+    <span class="comment">% Default detector</span>
+    detector.name = <span class="string">'None'</span>;
+    detector.fn_rate.name = <span class="string">'None'</span>;
+    detector.fp_rate.name = <span class="string">'None'</span>;
+    detector.fn_rate.fn_rate = 1;
+    detector.fp_rate.fp_rate = 1;
+    detector.path = <span class="string">'No_Path'</span>;
+
+    LookupTable(i,1).detector(1) = detector;
+    LookupTable(i,2).detector(1) = detector;
+    LookupTable(i,3).detector(1) = detector;
+
+<span class="keyword">end</span>
+<span class="comment">%   save the table</span>
+save(<span class="string">'Functions/lookuptable.mat'</span>, <span class="string">'LookupTable'</span>);
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% LookupTable / build_suggestion_table
+% 
+%% LookupTable
+% If you have to calculate, wich detector and filter is the best for your
+% problem, it takes much time. Therefor the FaultFramework contain a
+% lookuptable. 
+%
+% In this table the collums are the dynamic of the
+% processmodel. The dynamic is low, middel or high. 
+% 
+% The lines are defined by the activ faults. In the Framework the activ
+% faults are represented by an 1x13 row vector. This can also seen as an
+% binary number. We can convert the line number to a binary number and so
+% we get the activ faults for the line.
+% 
+% A cell contain a struct with:
+% 
+% * *failure_build*:    The 1x13 row vector witch represent the activated faults.
+% * *filter*:           Contain an array of structs. One struct is an filter with a name, a quality value(quality) and the average distant(dist) between the filtered data and the unfiltered data.
+% * *detector*:         Contain an array of structs. One struct is an detector with a name, a false-negativ-rate(fn_rate), false-positiv-rate(fp_rate) and the path, where the detector is to find.
+%
+% the initial lookuptable is build by the function build_suggestion_table.
+% With the function add_filter respectiv add_detector you can add new
+% content.
+%
+
+%% build_suggestion_table
+% This function build the initial lookuptable. The table is filled up with
+% dummy values.
+% 
+
+%% Related Functions
+% * <dec2bin13.html dec2bin13>
+%
+
+%% Source Code
+
+function [LookupTable] = build_suggestion_table()
+%BUILD_SUGGESTION_TABLE make a new LookupTable.
+%   Return value
+%   LookupTable:    matrix of structures. The column gives the dynamic. The
+%   line gives the enabled failures. Every field contains a struct with an
+%   filter array and an detector array. it is an sorted list, were the
+%   first should be the best and the last the worst.
+
+LookupTable = [];
+failure = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+i = 0;
+
+%   build the table until every error is enabled
+while(failure(1)==0 || failure(2)==0 || failure(3)==0 || failure(4)==0 || failure(5)==0 || failure(6)==0 || failure(7)==0 || failure(8)==0 || failure(9)==0 || failure(10)==0 || failure(11)==0 || failure(12)==0 || failure(13)==0)
+    i = i+1;
+    failure = dec2bin13(i);                      % make an binary row vector wich specify the enabled failures
+    LookupTable(i,1).failure_build = failure;
+    LookupTable(i,2).failure_build = failure;
+    LookupTable(i,3).failure_build = failure;
+    
+    filter.name = 'donNotUseThisFilter';
+    filter.quality = 99;
+    filter.dist = 99;
+    
+    LookupTable(i,1).filter(1) = filter;
+    LookupTable(i,2).filter(1) = filter;
+    LookupTable(i,3).filter(1) = filter;
+
+    % Default detector
+    detector.name = 'None';
+    detector.fn_rate.name = 'None';
+    detector.fp_rate.name = 'None';
+    detector.fn_rate.fn_rate = 1;
+    detector.fp_rate.fp_rate = 1;
+    detector.path = 'No_Path';
+
+    LookupTable(i,1).detector(1) = detector;
+    LookupTable(i,2).detector(1) = detector;
+    LookupTable(i,3).detector(1) = detector;
+
+end
+%   save the table
+save('Functions/lookuptable.mat', 'LookupTable');
+
+end
+
+
+##### SOURCE END #####
+--></body></html>

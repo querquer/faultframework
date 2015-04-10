@@ -1,6 +1,42 @@
+%% LookupTable / build_suggestion_table
+% 
+%% LookupTable
+% If you have to calculate, wich detector and filter is the best for your
+% problem, it takes much time. Therefor the FaultFramework contain a
+% lookuptable. 
+%
+% In this table the collums are the dynamic of the
+% processmodel. The dynamic is low, middel or high. 
+% 
+% The lines are defined by the activ faults. In the Framework the activ
+% faults are represented by an 1x13 row vector. This can also seen as an
+% binary number. We can convert the line number to a binary number and so
+% we get the activ faults for the line.
+% 
+% A cell contain a struct with:
+% 
+% * *failure_build*:    The 1x13 row vector witch represent the activated faults.
+% * *filter*:           Contain an array of structs. One struct is an filter with a name, a quality value(quality) and the average distant(dist) between the filtered data and the unfiltered data.
+% * *detector*:         Contain an array of structs. One struct is an detector with a name, a false-negativ-rate(fn_rate), false-positiv-rate(fp_rate) and the path, where the detector is to find.
+%
+% the initial lookuptable is build by the function build_suggestion_table.
+% With the function add_filter respectiv add_detector you can add new
+% content.
+%
+
+%% build_suggestion_table
+% This function build the initial lookuptable. The table is filled up with
+% dummy values.
+% 
+
+%% Related Functions
+% * <dec2bin13.html dec2bin13>
+%
+
+%% Source Code
+
 function [LookupTable] = build_suggestion_table()
-%BUILD_SUGGESTION_TABLE make a new LookupTable. Executing this function can
-%take several hours!(spaeter mal ;)
+%BUILD_SUGGESTION_TABLE make a new LookupTable.
 %   Return value
 %   LookupTable:    matrix of structures. The column gives the dynamic. The
 %   line gives the enabled failures. Every field contains a struct with an
