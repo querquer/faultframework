@@ -355,14 +355,16 @@ end
 function pushbutton_desfil_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
-    try
-        display('Start design filter!');
-        sel_filter = evalin('base','sel_filter');
-        set_filter(strcat(sel_filter,'.slx'));
-        display('Design filter were successful!');
-    catch
-        display('Error: Missing Data for Start Design Filter!')
-    end
+    
+    display('Start design filter!');
+    sel_filter = evalin('base','sel_filter');
+    [config, quality, dist] = get_config(strcat(sel_filter,'.slx'))
+    assignin('base','config',config);
+    assignin('base','quality',quality);
+    assignin('base','dist',dist);
+    %resulst_filter(config, quality, dist);
+    display('Design filter were successful!');
+    
 end
 % hObject    handle to pushbutton_desfil (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -379,16 +381,10 @@ if(des == 1)
     runScheduleMode(FileName_FaultKonf);
     display('Faulty data were successfuly generated!');
 
-
-
     display('Start converting faulty data!');
     convertFaultyData;
     display('Converting faulty data was successful!');  
-
-
-
-
-    
+   
     data_multifault = evalin('base','data_multifault');
     data_singlefault = evalin('base','data_singlefault');
     trigger_multifault = evalin('base','trigger_multifault');
@@ -653,6 +649,12 @@ end
 
 % --- Executes on button press in pushbutton_export_detector.
 function pushbutton_export_detector_Callback(hObject, eventdata, handles)
+[FileName,PathName] = uiputfile('*.slx','Save Detector');
+display(strcat(PathName,FileName));
+if PathName > 0
+    movefile('Output\Designed_Detector_TEMP.slx',strcat(PathName,FileName));
+end
+
 % hObject    handle to pushbutton_export_detector (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -760,6 +762,11 @@ end
 
 % --- Executes on button press in pushbutton_export_filter.
 function pushbutton_export_filter_Callback(hObject, eventdata, handles)
+currentFolder = pwd;
+PathName_Filter = uigetdir(pwd);
+if PathName_Filter > 0
+    export_filter(PathName_Filter);
+end
 % hObject    handle to pushbutton_export_filter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

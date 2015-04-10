@@ -4,7 +4,7 @@
 
 
 %% Source Code
-function result_filter(config, quality)
+function result_filter(config, quality, dist)
 
 f = figure('Position',[440 500 461 146]);
       
