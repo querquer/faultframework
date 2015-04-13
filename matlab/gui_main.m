@@ -397,10 +397,15 @@ if(des == 1)
     trigger_singlefault = evalin('base','trigger_singlefault');
     SampleTime = evalin('base','SampleTime');
     
-    if exist('\Output\Designed_Detector_TEMP','file') > 0
-        delete('\Output\Designed_Detector_TEMP');
+   if(isunix())
+       path_and_name = '/Output/Designed_Detector_TEMP.slx';
+   else
+       path_and_name = '\Output\Designed_Detector_TEMP.slx';
+   end
+    if exist(path_and_name,'file') > 0
+        delete(path_and_name);
     end
-    path_and_name = strcat(pwd,'\Output\Designed_Detector_TEMP');
+    path_and_name = strcat(pwd,path_and_name);
     
     
     path_detector_complete = evalin('base','path_detector');
