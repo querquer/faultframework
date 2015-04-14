@@ -85,15 +85,6 @@ gui_faultlist;
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton_gentestdata.
-function pushbutton_gentestdata_Callback(hObject, eventdata, handles)
-
-% hObject    handle to pushbutton_gentestdata (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-
 function edit_simlength_Callback(hObject, eventdata, handles)
 assignin('base','SimLength', str2double(get(hObject,'string')));
 % hObject    handle to edit_simlength (see GCBO)
@@ -171,38 +162,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton3.
-function pushbutton3_Callback(hObject, eventdata, handles)
-plotFaultyData;
-% hObject    handle to pushbutton3 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-
-
-function edit6_Callback(hObject, eventdata, handles)
-assignin('base','processModelName', get(hObject,'string'));
-% hObject    handle to edit6 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of edit6 as text
-%        str2double(get(hObject,'String')) returns contents of edit6 as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function edit6_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit6 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
 
 % --- Executes on button press in pushbutton_classify.
 function pushbutton_classify_Callback(hObject, eventdata, handles)
@@ -217,36 +176,6 @@ end
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
-% --- Executes on selection change in popupmenu_faultkonf.
-function popupmenu_faultkonf_Callback(hObject, eventdata, handles)
-items = get(hObject,'String');
-index_selected = get(hObject,'Value');
-item_selected = items{index_selected};
-loadFaultKonf(item_selected);
-countFaults(item_selected);
-% hObject    handle to popupmenu_faultkonf (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_faultkonf contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu_faultkonf
-
-
-% --- Executes during object creation, after setting all properties.
-function popupmenu_faultkonf_CreateFcn(hObject, eventdata, handles)
-try
-    konf_array = find_konfiguration('Faultinjection/XML');
-catch
-    konf_array = 'no konfiguration found';
-end
-set(hObject,'String',konf_array);
-% hObject    handle to popupmenu_faultkonf (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 
 
 
@@ -323,7 +252,12 @@ index_selected = get(hObject,'Value');
 item_selected = items{index_selected};
 set_processModel(item_selected);
 assignin('base','processModelName',item_selected);
-assignin('base','path_and_name',strcat('ProzessModel/',item_selected));
+if(isunix())
+    assignin('base','path_and_name',strcat('ProzessModel/',item_selected));
+else
+    assignin('base','path_and_name',strcat('ProzessModel\',item_selected));
+end
+
 % hObject    handle to popupmenu_pm (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -397,11 +331,18 @@ if(des == 1)
     trigger_singlefault = evalin('base','trigger_singlefault');
     SampleTime = evalin('base','SampleTime');
     
-    if exist('\Output\Designed_Detector_TEMP','file') > 0
-        delete('\Output\Designed_Detector_TEMP');
+    if(isunix()) 
+        if exist('/Output/Designed_Detector_TEMP','file') > 0
+            delete('/Output/Designed_Detector_TEMP');
+        end
+        path_and_name = strcat(pwd,'/Output/Designed_Detector_TEMP');
+        
+    else
+        if exist('\Output\Designed_Detector_TEMP','file') > 0
+            delete('\Output\Designed_Detector_TEMP');
+        end
+        path_and_name = strcat(pwd,'\Output\Designed_Detector_TEMP');
     end
-    path_and_name = strcat(pwd,'\Output\Designed_Detector_TEMP');
-    
     
     path_detector_complete = evalin('base','path_detector');
     sa = findstr(path_detector_complete, 'Detector');
@@ -413,6 +354,7 @@ if(des == 1)
     [fn, fp] = start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, SampleTime, path_and_name, path_detector);
     % show results
     result_detector(fn,fp);
+    close_system('Designed_Detector_TEMP');
 end
 % hObject    handle to pushbutton_desdet (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -469,13 +411,6 @@ set(filterTable,'data',fil_cell);
 % handles    structure with handles and user data (see GUIDATA)
 
 
-
-% --- Executes during object creation, after setting all properties.
-function detectorTable_CreateFcn(hObject, eventdata, handles)
-
-% hObject    handle to detectorTable (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
 
 % --- Executes when selected cell(s) is changed in detectorTable.
@@ -546,7 +481,12 @@ des = gui_continue();
 if(des == 1)
     FileName_Detector = evalin('base','FileName_Detector');
     PathName_Detector = evalin('base','PathName_Detector');
-    add_detector(PathName_Detector, FileName_Detector,[pwd '/Functions/lookuptable.mat'], [pwd '/Data']);
+    if(isunix())
+        add_detector(PathName_Detector, FileName_Detector,[pwd '/Functions/lookuptable.mat'], [pwd '/Data']);
+    else
+        add_detector(PathName_Detector, FileName_Detector,[pwd '\Functions\lookuptable.mat'], [pwd '\Data']);
+    end
+    
 end
 
 % hObject    handle to pushbutton_addDetctor (see GCBO)
@@ -563,21 +503,16 @@ if(des == 1)
     
     si = size(FileName_Filter);
     name = FileName_Filter(1:si(1,2)-4);
-    add_filter(name, [pwd '/Data']);
+    if(isunix())
+        add_filter(name, [pwd '/Data']);
+    else
+        add_filter(name, [pwd '\Data']);
+    end
+    
 end
 % hObject    handle to pushbutton_addFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on selection change in popupmenu_detector.
-function popupmenu_detector_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu_detector (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_detector contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu_detector
 
 
 % --- Executes during object creation, after setting all properties.
@@ -599,16 +534,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on selection change in popupmenu_filter.
-function popupmenu_filter_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu_filter (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_filter contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu_filter
-
-
 % --- Executes during object creation, after setting all properties.
 function popupmenu_filter_CreateFcn(hObject, eventdata, handles)
 try
@@ -628,37 +553,18 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on selection change in popupmenu_detector.
-function popupmenu8_Callback(hObject, eventdata, handles)
-
-% hObject    handle to popupmenu_detector (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_detector contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu_detector
-
-
-% --- Executes during object creation, after setting all properties.
-function popupmenu8_CreateFcn(hObject, eventdata, handles)
-
-% hObject    handle to popupmenu_detector (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
 
 % --- Executes on button press in pushbutton_export_detector.
 function pushbutton_export_detector_Callback(hObject, eventdata, handles)
 [FileName,PathName] = uiputfile('*.slx','Save Detector');
 display(strcat(PathName,FileName));
 if PathName > 0
-    movefile('Output\Designed_Detector_TEMP.slx',strcat(PathName,FileName));
+    if(isunix())
+        movefile('Output/Designed_Detector_TEMP.slx',strcat(PathName,FileName));
+    else
+        movefile('Output\Designed_Detector_TEMP.slx',strcat(PathName,FileName));
+    end
+    
 end
 
 % hObject    handle to pushbutton_export_detector (see GCBO)
@@ -742,28 +648,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-
-function edit_nameFilter_Callback(hObject, eventdata, handles)
-assignin('base','FileName_Filter', get(hObject,'string'));
-% hObject    handle to edit_nameFilter (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of edit_nameFilter as text
-%        str2double(get(hObject,'String')) returns contents of edit_nameFilter as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function edit_nameFilter_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit_nameFilter (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
 
 
 % --- Executes on button press in pushbutton_export_filter.

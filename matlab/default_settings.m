@@ -14,27 +14,36 @@ catch
 
 
     % Choose elements
+    if(isunix())
+        PathName_Filter = 'Filter/';
+        PathName_Detector = 'Detector/';
+        PathName_FaultKonf = 'Faultinjection/XML/';
+        PathName_PM = 'ProcessModel/';
+    else
+        PathName_Filter = 'Filter\';
+        PathName_Detector = 'Detector\';
+        PathName_FaultKonf = 'Faultinjection\XML\';
+        PathName_PM = 'ProcessModel\';
+    end
+    
     FileName_Filter = 'Filter';
-    PathName_Filter = 'Filter/';
     assignin('base','FileName_Filter',FileName_Filter);
     assignin('base','PathName_Filter',PathName_Filter);
 
     FileName_Detector = 'Detector';
-    PathName_Detector = 'Detector/';
     assignin('base','FileName_Detector',FileName_Detector);
     assignin('base','PathName_Detector',PathName_Detector);
 
     
     FileName_FaultKonf = 'faultKonf_nofaults.xml';
-    PathName_FaultKonf = 'Faultinjection/XML/';
     assignin('base','FileName_FaultKonf',FileName_FaultKonf);
     assignin('base','PathName_FaultKonf',PathName_FaultKonf);
 
     FileName_PM = 'middle_new.slx';
-    PathName_PM = 'ProcessModel/';
     assignin('base','FileName_PM',FileName_PM);
     assignin('base','PathName_PM',PathName_PM);
 
+    
     % other
 
     prozess_dynamic = 2;

@@ -1,4 +1,5 @@
 matlab/data.mat
+matlab/Output
 matlab/Faultinjection/data.mat
 matlab/Faultinjection/log/LOG_1.txt
 matlab/Prozessmodel.slx
