@@ -10,6 +10,8 @@
 % * <getAvailableFaultCombinations.html getAvailableFaultCombinations>
 % * <getClassificationDataDetector.html getClassificationDataDetector>
 % * <start_designing_detector.html start_designing_detector>
+% * <bin2dec13.html bin2dec13>
+% * <disp_dbg.html disp_dbg>
 
 %% Source Code
 

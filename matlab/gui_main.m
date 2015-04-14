@@ -330,7 +330,7 @@ if(des == 1)
     trigger_multifault = evalin('base','trigger_multifault');
     trigger_singlefault = evalin('base','trigger_singlefault');
     SampleTime = evalin('base','SampleTime');
-    
+
     if(isunix()) 
         if exist('/Output/Designed_Detector_TEMP','file') > 0
             delete('/Output/Designed_Detector_TEMP');
@@ -343,6 +343,7 @@ if(des == 1)
         end
         path_and_name = strcat(pwd,'\Output\Designed_Detector_TEMP');
     end
+
     
     path_detector_complete = evalin('base','path_detector');
     sa = findstr(path_detector_complete, 'Detector');
