@@ -39,8 +39,12 @@ catch
     display('Could not load variable: num_faults');
 end
 
+if(isunix())
+    curr_file_path = strcat('Faultinjection/XML/',curr_file);
+else
+    curr_file_path = strcat('Faultinjection\XML\',curr_file);
+end
 
-curr_file_path = strcat('Faultinjection/XML/',curr_file);
 
 %% Open the actual fault konfiguration and set the schedule mode on
 xDoc = xmlread(curr_file_path);

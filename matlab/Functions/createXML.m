@@ -399,7 +399,11 @@ end
 
 %% Checks the designated filename 
 if filename > 0
-    curr_filename = strcat('Faultinjection/XML/',filename);
+    if(isunix())
+        curr_filename = strcat('Faultinjection/XML/',filename);
+    else
+        curr_filename = strcat('Faultinjection\XML\',filename);
+    end
 else
     curr_filename = 'Faultinjection/XML/faultKonf_TEMP';
 end

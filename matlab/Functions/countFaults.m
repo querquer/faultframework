@@ -5,7 +5,13 @@
 function countFaults(file_name_faultKonf)
 
 % Open the XML by the given fault configuraion name
-xDoc = xmlread(strcat('Faultinjection/XML/',file_name_faultKonf));
+if(isunix())
+    doc = strcat('Faultinjection/XML/',file_name_faultKonf);
+else
+    doc = strcat('Faultinjection\XML\',file_name_faultKonf);
+end
+
+xDoc = xmlread(doc);
 allFaultList  = xDoc.getElementsByTagName('fault');
 
 

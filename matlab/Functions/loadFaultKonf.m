@@ -15,7 +15,12 @@ thisCampaign = allCampaignList.item(0);
 thisFileList = thisCampaign.getElementsByTagName('file');
 thisFile = thisFileList.item(0);
 
-thisFile.setTextContent(strcat('Faultinjection/XML/',file_name_faultKonf));
+if(isunix())
+    thisFile.setTextContent(strcat('Faultinjection/XML/',file_name_faultKonf));
+else
+    thisFile.setTextContent(strcat('Faultinjection\XML\',file_name_faultKonf));
+end
+
 
 myXMLwrite(curr_file,xDoc);
 
