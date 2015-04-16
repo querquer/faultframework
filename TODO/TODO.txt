@@ -5,10 +5,21 @@ Maik:
 	- extra .m für Dokumentation
 	- browse path_and_name
 	- add button export
+	neu:
+	- Processmodel sampletime set param
+	- classify model function pointer
+	- Titel beim fehlerkonfigurieren einfügen
+	- Table Detector erweitern
+	- import rename
+	- UML Workflow
 
 Georg:
 	- classify process model --> thresholds?!
 
 Jonas:
-	- triggerbus umbauen
-	- add filter input hinzufügen
+	- do not use this filter... was tun?
+	- quality check umbenennen und kommentieren/dokumentieren
+	- build_trigger, build_suggestion_table kommentieren/dokumentieren
+	
+	
+Alle zusammen:     Baum.
