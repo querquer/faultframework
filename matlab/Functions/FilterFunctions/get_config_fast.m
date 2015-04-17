@@ -33,13 +33,16 @@ function [config, quality, dist] = get_config_fast(model_file)
 %   examples. If not, you will get zero as configuration and the default
 %   configuration will be used.
 
+
+
 % start the configurationfunction of the filter
 % if you add a new filter, the configuration function should be added here
-if(strcmp(model_file,'Median_Filter'))
+if(strcmp(model_file,'Median_Filter.slx'))
+    display(model_file);
     [config, quality, dist] = median_filter();
-elseif(strcmp(model_file,'Discrete_Filter'))
+elseif(strcmp(model_file,'Discrete_Filter.slx'))
     [config, quality, dist] = discrete_filter();
-elseif(strcmp(model_file,'DiscreteFIR_Filter'))
+elseif(strcmp(model_file,'DiscreteFIR_Filter.slx'))
     [config, quality, dist] = discretefir_filter();
 % elseif(strcmp(filter,'Kalman_Filter'))
 %     [config, quality, dist] = kalman_filter();

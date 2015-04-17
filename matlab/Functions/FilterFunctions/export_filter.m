@@ -11,9 +11,9 @@ load_system('Filter.slx');
 actual_filter = get_param('Filter/Filter/' ,'ModelNameDialog');
 
 if(isunix())
-    file_location = ['Filter/' actual_filter '.slx'];
+    file_location = ['Filter/' actual_filter];
 else
-    file_location = ['Filter\' actual_filter '.slx'];
+    file_location = ['Filter\' actual_filter];
 end
 
 copyfile(file_location, export_path);

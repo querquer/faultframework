@@ -503,7 +503,7 @@ if(des == 1)
     PathName_Filter = evalin('base','PathName_Filter');
     
     si = size(FileName_Filter);
-    name = FileName_Filter(1:si(1,2)-4);
+    name = FileName_Filter;
     if(isunix())
         add_filter(name, [pwd '/Data']);
     else

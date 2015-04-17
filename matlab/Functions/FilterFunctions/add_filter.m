@@ -50,7 +50,12 @@ for c = 1:3
         assignin('base', 'trigger', triggerBus);
         
         % Create new entry
-        new_filter.name = added_filter;
+        % cut the .slx ending
+        si = size(added_filter);
+        added_filter_name = added_filter(1:si(1,2)-4);
+        new_filter.name = added_filter_name;
+        
+        % get the config
         [~ , new_filter.quality, new_filter.dist] = get_config_fast(added_filter);
         
         % Get current filter
@@ -61,7 +66,7 @@ for c = 1:3
         % is the new Filter already in the LookupTable?
         filterPresence = 0;
         for filterCount = 1:sf(1,2)
-            if(strcmp(filter(filterCount).name, added_filter))
+            if(strcmp(filter(filterCount).name, added_filter_name))
                 % filter already in the LookupTable
                 filterPresence = filterCount;
             end
