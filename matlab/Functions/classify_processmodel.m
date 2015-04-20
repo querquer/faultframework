@@ -20,17 +20,17 @@ mean = mean_of_squared_gradient(data);
 
 % Determine correct class
 % Low dynamic
-if(mean <= 2.902689602196207e-06)
+if(mean <= 2.912689602196207e-06)
     class = 3;
 end
 
 % Middle dynamic
-if((mean > 2.902689602196207e-06) && (mean < 4.780559712570934e-04))
+if((mean > 2.912689602196207e-06) && (mean < 6.882559712570934e-04))
     class = 2;
 end
 
 % High dynamic
-if(mean >= 4.780559712570934e-04)
+if(mean >= 6.882559712570934e-04)
     class = 1;
 end
 

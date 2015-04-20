@@ -95,7 +95,36 @@ for i = 1:sd(1,2)
     end
 end
 
-detectors = sorted_detectors;
+% Expand array of detectors for every fault type
+ssorted = size(sorted_detectors);
+for i=1:ssorted(1,2)
+    sd = size(detectors);
+    for j = 1:sd(1,2);
+        % find matching detector
+        if(strcmp(detectors(j).name,sorted_detectors(i).name) == 1)
+            d = detectors(j);
+            break;
+        end
+    end
+    
+    sized = size(d.fp_rate);
+    for k=1:sized(1,2);
+        if(i==1 && k==1)
+            det.name = d.name;
+            det.fp_rate = d.fp_rate(k);
+            det.fn_rate = d.fn_rate(k);
+            det.path = d.path;
+        else
+            new.name = d.name;
+            new.fp_rate = d.fp_rate(k);
+            new.fn_rate = d.fn_rate(k);
+            new.path = d.path;
+            det = [det new];
+        end
+    end
+end
+
+detectors = det;
 
 %% sort filters
 % filters are sorted by the quality. If the quality of two filters is equal
