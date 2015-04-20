@@ -18,8 +18,7 @@ Georg:
 
 Jonas:
 	- do not use this filter... was tun?
-	- quality check umbenennen und kommentieren/dokumentieren
-	- build_trigger, build_suggestion_table kommentieren/dokumentieren
+	- quality check umbenennen
 	
 	
 Alle zusammen:     Baum.

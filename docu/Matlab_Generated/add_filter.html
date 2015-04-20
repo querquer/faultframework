@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>add_filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="add_filter.m"><style type="text/css">
+      --><title>add_filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-21"><meta name="DC.source" content="add_filter.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>add_filter</h1><!--introduction--><p>This function integrate a new filter in the <a href="build_suggestion_table.html">lookuptable</a>. Therefor the filter is tested on any pssible fault configuration.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#2">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="set_filter.html">set_filter</a></li><li><a href="getAvailableFaultCombinations.html">getAvailableFaultCombinations</a></li><li><a href="build_trigger.html">build_trigger</a></li><li><a href="bin2dec13.html">bin2dec13</a></li></ul></div><h2>Source Code<a name="2"></a></h2><pre class="codeinput"><span class="keyword">function</span> add_filter( added_filter, path_trainData )
+  </style></head><body><div class="content"><h1>add_filter</h1><!--introduction--><p>This function integrate a new filter in the <a href="build_suggestion_table.html">lookuptable</a>. Therefor the filter is tested on any possible fault configuration.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#2">Anleitung Filter selber bauen</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="set_filter.html">set_filter</a></li><li><a href="getAvailableFaultCombinations.html">getAvailableFaultCombinations</a></li><li><a href="build_trigger.html">build_trigger</a></li><li><a href="bin2dec13.html">bin2dec13</a></li></ul></div><h2>Anleitung Filter selber bauen<a name="2"></a></h2><p>TODO: mit inhalt f&uuml;llen</p><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> add_filter( added_filter, path_trainData )
 <span class="comment">%ADD_FILTER This function integrate a new filter in the lookuptable.</span>
 
 set_filter(added_filter);
@@ -103,7 +103,12 @@ class{1} = <span class="string">'high'</span>;
         assignin(<span class="string">'base'</span>, <span class="string">'trigger'</span>, triggerBus);
 
         <span class="comment">% Create new entry</span>
-        new_filter.name = added_filter;
+        <span class="comment">% cut the .slx ending</span>
+        si = size(added_filter);
+        added_filter_name = added_filter(1:si(1,2)-4);
+        new_filter.name = added_filter_name;
+
+        <span class="comment">% get the config</span>
         [~ , new_filter.quality, new_filter.dist] = get_config_fast(added_filter);
 
         <span class="comment">% Get current filter</span>
@@ -114,7 +119,7 @@ class{1} = <span class="string">'high'</span>;
         <span class="comment">% is the new Filter already in the LookupTable?</span>
         filterPresence = 0;
         <span class="keyword">for</span> filterCount = 1:sf(1,2)
-            <span class="keyword">if</span>(strcmp(filter(filterCount).name, added_filter))
+            <span class="keyword">if</span>(strcmp(filter(filterCount).name, added_filter_name))
                 <span class="comment">% filter already in the LookupTable</span>
                 filterPresence = filterCount;
             <span class="keyword">end</span>
@@ -138,7 +143,7 @@ class{1} = <span class="string">'high'</span>;
 ##### SOURCE BEGIN #####
 %% add_filter
 % This function integrate a new filter in the <build_suggestion_table.html
-% lookuptable>. Therefor the filter is tested on any pssible fault
+% lookuptable>. Therefor the filter is tested on any possible fault
 % configuration.
 
 %% Related Functions
@@ -147,6 +152,8 @@ class{1} = <span class="string">'high'</span>;
 % * <build_trigger.html build_trigger>
 % * <bin2dec13.html bin2dec13>
 
+%% Anleitung Filter selber bauen
+% TODO: mit inhalt füllen
 %% Source Code
 
 function add_filter( added_filter, path_trainData )
@@ -186,7 +193,12 @@ for c = 1:3
         assignin('base', 'trigger', triggerBus);
         
         % Create new entry
-        new_filter.name = added_filter;
+        % cut the .slx ending
+        si = size(added_filter);
+        added_filter_name = added_filter(1:si(1,2)-4);
+        new_filter.name = added_filter_name;
+        
+        % get the config
         [~ , new_filter.quality, new_filter.dist] = get_config_fast(added_filter);
         
         % Get current filter
@@ -197,7 +209,7 @@ for c = 1:3
         % is the new Filter already in the LookupTable?
         filterPresence = 0;
         for filterCount = 1:sf(1,2)
-            if(strcmp(filter(filterCount).name, added_filter))
+            if(strcmp(filter(filterCount).name, added_filter_name))
                 % filter already in the LookupTable
                 filterPresence = filterCount;
             end

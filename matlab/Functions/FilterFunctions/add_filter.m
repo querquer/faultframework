@@ -1,6 +1,6 @@
 %% add_filter
 % This function integrate a new filter in the <build_suggestion_table.html
-% lookuptable>. Therefor the filter is tested on any pssible fault
+% lookuptable>. Therefor the filter is tested on any possible fault
 % configuration.
 
 %% Related Functions

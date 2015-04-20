@@ -24,6 +24,29 @@
 % content.
 %
 
+%% activated faults
+% We often use in this project a binary representation of the activated
+% faults. It is sometimes a 1x13 row vector, a timeseries with 13 datasets,
+% integrated in a filename or similar. But the coding is everytime the same. The
+% first position is one if the "value correlated offset" is activated. Else
+% it is zero. The second value stand for "time correlated offset" and so on. 
+% Here is the complete list:
+% 
+% #     value correlated offset
+% #     time correlated offset
+% #     value correlated noise
+% #     time correlated noise
+% #     const offset
+% #     const noise
+% #     outlier
+% #     spike
+% #     stuck at zero
+% #     stuck at X
+% #     saturation
+% #     const delay
+% #     time correlated delay
+% 
+
 %% build_suggestion_table
 % This function build the initial lookuptable. The table is filled up with
 % dummy values.

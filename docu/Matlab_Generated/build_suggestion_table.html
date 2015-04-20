@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>LookupTable / build_suggestion_table</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="build_suggestion_table.m"><style type="text/css">
+      --><title>LookupTable / build_suggestion_table</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-21"><meta name="DC.source" content="build_suggestion_table.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>LookupTable / build_suggestion_table</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">LookupTable</a></li><li><a href="#2">build_suggestion_table</a></li><li><a href="#3">Related Functions</a></li><li><a href="#4">Source Code</a></li></ul></div><h2>LookupTable<a name="1"></a></h2><p>If you have to calculate, wich detector and filter is the best for your problem, it takes much time. Therefor the FaultFramework contain a lookuptable.</p><p>In this table the collums are the dynamic of the processmodel. The dynamic is low, middel or high.</p><p>The lines are defined by the activ faults. In the Framework the activ faults are represented by an 1x13 row vector. This can also seen as an binary number. We can convert the line number to a binary number and so we get the activ faults for the line.</p><p>A cell contain a struct with:</p><div><ul><li><b>failure_build</b>:    The 1x13 row vector witch represent the activated faults.</li><li><b>filter</b>:           Contain an array of structs. One struct is an filter with a name, a quality value(quality) and the average distant(dist) between the filtered data and the unfiltered data.</li><li><b>detector</b>:         Contain an array of structs. One struct is an detector with a name, a false-negativ-rate(fn_rate), false-positiv-rate(fp_rate) and the path, where the detector is to find.</li></ul></div><p>the initial lookuptable is build by the function build_suggestion_table. With the function add_filter respectiv add_detector you can add new content.</p><h2>build_suggestion_table<a name="2"></a></h2><p>This function build the initial lookuptable. The table is filled up with dummy values.</p><h2>Related Functions<a name="3"></a></h2><div><ul><li><a href="dec2bin13.html">dec2bin13</a></li></ul></div><h2>Source Code<a name="4"></a></h2><pre class="codeinput"><span class="keyword">function</span> [LookupTable] = build_suggestion_table()
+  </style></head><body><div class="content"><h1>LookupTable / build_suggestion_table</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">LookupTable</a></li><li><a href="#2">activated faults</a></li><li><a href="#3">build_suggestion_table</a></li><li><a href="#4">Related Functions</a></li><li><a href="#5">Source Code</a></li></ul></div><h2>LookupTable<a name="1"></a></h2><p>If you have to calculate, wich detector and filter is the best for your problem, it takes much time. Therefor the FaultFramework contain a lookuptable.</p><p>In this table the collums are the dynamic of the processmodel. The dynamic is low, middel or high.</p><p>The lines are defined by the activ faults. In the Framework the activ faults are represented by an 1x13 row vector. This can also seen as an binary number. We can convert the line number to a binary number and so we get the activ faults for the line.</p><p>A cell contain a struct with:</p><div><ul><li><b>failure_build</b>:    The 1x13 row vector witch represent the activated faults.</li><li><b>filter</b>:           Contain an array of structs. One struct is an filter with a name, a quality value(quality) and the average distant(dist) between the filtered data and the unfiltered data.</li><li><b>detector</b>:         Contain an array of structs. One struct is an detector with a name, a false-negativ-rate(fn_rate), false-positiv-rate(fp_rate) and the path, where the detector is to find.</li></ul></div><p>the initial lookuptable is build by the function build_suggestion_table. With the function add_filter respectiv add_detector you can add new content.</p><h2>activated faults<a name="2"></a></h2><p>We often use in this project a binary representation of the activated faults. It is sometimes a 1x13 row vector, a timeseries with 13 datasets, integrated in a filename or similar. But the coding is everytime the same. The first position is one if the "value correlated offset" is activated. Else it is zero. The second value stand for "time correlated offset" and so on. Here is the complete list:</p><div><ol><li>value correlated offset</li><li>time correlated offset</li><li>value correlated noise</li><li>time correlated noise</li><li>const offset</li><li>const noise</li><li>outlier</li><li>spike</li><li>stuck at zero</li><li>stuck at X</li><li>saturation</li><li>const delay</li><li>time correlated delay</li></ol></div><h2>build_suggestion_table<a name="3"></a></h2><p>This function build the initial lookuptable. The table is filled up with dummy values.</p><h2>Related Functions<a name="4"></a></h2><div><ul><li><a href="dec2bin13.html">dec2bin13</a></li></ul></div><h2>Source Code<a name="5"></a></h2><pre class="codeinput"><span class="keyword">function</span> [LookupTable] = build_suggestion_table()
 <span class="comment">%BUILD_SUGGESTION_TABLE make a new LookupTable.</span>
 <span class="comment">%   Return value</span>
 <span class="comment">%   LookupTable:    matrix of structures. The column gives the dynamic. The</span>
@@ -138,6 +138,29 @@ save(<span class="string">'Functions/lookuptable.mat'</span>, <span class="strin
 % With the function add_filter respectiv add_detector you can add new
 % content.
 %
+
+%% activated faults
+% We often use in this project a binary representation of the activated
+% faults. It is sometimes a 1x13 row vector, a timeseries with 13 datasets,
+% integrated in a filename or similar. But the coding is everytime the same. The
+% first position is one if the "value correlated offset" is activated. Else
+% it is zero. The second value stand for "time correlated offset" and so on. 
+% Here is the complete list:
+% 
+% #     value correlated offset
+% #     time correlated offset
+% #     value correlated noise
+% #     time correlated noise
+% #     const offset
+% #     const noise
+% #     outlier
+% #     spike
+% #     stuck at zero
+% #     stuck at X
+% #     saturation
+% #     const delay
+% #     time correlated delay
+% 
 
 %% build_suggestion_table
 % This function build the initial lookuptable. The table is filled up with
