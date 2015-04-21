@@ -387,12 +387,27 @@ end
 
 %% update detector table table
 detectorTable = findobj(gcf,'Tag','detectorTable');
-
+det_old = '';
 for idx=1:length(det)
-    det_cell{idx,1} = det(idx).name;
-    det_cell{idx,2} = det(idx).fn_rate;
-    det_cell{idx,3} = det(idx).fp_rate;
-    det_cell{idx,4} = det(idx).path;
+    
+    det_new = det(idx).name;
+    if(strcmp(det_old,det_new))
+        % same detector
+        det_cell{idx,1} = '';
+        det_cell{idx,2} = det(idx).fp_rate.name;
+        det_cell{idx,3} = det(idx).fp_rate.fp_rate;
+        det_cell{idx,4} = det(idx).fn_rate.fn_rate;
+        det_cell{idx,5} = '';
+    else
+        % new detector
+        det_cell{idx,1} = det(idx).name;
+        det_cell{idx,2} = det(idx).fp_rate.name;
+        det_cell{idx,3} = det(idx).fp_rate.fp_rate;
+        det_cell{idx,4} = det(idx).fn_rate.fn_rate;
+        det_cell{idx,5} = det(idx).path;
+    end
+
+    det_old = det_new;
 end
 
 set(detectorTable,'data',det_cell);
@@ -452,6 +467,8 @@ assignin('base','sel_filter',sel_filter);
 function pushbutton_runPM_Callback(hObject, eventdata, handles)
 FileName_PM = evalin('base','FileName_PM');
 simlength = evalin('base','SimLength');
+% set sampletime
+
 gendata = getModelData(FileName_PM, simlength);
 assignin('base','gendata',gendata);
 % hObject    handle to pushbutton_runPM (see GCBO)
