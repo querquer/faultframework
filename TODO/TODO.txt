@@ -1,8 +1,8 @@
 Maik:
 	- Working-Bildchen
 	neu:
-	- Processmodel sampletime set param
 	- UML Workflow
+	- rework gui to the new changes
 
 Georg:
 	- classify process model --> thresholds?!

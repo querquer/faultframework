@@ -112,7 +112,21 @@ end
 
 
 function edit_sampletime_Callback(hObject, eventdata, handles)
-assignin('base','SampleTime', str2double(get(hObject,'string')));
+sampletime = str2double(get(hObject,'string'));
+assignin('base','SampleTime', sampletime);
+
+try
+    PathName_PM = evalin('base','PathName_PM');
+    FileName_PM = evalin('base','FileName_PM');
+    set_sampletime(PathName_PM,FileName_PM,sampletime);
+catch ME
+    msgID = 'set_param:SampleTime';
+    msg = 'Could not set the sample time in the process model!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
+end
+
 % hObject    handle to edit_sampletime (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -623,6 +637,17 @@ if FileName_PM > 0
     assignin('base','FileName_PM',FileName_PM);
     assignin('base','PathName_PM',PathName_PM);
 end
+try 
+    sampletime = evalin('base','SampleTime');
+    set_sampletime(PathName_PM,FileName_PM,sampletime);
+catch ME
+    msgID = 'set_param:SampleTime';
+    msg = 'Could not set the sample time in the process model!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
+end
+
 % hObject    handle to pushbutton_choosePM (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
