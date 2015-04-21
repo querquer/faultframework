@@ -1,16 +1,7 @@
 Maik:
-	- Auswahl Detektor --> Ordner/Browse
 	- Working-Bildchen
-	- Check for process-dynamic
-	- extra .m für Dokumentation
-	- browse path_and_name
-	- add button export
 	neu:
 	- Processmodel sampletime set param
-	- classify model function pointer
-	- Titel beim fehlerkonfigurieren einfügen
-	- Table Detector erweitern
-	- import rename
 	- UML Workflow
 
 Georg:

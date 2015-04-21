@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 09-Apr-2015 13:52:09
+% Last Modified by GUIDE v2.5 21-Apr-2015 12:21:20
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -165,8 +165,9 @@ end
 
 % --- Executes on button press in pushbutton_classify.
 function pushbutton_classify_Callback(hObject, eventdata, handles)
-try
-    prozess_dynamic = classify_processmodel(evalin('base','FileName_PM'),(evalin('base','SimLength')));
+try  
+    fh = str2func(evalin('base','classify_method_name'));
+    prozess_dynamic = fh(evalin('base','FileName_PM'),(evalin('base','SimLength')));
     assignin('base','prozess_dynamic',prozess_dynamic);
 catch 
     display('Error: Could not classify the process model!');
@@ -667,7 +668,6 @@ end
 
 
 
-
 % --- Executes on button press in pushbutton_export_filter.
 function pushbutton_export_filter_Callback(hObject, eventdata, handles)
 currentFolder = pwd;
@@ -676,5 +676,18 @@ if PathName_Filter > 0
     export_filter(PathName_Filter);
 end
 % hObject    handle to pushbutton_export_filter (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton_classify_method.
+function pushbutton_classify_method_Callback(hObject, eventdata, handles)
+[FileName_Method,PathName_Method,MethodIndex] = uigetfile('*.m','Classify Method Selector');
+if FileName_Method > 0
+    si = size(FileName_Method);
+    FileName_approved = FileName_Method(1:si(1,2)-2);
+    assignin('base','classify_method_name',FileName_approved);
+end
+% hObject    handle to pushbutton_classify_method (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

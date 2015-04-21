@@ -3,7 +3,11 @@
 try
     x = evalin('base','isInit');
 catch
-
+    
+    % classify method
+    classify_method_name = 'classify_processmodel';
+    assignin('base','classify_method_name',classify_method_name);
+    
     % global parameter
     SimLength = 10.0;
     assignin('base','SimLength',SimLength);
