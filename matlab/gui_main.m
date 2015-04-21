@@ -452,7 +452,7 @@ r = indices(:,1);
 c = indices(:,2);
 linear_index = sub2ind(size(data),r,c);
 selected_vals = data(linear_index);
-path_detector = data{r,4};
+path_detector = data{r,5};
 assignin('base','path_detector',path_detector);
 %path_detector
 %selection_sum = sum(sum(selected_vals))
