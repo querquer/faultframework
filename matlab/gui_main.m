@@ -397,6 +397,13 @@ catch ME
     ME = addCause(ME,baseException);
     throw(ME);
 end
+try  
+    fh = str2func(evalin('base','classify_method_name'));
+    prozess_dynamic = fh(evalin('base','FileName_PM'),(evalin('base','SimLength')));
+    assignin('base','prozess_dynamic',prozess_dynamic);
+catch 
+    display('Error: Could not classify the process model!');
+end
 [det, fil] = suggest_solution( dynamic, failures);
 
 
