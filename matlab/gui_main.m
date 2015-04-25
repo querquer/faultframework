@@ -361,10 +361,14 @@ if(des == 1)
 
     
     path_detector_complete = evalin('base','path_detector');
+    
     sa = findstr(path_detector_complete, 'Detector');
     si = size(path_detector_complete);
-    path_detector = path_detector_complete(1+sa-1:si(1,2));
-
+    if(isempty(sa) == 0)
+        path_detector = path_detector_complete(1+sa-1:si(1,2));
+    else
+        path_detector = path_detector_complete;
+    end
    
     display('Start Design Detector');
     [fn, fp] = start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, SampleTime, path_and_name, path_detector);
@@ -521,12 +525,22 @@ des = gui_continue();
 if(des == 1)
     FileName_Detector = evalin('base','FileName_Detector');
     PathName_Detector = evalin('base','PathName_Detector');
-    if(isunix())
-        add_detector(PathName_Detector, FileName_Detector,[pwd '/Functions/lookuptable.mat'], [pwd '/Data']);
+
+    sa = findstr(PathName_Detector, 'Detector');
+    if(isempty(sa) == 0)
+        si = size(PathName_Detector);
+        path_detector = PathName_Detectore(1+sa-1:si(1,2));
+
+        detectors = testDetector(PathName_Detector, FileName_Detector,  [pwd '/Data']); %% New %%%%%%%%%%%%%%%%%%%%%%%%%
+        if(isunix())
+            add_detector(detectors,[pwd '/Functions/lookuptable.mat']);
+        else
+            add_detector(detectors,[pwd '\Functions\lookuptable.mat']);
+        end
     else
-        add_detector(PathName_Detector, FileName_Detector,[pwd '\Functions\lookuptable.mat'], [pwd '\Data']);
+        disp('Please store your detector implementation below the folders matlab/Detectors/');
     end
-    
+
 end
 
 % hObject    handle to pushbutton_addDetctor (see GCBO)

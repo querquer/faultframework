@@ -34,9 +34,9 @@ detectors = LookupTable.LookupTable(line,dynamic).detector; % get the detector l
 filters = LookupTable.LookupTable(line,dynamic).filter;     % get the filter list
 
 %% sort detectors
-% Detectors are sorted based on the false-positive rate at first. If two
-% detectors have the same false-positive rate, they are ranked based on the
-% false-negative rate.
+% Detectors are sorted based on the false-negative rate at first. If two
+% detectors have the same false-negative rate, they are ranked based on the
+% false-positive rate.
 sd = size(detectors);
 
 for i = 1:sd(1,2)
@@ -72,17 +72,17 @@ for i = 1:sd(1,2)
             det_i.fn_rate = sumfn/sfp(1,2);
             
             % Compare false-positive rate
-            if(sorted_detectors(j).fp_rate > det_i.fp_rate)
+            if(sorted_detectors(j).fn_rate > det_i.fn_rate)
                 part1 = sorted_detectors(1:j-1);
                 part2 = sorted_detectors(j:ssorted(1,2));
                 
                 sorted_detectors = [part1, det_i, part2];
                 break;
             else
-                % Compare false-negative rate, if both are equal in
-                % false-positive rates
-                if(sorted_detectors(j).fp_rate == det_i.fp_rate)
-                    if(sorted_detectors(j).fn_rate > det_i.fn_rate)
+                % Compare false-positive rate, if both are equal in
+                % false-negative rates
+                if(sorted_detectors(j).fn_rate == det_i.fn_rate)
+                    if(sorted_detectors(j).fp_rate > det_i.fp_rate)
                         part1 = sorted_detectors(1:j-1);
                         part2 = sorted_detectors(j:ssorted(1,2));
                 
