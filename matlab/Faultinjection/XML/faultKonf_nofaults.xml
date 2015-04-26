@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <injection>
-    <campaign>
-        <!-- NOT BEING PARSED, for future implementation -->
-        <sampletime>0.001</sampletime>
-        <simulationlegth>10</simulationlegth>
-		<schedule>1</schedule>
-    </campaign>
-    
+	<!-- 1 == activated schedule, 0 == free running -->
+	<schedule>1</schedule>
 	<fault>
         <!-- value correlated offset; f(x)= input - (input x factor) -->
 		<label>value correlated offset</label>
@@ -18,11 +13,11 @@
     <fault>
         <!-- time correlated offset; f(t)= amplitude * (simulationtime/simulationlength) -->
 		<label>time correlated offset</label>
-        <id>1</id>
-		<activation>0</activation>
+		<id>1</id>
+        <activation>0</activation>
 		<permanent>1</permanent>
 		<correlation>sin(x)</correlation>
-		<amplitude type="param">20</amplitude>
+		<amplitude type="param">5</amplitude>
 	</fault>
     <fault>
         <!-- value correlated noise; f(x)= (input * factor) * (noise(variance)) -->        
@@ -30,20 +25,22 @@
 		<id>2</id>
         <activation>0</activation>
 		<permanent>0</permanent>
-        <occurrence>0.2</occurrence>
-		<variance type="param">3</variance>
+        <occurrence>0.0</occurrence>
 		<factor type="param">0.05</factor>
+		<pdf max="6" min="0.05" step_size="0.1">  ( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) ) </pdf>
+		<!-- min="0.05" max="5" step_size="0.1" log: ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) )  --> 
+		<!-- normal: ( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )   -->
 	</fault>
     <fault>
-        <!-- time correlated noise; f(t)= (noise(variance)) * (simulationtime/simulationlength) -->
+        <!-- time correlated noise; f(t)= (noise(distribution)) * correlation * factor -->
 		<label>time correlated noise</label>
 		<id>3</id>
         <activation>0</activation>
 		<permanent>1</permanent>
-        <occurrence>0.2</occurrence>
-		<correlation>cos(x)</correlation>
-		<distribution>cos(x)</distribution>
-        <variance type="param">3</variance>
+        <occurrence>0.0</occurrence>
+        <correlation>cos(x)</correlation>
+        <factor type="param">3</factor>
+		<pdf max="5" min="0.05" step_size="0.1">  ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) ) </pdf>
 	</fault>
     <fault>
         <!-- constant offset; f(x)= amplitude -->
@@ -51,40 +48,38 @@
 		<id>4</id>
         <activation>0</activation>
 		<permanent>0</permanent>
-		<amplitude type="param">8</amplitude>
+		<amplitude type="param">0.0349</amplitude>
 	</fault>
     <fault>
-        <!-- constant noise; f(x)= (noise(variance)) -->
+        <!-- constant noise; f(x) = noise(distribution)*factor -->
         <label>const noise</label>
 		<id>5</id>
-        <activation>0</activation>
+        <activation>1</activation>
 		<permanent>0</permanent>
-        <occurrence>0.05</occurrence>
-		<factor type="param">5</factor>
+        <occurrence>0.90</occurrence>
+		<factor type="param">0.07853</factor>
 		<pdf max="5" min="0.05" step_size="0.1">  ( 1 / (sqrt(2*3.1416*x) ) ) * exp( -( (log(x)^2) / 2) ) </pdf>
-		<!-- ( 1 / (sqrt(2*pi*x) ) ) * exp( -( (log(x)^2) / 2) ) -->
 	</fault>
     <fault>
         <!-- outlier; f(x)= rand*amplitude ; negative = 0, positive outlier, negative = 1, positive and negative outlier -->
 		<label>outlier</label>
 		<id>6</id>
-        <activation>0</activation>
+        <activation>1</activation>
 		<permanent>0</permanent>
-        <occurrence>0.001</occurrence>
-		<amplitude type="param">15</amplitude>
-		<negative type="param">1</negative>
+        <occurrence>0.05</occurrence>
+		<amplitude type="param">0.349</amplitude>
+		<negative type="param">0</negative>
 	</fault>
     <fault>
-        <!-- spike DOES NOT WORK -->
 		<label>spike</label>
 		<id>7</id>
         <activation>0</activation>
 		<permanent>0</permanent>
-        <occurrence>0.01</occurrence>
-		<amplitude type="param">5</amplitude>
-		<length type="param">20</length>
-		<slope type="param">0.5</slope>
-		<function max="5" min="0.05"> </function>
+        <occurrence>0.015</occurrence>
+		<factor type="param">2</factor>
+		<length type="param">0.2</length>
+		<amplitude>( 1 / (sqrt(2*3.1416*0.5) ) ) * exp( -( ((x)^2) / 0.2) ) * 1.772455</amplitude> 
+		<!-- ( 1 / (sqrt(2*3.1416*0.5) ) ) * exp( -( ((x)^2) / 0.2) ) -->
 	</fault>
     <fault>
         <!-- stuck at zero; f(x)= 0 -->
@@ -92,7 +87,8 @@
 		<id>8</id>
         <activation>0</activation>
 		<permanent>0</permanent>
-        <occurrence>0.002</occurrence>
+        <occurrence>0.00</occurrence>
+		<length type="param">0.2</length>
 	</fault>
     <fault>
         <!-- stuck at x; f(x)= (top-bottom)*rand+bottom, positive outlier, negative = 1, positive and negative outlier -->
@@ -100,9 +96,10 @@
 		<id>9</id>
         <activation>0</activation>
 		<permanent>0</permanent>
-        <occurrence>0.002</occurrence>
+        <occurrence>0.00</occurrence>
 		<top type="param">15</top>
         <bottom type="param">3</bottom>
+		<length type="param">0.2</length>
 	</fault>
     <fault>
         <!-- stuck at x; f(x)= top, if(x>top) and bot, if(x < bottom) -->
@@ -122,7 +119,7 @@
 		<param type="param">0.3</param>
 	</fault>
     <fault>
-        <!-- variable delay -->
+        <!-- time correlated delay -->
 		<label>time correlated delay</label>
 		<id>12</id>
         <activation>0</activation>

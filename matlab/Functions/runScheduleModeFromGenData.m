@@ -1,44 +1,27 @@
-%% runScheduleMode
-% Generate faulty_data from the entered process and fault model un schedule
-% mode. At first the global variables are initalise of readed from workspace. 
-% Then it takes the actual fault konfiguration, set the mode to schedule(instead of free running)
-% Runs the Fault Injection Modul in schedule mode
+function x = runScheduleModeFromGenData()
 
-%% Related Functions
+%% create fault free data using the gendata model
+[msgstr msgid] = lastwarn; 
+warning('off', msgid); 
 
-%%
-% * <myXMLwrite.html myXMLwrite>
+sim('GenData');
 
+warning('on', 'all') 
+%% preprocess fault free data
+gendata = gendata(1:end-1);
 
-%% Source Code
-function runScheduleMode()
-%% 
+num_faults = evalin('base','num_faults');
+num_slots = 2^num_faults;
+DataGen_data = transpose(gendata);
 
-%% Try to read global variables from workspace, if not possible default values are used
-try
-    SimLength = evalin('base','SimLength');
-catch
-    assignin('base','SimLength', 10.0);
-    SimLength = 10.0;
-end
-try
-    SampleTime = evalin('base','SampleTime');
-catch
-    assignin('base','SampleTime', 0.01);
-    SampleTime = 0.01;
-end
-try
-    evalin('base','GlobalSeed');
-catch
-    assignin('base','GlobalSeed', 10.0);
+if num_faults > 0
+    for idx=2:num_slots
+        DataGen_data = [DataGen_data, transpose(gendata)];
+    end
 end
 
-try
-    num_faults = evalin('base','num_faults');
-catch
-    display('Could not load variable: num_faults');
-end
-
+DataGen_data = timeseries(transpose(DataGen_data));
+assignin('base','DataGen_data',DataGen_data);
 
 %% Get the current fault configuration file
 curr_file = 'injection_campaign.xml';
@@ -67,14 +50,14 @@ thisElement.setTextContent('1');
 
 myXMLwrite(fault_conf_file,xDoc);
 
-
-%% Execute script which start the Fault Injection Modul
+%% run fault injection
 [msgstr msgid] = lastwarn; 
 warning('off', msgid); 
 
-sim('GenerateData');
+sim('GenFaultyData');
 
 warning('on', 'all') 
+
 %% Write the generated results from the fault injection model to the workspace
 if(exist('faultfree_data','var'))
     assignin('base','faultfree_data',faultfree_data);
@@ -103,7 +86,4 @@ thisElement = thisList.item(0);
 thisElement.setTextContent('0');
 
 myXMLwrite(fault_conf_file,xDoc);
-
-
-
 

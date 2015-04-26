@@ -306,7 +306,7 @@ des = gui_continue();
 if(des == 1)
     display('Start generate faulty data!');
     FileName_FaultKonf = evalin('base','FileName_FaultKonf');
-    runScheduleMode(FileName_FaultKonf);
+    runScheduleMode();
     display('Faulty data were successfuly generated!');
 
     display('Start converting faulty data!');
@@ -657,17 +657,18 @@ if FileName_PM > 0
     set_processModel(FileName_PM);
     assignin('base','FileName_PM',FileName_PM);
     assignin('base','PathName_PM',PathName_PM);
+    try 
+        sampletime = evalin('base','SampleTime');
+        set_sampletime(PathName_PM,FileName_PM,sampletime);
+    catch ME
+        msgID = 'set_param:SampleTime';
+        msg = 'Could not set the sample time in the process model!';
+        baseException = MException(msgID,msg);
+        ME = addCause(ME,baseException);
+        throw(ME);
+    end
 end
-try 
-    sampletime = evalin('base','SampleTime');
-    set_sampletime(PathName_PM,FileName_PM,sampletime);
-catch ME
-    msgID = 'set_param:SampleTime';
-    msg = 'Could not set the sample time in the process model!';
-    baseException = MException(msgID,msg);
-    ME = addCause(ME,baseException);
-    throw(ME);
-end
+
 
 % hObject    handle to pushbutton_choosePM (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
