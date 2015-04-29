@@ -21,16 +21,12 @@ catch
     assignin('base','SimLength', 10.0);
     SimLength = 10.0;
 end
+
 try
     SampleTime = evalin('base','SampleTime');
 catch
     assignin('base','SampleTime', 0.01);
     SampleTime = 0.01;
-end
-try
-    evalin('base','GlobalSeed');
-catch
-    assignin('base','GlobalSeed', 10.0);
 end
 
 try
@@ -69,12 +65,11 @@ myXMLwrite(fault_conf_file,xDoc);
 
 
 %% Execute script which start the Fault Injection Modul
-[msgstr msgid] = lastwarn; 
-warning('off', msgid); 
+warning off all
 
 sim('GenerateData');
 
-warning('on', 'all') 
+warning on all
 %% Write the generated results from the fault injection model to the workspace
 if(exist('faultfree_data','var'))
     assignin('base','faultfree_data',faultfree_data);

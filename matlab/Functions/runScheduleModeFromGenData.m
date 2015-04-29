@@ -1,14 +1,15 @@
 function x = runScheduleModeFromGenData()
 
 %% create fault free data using the gendata model
-[msgstr msgid] = lastwarn; 
-warning('off', msgid); 
+warning off all
 
 sim('GenData');
 
-warning('on', 'all') 
+
+warning on all
 %% preprocess fault free data
 gendata = gendata(1:end-1);
+assignin('base','gendata',gendata);
 
 num_faults = evalin('base','num_faults');
 num_slots = 2^num_faults;
@@ -20,7 +21,11 @@ if num_faults > 0
     end
 end
 
-DataGen_data = timeseries(transpose(DataGen_data));
+SampleTime = evalin('base','SampleTime');
+SimLength = evalin('base','SimLength');
+ts = SampleTime:SampleTime:SimLength*num_slots;
+ 
+DataGen_data = timeseries(transpose(DataGen_data),ts);
 assignin('base','DataGen_data',DataGen_data);
 
 %% Get the current fault configuration file
@@ -51,13 +56,17 @@ thisElement.setTextContent('1');
 myXMLwrite(fault_conf_file,xDoc);
 
 %% run fault injection
-[msgstr msgid] = lastwarn; 
-warning('off', msgid); 
+warning off all
+SimLength_old = SimLength;
+SimLength = SimLength*num_slots;
+assignin('base','SimLength',SimLength);
 
 sim('GenFaultyData');
 
-warning('on', 'all') 
+SimLength = SimLength_old;
+assignin('base','SimLength',SimLength);
 
+warning on all
 %% Write the generated results from the fault injection model to the workspace
 if(exist('faultfree_data','var'))
     assignin('base','faultfree_data',faultfree_data);
