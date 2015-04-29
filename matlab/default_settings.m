@@ -3,6 +3,9 @@
 try
     x = evalin('base','isInit');
 catch
+    % init state machine
+    state_machine = 1;
+    assignin('base','state_machine',state_machine);
     
     % classify method
     classify_method_name = 'classify_processmodel';
@@ -23,11 +26,13 @@ catch
         PathName_Detector = 'Detector/';
         PathName_FaultKonf = 'Faultinjection/XML/';
         PathName_PM = 'ProcessModel/';
+        Path_Data = 'Data/';
     else
         PathName_Filter = 'Filter\';
         PathName_Detector = 'Detector\';
         PathName_FaultKonf = 'Faultinjection\XML\';
         PathName_PM = 'ProcessModel\';
+        Path_Data = 'Data\';
     end
     
     FileName_Filter = 'Filter';
@@ -47,6 +52,14 @@ catch
     assignin('base','FileName_PM',FileName_PM);
     assignin('base','PathName_PM',PathName_PM);
 
+    % data ordner
+    if(isunix())
+        Path_Data = 'Data/';
+    else
+
+        Path_Data = 'Data\';
+    end
+    assignin('base','Path_Data',Path_Data);
     
     % other
 
