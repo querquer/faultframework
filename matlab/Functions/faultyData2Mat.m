@@ -10,7 +10,7 @@
 %% Source Code
 function faultyData2Mat(path_and_name, act_vec, faulty_data_struct,trigger_struct)
 % example: 
-% faultyData2Mat('Data\test\', act_vec, faulty_data_struct,trigger_struct)
+% faultyData2Mat('Data\low\', act_vec, faulty_data_struct,trigger_struct)
 phase_length = length(faulty_data_struct(1).value.Data);
 
 for idx=1:length(faulty_data_struct)  
