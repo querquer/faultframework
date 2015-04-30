@@ -39,11 +39,9 @@ thisCampaign = allCampaignList.item(0);
 thisFileList = thisCampaign.getElementsByTagName('file');
 thisFile = thisFileList.item(0);
 
-if(isunix())
-    fault_conf_file = (thisFile.getTextContent());
-else
-    fault_conf_file = char(thisFile.getTextContent());
-end
+
+fault_conf_file = char(thisFile.getTextContent());
+
 
 
 %% Open the actual fault konfiguration and set the schedule mode on

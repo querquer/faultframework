@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>add_detector</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-25"><meta name="DC.source" content="add_detector.m"><style type="text/css">
+      --><title>filterSuggestedDetectors</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-25"><meta name="DC.source" content="filterSuggestedDetectors.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,76 +66,100 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>add_detector</h1><!--introduction--><p>This function adds a new type of detectors to the LookupTable. Therefore the type has to be evaluated befor by calling the function <a href="testDetector.html">testDetector</a>.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><p>There are no sub-functions implemented by ourself.</p><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> add_detector(detectors, path_and_name_lookup)
+  </style></head><body><div class="content"><h1>filterSuggestedDetectors</h1><!--introduction--><p>This function filters the list of detectors produced by the function "suggestSolution". If an fn_rate is specified, detectors with a false-negative rate greater then this value will be deleted from the list. Likewise the fp_rate specifies a threshold for the false-positive rate of detectors. 'name' is meant to contain names of detectors to exclude from the list as well.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#2">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><p>There are no sub-functions implemented by ourself.</p><h2>Source Code<a name="2"></a></h2><pre class="codeinput"><span class="keyword">function</span> detectors = filterSuggestedDetectors(detectors, fn_rate, fp_rate, names)
 
-<span class="comment">% Load LookupTable</span>
-t = load(path_and_name_lookup);
-LookupTable = t.LookupTable;
-
-<span class="comment">% Loop through all supported fault combinations of this type of detector:</span>
 sDetectors = size(detectors);
-<span class="keyword">for</span> i = 1: sDetectors(1,2);
+i = 1;
+<span class="keyword">while</span>(i&lt;=sDetectors(1,2))
 
-        <span class="comment">% Get current detectors</span>
-        line = detectors(i).row;
-        c = detectors(i).column;
-        detectors = LookupTable(line,c).detector;
+    <span class="comment">% Check for false-negative rate</span>
+    <span class="keyword">if</span>(detectors(i).fn_rate.fn_rate &gt; fn_rate)
+        detectors(i) = [];
+        sDetectors = size(detectors);
+        <span class="keyword">continue</span>;
+    <span class="keyword">end</span>
 
-        <span class="comment">% Create new entry</span>
-        sd = size(detectors);
+    <span class="comment">% Check for false-positive rate</span>
+    <span class="keyword">if</span>(detectors(i).fp_rate.fp_rate &gt; fp_rate)
+        detectors(i) = [];
+        sDetectors = size(detectors);
+        <span class="keyword">continue</span>;
+    <span class="keyword">end</span>
 
-        <span class="comment">% Add entry to existing entries</span>
-        LookupTable(line, c).detector(sd(1,2) + 1).name = detectors(i).name;
-        LookupTable(line, c).detector(sd(1,2) + 1).path = detectors(i).path;
-        LookupTable(line, c).detector(sd(1,2) + 1).fn_rate = detectors(i).fn_rate;
-        LookupTable(line, c).detector(sd(1,2) + 1).fp_rate = detectors(i).fp_rate;
+    <span class="comment">% Check for name</span>
+    sn = size(names);
+    delete = 0;
+    <span class="keyword">for</span> k=1:sn(1,2)
+        <span class="keyword">if</span>(strcmp(detectors(i).name, names{1,k}))
+            delete = 1;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span>(delete == 1)
+        detectors(i) = [];
+        sDetectors = size(detectors);
+        <span class="keyword">continue</span>;
+    <span class="keyword">end</span>
+
+
+
+    i = i + 1;
 <span class="keyword">end</span>
-
-<span class="comment">% Save Lookup-Table</span>
-save(path_and_name_lookup, <span class="string">'LookupTable'</span>);
 
 <span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-%% add_detector 
-% This function adds a new type of detectors to the
-% LookupTable. Therefore the type has to be evaluated befor by calling the
-% function <testDetector.html testDetector>.
+%% filterSuggestedDetectors
+% This function filters the list of detectors produced by the function
+% "suggestSolution". If an fn_rate is specified, detectors with a
+% false-negative rate greater then this value will be deleted from the
+% list. Likewise the fp_rate specifies a threshold for the false-positive
+% rate of detectors. 'name' is meant to contain names of detectors to
+% exclude from the list as well.
 
 %% Related Functions
-
-%%
 % There are no sub-functions implemented by ourself.
-
 %% Source Code
 
-function add_detector(detectors, path_and_name_lookup)
+function detectors = filterSuggestedDetectors(detectors, fn_rate, fp_rate, names)
 
-% Load LookupTable
-t = load(path_and_name_lookup);
-LookupTable = t.LookupTable;
-
-% Loop through all supported fault combinations of this type of detector:
 sDetectors = size(detectors);
-for i = 1: sDetectors(1,2);
-       
-        % Get current detectors
-        line = detectors(i).row;
-        c = detectors(i).column;
-        detectors = LookupTable(line,c).detector;
-        
-        % Create new entry
-        sd = size(detectors);
-
-        % Add entry to existing entries
-        LookupTable(line, c).detector(sd(1,2) + 1).name = detectors(i).name;
-        LookupTable(line, c).detector(sd(1,2) + 1).path = detectors(i).path;
-        LookupTable(line, c).detector(sd(1,2) + 1).fn_rate = detectors(i).fn_rate;
-        LookupTable(line, c).detector(sd(1,2) + 1).fp_rate = detectors(i).fp_rate; 
+i = 1;
+while(i<=sDetectors(1,2))
+    
+    % Check for false-negative rate
+    if(detectors(i).fn_rate.fn_rate > fn_rate)
+        detectors(i) = [];
+        sDetectors = size(detectors);
+        continue;
+    end    
+    
+    % Check for false-positive rate
+    if(detectors(i).fp_rate.fp_rate > fp_rate)
+        detectors(i) = [];
+        sDetectors = size(detectors);
+        continue;
+    end
+    
+    % Check for name
+    sn = size(names);
+    delete = 0;
+    for k=1:sn(1,2)
+        if(strcmp(detectors(i).name, names{1,k}))
+            delete = 1;
+        end
+    end
+    
+    if(delete == 1)
+        detectors(i) = [];
+        sDetectors = size(detectors);
+        continue;
+    end
+    
+     
+    
+    i = i + 1;
 end
-
-% Save Lookup-Table
-save(path_and_name_lookup, 'LookupTable');
 
 end
 

@@ -1,15 +1,32 @@
 Maik:
 	- Working-Bildchen
+	- sim disable warnings
+	- logging to console + unique header
 	neu:
 	- UML Workflow
-	- rework gui to the new changes
+	- rework docu to the new changes
+	- Icons 
+	- Choose Process Model --> errors if empty
+	- Großer Pfeil, einfärben
+	- Reihenfolge der Buttons ändern
+	- Überschrift Tabellen
+	- Tabelle Detektoren Pfad nicht anzeigen
+	- Button ausgrauen choose detector/filter
+	- SampleTime Process Model
+	- run schedule mode kapseln
+
+	- Filter für Detektoren
+	- GUI Data generation
+	- Try-Catch
 
 Georg:
-	- classify process model --> thresholds?!
+	- HMM Fehler zero transisiton
+	- Delete Filter/Detector
 
 Jonas:
 	- do not use this filter... was tun?
 	- quality check umbenennen
-	
+	- Filter testen bevor hinzufügen
 	
 Alle zusammen:     Baum.
+	- Timesheet - Aufwandsschätzung
