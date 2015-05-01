@@ -23,7 +23,7 @@ counter = 1;
 for idy = 1:length(trigger_vec)
     if(trigger_vec(idy) == 1)
         trigger_phase_vec(counter).name = fault_types(idy);
-        trigger_phase_vec(counter).data = trigger_struct(idy,schedule_nr);
+        trigger_phase_vec(counter).data = transpose(trigger_struct(idy,schedule_nr).data);
         
         counter = counter + 1;
     end
