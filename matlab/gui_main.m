@@ -569,9 +569,9 @@ if(des == 1)
     si = size(FileName_Filter);
     name = FileName_Filter;
     if(isunix())
-        add_filter(name, [pwd '/Data']);
+        add_filter(name, [pwd '/Data/02']);
     else
-        add_filter(name, [pwd '\Data']);
+        add_filter(name, [pwd '\Data/02']);
     end
     
 end
