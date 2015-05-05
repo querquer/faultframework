@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>add_filter</h1><!--introduction--><p>This function integrate a new filter in the <a href="build_suggestion_table.html">lookuptable</a>. Therefor the filter is tested on any possible fault configuration.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#2">Anleitung Filter selber bauen</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="set_filter.html">set_filter</a></li><li><a href="getAvailableFaultCombinations.html">getAvailableFaultCombinations</a></li><li><a href="build_trigger.html">build_trigger</a></li><li><a href="bin2dec13.html">bin2dec13</a></li></ul></div><h2>Anleitung Filter selber bauen<a name="2"></a></h2><p>TODO: mit inhalt f&uuml;llen</p><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> add_filter( added_filter, path_trainData )
+  </style></head><body><div class="content"><h1>add_filter</h1><!--introduction--><p>This function integrate a new filter in the <a href="build_suggestion_table.html">lookuptable</a> or update the values of an existing filter. Therefor the filter is tested on any possible fault configuration.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#2">add your own filter</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="set_filter.html">set_filter</a></li><li><a href="getAvailableFaultCombinations.html">getAvailableFaultCombinations</a></li><li><a href="build_trigger.html">build_trigger</a></li><li><a href="bin2dec13.html">bin2dec13</a></li></ul></div><h2>add your own filter<a name="2"></a></h2><p>If you have your own filter model and you want to integrated it to this project you must follow this steps:</p><div><ol><li>Be sure that you use fixed-step discrete solver, were the step size is named <b>SampleTime</b> and the Stop time is <b>inf</b>.</li></ol></div><div><ol><li>Put your .slx data in the folder /Filter.</li></ol></div><div><ol><li>If you want change the properties of your filter automaticaly you have to write a function wich do so. This function should be added in the <a href="get_config.html">get_config.m</a> and the <a href="get_config_fast.html">get_config_fast.m</a>. How the function should look like is described there.</li></ol></div><div><ol><li>Now you can use the add_filter function to add your filter to the suggested solutions. The best way is to use the <b>Choose Filter</b> button, choose your filter and than push the <b>Add Filter</b> button. The calculations can take a long time!</li></ol></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> add_filter( added_filter, path_trainData )
 <span class="comment">%ADD_FILTER This function integrate a new filter in the lookuptable.</span>
 
 set_filter(added_filter);
@@ -143,7 +143,7 @@ class{1} = <span class="string">'high'</span>;
 ##### SOURCE BEGIN #####
 %% add_filter
 % This function integrate a new filter in the <build_suggestion_table.html
-% lookuptable>. Therefor the filter is tested on any possible fault
+% lookuptable> or update the values of an existing filter. Therefor the filter is tested on any possible fault
 % configuration.
 
 %% Related Functions
@@ -152,8 +152,25 @@ class{1} = <span class="string">'high'</span>;
 % * <build_trigger.html build_trigger>
 % * <bin2dec13.html bin2dec13>
 
-%% Anleitung Filter selber bauen
-% TODO: mit inhalt füllen
+%% add your own filter
+% If you have your own filter model and you want to integrated it to this
+% project you must follow this steps:
+%
+% # Be sure that you use fixed-step discrete solver, were the step size is named
+% *SampleTime* and the Stop time is *inf*.
+% 
+% # Put your .slx data in the folder /Filter.
+% 
+% # If you want change the properties of your filter automaticaly you have
+% to write a function wich do so. This function should be added in the
+% <get_config.html get_config.m> and the <get_config_fast.html
+% get_config_fast.m>. How the function should look like is described there.
+% 
+% # Now you can use the add_filter function to add your filter to the
+% suggested solutions. The best way is to use the *Choose Filter* button,
+% choose your filter and than push the *Add Filter* button. The calculations
+% can take a long time!
+
 %% Source Code
 
 function add_filter( added_filter, path_trainData )

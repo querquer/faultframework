@@ -1,6 +1,6 @@
 %% add_filter
 % This function integrate a new filter in the <build_suggestion_table.html
-% lookuptable>. Therefor the filter is tested on any possible fault
+% lookuptable> or update the values of an existing filter. Therefor the filter is tested on any possible fault
 % configuration.
 
 %% Related Functions
@@ -9,8 +9,25 @@
 % * <build_trigger.html build_trigger>
 % * <bin2dec13.html bin2dec13>
 
-%% Anleitung Filter selber bauen
-% TODO: mit inhalt füllen
+%% add your own filter
+% If you have your own filter model and you want to integrated it to this
+% project you must follow this steps:
+%
+% # Be sure that you use fixed-step discrete solver, were the step size is named
+% *SampleTime* and the Stop time is *inf*.
+% 
+% # Put your .slx data in the folder /Filter.
+% 
+% # If you want change the properties of your filter automaticaly you have
+% to write a function wich do so. This function should be added in the
+% <get_config.html get_config.m> and the <get_config_fast.html
+% get_config_fast.m>. How the function should look like is described there.
+% 
+% # Now you can use the add_filter function to add your filter to the
+% suggested solutions. The best way is to use the *Choose Filter* button,
+% choose your filter and than push the *Add Filter* button. The calculations
+% can take a long time!
+
 %% Source Code
 
 function add_filter( added_filter, path_trainData )

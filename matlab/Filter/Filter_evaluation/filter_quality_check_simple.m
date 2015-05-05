@@ -1,6 +1,8 @@
 %% filter_quality_check_simple.slx
 % This model evaluates a filter, to get information how the filter performs. The model return a filter quality value and a
-% average distance.
+% average distance. In general it is appropriate to build your own
+% filter_quality_check function because the quality calculation depends on the specific
+% problem you want to solve.
 %
 
 %% Input Values
@@ -30,6 +32,17 @@
 % filter eliminate every fault. The smaller the filter_quality, the better 
 % is the filter.
 % 
+
+%% Build your own quality_check
+% If you decide to build your own quality check it is necessary that the
+% input and output data have the same structure like
+% filter_quality_check_simple.slx. Than you can use the
+% <set_filter_evaluation.html set_filter_evaluation> function to set the
+% new quality check. If you press now the design filter button, the filter 
+% is designed with respect to the new quality value. Please note that the 
+% suggested solution contain the
+% old quality values until you add every filter again (<add_filter.html
+% add_filter>).
 
 %% filter_quality_check_simple.slx
 % 

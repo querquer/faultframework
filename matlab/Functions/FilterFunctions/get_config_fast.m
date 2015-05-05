@@ -19,7 +19,16 @@
 %                   data. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
 
 %% Add New Filter
-% TODO: inhalt schreiben
+% if you want change the properties of your filter automaticaly you have
+% to write a function wich do so. This function should be added here and in the
+% <get_config.html get_config.m>.
+% 
+% The function should set a new filter configuration and evaluate it with
+% the <filter_evaluation.html filter_evaluation> function. The best
+% configuration should be set at the end and the config, quality and
+% dist should be returned. The quality and the dist are delivered by the 
+% <filter_evaluation.html filter_evaluation> function. The config value
+% should be a number wich indicate the best configuration.
 %
 
 %% Source Code
