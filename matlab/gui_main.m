@@ -542,7 +542,7 @@ if(des == 1)
         si = size(PathName_Detector);
         path_detector = PathName_Detector(1+sa-1:si(1,2));
 
-        detectors = testDetector(PathName_Detector, FileName_Detector,  [pwd '/Data/02']); %% New %%%%%%%%%%%%%%%%%%%%%%%%%
+        detectors = testDetector(path_detector, FileName_Detector,  [pwd '/Data/02']); %% New %%%%%%%%%%%%%%%%%%%%%%%%%
         if(isunix())
             add_detector(detectors,[pwd '/Functions/lookuptable.mat']);
         else

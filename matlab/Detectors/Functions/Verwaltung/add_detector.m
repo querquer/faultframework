@@ -23,10 +23,9 @@ for i = 1: sDetectors(1,2);
         % Get current detectors
         line = detectors(i).row;
         c = detectors(i).column;
-        detectors = LookupTable(line,c).detector;
-        
+
         % Create new entry
-        sd = size(detectors);
+        sd = size(LookupTable(line,c).detector);
 
         % Add entry to existing entries
         LookupTable(line, c).detector(sd(1,2) + 1).name = detectors(i).name;
