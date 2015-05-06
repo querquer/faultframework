@@ -1,22 +1,17 @@
 Maik:
 	- Working-Bildchen
-	- sim disable warnings
 	- logging to console + unique header
 	neu:
-	- UML Workflow
 	- rework docu to the new changes
 	- Icons 
-	- Choose Process Model --> errors if empty
 	- Großer Pfeil, einfärben
 	- Reihenfolge der Buttons ändern
-	- Überschrift Tabellen
 	- Tabelle Detektoren Pfad nicht anzeigen
 	- Button ausgrauen choose detector/filter
-	- SampleTime Process Model
 	- run schedule mode kapseln
 
 	- Filter für Detektoren
-	- GUI Data generation
+	- GUI Data generation(additional)
 	- Try-Catch
 
 Georg:

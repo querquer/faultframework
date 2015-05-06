@@ -534,30 +534,24 @@ end
 function pushbutton_addDetctor_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
-    try
-        PathName_Detector = evalin('base','PathName_Detector');
+    FileName_Detector = evalin('base','FileName_Detector');
+    PathName_Detector = evalin('base','PathName_Detector');
 
-        sa = findstr(PathName_Detector, 'Detector');
-        if(isempty(sa) == 0)
-            si = size(PathName_Detector);
-            path_detector = PathName_Detector(1+sa-1:si(1,2));
+    sa = findstr(PathName_Detector, 'Detector');
+    if(isempty(sa) == 0)
+        si = size(PathName_Detector);
+        path_detector = PathName_Detector(1+sa-1:si(1,2));
 
-
-            if(isunix())
-                add_detector(detectors,[pwd '/Functions/lookuptable.mat']);
-            else
-                add_detector(detectors,[pwd '\Functions\lookuptable.mat']);
-            end
+        
+        if(isunix())
+            add_detector(detectors,[pwd '/Functions/lookuptable.mat']);
         else
-            disp('Please store your detector implementation below the folders matlab/Detectors/');
+            add_detector(detectors,[pwd '\Functions\lookuptable.mat']);
         end
-    catch ME
-        msgID = 'pushbutton:testDetector_Callback';
-        msg = 'Process could not being started!';
-        baseException = MException(msgID,msg);
-        ME = addCause(ME,baseException);
-        throw(ME);
+    else
+        disp('Please store your detector implementation below the folders matlab/Detectors/');
     end
+
 end
 
 % hObject    handle to pushbutton_addDetctor (see GCBO)

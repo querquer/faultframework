@@ -26,13 +26,11 @@ catch
         PathName_Detector = 'Detector/';
         PathName_FaultKonf = 'Faultinjection/XML/';
         PathName_PM = 'ProcessModel/';
-        Path_Data = 'Data/';
     else
         PathName_Filter = 'Filter\';
         PathName_Detector = 'Detector\';
         PathName_FaultKonf = 'Faultinjection\XML\';
         PathName_PM = 'ProcessModel\';
-        Path_Data = 'Data\';
     end
     
     FileName_Filter = 'Filter';
@@ -54,10 +52,10 @@ catch
 
     % data ordner
     if(isunix())
-        Path_Data = 'Data/';
+        Path_Data = '/Data/02';
     else
 
-        Path_Data = 'Data\';
+        Path_Data = '\Data\02';
     end
     assignin('base','Path_Data',Path_Data);
     
