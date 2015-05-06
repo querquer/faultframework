@@ -6,7 +6,6 @@ catch
     % init state machine
     state_machine = 1;
     assignin('base','state_machine',state_machine);
-    state_machine(1);
     
     % classify method
     classify_method_name = 'classify_processmodel';
@@ -59,6 +58,15 @@ catch
         Path_Data = '\Data\02';
     end
     assignin('base','Path_Data',Path_Data);
+    
+    % lookup table
+    if(isunix())
+        path_and_name_lookup = '/Functions/lookuptable';
+    else
+
+        path_and_name_lookup = '\Functions\lookuptable';
+    end
+    assignin('base','path_and_name_lookup',path_and_name_lookup);
     
     % other
 

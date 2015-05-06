@@ -6,8 +6,8 @@ Maik:
 
 	- Button ausgrauen choose detector/filter
 
+	- anzeige test detector
 
-	- Filter für Detektoren
 	
 additional stuff:
 	- logging to console + unique header

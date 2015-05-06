@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 29-Apr-2015 18:07:43
+% Last Modified by GUIDE v2.5 06-May-2015 18:01:13
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -180,16 +180,16 @@ end
 % --- Executes on button press in pushbutton_classify.
 function pushbutton_classify_Callback(hObject, eventdata, handles)
 try  
-    classify_method_name = evalin('base','classify_method_name');
-    display('Start function: ',classify_method_name);
+    method_name = evalin('base','classify_method_name');
+    display('Start function: classify process model');
     
-    fh = str2func(classify_method_name);
+    fh = str2func(method_name);
     
     warning off all
     prozess_dynamic = fh(evalin('base','FileName_PM'),(evalin('base','SimLength')));
     warning on all
     
-    display('successfully finished: ',classify_method_name);
+    display('Successfully finished: classify process model');
     assignin('base','prozess_dynamic',prozess_dynamic);
 catch 
     display('Error: Could not classify the process model!');
@@ -318,24 +318,23 @@ if(des == 1)
         popuptext = findobj(gcf,'Tag','popuptext_fil');
         set(popuptext,'Visible','Off');
 
-        display('Start generate faulty data!');
-        FileName_FaultKonf = evalin('base','FileName_FaultKonf');
+
         runScheduleModeFromGenData;
         display('Faulty data were successfuly generated!');
 
-        display('Start converting faulty data!');
+
         convertFaultyData2;
         display('Converting faulty data was successful!');  
 
 
-        display('Start design filter!');
+        
         sel_filter = evalin('base','sel_filter');
         [config, quality, dist] = get_config(strcat(sel_filter,'.slx'));
         result_filter(config, quality, dist);
-        display('Design filter were successful!');
+        
         state_machine(4);
         
-        display('successfully finished: start_designing_filter');
+        display('Successfully finished: start_designing_filter');
     catch ME
         msgID = 'pushbutton:desfil_Callback';
         msg = 'Process could not being started!';
@@ -354,16 +353,16 @@ function pushbutton_desdet_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
     try
-        display('Start function:: start_designing_detector');
+        display('Start function: start_designing_detector');
         
         popuptext = findobj(gcf,'Tag','popuptext_det');
         set(popuptext,'Visible','Off');
 
-        display('Start generate faulty data!');
+
         runScheduleModeFromGenData;
         display('Faulty data were successfuly generated!');
 
-        display('Start converting faulty data!');
+ 
         convertFaultyData2;
         display('Converting faulty data was successful!');  
 
@@ -408,7 +407,7 @@ if(des == 1)
         close_system('Designed_Detector_TEMP');
         state_machine(4);
         
-        display('successfully finished: start_designing_detector');
+        display('Successfully finished: start_designing_detector');
     catch ME
         msgID = 'pushbutton:desdet_Callback';
         msg = 'Process could not being started!';
@@ -453,7 +452,7 @@ catch
 end
 
 try
-    display('Start function : suggest_solution');
+    display('Start function: suggest_solution');
     
     warning off all
     [det, fil] = suggest_solution( dynamic, failures);
@@ -499,7 +498,7 @@ try
     set(handles.popuptext_fil,'Visible','On');
     state_machine(4);
     
-    display('successfully finished: suggest_solution');
+    display('Successfully finished: suggest_solution');
 catch ME
     msgID = 'pushbutton:suggest_solution';
     msg = 'Process could not being started!';
@@ -554,7 +553,6 @@ function pushbutton_runPM_Callback(hObject, eventdata, handles)
 try
     display('Start function: getModelData');
     
-    prozess_dynamic = fh(evalin('base','FileName_PM'),(evalin('base','SimLength')));
     FileName_PM = evalin('base','FileName_PM');
     simlength = evalin('base','SimLength');
     % set sampletime
@@ -563,7 +561,7 @@ try
     warning on all
     assignin('base','gendata',gendata);
     
-    display('successfully finished: getModelData');
+    display('Successfully finished: getModelData');
 catch ME
     msgID = 'pushbutton:runPM_Callback';
     msg = 'No data were found. Please run the processmodel at first.';
@@ -618,7 +616,7 @@ if(des == 1)
             disp('Please store your detector implementation below the folders matlab/Detectors/');
         end
         
-        display('successfully finished: add_detector');
+        display('Successfully finished: add_detector');
     catch ME
         msgID = 'pushbutton:testDetector_Callback';
         msg = 'Process could not being started!';
@@ -653,7 +651,7 @@ if(des == 1)
         end
         warning on all
         
-        display('successfully finished: add_filter');
+        display('Successfully finished: add_filter');
     catch ME
         msgID = 'pushbutton:addFilter_Callback';
         msg = 'Process could not being started!';
@@ -775,13 +773,14 @@ end
 
 % --- Executes on button press in pushbutton_chooseFaultKonf.
 function pushbutton_chooseFaultKonf_Callback(hObject, eventdata, handles)
-[FileName_FaultKonf,PathName_FaultKonf,FilterIndex] = uigetfile('*.xml','File Selector',strcat(pwd,'/Faultinjection/XML'));
+[FileName_FaultKonf,PathName_FaultKonf] = uigetfile('*.xml','File Selector',strcat(pwd,'/Faultinjection/XML'));
 if FileName_FaultKonf > 0
     assignin('base','FileName_FaultKonf',FileName_FaultKonf);
     assignin('base','PathName_FaultKonf',PathName_FaultKonf);
     loadFaultKonf(FileName_FaultKonf);
     countFaults(FileName_FaultKonf);
     state_machine(3);
+    display('Fault configuration were successfully loaded!');
 end
 
 % hObject    handle to pushbutton_chooseFaultKonf (see GCBO)
@@ -911,7 +910,7 @@ try
     warning on all
     assignin('base','detectors',detectors);
     
-    display('successfully finished: testDetector');
+    display('Successfully finished: testDetector');
 catch ME
     msgID = 'pushbutton:testDetector_Callback';
     msg = 'Process could not being started!';
@@ -923,5 +922,192 @@ end
 
 
 % hObject    handle to pushbutton_testDetector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes during object creation, after setting all properties.
+function uipanel2_CreateFcn(hObject, eventdata, handles)
+state_machine(1);
+% hObject    handle to uipanel2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes on button press in pushbutton_filteringDetector.
+function pushbutton_filteringDetector_Callback(hObject, eventdata, handles)
+try
+    display('Start function: filterDetector');
+    
+    failures = evalin('base','act_vec');
+    dynamic = evalin('base','prozess_dynamic');
+    
+    names = get(handles.edit_filteringDet_name, 'string')
+    fprate = get(handles.edit_filteringDet_fprate, 'string')
+    fnrate = get(handles.edit_filteringDet_fnrate, 'string')
+
+    
+    
+    [det, fil] = suggest_solution( dynamic, failures);
+    
+
+    det = filterSuggestedDetectors(det, str2num(fnrate), str2num(fprate), names)
+    
+    
+
+    %% update detector table table
+    det_old = '';
+    for idx=1:length(det)
+
+        det_new = det(idx).name;
+        if(strcmp(det_old,det_new))
+            % same detector
+            det_cell{idx,1} = '';
+            det_cell{idx,2} = det(idx).fp_rate.name;
+            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
+            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
+            det_cell{idx,5} = '';
+        else
+            % new detector
+            det_cell{idx,1} = det(idx).name;
+            det_cell{idx,2} = det(idx).fp_rate.name;
+            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
+            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
+            det_cell{idx,5} = det(idx).path;
+        end
+
+        det_old = det_new;
+    end
+    display('Successfully finished: filterDetector');
+catch ME
+    msgID = 'pushbutton:filterDetectors';
+    msg = 'Process could not being started!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
+    
+end
+
+% hObject    handle to pushbutton_filteringDetector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function edit_filteringDet_name_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_filteringDet_name (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_filteringDet_name as text
+%        str2double(get(hObject,'String')) returns contents of edit_filteringDet_name as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_filteringDet_name_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_filteringDet_name (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit_filteringDet_fprate_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_filteringDet_fprate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_filteringDet_fprate as text
+%        str2double(get(hObject,'String')) returns contents of edit_filteringDet_fprate as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_filteringDet_fprate_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_filteringDet_fprate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit_filteringDet_fnrate_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_filteringDet_fnrate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_filteringDet_fnrate as text
+%        str2double(get(hObject,'String')) returns contents of edit_filteringDet_fnrate as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_filteringDet_fnrate_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_filteringDet_fnrate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton_deleteDetector.
+function pushbutton_deleteDetector_Callback(hObject, eventdata, handles)
+try
+    display('Start function: deleteDetector');
+    failures = evalin('base','act_vec');
+    dynamic = evalin('base','prozess_dynamic');
+    path_and_name_lookup = evalin('base','path_and_name_lookup');
+    
+    names = get(handles.edit_filteringDet_name, 'string')
+
+    delete_detector(names, path_and_name_lookup);
+    
+    [det, fil] = suggest_solution( dynamic, failures);
+    
+    %% update detector table table
+    det_old = '';
+    for idx=1:length(det)
+
+        det_new = det(idx).name;
+        if(strcmp(det_old,det_new))
+            % same detector
+            det_cell{idx,1} = '';
+            det_cell{idx,2} = det(idx).fp_rate.name;
+            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
+            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
+            det_cell{idx,5} = '';
+        else
+            % new detector
+            det_cell{idx,1} = det(idx).name;
+            det_cell{idx,2} = det(idx).fp_rate.name;
+            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
+            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
+            det_cell{idx,5} = det(idx).path;
+        end
+
+        det_old = det_new;
+    end
+    
+    display('Successfully finished: deleteDetector');
+catch ME
+    msgID = 'pushbutton:suggest_solution';
+    msg = 'Process could not being started!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
+end
+% hObject    handle to pushbutton_deleteDetector (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
