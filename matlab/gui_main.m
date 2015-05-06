@@ -180,8 +180,16 @@ end
 % --- Executes on button press in pushbutton_classify.
 function pushbutton_classify_Callback(hObject, eventdata, handles)
 try  
-    fh = str2func(evalin('base','classify_method_name'));
+    classify_method_name = evalin('base','classify_method_name');
+    display('Start function: ',classify_method_name);
+    
+    fh = str2func(classify_method_name);
+    
+    warning off all
     prozess_dynamic = fh(evalin('base','FileName_PM'),(evalin('base','SimLength')));
+    warning on all
+    
+    display('successfully finished: ',classify_method_name);
     assignin('base','prozess_dynamic',prozess_dynamic);
 catch 
     display('Error: Could not classify the process model!');
@@ -304,25 +312,37 @@ end
 function pushbutton_desfil_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
-    popuptext = findobj(gcf,'Tag','popuptext_fil');
-    set(popuptext,'Visible','Off');
-    
-    display('Start generate faulty data!');
-    FileName_FaultKonf = evalin('base','FileName_FaultKonf');
-    runScheduleModeFromGenData;
-    display('Faulty data were successfuly generated!');
+    try
+        display('Start function: start_designing_filter');
+        
+        popuptext = findobj(gcf,'Tag','popuptext_fil');
+        set(popuptext,'Visible','Off');
 
-    display('Start converting faulty data!');
-    convertFaultyData2;
-    display('Converting faulty data was successful!');  
-   
-    
-    display('Start design filter!');
-    sel_filter = evalin('base','sel_filter');
-    [config, quality, dist] = get_config(strcat(sel_filter,'.slx'))
-    result_filter(config, quality, dist);
-    display('Design filter were successful!');
-    state_machine(4);
+        display('Start generate faulty data!');
+        FileName_FaultKonf = evalin('base','FileName_FaultKonf');
+        runScheduleModeFromGenData;
+        display('Faulty data were successfuly generated!');
+
+        display('Start converting faulty data!');
+        convertFaultyData2;
+        display('Converting faulty data was successful!');  
+
+
+        display('Start design filter!');
+        sel_filter = evalin('base','sel_filter');
+        [config, quality, dist] = get_config(strcat(sel_filter,'.slx'));
+        result_filter(config, quality, dist);
+        display('Design filter were successful!');
+        state_machine(4);
+        
+        display('successfully finished: start_designing_filter');
+    catch ME
+        msgID = 'pushbutton:desfil_Callback';
+        msg = 'Process could not being started!';
+        baseException = MException(msgID,msg);
+        ME = addCause(ME,baseException);
+        throw(ME);
+    end
 end
 % hObject    handle to pushbutton_desfil (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -333,55 +353,69 @@ end
 function pushbutton_desdet_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
-    popuptext = findobj(gcf,'Tag','popuptext_det');
-    set(popuptext,'Visible','Off');
-    
-    display('Start generate faulty data!');
-    runScheduleModeFromGenData;
-    display('Faulty data were successfuly generated!');
-
-    display('Start converting faulty data!');
-    convertFaultyData2;
-    display('Converting faulty data was successful!');  
-   
-    data_multifault = evalin('base','data_multifault');
-    data_singlefault = evalin('base','data_singlefault');
-    trigger_multifault = evalin('base','trigger_multifault');
-    trigger_singlefault = evalin('base','trigger_singlefault');
-    SampleTime = evalin('base','SampleTime');
-
-    if(isunix()) 
-        if exist('/Output/Designed_Detector_TEMP','file') > 0
-            delete('/Output/Designed_Detector_TEMP');
-        end
-        path_and_name = strcat(pwd,'/Output/Designed_Detector_TEMP');
+    try
+        display('Start function:: start_designing_detector');
         
-    else
-        if exist('\Output\Designed_Detector_TEMP','file') > 0
-            delete('\Output\Designed_Detector_TEMP');
+        popuptext = findobj(gcf,'Tag','popuptext_det');
+        set(popuptext,'Visible','Off');
+
+        display('Start generate faulty data!');
+        runScheduleModeFromGenData;
+        display('Faulty data were successfuly generated!');
+
+        display('Start converting faulty data!');
+        convertFaultyData2;
+        display('Converting faulty data was successful!');  
+
+        data_multifault = evalin('base','data_multifault');
+        data_singlefault = evalin('base','data_singlefault');
+        trigger_multifault = evalin('base','trigger_multifault');
+        trigger_singlefault = evalin('base','trigger_singlefault');
+        SampleTime = evalin('base','SampleTime');
+
+        if(isunix()) 
+            if exist('/Output/Designed_Detector_TEMP','file') > 0
+                delete('/Output/Designed_Detector_TEMP');
+            end
+            path_and_name = strcat(pwd,'/Output/Designed_Detector_TEMP');
+
+        else
+            if exist('\Output\Designed_Detector_TEMP','file') > 0
+                delete('\Output\Designed_Detector_TEMP');
+            end
+            path_and_name = strcat(pwd,'\Output\Designed_Detector_TEMP');
         end
-        path_and_name = strcat(pwd,'\Output\Designed_Detector_TEMP');
+
+
+        path_detector_complete = evalin('base','path_detector');
+
+        sa = findstr(path_detector_complete, 'Detector');
+        si = size(path_detector_complete);
+        if(isempty(sa) == 0)
+            path_detector = path_detector_complete(1+sa-1:si(1,2));
+        else
+            path_detector = path_detector_complete;
+        end
+
+
+        home_path = pwd;
+        warning off all
+        [fn, fp] = start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, SampleTime, path_and_name, path_detector);
+        warning on all
+        cd(home_path);
+        % show results
+        result_detector(fn,fp);
+        close_system('Designed_Detector_TEMP');
+        state_machine(4);
+        
+        display('successfully finished: start_designing_detector');
+    catch ME
+        msgID = 'pushbutton:desdet_Callback';
+        msg = 'Process could not being started!';
+        baseException = MException(msgID,msg);
+        ME = addCause(ME,baseException);
+        throw(ME);
     end
-    
-    
-    path_detector_complete = evalin('base','path_detector');
-    
-    sa = findstr(path_detector_complete, 'Detector');
-    si = size(path_detector_complete);
-    if(isempty(sa) == 0)
-        path_detector = path_detector_complete(1+sa-1:si(1,2));
-    else
-        path_detector = path_detector_complete;
-    end
-   
-    display('Start Design Detector');
-    home_path = pwd;
-    [fn, fp] = start_designing_detector(data_multifault, data_singlefault, trigger_multifault, trigger_singlefault, SampleTime, path_and_name, path_detector);
-    cd(home_path);
-    % show results
-    result_detector(fn,fp);
-    close_system('Designed_Detector_TEMP');
-    state_machine(4);
 end
 % hObject    handle to pushbutton_desdet (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -410,54 +444,69 @@ catch ME
 end
 try  
     fh = str2func(evalin('base','classify_method_name'));
+    warning off all 
     prozess_dynamic = fh(evalin('base','FileName_PM'),(evalin('base','SimLength')));
+    warning on all
     assignin('base','prozess_dynamic',prozess_dynamic);
 catch 
     display('Error: Could not classify the process model!');
 end
 
-[det, fil] = suggest_solution( dynamic, failures);
-
-
-%% update detector table table
-det_old = '';
-for idx=1:length(det)
+try
+    display('Start function : suggest_solution');
     
-    det_new = det(idx).name;
-    if(strcmp(det_old,det_new))
-        % same detector
-        det_cell{idx,1} = '';
-        det_cell{idx,2} = det(idx).fp_rate.name;
-        det_cell{idx,3} = det(idx).fp_rate.fp_rate;
-        det_cell{idx,4} = det(idx).fn_rate.fn_rate;
-        det_cell{idx,5} = '';
-    else
-        % new detector
-        det_cell{idx,1} = det(idx).name;
-        det_cell{idx,2} = det(idx).fp_rate.name;
-        det_cell{idx,3} = det(idx).fp_rate.fp_rate;
-        det_cell{idx,4} = det(idx).fn_rate.fn_rate;
-        det_cell{idx,5} = det(idx).path;
+    warning off all
+    [det, fil] = suggest_solution( dynamic, failures);
+    warning on all
+
+    %% update detector table table
+    det_old = '';
+    for idx=1:length(det)
+
+        det_new = det(idx).name;
+        if(strcmp(det_old,det_new))
+            % same detector
+            det_cell{idx,1} = '';
+            det_cell{idx,2} = det(idx).fp_rate.name;
+            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
+            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
+            det_cell{idx,5} = '';
+        else
+            % new detector
+            det_cell{idx,1} = det(idx).name;
+            det_cell{idx,2} = det(idx).fp_rate.name;
+            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
+            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
+            det_cell{idx,5} = det(idx).path;
+        end
+
+        det_old = det_new;
     end
 
-    det_old = det_new;
+    set(handles.detectorTable,'data',det_cell);
+
+    %% update filter table
+
+    for idx=1:length(fil)
+        fil_cell{idx,1} = fil(idx).name;
+        fil_cell{idx,2} = fil(idx).quality;
+        fil_cell{idx,3} = fil(idx).dist;
+    end
+
+    set(handles.filterTable,'data',fil_cell);
+
+    set(handles.popuptext_det,'Visible','On');
+    set(handles.popuptext_fil,'Visible','On');
+    state_machine(4);
+    
+    display('successfully finished: suggest_solution');
+catch ME
+    msgID = 'pushbutton:suggest_solution';
+    msg = 'Process could not being started!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
 end
-
-set(handles.detectorTable,'data',det_cell);
-
-%% update filter table
-
-for idx=1:length(fil)
-    fil_cell{idx,1} = fil(idx).name;
-    fil_cell{idx,2} = fil(idx).quality;
-    fil_cell{idx,3} = fil(idx).dist;
-end
-
-set(handles.filterTable,'data',fil_cell);
-
-set(handles.popuptext_det,'Visible','On');
-set(handles.popuptext_fil,'Visible','On');
-state_machine(1);
 
 % hObject    handle to pushbutton_sugsol (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -502,12 +551,26 @@ assignin('base','sel_filter',sel_filter);
 
 % --- Executes on button press in pushbutton_runPM.
 function pushbutton_runPM_Callback(hObject, eventdata, handles)
-FileName_PM = evalin('base','FileName_PM');
-simlength = evalin('base','SimLength');
-% set sampletime
-
-gendata = getModelData(FileName_PM, simlength);
-assignin('base','gendata',gendata);
+try
+    display('Start function: getModelData');
+    
+    prozess_dynamic = fh(evalin('base','FileName_PM'),(evalin('base','SimLength')));
+    FileName_PM = evalin('base','FileName_PM');
+    simlength = evalin('base','SimLength');
+    % set sampletime
+    warning off all
+    gendata = getModelData(FileName_PM, simlength);
+    warning on all
+    assignin('base','gendata',gendata);
+    
+    display('successfully finished: getModelData');
+catch ME
+    msgID = 'pushbutton:runPM_Callback';
+    msg = 'No data were found. Please run the processmodel at first.';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
+end
 % hObject    handle to pushbutton_runPM (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -519,8 +582,8 @@ try
     figure();
     plot(evalin('base','gendata'));
 catch ME
-    msgID = 'plotGenData:NoData';
-    msg = 'No data were found. Please run the processmodel at first.';
+    msgID = 'pushbutton:gendata_Callback';
+    msg = 'Process could not being started!';
     baseException = MException(msgID,msg);
     ME = addCause(ME,baseException);
     throw(ME);
@@ -535,6 +598,8 @@ function pushbutton_addDetctor_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
     try
+        display('Start function: add_detector');
+        
         PathName_Detector = evalin('base','PathName_Detector');
 
         sa = findstr(PathName_Detector, 'Detector');
@@ -542,15 +607,18 @@ if(des == 1)
             si = size(PathName_Detector);
             path_detector = PathName_Detector(1+sa-1:si(1,2));
 
-
+            warning off all
             if(isunix())
                 add_detector(detectors,[pwd '/Functions/lookuptable.mat']);
             else
                 add_detector(detectors,[pwd '\Functions\lookuptable.mat']);
             end
+            warning on all
         else
             disp('Please store your detector implementation below the folders matlab/Detectors/');
         end
+        
+        display('successfully finished: add_detector');
     catch ME
         msgID = 'pushbutton:testDetector_Callback';
         msg = 'Process could not being started!';
@@ -569,17 +637,30 @@ end
 function pushbutton_addFilter_Callback(hObject, eventdata, handles)
 des = gui_continue();
 if(des == 1)
-    FileName_Filter = evalin('base','FileName_Filter');
-    PathName_Filter = evalin('base','PathName_Filter');
-    
-    si = size(FileName_Filter);
-    name = FileName_Filter;
-    if(isunix())
-        add_filter(name, [pwd '/Data/02']);
-    else
-        add_filter(name, [pwd '\Data/02']);
+    try
+        display('Start function: add_filter');
+        
+        FileName_Filter = evalin('base','FileName_Filter');
+        PathName_Filter = evalin('base','PathName_Filter');
+
+        si = size(FileName_Filter);
+        name = FileName_Filter;
+        warning off all
+        if(isunix())
+            add_filter(name, [pwd '/Data/02']);
+        else
+            add_filter(name, [pwd '\Data/02']);
+        end
+        warning on all
+        
+        display('successfully finished: add_filter');
+    catch ME
+        msgID = 'pushbutton:addFilter_Callback';
+        msg = 'Process could not being started!';
+        baseException = MException(msgID,msg);
+        ME = addCause(ME,baseException);
+        throw(ME);
     end
-    
 end
 % hObject    handle to pushbutton_addFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -760,8 +841,7 @@ end
 
 % --- Executes during object creation, after setting all properties.
 function state_pic_CreateFcn(hObject, eventdata, handles)   
-display('init pic');
-state_machine(0);
+state_machine(1);
 % hObject    handle to state_pic (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -775,20 +855,6 @@ state_machine(0);
 function state_machine(state)
 handles = guihandles;
 state_Tag = get(handles.state_pic, 'Tag');
-
-try
-    curr_state = evalin('base','state_machine');
-catch
-    curr_state = 1;
-end
-next_state = 0;
-if(state > 0)
-    next_state = curr_state+1;
-elseif(state < 0)
-    next_state = curr_state-1;
-elseif(state == 0)
-    next_state = curr_state;
-end
 
 if(isunix())
     s0 = imread('gui/pic_state0.png');
@@ -805,19 +871,24 @@ else
 end
 
 
-switch next_state
+switch state
     case 1
+        % process model have to be picked
         imshow(s1,'Parent',handles.state_pic)
+        % button ausgrauen
     case 2
+        % fault configuration have to be picked
         imshow(s2,'Parent',handles.state_pic)
     case 3
+        % suggest solution have to be klicked
         imshow(s3,'Parent',handles.state_pic)
     case 4
+        % design have to be clicked
         imshow(s4,'Parent',handles.state_pic)
     otherwise
         imshow(s0,'Parent',handles.state_pic)
 end
-assignin('base','state_machine',next_state);
+assignin('base','state_machine',state);
 set(handles.state_pic, 'Tag', state_Tag);
 
 
@@ -825,6 +896,8 @@ set(handles.state_pic, 'Tag', state_Tag);
 function pushbutton_testDetector_Callback(hObject, eventdata, handles)
 %detectors = testDetector(path_detector, name_detector, path_data)
 try
+    display('Start function: testDetector');
+    
     FileName_Detector = evalin('base','FileName_Detector');
     PathName_Detector = evalin('base','PathName_Detector');
     Path_Data = evalin('base','Path_Data'); 
@@ -833,9 +906,12 @@ try
 
     si = size(PathName_Detector);
     path_detector = PathName_Detector(1+sa-1:si(1,2));
-
-    detectors = testDetector(path_detector, FileName_Detector,  [pwd Path_Data]); 
+    warning off all
+    detectors = testDetector(path_detector, FileName_Detector,  [pwd Path_Data]);
+    warning on all
     assignin('base','detectors',detectors);
+    
+    display('successfully finished: testDetector');
 catch ME
     msgID = 'pushbutton:testDetector_Callback';
     msg = 'Process could not being started!';

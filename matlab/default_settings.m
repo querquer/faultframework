@@ -6,6 +6,7 @@ catch
     % init state machine
     state_machine = 1;
     assignin('base','state_machine',state_machine);
+    state_machine(1);
     
     % classify method
     classify_method_name = 'classify_processmodel';

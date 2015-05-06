@@ -1,18 +1,21 @@
 Maik:
-	- Working-Bildchen
-	- logging to console + unique header
-	neu:
-	- rework docu to the new changes
-	- Icons 
+
+
+
 	- Großer Pfeil, einfärben
-	- Reihenfolge der Buttons ändern
-	- Tabelle Detektoren Pfad nicht anzeigen
+
 	- Button ausgrauen choose detector/filter
-	- run schedule mode kapseln
+
 
 	- Filter für Detektoren
+	
+additional stuff:
+	- logging to console + unique header
+	- Working-Bildchen	
+	- rework docu to the new changes	
+	- Tabelle Detektoren Pfad nicht anzeigen ??
 	- GUI Data generation(additional)
-	- Try-Catch
+
 
 Georg:
 	- HMM Fehler zero transisiton
