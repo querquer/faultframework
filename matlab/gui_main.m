@@ -908,7 +908,7 @@ try
     warning off all
     detectors = testDetector(path_detector, FileName_Detector,  [pwd Path_Data]);
     warning on all
-    assignin('base','detectors',detectors);
+    result_testDetector(detectors);
     
     display('Successfully finished: testDetector');
 catch ME
