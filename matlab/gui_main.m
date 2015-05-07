@@ -604,7 +604,7 @@ if(des == 1)
         if(isempty(sa) == 0)
             si = size(PathName_Detector);
             path_detector = PathName_Detector(1+sa-1:si(1,2));
-
+            detectors = evalin('base', 'detectors');
             warning off all
             if(isunix())
                 add_detector(detectors,[pwd '/Functions/lookuptable.mat']);
@@ -907,6 +907,7 @@ try
     path_detector = PathName_Detector(1+sa-1:si(1,2));
     warning off all
     detectors = testDetector(path_detector, FileName_Detector,  [pwd Path_Data]);
+     assignin('base','detectors', detectors);
     warning on all
     result_testDetector(detectors);
     
@@ -1072,7 +1073,7 @@ try
     
     names = get(handles.edit_filteringDet_name, 'string')
 
-    delete_detector(names, path_and_name_lookup);
+    delete_detector(names, [pwd path_and_name_lookup]);
     
     [det, fil] = suggest_solution( dynamic, failures);
     
