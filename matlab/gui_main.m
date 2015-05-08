@@ -332,7 +332,7 @@ if(des == 1)
         [config, quality, dist] = get_config(strcat(sel_filter,'.slx'));
         result_filter(config, quality, dist);
         
-        state_machine(4);
+        state_machine(4, handles);
         
         display('Successfully finished: start_designing_filter');
     catch ME
@@ -372,6 +372,7 @@ if(des == 1)
         trigger_singlefault = evalin('base','trigger_singlefault');
         SampleTime = evalin('base','SampleTime');
 
+        warning off all
         if(isunix()) 
             if exist('/Output/Designed_Detector_TEMP','file') > 0
                 delete('/Output/Designed_Detector_TEMP');
@@ -384,7 +385,7 @@ if(des == 1)
             end
             path_and_name = strcat(pwd,'\Output\Designed_Detector_TEMP');
         end
-
+        warning on all
 
         path_detector_complete = evalin('base','path_detector');
 
@@ -405,7 +406,7 @@ if(des == 1)
         % show results
         result_detector(fn,fp);
         close_system('Designed_Detector_TEMP');
-        state_machine(4);
+        state_machine(4, handles);
         
         display('Successfully finished: start_designing_detector');
     catch ME
@@ -458,45 +459,11 @@ try
     [det, fil] = suggest_solution( dynamic, failures);
     warning on all
 
-    %% update detector table table
-    det_old = '';
-    for idx=1:length(det)
-
-        det_new = det(idx).name;
-        if(strcmp(det_old,det_new))
-            % same detector
-            det_cell{idx,1} = '';
-            det_cell{idx,2} = det(idx).fp_rate.name;
-            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
-            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
-            det_cell{idx,5} = '';
-        else
-            % new detector
-            det_cell{idx,1} = det(idx).name;
-            det_cell{idx,2} = det(idx).fp_rate.name;
-            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
-            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
-            det_cell{idx,5} = det(idx).path;
-        end
-
-        det_old = det_new;
-    end
-
-    set(handles.detectorTable,'data',det_cell);
-
-    %% update filter table
-
-    for idx=1:length(fil)
-        fil_cell{idx,1} = fil(idx).name;
-        fil_cell{idx,2} = fil(idx).quality;
-        fil_cell{idx,3} = fil(idx).dist;
-    end
-
-    set(handles.filterTable,'data',fil_cell);
-
+    update_tables(det, fil, handles);
+  
     set(handles.popuptext_det,'Visible','On');
     set(handles.popuptext_fil,'Visible','On');
-    state_machine(4);
+    state_machine(4, handles);
     
     display('Successfully finished: suggest_solution');
 catch ME
@@ -593,38 +560,37 @@ end
 
 % --- Executes on button press in pushbutton_addDetctor.
 function pushbutton_addDetctor_Callback(hObject, eventdata, handles)
-des = gui_continue();
-if(des == 1)
-    try
-        display('Start function: add_detector');
-        
-        PathName_Detector = evalin('base','PathName_Detector');
 
-        sa = findstr(PathName_Detector, 'Detector');
-        if(isempty(sa) == 0)
-            si = size(PathName_Detector);
-            path_detector = PathName_Detector(1+sa-1:si(1,2));
-            detectors = evalin('base', 'detectors');
-            warning off all
-            if(isunix())
-                add_detector(detectors,[pwd '/Functions/lookuptable.mat']);
-            else
-                add_detector(detectors,[pwd '\Functions\lookuptable.mat']);
-            end
-            warning on all
+try
+    display('Start function: add_detector');
+
+    PathName_Detector = evalin('base','PathName_Detector');
+
+    sa = findstr(PathName_Detector, 'Detector');
+    if(isempty(sa) == 0)
+        si = size(PathName_Detector);
+        path_detector = PathName_Detector(1+sa-1:si(1,2));
+        detectors = evalin('base', 'detectors');
+        warning off all
+        if(isunix())
+            add_detector(detectors,[pwd '/Functions/lookuptable.mat']);
         else
-            disp('Please store your detector implementation below the folders matlab/Detectors/');
+            add_detector(detectors,[pwd '\Functions\lookuptable.mat']);
         end
-        
-        display('Successfully finished: add_detector');
-    catch ME
-        msgID = 'pushbutton:testDetector_Callback';
-        msg = 'Process could not being started!';
-        baseException = MException(msgID,msg);
-        ME = addCause(ME,baseException);
-        throw(ME);
+        warning on all
+    else
+        disp('Please store your detector implementation below the folders matlab/Detectors/');
     end
+
+    display('Successfully finished: add_detector');
+catch ME
+    msgID = 'pushbutton:testDetector_Callback';
+    msg = 'Process could not being started!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
 end
+
 
 % hObject    handle to pushbutton_addDetctor (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -763,7 +729,7 @@ if FileName_PM > 0
         ME = addCause(ME,baseException);
         throw(ME);
     end
-    state_machine(2);
+    state_machine(2, handles);
 end
 
 % hObject    handle to pushbutton_choosePM (see GCBO)
@@ -779,7 +745,7 @@ if FileName_FaultKonf > 0
     assignin('base','PathName_FaultKonf',PathName_FaultKonf);
     loadFaultKonf(FileName_FaultKonf);
     countFaults(FileName_FaultKonf);
-    state_machine(3);
+    state_machine(3, handles);
     display('Fault configuration were successfully loaded!');
 end
 
@@ -840,7 +806,7 @@ end
 
 % --- Executes during object creation, after setting all properties.
 function state_pic_CreateFcn(hObject, eventdata, handles)   
-state_machine(1);
+state_machine(1, handles);
 % hObject    handle to state_pic (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -851,8 +817,7 @@ state_machine(1);
 % Input: 0 ->  keep state, do imshow
 % Input: 1 ->  next state, do imshow
 % Input: -1 -> back state, do imshow
-function state_machine(state)
-handles = guihandles;
+function state_machine(state, handles)
 state_Tag = get(handles.state_pic, 'Tag');
 
 if(isunix())
@@ -894,33 +859,35 @@ set(handles.state_pic, 'Tag', state_Tag);
 % --- Executes on button press in pushbutton_testDetector.
 function pushbutton_testDetector_Callback(hObject, eventdata, handles)
 %detectors = testDetector(path_detector, name_detector, path_data)
-try
-    display('Start function: testDetector');
-    
-    FileName_Detector = evalin('base','FileName_Detector');
-    PathName_Detector = evalin('base','PathName_Detector');
-    Path_Data = evalin('base','Path_Data'); 
+des = gui_continue();
+if(des == 1)
+    try
+        display('Start function: testDetector');
 
-    sa = findstr(PathName_Detector, 'Detector');
+        FileName_Detector = evalin('base','FileName_Detector');
+        PathName_Detector = evalin('base','PathName_Detector');
+        Path_Data = evalin('base','Path_Data'); 
 
-    si = size(PathName_Detector);
-    path_detector = PathName_Detector(1+sa-1:si(1,2));
-    warning off all
-    detectors = testDetector(path_detector, FileName_Detector,  [pwd Path_Data]);
-     assignin('base','detectors', detectors);
-    warning on all
-    result_testDetector(detectors);
-    
-    display('Successfully finished: testDetector');
-catch ME
-    msgID = 'pushbutton:testDetector_Callback';
-    msg = 'Process could not being started!';
-    baseException = MException(msgID,msg);
-    ME = addCause(ME,baseException);
-    throw(ME);
-    
+        sa = findstr(PathName_Detector, 'Detector');
+
+        si = size(PathName_Detector);
+        path_detector = PathName_Detector(1+sa-1:si(1,2));
+        warning off all
+        detectors = testDetector(path_detector, FileName_Detector,  [pwd Path_Data]);
+         assignin('base','detectors', detectors);
+        warning on all
+        result_testDetector(detectors);
+
+        display('Successfully finished: testDetector');
+    catch ME
+        msgID = 'pushbutton:testDetector_Callback';
+        msg = 'Process could not being started!';
+        baseException = MException(msgID,msg);
+        ME = addCause(ME,baseException);
+        throw(ME);
+
+    end
 end
-
 
 % hObject    handle to pushbutton_testDetector (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -929,7 +896,7 @@ end
 
 % --- Executes during object creation, after setting all properties.
 function uipanel2_CreateFcn(hObject, eventdata, handles)
-state_machine(1);
+state_machine(1, handles);
 % hObject    handle to uipanel2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -943,42 +910,19 @@ try
     failures = evalin('base','act_vec');
     dynamic = evalin('base','prozess_dynamic');
     
-    names = get(handles.edit_filteringDet_name, 'string')
-    fprate = get(handles.edit_filteringDet_fprate, 'string')
-    fnrate = get(handles.edit_filteringDet_fnrate, 'string')
+    names = get(handles.edit_filteringDet_name, 'string');
+    fprate = get(handles.edit_filteringDet_fprate, 'string');
+    fnrate = get(handles.edit_filteringDet_fnrate, 'string');
 
     
-    
+    warning off all
     [det, fil] = suggest_solution( dynamic, failures);
     
-
-    det = filterSuggestedDetectors(det, str2num(fnrate), str2num(fprate), names)
+    det = filterSuggestedDetectors(det, str2num(fnrate), str2num(fprate), names);
+    warning on all
     
-    
+    update_tables(det, fil, handles);
 
-    %% update detector table table
-    det_old = '';
-    for idx=1:length(det)
-
-        det_new = det(idx).name;
-        if(strcmp(det_old,det_new))
-            % same detector
-            det_cell{idx,1} = '';
-            det_cell{idx,2} = det(idx).fp_rate.name;
-            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
-            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
-            det_cell{idx,5} = '';
-        else
-            % new detector
-            det_cell{idx,1} = det(idx).name;
-            det_cell{idx,2} = det(idx).fp_rate.name;
-            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
-            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
-            det_cell{idx,5} = det(idx).path;
-        end
-
-        det_old = det_new;
-    end
     display('Successfully finished: filterDetector');
 catch ME
     msgID = 'pushbutton:filterDetectors';
@@ -1063,10 +1007,75 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
+function update_tables(det, fil, handles)
+try
+    display('Start function: updateTables');
+    
+    %% update detector table table
+    if(length(det) > 0)
+        det_old = '';
+        for idx=1:length(det)
+
+            det_new = det(idx).name;
+            if(strcmp(det_old,det_new))
+                % same detector
+                det_cell{idx,1} = '';
+                det_cell{idx,2} = det(idx).fp_rate.name;
+                det_cell{idx,3} = det(idx).fp_rate.fp_rate;
+                det_cell{idx,4} = det(idx).fn_rate.fn_rate;
+                det_cell{idx,5} = '';
+            else
+                % new detector
+                det_cell{idx,1} = det(idx).name;
+                det_cell{idx,2} = det(idx).fp_rate.name;
+                det_cell{idx,3} = det(idx).fp_rate.fp_rate;
+                det_cell{idx,4} = det(idx).fn_rate.fn_rate;
+                det_cell{idx,5} = det(idx).path;
+            end
+
+            det_old = det_new;
+        end
+
+        
+    else
+       det_cell{1,1} = '';
+       det_cell{1,2} = ''; 
+       det_cell{1,3} = ''; 
+       det_cell{1,4} = ''; 
+       det_cell{1,5} = ''; 
+    end
+    set(handles.detectorTable,'data',det_cell);
+    %% update filter table
+    if(length(fil) > 0)
+        for idx=1:length(fil)
+            fil_cell{idx,1} = fil(idx).name;
+            fil_cell{idx,2} = fil(idx).quality;
+            fil_cell{idx,3} = fil(idx).dist;
+        end
+    else
+        fil_cell{1,1} = '';
+        fil_cell{1,2} = '';
+        fil_cell{1,3} = '';
+    end
+    set(handles.filterTable,'data',fil_cell);
+    %%
+    
+    
+    display('Successfully finished: updateTables');
+    
+catch ME
+    msgID = 'function:updateTable';
+    msg = 'Process could not being started!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
+end
+
 % --- Executes on button press in pushbutton_deleteDetector.
 function pushbutton_deleteDetector_Callback(hObject, eventdata, handles)
 try
     display('Start function: deleteDetector');
+    
     failures = evalin('base','act_vec');
     dynamic = evalin('base','prozess_dynamic');
     path_and_name_lookup = evalin('base','path_and_name_lookup');
@@ -1075,31 +1084,12 @@ try
 
     delete_detector(names, [pwd path_and_name_lookup]);
     
+    warning off all
     [det, fil] = suggest_solution( dynamic, failures);
+    warning on all
     
-    %% update detector table table
-    det_old = '';
-    for idx=1:length(det)
-
-        det_new = det(idx).name;
-        if(strcmp(det_old,det_new))
-            % same detector
-            det_cell{idx,1} = '';
-            det_cell{idx,2} = det(idx).fp_rate.name;
-            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
-            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
-            det_cell{idx,5} = '';
-        else
-            % new detector
-            det_cell{idx,1} = det(idx).name;
-            det_cell{idx,2} = det(idx).fp_rate.name;
-            det_cell{idx,3} = det(idx).fp_rate.fp_rate;
-            det_cell{idx,4} = det(idx).fn_rate.fn_rate;
-            det_cell{idx,5} = det(idx).path;
-        end
-
-        det_old = det_new;
-    end
+    update_tables(det, fil, handles);
+    
     
     display('Successfully finished: deleteDetector');
 catch ME

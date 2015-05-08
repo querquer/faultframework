@@ -20,8 +20,8 @@ for idx=1:length(det)
         mat{idy,4} = det(1,idx).fp_rate(1,idrate).fp_rate;
         idy = idy +1;
     end
-    mat{idy_old,5} = det(1,idx).row;
-    mat{idy_old,6} = det(1,idx).column;
+    %mat{idy_old,5} = det(1,idx).row;
+    %mat{idy_old,6} = det(1,idx).column;
     
 end
 
