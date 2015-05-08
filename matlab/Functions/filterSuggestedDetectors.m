@@ -17,34 +17,39 @@ i = 1;
 while(i<=sDetectors(1,2))
     
     % Check for false-negative rate
-    if(detectors(i).fn_rate.fn_rate > fn_rate)
-        detectors(i) = [];
-        sDetectors = size(detectors);
-        continue;
-    end    
-    
-    % Check for false-positive rate
-    if(detectors(i).fp_rate.fp_rate > fp_rate)
-        detectors(i) = [];
-        sDetectors = size(detectors);
-        continue;
+    if(exist('fn_rate', 'var') && ~isempty(fn_rate))
+        if(detectors(i).fn_rate.fn_rate > fn_rate)
+            detectors(i) = [];
+            sDetectors = size(detectors);
+            continue;
+        end    
     end
     
-    % Check for name
-    sn = size(names);
-    delete = 0;
-    for k=1:sn(1,2)
-        if(strcmp(detectors(i).name, names{1,k}))
-            delete = 1;
+    % Check for false-positive rate
+    if(exist('fp_rate', 'var') && ~isempty(fp_rate))
+        if(detectors(i).fp_rate.fp_rate > fp_rate)
+            detectors(i) = [];
+            sDetectors = size(detectors);
+            continue;
         end
     end
     
-    if(delete == 1)
-        detectors(i) = [];
-        sDetectors = size(detectors);
-        continue;
+    % Check for name
+    if(exist('names', 'var') && ~isempty(names) && iscell(names))
+        sn = size(names);
+        delete = 0;
+        for k=1:sn(1,2)
+            if(strcmp(detectors(i).name, names{1,k}))
+                delete = 1;
+            end
+        end
+
+        if(delete == 1)
+            detectors(i) = [];
+            sDetectors = size(detectors);
+            continue;
+        end
     end
-    
      
     
     i = i + 1;
