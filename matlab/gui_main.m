@@ -328,8 +328,8 @@ if(des == 1)
 
 
         
-        sel_filter = evalin('base','sel_filter');
-        [config, quality, dist] = get_config(strcat(sel_filter,'.slx'));
+        tableSelection_filter_name = evalin('base','tableSelection_filter_name');
+        [config, quality, dist] = get_config(strcat(tableSelection_filter_name,'.slx'));
         result_filter(config, quality, dist);
         
         state_machine(4, handles);
@@ -387,7 +387,7 @@ if(des == 1)
         end
         warning on all
 
-        path_detector_complete = evalin('base','path_detector');
+        path_detector_complete = evalin('base','tableSelection_detector_path');
 
         sa = findstr(path_detector_complete, 'Detector');
         si = size(path_detector_complete);
