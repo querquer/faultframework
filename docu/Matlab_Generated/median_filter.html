@@ -1,0 +1,157 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Median Filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-10"><meta name="DC.source" content="median_filter.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Median Filter</h1><!--introduction--><p>the median filter takes the last X values, sort them and return the value in the middel.</p><p>This function tryes to find the best configuration for the Median Filter. Therefore an genetic algorithm is used.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Return Values</a></li><li><a href="#2">Source Code</a></li></ul></div><h2>Return Values<a name="1"></a></h2><div><ul><li><b>config</b>:       is the number of the values are used.</li><li><b>quality</b>:      delivers a quality indication. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li><li><b>dist</b>:         delivers a indication how much differ the faultfree and the filtered                   data. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li></ul></div><h2>Source Code<a name="2"></a></h2><pre class="codeinput"><span class="keyword">function</span> [config, quality, dist] = median_filter()
+
+    <span class="comment">% define the fitness function for the genetic algorithm</span>
+    <span class="keyword">function</span> fitness = median_fitness(x)
+
+        load_system(<span class="string">'Filter/Median_Filter.slx'</span>);
+        set_param(<span class="string">'Median_Filter/Constant/'</span>, <span class="string">'Value'</span>, num2str(x));
+        close_system(<span class="string">'Filter/Median_Filter.slx'</span>,1);
+
+        [fitness, ~] = filter_evaluation;
+    <span class="keyword">end</span>
+
+<span class="comment">% define the options for the genetic algorithm</span>
+options = gaoptimset(<span class="string">'TolFun'</span>, 1);
+options = gaoptimset(options,<span class="string">'Display'</span>, <span class="string">'iter'</span>);
+options = gaoptimset(options,<span class="string">'UseParallel'</span>, false);
+options = gaoptimset(options,<span class="string">'PopulationSize'</span>,15);
+options = gaoptimset(options,<span class="string">'Generations'</span>,5);
+
+<span class="comment">% IntInput gives the index of the inputvalues of the fitness function, wich</span>
+<span class="comment">% should be integer.</span>
+IntInput = [1];
+
+<span class="comment">% run the genetic algorithm</span>
+config = ga(@median_fitness,1,[],[],[],[],1,100,[],IntInput,options);
+
+<span class="comment">% set the best config and return the quality and distance</span>
+load_system(<span class="string">'Filter/Median_Filter.slx'</span>);
+set_param(<span class="string">'Median_Filter/Constant/'</span>, <span class="string">'Value'</span>, num2str(config));
+close_system(<span class="string">'Filter/Median_Filter.slx'</span>,1);
+
+[quality, dist] = filter_evaluation;
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Median Filter
+% the median filter takes the last X values, sort them and return the value
+% in the middel.
+%
+% This function tryes to find the best configuration for the Median Filter.
+% Therefore an genetic algorithm is used.
+
+%% Return Values
+% * *config*:       is the number of the values are used.
+% * *quality*:      delivers a quality indication. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+% * *dist*:         delivers a indication how much differ the faultfree and the filtered
+%                   data. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+
+%% Source Code
+
+function [config, quality, dist] = median_filter()
+
+    % define the fitness function for the genetic algorithm
+    function fitness = median_fitness(x)
+        
+        load_system('Filter/Median_Filter.slx');
+        set_param('Median_Filter/Constant/', 'Value', num2str(x));
+        close_system('Filter/Median_Filter.slx',1);
+        
+        [fitness, ~] = filter_evaluation;
+    end
+
+% define the options for the genetic algorithm
+options = gaoptimset('TolFun', 1);
+options = gaoptimset(options,'Display', 'iter');
+options = gaoptimset(options,'UseParallel', false);
+options = gaoptimset(options,'PopulationSize',15);
+options = gaoptimset(options,'Generations',5);
+
+% IntInput gives the index of the inputvalues of the fitness function, wich
+% should be integer.
+IntInput = [1];
+
+% run the genetic algorithm
+config = ga(@median_fitness,1,[],[],[],[],1,100,[],IntInput,options);
+
+% set the best config and return the quality and distance
+load_system('Filter/Median_Filter.slx');
+set_param('Median_Filter/Constant/', 'Value', num2str(config));
+close_system('Filter/Median_Filter.slx',1);
+
+[quality, dist] = filter_evaluation;
+
+end
+
+
+##### SOURCE END #####
+--></body></html>

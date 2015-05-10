@@ -38,7 +38,8 @@
 % input and output data have the same structure like
 % filter_quality_check_simple.slx. Than you can use the
 % <set_filter_evaluation.html set_filter_evaluation> function to set the
-% new quality check. If you press now the design filter button, the filter 
+% new quality check. You have also to change the set_filter.m file!
+% If you press now the design filter button, the filter 
 % is designed with respect to the new quality value. Please note that the 
 % suggested solution contain the
 % old quality values until you add every filter again (<add_filter.html

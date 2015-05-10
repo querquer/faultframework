@@ -1,35 +1,44 @@
-function [param_string, quality, dist] = discretefir_filter()
-%DISCRETEFIR_FILTER find best configuration for given data
-%   tries every configuration, given in the discretefir_filter.txt and find
-%   the one with the best quality
-configurations = load('Filter/discretefir_filter.txt');
+%% Discrete FIR Filter
+% This function tryes to find the best configuration for the Median Filter.
+% Therefore an genetic algorithm is used.
 
-% initial values
-quality = 10000;
-dist = 10000;
-param_string = '';
+%% Return Values
+% * *config*:       the configuration values.
+% * *quality*:      delivers a quality indication. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+% * *dist*:         delivers a indication how much differ the faultfree and the filtered
+%                   data. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
 
-% for all configurations
-for i=1:size(configurations)
-    % set new configuration
-    new_param_string = sprintf('[%.1f %.1f]', configurations(i,1), configurations(i,2));
-    load_system('Filter/DiscreteFIR_Filter.slx');
-    set_param('DiscreteFIR_Filter/Discrete FIR Filter/', 'Coefficients', new_param_string);
-    close_system('Filter/DiscreteFIR_Filter.slx',1);
+%% Source Code
+
+function [config, quality, dist] = discretefir_filter()
+
+    function fitness = discreteFIR_fitness(x,y)
+
+        new_param_string = sprintf('[%.1f %.1f]', x, y);
+        
+        load_system('Filter/DiscreteFIR_Filter.slx');
+        set_param('DiscreteFIR_Filter/Discrete FIR Filter/', 'Coefficients', new_param_string);
+        close_system('Filter/DiscreteFIR_Filter.slx',1);
     
-    % evaluate with this configuration
-    [new_quality, new_dist] = filter_evaluation;
-    
-    % save if it is actually the best configuration
-    if(quality > new_quality)
-       quality = new_quality;
-       dist = new_dist;
-       param_string = new_param_string;
+        % evaluate with this configuration
+        [fitness, ~] = filter_evaluation;
     end
-end
+
+% define the options for the genetic algorithm
+options = gaoptimset('Display', 'iter');
+options = gaoptimset(options,'UseParallel', false);
+options = gaoptimset(options,'PopulationSize',30);
+options = gaoptimset(options,'Generations',20);
+
+% run the genetic algorithm
+config = ga(@discreteFIR_fitness,2,[],[],[],[],0,1,[],options);
+
 % set the best configuration
 load_system('Filter/DiscreteFIR_Filter.slx');
 set_param('DiscreteFIR_Filter/Discrete FIR Filter/', 'Coefficients', param_string);
 close_system('Filter/DiscreteFIR_Filter.slx',1);
 
+[quality, dist] = filter_evaluation;
+
 end
+

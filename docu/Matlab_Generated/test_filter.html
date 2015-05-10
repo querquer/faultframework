@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>set_filter_evaluation</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-10"><meta name="DC.source" content="set_filter_evaluation.m"><style type="text/css">
+      --><title>test_filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-10"><meta name="DC.source" content="test_filter.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,44 +66,37 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>set_filter_evaluation</h1><!--introduction--><p>This function set another filter evaluation method in the Filter.slx</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> set_filter_evaluation(model_file)
-<span class="comment">%SET_FILTER set another evaluation model</span>
-<span class="comment">%   We assume, that the model where we want to change the filter_evaluation is still</span>
-<span class="comment">%   named 'Filter.slx' and is reachable from the current directory.</span>
-<span class="comment">%   Furthermore the model_file is also assumed to be reachable.</span>
+  </style></head><body><div class="content"><h1>test_filter</h1><!--introduction--><p>test the filter on the actual model and fault configuration.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">New Filter</a></li><li><a href="#2">Return Values</a></li><li><a href="#3">Related Functions</a></li><li><a href="#4">Source Code</a></li></ul></div><h2>New Filter<a name="1"></a></h2><p>if you want to test your own filter, be sure that the .slx file of your filter is locatet in the Filter folder.</p><h2>Return Values<a name="2"></a></h2><div><ul><li><b>quality</b>:      delivers a quality indication. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li><li><b>dist</b>:         delivers a indication how much differ the faultfree and the filtered                   data. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li></ul></div><h2>Related Functions<a name="3"></a></h2><div><ul><li><a href="set_filter.html">set_filter</a></li><li><a href="filter_evaluation.html">filter_evaluation</a></li></ul></div><h2>Source Code<a name="4"></a></h2><pre class="codeinput"><span class="keyword">function</span> [ quality, dist ] = test_filter(model_file)
 
-<span class="comment">%Load system into matlab workspace</span>
-load_system(<span class="string">'Filter.slx'</span>);
-
-<span class="comment">%set the parameter or the model reference block</span>
-set_param(<span class="string">'Filter/Filter_evaluation/'</span> ,<span class="string">'ModelNameDialog'</span>, model_file);
-
-<span class="comment">%save the changed system</span>
-close_system(<span class="string">'Filter.slx'</span>,1);
+set_filter(model_file);
+[quality, dist] = filter_evaluation();
 
 <span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-%% set_filter_evaluation
-% This function set another filter evaluation method in the Filter.slx
+%% test_filter
+% test the filter on the actual model and fault configuration.
+
+%% New Filter
+% if you want to test your own filter, be sure that the .slx file of your
+% filter is locatet in the Filter folder.
+
+%% Return Values
+% * *quality*:      delivers a quality indication. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+% * *dist*:         delivers a indication how much differ the faultfree and the filtered
+%                   data. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+
+%% Related Functions
+% * <set_filter.html set_filter>
+% * <filter_evaluation.html filter_evaluation>
 %
 
 %% Source Code
 
-function set_filter_evaluation(model_file)
-%SET_FILTER set another evaluation model
-%   We assume, that the model where we want to change the filter_evaluation is still
-%   named 'Filter.slx' and is reachable from the current directory.
-%   Furthermore the model_file is also assumed to be reachable.
+function [ quality, dist ] = test_filter(model_file)
 
-%Load system into matlab workspace
-load_system('Filter.slx');
-
-%set the parameter or the model reference block
-set_param('Filter/Filter_evaluation/' ,'ModelNameDialog', model_file);
-
-%save the changed system
-close_system('Filter.slx',1);
+set_filter(model_file);
+[quality, dist] = filter_evaluation();
 
 end
 

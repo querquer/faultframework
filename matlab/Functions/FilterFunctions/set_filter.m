@@ -20,12 +20,12 @@ set_param('Filter/Filter/' ,'ModelNameDialog', model_file);
 close_system('Filter.slx',1);
 
 %Load system into matlab workspace
-load_system('Filter/Filter_evaluation/quality_check.slx');
+load_system('Filter/Filter_evaluation/filter_quality_check_simple.slx');
 
 %set the parameter or the model reference block
-set_param('quality_check/Filter/' ,'ModelNameDialog', model_file);
+set_param('filter_quality_check_simple/Filter/' ,'ModelNameDialog', model_file);
 
-close_system('Filter/Filter_evaluation/quality_check.slx',1);
+close_system('Filter/Filter_evaluation/filter_quality_check_simple.slx',1);
 
 end
 

@@ -1,36 +1,50 @@
+%% Median Filter
+% the median filter takes the last X values, sort them and return the value
+% in the middel.
+%
+% This function tryes to find the best configuration for the Median Filter.
+% Therefore an genetic algorithm is used.
+
+%% Return Values
+% * *config*:       is the number of the values are used.
+% * *quality*:      delivers a quality indication. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+% * *dist*:         delivers a indication how much differ the faultfree and the filtered
+%                   data. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+
+%% Source Code
+
 function [config, quality, dist] = median_filter()
-%MEDIAN_FILTER find best configuration for given data
-%   tries every configuration, given in the median_configs.txt and find
-%   the one with the best quality
-configurations = load('Filter/median_configs.txt');
 
-% initial values
-quality = 10000;
-dist = 10000;
-
-% for all configurations
-for i=1:size(configurations)
-    
-    % set new configuration
-    load_system('Filter/Median_Filter.slx');
-    set_param('Median_Filter/Constant/', 'Value', num2str(configurations(i)));
-    close_system('Filter/Median_Filter.slx',1);
-    
-    % evaluate this configuration
-    [new_quality, new_dist] = filter_evaluation;
-    
-    % save configuration if it is actually the best
-    if(quality > new_quality)
-       quality = new_quality;
-       config = configurations(i);
-       dist = new_dist;
+    % define the fitness function for the genetic algorithm
+    function fitness = median_fitness(x)
+        
+        load_system('Filter/Median_Filter.slx');
+        set_param('Median_Filter/Constant/', 'Value', num2str(x));
+        close_system('Filter/Median_Filter.slx',1);
+        
+        [fitness, ~] = filter_evaluation;
     end
-end
 
-% set best configuration
+% define the options for the genetic algorithm
+options = gaoptimset('TolFun', 1);
+options = gaoptimset(options,'Display', 'iter');
+options = gaoptimset(options,'UseParallel', false);
+options = gaoptimset(options,'PopulationSize',15);
+options = gaoptimset(options,'Generations',5);
+
+% IntInput gives the index of the inputvalues of the fitness function, wich
+% should be integer.
+IntInput = [1];
+
+% run the genetic algorithm
+config = ga(@median_fitness,1,[],[],[],[],1,100,[],IntInput,options);
+
+% set the best config and return the quality and distance
 load_system('Filter/Median_Filter.slx');
 set_param('Median_Filter/Constant/', 'Value', num2str(config));
 close_system('Filter/Median_Filter.slx',1);
+
+[quality, dist] = filter_evaluation;
 
 end
 
