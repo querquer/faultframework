@@ -492,7 +492,7 @@ selected_vals = data(linear_index);
 tableSelection_detector_path = data{r,5};
 tableSelection_detector_name = data{r,1};
 temp = 0;
-while(isempty(tableSelection_detector_name))
+while(isempty(tableSelection_detector_name) && temp < 50)
     tableSelection_detector_name = data{r-temp,1};
     tableSelection_detector_path = data{r-temp,5};
     temp = temp + 1;
@@ -517,7 +517,7 @@ linear_index = sub2ind(size(data),r,c);
 selected_vals = data(linear_index);
 tableSelection_filter_name = data{r,1};
 temp = 0;
-while(isempty(tableSelection_filter_name))
+while(isempty(tableSelection_filter_name) && temp < 50)
     tableSelection_filter_name = data{r-temp,1};
     temp = temp + 1;
 end

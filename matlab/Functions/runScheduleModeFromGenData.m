@@ -27,7 +27,7 @@ ts = SampleTime:SampleTime:SimLength*num_slots;
  
 DataGen_data = timeseries(transpose(DataGen_data),ts);
 assignin('base','DataGen_data',DataGen_data);
-
+assignin('base','SimLength_Schedule',SimLength*num_slots);
 %% Get the current fault configuration file
 curr_file = 'injection_campaign.xml';
 
