@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 06-May-2015 18:01:13
+% Last Modified by GUIDE v2.5 10-May-2015 13:55:30
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -489,8 +489,16 @@ r = indices(:,1);
 c = indices(:,2);
 linear_index = sub2ind(size(data),r,c);
 selected_vals = data(linear_index);
-path_detector = data{r,5};
-assignin('base','path_detector',path_detector);
+tableSelection_detector_path = data{r,5};
+tableSelection_detector_name = data{r,1};
+temp = 0;
+while(isempty(tableSelection_detector_name))
+    tableSelection_detector_name = data{r-temp,1};
+    tableSelection_detector_path = data{r-temp,5};
+    temp = temp + 1;
+end
+assignin('base','tableSelection_detector_path',tableSelection_detector_path);
+assignin('base','tableSelection_detector_name',tableSelection_detector_name);
 %path_detector
 %selection_sum = sum(sum(selected_vals))
 % hObject    handle to detectorTable (see GCBO)
@@ -507,8 +515,13 @@ r = indices(:,1);
 c = indices(:,2);
 linear_index = sub2ind(size(data),r,c);
 selected_vals = data(linear_index);
-sel_filter = data{r,1};
-assignin('base','sel_filter',sel_filter);
+tableSelection_filter_name = data{r,1};
+temp = 0;
+while(isempty(tableSelection_filter_name))
+    tableSelection_filter_name = data{r-temp,1};
+    temp = temp + 1;
+end
+assignin('base','tableSelection_filter_name',tableSelection_filter_name);
 % hObject    handle to filterTable (see GCBO)
 % eventdata  structure with the following fields (see UITABLE)
 %	Indices: row and column indices of the cell(s) currently selecteds
@@ -1121,7 +1134,7 @@ try
     dynamic = evalin('base','prozess_dynamic');
     path_and_name_lookup = evalin('base','path_and_name_lookup');
     
-    names = get(handles.edit_filteringDet_name, 'string')
+    names = evalin('base','tableSelection_detector_name');
 
     delete_detector(names, [pwd path_and_name_lookup]);
     
@@ -1141,5 +1154,61 @@ catch ME
     throw(ME);
 end
 % hObject    handle to pushbutton_deleteDetector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function edit_filteringFil_name_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_filteringFil_name (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_filteringFil_name as text
+%        str2double(get(hObject,'String')) returns contents of edit_filteringFil_name as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_filteringFil_name_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_filteringFil_name (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton_deleteFilter.
+function pushbutton_deleteFilter_Callback(hObject, eventdata, handles)
+try
+    display('Start function: deleteDetector');
+    
+    failures = evalin('base','act_vec');
+    dynamic = evalin('base','prozess_dynamic');
+    path_and_name_lookup = evalin('base','path_and_name_lookup');
+    
+    names = evalin('base','tableSelection_filter_name');
+
+    delete_filter(names, [pwd path_and_name_lookup]);
+    
+    warning off all
+    [det, fil] = suggest_solution( dynamic, failures);
+    warning on all
+    
+    update_tables(det, fil, handles);
+    
+    
+    display('Successfully finished: deleteDetector');
+catch ME
+    msgID = 'pushbutton:suggest_solution';
+    msg = 'Process could not being started!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
+end
+% hObject    handle to pushbutton_deleteFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

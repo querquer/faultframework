@@ -6,4 +6,4 @@ matlab/Prozessmodel.slx
 matlab/injection_campaign.xml
 matlab/Faultdetection.slx
 matlab/Filter.slx
-.asv
+*.asv
