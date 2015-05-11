@@ -284,14 +284,14 @@ static void sf_gateway_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c1_data_out, 8U, c1_sf_marshallOut,
     c1_sf_marshallIn);
   CV_EML_FCN(0, 0);
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 6);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 5);
   CV_EML_IF(0, 1, 0, false);
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 9);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 8);
   for (c1_i3 = 0; c1_i3 < 100; c1_i3++) {
     c1_new_vector[c1_i3] = 0.0;
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 10);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 9);
   c1_d0 = c1_order - 1.0;
   c1_i4 = (int32_T)c1_d0;
   _SFD_FOR_LOOP_VECTOR_CHECK(1.0, 1.0, c1_d0, mxDOUBLE_CLASS, c1_i4);
@@ -300,7 +300,7 @@ static void sf_gateway_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   while (c1_b_i <= c1_i4 - 1) {
     c1_i = 1.0 + (real_T)c1_b_i;
     CV_EML_FOR(0, 1, 0, 1);
-    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 11);
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 10);
     c1_new_vector[_SFD_EML_ARRAY_BOUNDS_CHECK("new_vector", (int32_T)c1_i, 1,
       100, 1, 0) - 1] = c1_old_vector[_SFD_EML_ARRAY_BOUNDS_CHECK("old_vector",
       (int32_T)(c1_i + 1.0), 1, 100, 1, 0) - 1];
@@ -309,10 +309,10 @@ static void sf_gateway_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   }
 
   CV_EML_FOR(0, 1, 0, 0);
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 16);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 15);
   c1_new_vector[_SFD_EML_ARRAY_BOUNDS_CHECK("new_vector", (int32_T)
     _SFD_INTEGER_CHECK("order", c1_order), 1, 100, 1, 0) - 1] = c1_data_in;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 18);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 17);
   c1_test_vector_sizes[0] = 1;
   c1_iv0[0] = 1;
   c1_iv0[1] = (int32_T)c1_order;
@@ -324,7 +324,7 @@ static void sf_gateway_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
     c1_test_vector_data[c1_i5] = 0.0;
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 19);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 18);
   c1_b_order = c1_order;
   c1_i6 = (int32_T)c1_b_order - 1;
   c1_i = 1.0;
@@ -332,7 +332,7 @@ static void sf_gateway_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   while (c1_c_i <= c1_i6) {
     c1_i = 1.0 + (real_T)c1_c_i;
     CV_EML_FOR(0, 1, 1, 1);
-    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 20);
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 19);
     c1_test_vector_data[_SFD_EML_ARRAY_BOUNDS_CHECK("test_vector", (int32_T)c1_i,
       1, c1_test_vector_sizes[1], 1, 0) - 1] = c1_new_vector[(int32_T)c1_i - 1];
     c1_c_i++;
@@ -340,7 +340,7 @@ static void sf_gateway_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
   }
 
   CV_EML_FOR(0, 1, 1, 0);
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 23);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 22);
   c1_b_test_vector_sizes = c1_test_vector_sizes[1];
   c1_b_loop_ub = c1_test_vector_sizes[1] - 1;
   for (c1_i7 = 0; c1_i7 <= c1_b_loop_ub; c1_i7++) {
@@ -349,7 +349,7 @@ static void sf_gateway_c1_Median_Filter0(SFc1_Median_Filter0InstanceStruct
 
   c1_data_out = c1_median(chartInstance, c1_b_test_vector_data,
     c1_b_test_vector_sizes);
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, -23);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, -22);
   _SFD_SYMBOL_SCOPE_POP();
   for (c1_i8 = 0; c1_i8 < 100; c1_i8++) {
     (*c1_b_new_vector)[c1_i8] = c1_new_vector[c1_i8];
@@ -2563,10 +2563,10 @@ extern void utFree(void*);
 
 void sf_c1_Median_Filter0_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(4252611395U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3694260940U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(4170698539U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(260067762U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2794170232U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3705196552U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1272291882U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2874305635U);
 }
 
 mxArray *sf_c1_Median_Filter0_get_autoinheritance_info(void)
@@ -2578,7 +2578,7 @@ mxArray *sf_c1_Median_Filter0_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("qRTw7S0uUJcYkuMzes7cPC");
+    mxArray *mxChecksum = mxCreateString("rQ0XhHMsyjsJ5u8UIz96e");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -2796,10 +2796,10 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
         /* Initialization of MATLAB Function Model Coverage */
         _SFD_CV_INIT_EML(0,1,1,1,0,0,0,2,0,0,0);
-        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,487);
-        _SFD_CV_INIT_EML_IF(0,1,0,158,182,215,328);
-        _SFD_CV_INIT_EML_FOR(0,1,0,257,275,323);
-        _SFD_CV_INIT_EML_FOR(0,1,1,391,407,446);
+        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,486);
+        _SFD_CV_INIT_EML_IF(0,1,0,157,181,214,327);
+        _SFD_CV_INIT_EML_FOR(0,1,0,256,274,322);
+        _SFD_CV_INIT_EML_FOR(0,1,1,390,406,445);
         _SFD_SET_DATA_COMPILED_PROPS(0,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)NULL);
 
@@ -2855,7 +2855,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "SW5ZGjv36JkbfHpgz88NmE";
+  return "rEYy92pGGacpCsCe1SJmUD";
 }
 
 static void sf_opaque_initialize_c1_Median_Filter0(void *chartInstanceVar)
@@ -3036,10 +3036,10 @@ static void mdlSetWorkWidths_c1_Median_Filter0(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(1761757702U));
-  ssSetChecksum1(S,(1378456143U));
-  ssSetChecksum2(S,(3592661907U));
-  ssSetChecksum3(S,(746456020U));
+  ssSetChecksum0(S,(4091182297U));
+  ssSetChecksum1(S,(3261097400U));
+  ssSetChecksum2(S,(3872504911U));
+  ssSetChecksum3(S,(2233033967U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);

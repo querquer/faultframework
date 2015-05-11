@@ -66,10 +66,10 @@ unsigned int sf_Median_Filter_process_check_sum_call( int nlhs, mxArray * plhs[]
       ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(0U);
       ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(0U);
     } else if (!strcmp(commandName,"makefile")) {
-      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3764857873U);
-      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(901636948U);
-      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2253629158U);
-      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(3653115825U);
+      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1416848296U);
+      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1169931250U);
+      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2660931856U);
+      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1887436555U);
     } else if (nrhs==3 && !strcmp(commandName,"chart")) {
       unsigned int chartFileNumber;
       chartFileNumber = (unsigned int)mxGetScalar(prhs[2]);
@@ -96,10 +96,10 @@ unsigned int sf_Median_Filter_process_check_sum_call( int nlhs, mxArray * plhs[]
       return 0;
     }
   } else {
-    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(4147807237U);
-    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2264362188U);
-    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2279257786U);
-    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1488106490U);
+    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3807913920U);
+    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(4042172794U);
+    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(71312845U);
+    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(3989338227U);
   }
 
   return 1;
@@ -137,7 +137,7 @@ unsigned int sf_Median_Filter_autoinheritance_info( int nlhs, mxArray * plhs[],
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(aiChksum, "qRTw7S0uUJcYkuMzes7cPC") == 0) {
+        if (strcmp(aiChksum, "rQ0XhHMsyjsJ5u8UIz96e") == 0) {
           extern mxArray *sf_c1_Median_Filter_get_autoinheritance_info(void);
           plhs[0] = sf_c1_Median_Filter_get_autoinheritance_info();
           break;
@@ -230,7 +230,7 @@ unsigned int sf_Median_Filter_third_party_uses_info( int nlhs, mxArray * plhs[],
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(tpChksum, "SW5ZGjv36JkbfHpgz88NmE") == 0) {
+        if (strcmp(tpChksum, "rEYy92pGGacpCsCe1SJmUD") == 0) {
           extern mxArray *sf_c1_Median_Filter_third_party_uses_info(void);
           plhs[0] = sf_c1_Median_Filter_third_party_uses_info();
           break;
@@ -267,7 +267,7 @@ unsigned int sf_Median_Filter_updateBuildInfo_args_info( int nlhs, mxArray *
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(tpChksum, "SW5ZGjv36JkbfHpgz88NmE") == 0) {
+        if (strcmp(tpChksum, "rEYy92pGGacpCsCe1SJmUD") == 0) {
           extern mxArray *sf_c1_Median_Filter_updateBuildInfo_args_info(void);
           plhs[0] = sf_c1_Median_Filter_updateBuildInfo_args_info();
           break;
