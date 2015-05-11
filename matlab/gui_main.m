@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 11-May-2015 12:29:44
+% Last Modified by GUIDE v2.5 11-May-2015 13:01:23
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -1199,3 +1199,28 @@ catch ME
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox_greyOut
+
+
+
+% --- Executes on button press in pushbutton_ChooseProcessModel.
+function pushbutton_ChooseProcessModel_Callback(hObject, eventdata, handles)
+[FileName_PM,PathName_PM,FilterIndex] = uigetfile({'*.slx';'*.m';'*.mat';'*.*'},'File Selector',strcat(pwd,'/ProcessModel'));
+if FileName_PM > 0
+    set_processModel(FileName_PM);
+    assignin('base','FileName_PM',FileName_PM);
+    assignin('base','PathName_PM',PathName_PM);
+    try 
+        sampletime = evalin('base','SampleTime');
+        set_sampletime(PathName_PM,FileName_PM,sampletime);
+    catch ME
+        msgID = 'set_param:SampleTime';
+        msg = 'Could not set the sample time in the process model!';
+        baseException = MException(msgID,msg);
+        ME = addCause(ME,baseException);
+        throw(ME);
+    end
+    state_machine(2, handles);
+end
+% hObject    handle to pushbutton_ChooseProcessModel (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)

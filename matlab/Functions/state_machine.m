@@ -24,7 +24,7 @@ if(not(isempty(handles)))
         case 1
             % process model have to be picked
             imshow(s1,'Parent',handles.state_pic)
-            buttonList = {'pushbutton_choosePM'};
+            buttonList = {'pushbutton_ChooseProcessModel'};
         case 2
             % fault configuration have to be picked
             imshow(s2,'Parent',handles.state_pic)
@@ -70,7 +70,7 @@ else
         case 1
             % process model have to be picked
             imshow(s1,'Parent',handles.state_pic)
-            buttonList = {'pushbutton_choosePM'};
+            buttonList = {'pushbutton_ChooseProcessModel'};
         case 2
             % fault configuration have to be picked
             imshow(s2,'Parent',handles.state_pic)

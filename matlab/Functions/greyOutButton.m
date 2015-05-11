@@ -14,6 +14,12 @@ else
     %%iterate over all buttons in the gui
     for idx=1:length(pushbuttonHandles)
         % get the tag of the actual button
+        buttonArray{idx} = get(pushbuttonHandles(idx), 'Tag');
+
+    end
+    
+    for idx=1:length(pushbuttonHandles)
+        % get the tag of the actual button
         buttonTag = get(pushbuttonHandles(idx), 'Tag');
 
         isIn = 0;
