@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 10-May-2015 13:55:30
+% Last Modified by GUIDE v2.5 11-May-2015 09:48:27
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -928,7 +928,6 @@ if(des == 1)
         path_detector = PathName_Detector(1+sa-1:si(1,2));
         warning off all
         detectors = testDetector(path_detector, FileName_Detector,  [pwd Path_Data]);
-         assignin('base','detectors', detectors);
         warning on all
         result_testDetector(detectors);
 
@@ -1210,5 +1209,41 @@ catch ME
     throw(ME);
 end
 % hObject    handle to pushbutton_deleteFilter (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton_testFilter.
+function pushbutton_testFilter_Callback(hObject, eventdata, handles)
+des = gui_continue();
+if(des == 1)
+    try
+        display('Start function: testFilter');
+
+        FileName_Filter = evalin('base','FileName_Filter');
+        PathName_Filter = evalin('base','PathName_Filter');
+        
+        runScheduleModeFromGenData;
+        display('Faulty data were successfuly generated!');
+
+        convertFaultyData2;
+        display('Converting faulty data was successful!');  
+        
+        warning off all
+        [ quality, dist ]  = test_filter( FileName_Filter);
+        warning on all
+        
+        result_testFilter(quality, dist);
+
+        display('Successfully finished: testFilter');
+    catch ME
+        msgID = 'pushbutton:testFilter_Callback';
+        msg = 'Process could not being started!';
+        baseException = MException(msgID,msg);
+        ME = addCause(ME,baseException);
+        throw(ME);
+    end
+end
+% hObject    handle to pushbutton_testFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
