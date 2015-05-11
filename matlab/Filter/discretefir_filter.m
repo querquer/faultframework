@@ -1,5 +1,5 @@
 %% Discrete FIR Filter
-% This function tryes to find the best configuration for the Median Filter.
+% This function tryes to find the best configuration for the Discrete FIR Filter.
 % Therefore an genetic algorithm is used.
 
 %% Return Values
@@ -10,11 +10,11 @@
 
 %% Source Code
 
-function [config, quality, dist] = discretefir_filter()
+function [config_string, quality, dist] = discretefir_filter()
 
-    function fitness = discreteFIR_fitness(x,y)
+    function fitness = discreteFIR_fitness(x)
 
-        new_param_string = sprintf('[%.1f %.1f]', x, y);
+        new_param_string = sprintf('[%.1f %.1f]', x(1), x(2));
         
         load_system('Filter/DiscreteFIR_Filter.slx');
         set_param('DiscreteFIR_Filter/Discrete FIR Filter/', 'Coefficients', new_param_string);
@@ -34,8 +34,10 @@ options = gaoptimset(options,'Generations',20);
 config = ga(@discreteFIR_fitness,2,[],[],[],[],0,1,[],options);
 
 % set the best configuration
+config_string = sprintf('[%.1f %.1f]', config(1), config(2));
+
 load_system('Filter/DiscreteFIR_Filter.slx');
-set_param('DiscreteFIR_Filter/Discrete FIR Filter/', 'Coefficients', param_string);
+set_param('DiscreteFIR_Filter/Discrete FIR Filter/', 'Coefficients', config_string);
 close_system('Filter/DiscreteFIR_Filter.slx',1);
 
 [quality, dist] = filter_evaluation;

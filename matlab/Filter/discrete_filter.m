@@ -1,37 +1,45 @@
-function [param_string, quality, dist] = discrete_filter()
-%DISCRETE_FILTER find best configuration for given data
-%   tries every configuration, given in the discrete_filter.txt and find
-%   the one with the best quality
-configurations = load('Filter/discrete_filter.txt');
+%% Discrete Filter
+% This function tryes to find the best configuration for the Discrete Filter.
+% Therefore an genetic algorithm is used.
 
-% initial values
-quality = 10000;
-dist = 10000;
-param_string = '';
+%% Return Values
+% * *config*:       the configuration values.
+% * *quality*:      delivers a quality indication. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+% * *dist*:         delivers a indication how much differ the faultfree and the filtered
+%                   data. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
 
-% for all configurations
-for i=1:size(configurations)
+%% Source Code
+
+function [config_string, quality, dist] = discrete_filter()
+
+    function fitness = discrete_fitness(x)
+
+        new_param_string = sprintf('[%.1f %.1f]', x(1), x(2));
+        
+        load_system('Filter/Discrete_Filter.slx');
+        set_param('Discrete_Filter/Discrete Filter/', 'Denominator', new_param_string);
+        close_system('Filter/Discrete_Filter.slx',1);
     
-    % set new configuration
-    new_param_string = sprintf('[%.1f %.1f]', configurations(i,1), configurations(i,2));
-    load_system('Filter/Discrete_Filter.slx');
-    set_param('Discrete_Filter/Discrete Filter/', 'Denominator', new_param_string);
-    close_system('Filter/Discrete_Filter.slx',1);
-    
-    % evaluate with this configuration
-    [new_quality, new_dist] = filter_evaluation;
-    
-    % save if it is actually the best configuration
-    if(quality > new_quality)
-       quality = new_quality;
-       dist = new_dist;
-       param_string = new_param_string;
+        % evaluate with this configuration
+        [fitness, ~] = filter_evaluation;
     end
-end
 
-% set best filter
+% define the options for the genetic algorithm
+options = gaoptimset('Display', 'iter');
+options = gaoptimset(options,'UseParallel', false);
+options = gaoptimset(options,'PopulationSize',30);
+options = gaoptimset(options,'Generations',20);
+
+% run the genetic algorithm
+config = ga(@discrete_fitness,2,[],[],[],[],0,1,[],options);
+
+% set the best configuration
+config_string = sprintf('[%.1f %.1f]', config(1), config(2));
+
 load_system('Filter/Discrete_Filter.slx');
-set_param('Discrete_Filter/Discrete Filter/', 'Denominator', param_string);
+set_param('Discrete_Filter/Discrete Filter/', 'Denominator', config_string);
 close_system('Filter/Discrete_Filter.slx',1);
+
+[quality, dist] = filter_evaluation;
 
 end

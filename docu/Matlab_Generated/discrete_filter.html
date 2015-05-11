@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Discrete FIR Filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-11"><meta name="DC.source" content="discretefir_filter.m"><style type="text/css">
+      --><title>Discrete Filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-11"><meta name="DC.source" content="discrete_filter.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,15 +66,15 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Discrete FIR Filter</h1><!--introduction--><p>This function tryes to find the best configuration for the Discrete FIR Filter. Therefore an genetic algorithm is used.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Return Values</a></li><li><a href="#2">Source Code</a></li></ul></div><h2>Return Values<a name="1"></a></h2><div><ul><li><b>config</b>:       the configuration values.</li><li><b>quality</b>:      delivers a quality indication. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li><li><b>dist</b>:         delivers a indication how much differ the faultfree and the filtered                   data. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li></ul></div><h2>Source Code<a name="2"></a></h2><pre class="codeinput"><span class="keyword">function</span> [config_string, quality, dist] = discretefir_filter()
+  </style></head><body><div class="content"><h1>Discrete Filter</h1><!--introduction--><p>This function tryes to find the best configuration for the Discrete Filter. Therefore an genetic algorithm is used.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Return Values</a></li><li><a href="#2">Source Code</a></li></ul></div><h2>Return Values<a name="1"></a></h2><div><ul><li><b>config</b>:       the configuration values.</li><li><b>quality</b>:      delivers a quality indication. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li><li><b>dist</b>:         delivers a indication how much differ the faultfree and the filtered                   data. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li></ul></div><h2>Source Code<a name="2"></a></h2><pre class="codeinput"><span class="keyword">function</span> [config_string, quality, dist] = discrete_filter()
 
-    <span class="keyword">function</span> fitness = discreteFIR_fitness(x)
+    <span class="keyword">function</span> fitness = discrete_fitness(x)
 
         new_param_string = sprintf(<span class="string">'[%.1f %.1f]'</span>, x(1), x(2));
 
-        load_system(<span class="string">'Filter/DiscreteFIR_Filter.slx'</span>);
-        set_param(<span class="string">'DiscreteFIR_Filter/Discrete FIR Filter/'</span>, <span class="string">'Coefficients'</span>, new_param_string);
-        close_system(<span class="string">'Filter/DiscreteFIR_Filter.slx'</span>,1);
+        load_system(<span class="string">'Filter/Discrete_Filter.slx'</span>);
+        set_param(<span class="string">'Discrete_Filter/Discrete Filter/'</span>, <span class="string">'Denominator'</span>, new_param_string);
+        close_system(<span class="string">'Filter/Discrete_Filter.slx'</span>,1);
 
         <span class="comment">% evaluate with this configuration</span>
         [fitness, ~] = filter_evaluation;
@@ -87,22 +87,22 @@ options = gaoptimset(options,<span class="string">'PopulationSize'</span>,30);
 options = gaoptimset(options,<span class="string">'Generations'</span>,20);
 
 <span class="comment">% run the genetic algorithm</span>
-config = ga(@discreteFIR_fitness,2,[],[],[],[],0,1,[],options);
+config = ga(@discrete_fitness,2,[],[],[],[],0,1,[],options);
 
 <span class="comment">% set the best configuration</span>
 config_string = sprintf(<span class="string">'[%.1f %.1f]'</span>, config(1), config(2));
 
-load_system(<span class="string">'Filter/DiscreteFIR_Filter.slx'</span>);
-set_param(<span class="string">'DiscreteFIR_Filter/Discrete FIR Filter/'</span>, <span class="string">'Coefficients'</span>, config_string);
-close_system(<span class="string">'Filter/DiscreteFIR_Filter.slx'</span>,1);
+load_system(<span class="string">'Filter/Discrete_Filter.slx'</span>);
+set_param(<span class="string">'Discrete_Filter/Discrete Filter/'</span>, <span class="string">'Denominator'</span>, config_string);
+close_system(<span class="string">'Filter/Discrete_Filter.slx'</span>,1);
 
 [quality, dist] = filter_evaluation;
 
 <span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-%% Discrete FIR Filter
-% This function tryes to find the best configuration for the Discrete FIR Filter.
+%% Discrete Filter
+% This function tryes to find the best configuration for the Discrete Filter.
 % Therefore an genetic algorithm is used.
 
 %% Return Values
@@ -113,15 +113,15 @@ close_system(<span class="string">'Filter/DiscreteFIR_Filter.slx'</span>,1);
 
 %% Source Code
 
-function [config_string, quality, dist] = discretefir_filter()
+function [config_string, quality, dist] = discrete_filter()
 
-    function fitness = discreteFIR_fitness(x)
+    function fitness = discrete_fitness(x)
 
         new_param_string = sprintf('[%.1f %.1f]', x(1), x(2));
         
-        load_system('Filter/DiscreteFIR_Filter.slx');
-        set_param('DiscreteFIR_Filter/Discrete FIR Filter/', 'Coefficients', new_param_string);
-        close_system('Filter/DiscreteFIR_Filter.slx',1);
+        load_system('Filter/Discrete_Filter.slx');
+        set_param('Discrete_Filter/Discrete Filter/', 'Denominator', new_param_string);
+        close_system('Filter/Discrete_Filter.slx',1);
     
         % evaluate with this configuration
         [fitness, ~] = filter_evaluation;
@@ -134,19 +134,17 @@ options = gaoptimset(options,'PopulationSize',30);
 options = gaoptimset(options,'Generations',20);
 
 % run the genetic algorithm
-config = ga(@discreteFIR_fitness,2,[],[],[],[],0,1,[],options);
+config = ga(@discrete_fitness,2,[],[],[],[],0,1,[],options);
 
 % set the best configuration
 config_string = sprintf('[%.1f %.1f]', config(1), config(2));
 
-load_system('Filter/DiscreteFIR_Filter.slx');
-set_param('DiscreteFIR_Filter/Discrete FIR Filter/', 'Coefficients', config_string);
-close_system('Filter/DiscreteFIR_Filter.slx',1);
+load_system('Filter/Discrete_Filter.slx');
+set_param('Discrete_Filter/Discrete Filter/', 'Denominator', config_string);
+close_system('Filter/Discrete_Filter.slx',1);
 
 [quality, dist] = filter_evaluation;
 
 end
-
-
 ##### SOURCE END #####
 --></body></html>
