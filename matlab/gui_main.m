@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 11-May-2015 09:48:27
+% Last Modified by GUIDE v2.5 11-May-2015 12:29:44
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -332,8 +332,7 @@ if(des == 1)
         [config, quality, dist] = get_config(strcat(tableSelection_filter_name,'.slx'));
         result_filter(config, quality, dist);
         
-        state_machine(4, handles);
-        
+        state_machine(5, handles);
         display('Successfully finished: start_designing_filter');
     catch ME
         msgID = 'pushbutton:desfil_Callback';
@@ -406,8 +405,8 @@ if(des == 1)
         % show results
         result_detector(fn,fp);
         close_system('Designed_Detector_TEMP');
-        state_machine(4, handles);
         
+        state_machine(5, handles);
         display('Successfully finished: start_designing_detector');
     catch ME
         msgID = 'pushbutton:desdet_Callback';
@@ -830,83 +829,7 @@ state_machine(1, handles);
 % Input: 0 ->  keep state, do imshow
 % Input: 1 ->  next state, do imshow
 % Input: -1 -> back state, do imshow
-function state_machine(state, handles)
-if(not(isempty(handles)))
-    state_Tag = get(handles.state_pic, 'Tag');
 
-    if(isunix())
-        s0 = imread('gui/pic_state0.png');
-        s1 = imread('gui/pic_state1.png');
-        s2 = imread('gui/pic_state2.png');
-        s3 = imread('gui/pic_state3.png');
-        s4 = imread('gui/pic_state4.png');
-    else
-        s0 = imread('gui\pic_state0.png');
-        s1 = imread('gui\pic_state1.png');
-        s2 = imread('gui\pic_state2.png');
-        s3 = imread('gui\pic_state3.png');
-        s4 = imread('gui\pic_state4.png');
-    end
-
-
-    switch state
-        case 1
-            % process model have to be picked
-            imshow(s1,'Parent',handles.state_pic)
-            % button ausgrauen
-        case 2
-            % fault configuration have to be picked
-            imshow(s2,'Parent',handles.state_pic)
-        case 3
-            % suggest solution have to be klicked
-            imshow(s3,'Parent',handles.state_pic)
-        case 4
-            % design have to be clicked
-            imshow(s4,'Parent',handles.state_pic)
-        otherwise
-            imshow(s0,'Parent',handles.state_pic)
-    end
-    assignin('base','state_machine',state);
-    set(handles.state_pic, 'Tag', state_Tag);
-else
-    %% if there are no handles, get guihandles
-    handles = guihandles;
-    state_Tag = get(handles.state_pic, 'Tag');
-
-    if(isunix())
-        s0 = imread('gui/pic_state0.png');
-        s1 = imread('gui/pic_state1.png');
-        s2 = imread('gui/pic_state2.png');
-        s3 = imread('gui/pic_state3.png');
-        s4 = imread('gui/pic_state4.png');
-    else
-        s0 = imread('gui\pic_state0.png');
-        s1 = imread('gui\pic_state1.png');
-        s2 = imread('gui\pic_state2.png');
-        s3 = imread('gui\pic_state3.png');
-        s4 = imread('gui\pic_state4.png');
-    end
-
-    switch state
-        case 1
-            % process model have to be picked
-            imshow(s1,'Parent',handles.state_pic)
-            % button ausgrauen
-        case 2
-            % fault configuration have to be picked
-            imshow(s2,'Parent',handles.state_pic)
-        case 3
-            % suggest solution have to be klicked
-            imshow(s3,'Parent',handles.state_pic)
-        case 4
-            % design have to be clicked
-            imshow(s4,'Parent',handles.state_pic)
-        otherwise
-            imshow(s0,'Parent',handles.state_pic)
-    end
-    assignin('base','state_machine',state);
-    set(handles.state_pic, 'Tag', state_Tag);
-end
 
 
 
@@ -1247,3 +1170,32 @@ end
 % hObject    handle to pushbutton_testFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+    
+
+
+% --- Executes on button press in checkbox_greyOut.
+function checkbox_greyOut_Callback(hObject, eventdata, handles)
+try
+    if (get(hObject,'Value') == get(hObject,'Max'))
+        display('Selected');
+        state = evalin('base','state_machine');
+        state_machine(state,handles);
+    else
+        display('Not selected');
+        buttonList = {};
+        greyOutButton(buttonList, handles);
+    end
+catch ME
+        msgID = 'checkbox:greyOutButton';
+        msg = 'Process could not being started!';
+        baseException = MException(msgID,msg);
+        ME = addCause(ME,baseException);
+        throw(ME);
+    end
+% hObject    handle to checkbox_greyOut (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox_greyOut
