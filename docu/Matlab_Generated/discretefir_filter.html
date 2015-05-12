@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Discrete FIR Filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-11"><meta name="DC.source" content="discretefir_filter.m"><style type="text/css">
+      --><title>Discrete FIR Filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-12"><meta name="DC.source" content="discretefir_filter.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -76,6 +76,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
         set_param(<span class="string">'DiscreteFIR_Filter/Discrete FIR Filter/'</span>, <span class="string">'Coefficients'</span>, new_param_string);
         close_system(<span class="string">'Filter/DiscreteFIR_Filter.slx'</span>,1);
 
+        disp(x);
+
         <span class="comment">% evaluate with this configuration</span>
         [fitness, ~] = filter_evaluation;
     <span class="keyword">end</span>
@@ -87,7 +89,7 @@ options = gaoptimset(options,<span class="string">'PopulationSize'</span>,30);
 options = gaoptimset(options,<span class="string">'Generations'</span>,20);
 
 <span class="comment">% run the genetic algorithm</span>
-config = ga(@discreteFIR_fitness,2,[],[],[],[],0,1,[],options);
+config = ga(@discreteFIR_fitness,2,[],[],[],[],[0,0],[1,1],[],options);
 
 <span class="comment">% set the best configuration</span>
 config_string = sprintf(<span class="string">'[%.1f %.1f]'</span>, config(1), config(2));
@@ -122,7 +124,9 @@ function [config_string, quality, dist] = discretefir_filter()
         load_system('Filter/DiscreteFIR_Filter.slx');
         set_param('DiscreteFIR_Filter/Discrete FIR Filter/', 'Coefficients', new_param_string);
         close_system('Filter/DiscreteFIR_Filter.slx',1);
-    
+        
+        disp(x);
+        
         % evaluate with this configuration
         [fitness, ~] = filter_evaluation;
     end
@@ -134,7 +138,7 @@ options = gaoptimset(options,'PopulationSize',30);
 options = gaoptimset(options,'Generations',20);
 
 % run the genetic algorithm
-config = ga(@discreteFIR_fitness,2,[],[],[],[],0,1,[],options);
+config = ga(@discreteFIR_fitness,2,[],[],[],[],[0,0],[1,1],[],options);
 
 % set the best configuration
 config_string = sprintf('[%.1f %.1f]', config(1), config(2));

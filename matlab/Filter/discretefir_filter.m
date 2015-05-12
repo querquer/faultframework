@@ -19,7 +19,9 @@ function [config_string, quality, dist] = discretefir_filter()
         load_system('Filter/DiscreteFIR_Filter.slx');
         set_param('DiscreteFIR_Filter/Discrete FIR Filter/', 'Coefficients', new_param_string);
         close_system('Filter/DiscreteFIR_Filter.slx',1);
-    
+        
+        disp(x);
+        
         % evaluate with this configuration
         [fitness, ~] = filter_evaluation;
     end
@@ -31,7 +33,7 @@ options = gaoptimset(options,'PopulationSize',30);
 options = gaoptimset(options,'Generations',20);
 
 % run the genetic algorithm
-config = ga(@discreteFIR_fitness,2,[],[],[],[],0,1,[],options);
+config = ga(@discreteFIR_fitness,2,[],[],[],[],[0,0],[1,1],[],options);
 
 % set the best configuration
 config_string = sprintf('[%.1f %.1f]', config(1), config(2));
