@@ -1,3 +1,6 @@
+%% greyOutButton
+% grey out all buttons except those in the given string array
+
 function  greyOutButton(buttonList, handles)
 
 %get the list of all buttons in the handles struct

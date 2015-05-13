@@ -20,6 +20,8 @@
 % * <suggest_solution.html suggest_solution>
 % * <start_designing_detector.html start_designing_detector>
 % * <set_filter.html set_filter>
+% * <state_machine.html state_machine>
+% * <greyOutButton.html greyOutButton>
 
 %% Related Graphical User Interfaces
 

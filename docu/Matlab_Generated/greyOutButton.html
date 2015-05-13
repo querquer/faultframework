@@ -1,0 +1,156 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>greyOutButton</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-12"><meta name="DC.source" content="greyOutButton.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">greyOutButton</a></li><li><a href="#3">Iterate over the buttonList and check if the actual button in the list</a></li><li><a href="#4">if the button ist not in the buttonList, we grey him out</a></li></ul></div><h2>greyOutButton<a name="1"></a></h2><p>grey out all buttons except those in the given string array</p><pre class="codeinput"><span class="keyword">function</span>  greyOutButton(buttonList, handles)
+
+<span class="comment">%get the list of all buttons in the handles struct</span>
+pushbuttonHandles = findobj(<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>);
+
+grey = [0.5 0.5 0.5];
+black = [0 0 0];
+
+<span class="keyword">if</span> length(buttonList) == 0
+    <span class="keyword">for</span> idx=1:length(pushbuttonHandles)
+        set(pushbuttonHandles(idx), <span class="string">'ForeGroundColor'</span>, black);
+    <span class="keyword">end</span>
+<span class="keyword">else</span>
+    <span class="comment">%%iterate over all buttons in the gui</span>
+    <span class="keyword">for</span> idx=1:length(pushbuttonHandles)
+        <span class="comment">% get the tag of the actual button</span>
+        buttonArray{idx} = get(pushbuttonHandles(idx), <span class="string">'Tag'</span>);
+
+    <span class="keyword">end</span>
+
+    <span class="keyword">for</span> idx=1:length(pushbuttonHandles)
+</pre><pre class="codeinput">        <span class="comment">% get the tag of the actual button</span>
+        buttonTag = get(pushbuttonHandles(idx), <span class="string">'Tag'</span>);
+
+        isIn = 0;
+</pre><h2>Iterate over the buttonList and check if the actual button in the list<a name="3"></a></h2><pre class="codeinput">        <span class="keyword">for</span> idy=1:length(buttonList)
+            <span class="comment">%if not(strcmp(buttonList{idy},buttonTag))</span>
+            <span class="keyword">if</span> strcmp(buttonList{idy},buttonTag)
+                isIn = 1;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+</pre><h2>if the button ist not in the buttonList, we grey him out<a name="4"></a></h2><pre class="codeinput">        <span class="keyword">if</span> isIn == 0
+            set(pushbuttonHandles(idx), <span class="string">'ForeGroundColor'</span>, grey);
+        <span class="keyword">else</span>
+            set(pushbuttonHandles(idx), <span class="string">'ForeGroundColor'</span>, black);
+        <span class="keyword">end</span>
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% greyOutButton
+% grey out all buttons except those in the given string array
+
+function  greyOutButton(buttonList, handles)
+
+%get the list of all buttons in the handles struct
+pushbuttonHandles = findobj('Style','pushbutton');
+
+grey = [0.5 0.5 0.5];
+black = [0 0 0];
+
+if length(buttonList) == 0
+    for idx=1:length(pushbuttonHandles)
+        set(pushbuttonHandles(idx), 'ForeGroundColor', black);
+    end
+else
+    %%iterate over all buttons in the gui
+    for idx=1:length(pushbuttonHandles)
+        % get the tag of the actual button
+        buttonArray{idx} = get(pushbuttonHandles(idx), 'Tag');
+
+    end
+    
+    for idx=1:length(pushbuttonHandles)
+        % get the tag of the actual button
+        buttonTag = get(pushbuttonHandles(idx), 'Tag');
+
+        isIn = 0;
+
+        %% Iterate over the buttonList and check if the actual button in the list
+        for idy=1:length(buttonList)
+            %if not(strcmp(buttonList{idy},buttonTag))
+            if strcmp(buttonList{idy},buttonTag)
+                isIn = 1;           
+            end
+        end
+
+        %% if the button ist not in the buttonList, we grey him out
+        if isIn == 0
+            set(pushbuttonHandles(idx), 'ForeGroundColor', grey);
+        else 
+            set(pushbuttonHandles(idx), 'ForeGroundColor', black);
+        end
+    end
+end
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,269 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>state_machine</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-12"><meta name="DC.source" content="state_machine.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">state_machine</a></li><li><a href="#3">read the images which are used in the axis element</a></li><li><a href="#4">check through all cased and switch the image and the buttons which will be greyed out</a></li><li><a href="#5">save the new state of the machine to the workspace</a></li><li><a href="#7">if there are no handles, get guihandles</a></li><li><a href="#8">read the images which are used in the axis element</a></li><li><a href="#9">check through all cased and switch the image and the buttons which will be greyed out</a></li><li><a href="#10">save the new state of the machine to the workspace</a></li></ul></div><h2>state_machine<a name="1"></a></h2><p>this state machine represent the states of the user in the main use case of the framework. These states are used to handle the shown figure and the grey out of the buttons.</p><pre class="codeinput"><span class="keyword">function</span> state_machine(state, handles)
+<span class="comment">% check if the handles is empty</span>
+<span class="keyword">if</span>(not(isempty(handles)))
+</pre><pre class="codeinput">    <span class="comment">% save the tag name of the axis of the gui</span>
+    state_Tag = get(handles.state_pic, <span class="string">'Tag'</span>);
+</pre><h2>read the images which are used in the axis element<a name="3"></a></h2><pre class="codeinput">    <span class="keyword">if</span>(isunix())
+        s0 = imread(<span class="string">'gui/pic_state0.png'</span>);
+        s1 = imread(<span class="string">'gui/pic_state1.png'</span>);
+        s2 = imread(<span class="string">'gui/pic_state2.png'</span>);
+        s3 = imread(<span class="string">'gui/pic_state3.png'</span>);
+        s4 = imread(<span class="string">'gui/pic_state4.png'</span>);
+    <span class="keyword">else</span>
+        s0 = imread(<span class="string">'gui\pic_state0.png'</span>);
+        s1 = imread(<span class="string">'gui\pic_state1.png'</span>);
+        s2 = imread(<span class="string">'gui\pic_state2.png'</span>);
+        s3 = imread(<span class="string">'gui\pic_state3.png'</span>);
+        s4 = imread(<span class="string">'gui\pic_state4.png'</span>);
+    <span class="keyword">end</span>
+</pre><h2>check through all cased and switch the image and the buttons which will be greyed out<a name="4"></a></h2><pre class="codeinput">    <span class="keyword">switch</span> state
+        <span class="keyword">case</span> 1
+            <span class="comment">% process model have to be picked</span>
+            imshow(s1,<span class="string">'Parent'</span>,handles.state_pic)
+            buttonList = {<span class="string">'pushbutton_ChooseProcessModel'</span>};
+        <span class="keyword">case</span> 2
+            <span class="comment">% fault configuration have to be picked</span>
+            imshow(s2,<span class="string">'Parent'</span>,handles.state_pic)
+            buttonList = {<span class="string">'pushbutton_chooseFaultKonf'</span>,<span class="string">'pushbutton_setfault'</span>};
+        <span class="keyword">case</span> 3
+            <span class="comment">% suggest solution have to be klicked</span>
+            imshow(s3,<span class="string">'Parent'</span>,handles.state_pic)
+            buttonList = {<span class="string">'pushbutton_sugsol'</span>};
+        <span class="keyword">case</span> 4
+            <span class="comment">% design have to be clicked</span>
+            imshow(s4,<span class="string">'Parent'</span>,handles.state_pic)
+            buttonList = {<span class="string">'pushbutton_desdet'</span>,<span class="string">'pushbutton_desfil'</span>,<span class="string">'pushbutton_filteringDetector'</span>,<span class="string">'pushbutton_deleteDetector'</span>,<span class="string">'pushbutton_deleteFilter'</span>};
+        <span class="keyword">case</span> 5
+            buttonList = {<span class="string">'pushbutton_export_detector'</span>,<span class="string">'pushbutton_export_filter'</span>};
+        <span class="keyword">otherwise</span>
+            buttonList = {};
+            imshow(s0,<span class="string">'Parent'</span>,handles.state_pic)
+    <span class="keyword">end</span>
+    <span class="comment">% grey out the buttons with the specified buttons</span>
+    greyOutButton(buttonList, handles);
+</pre><h2>save the new state of the machine to the workspace<a name="5"></a></h2><pre class="codeinput">    assignin(<span class="string">'base'</span>,<span class="string">'state_machine'</span>,state);
+    set(handles.state_pic, <span class="string">'Tag'</span>, state_Tag);
+</pre><pre class="codeinput"><span class="keyword">else</span>
+</pre><h2>if there are no handles, get guihandles<a name="7"></a></h2><pre class="codeinput">    handles = guihandles;
+    state_Tag = get(handles.state_pic, <span class="string">'Tag'</span>);
+</pre><h2>read the images which are used in the axis element<a name="8"></a></h2><pre class="codeinput">    <span class="keyword">if</span>(isunix())
+        s0 = imread(<span class="string">'gui/pic_state0.png'</span>);
+        s1 = imread(<span class="string">'gui/pic_state1.png'</span>);
+        s2 = imread(<span class="string">'gui/pic_state2.png'</span>);
+        s3 = imread(<span class="string">'gui/pic_state3.png'</span>);
+        s4 = imread(<span class="string">'gui/pic_state4.png'</span>);
+    <span class="keyword">else</span>
+        s0 = imread(<span class="string">'gui\pic_state0.png'</span>);
+        s1 = imread(<span class="string">'gui\pic_state1.png'</span>);
+        s2 = imread(<span class="string">'gui\pic_state2.png'</span>);
+        s3 = imread(<span class="string">'gui\pic_state3.png'</span>);
+        s4 = imread(<span class="string">'gui\pic_state4.png'</span>);
+    <span class="keyword">end</span>
+</pre><h2>check through all cased and switch the image and the buttons which will be greyed out<a name="9"></a></h2><pre class="codeinput">    <span class="keyword">switch</span> state
+        <span class="keyword">case</span> 1
+            <span class="comment">% process model have to be picked</span>
+            imshow(s1,<span class="string">'Parent'</span>,handles.state_pic)
+            buttonList = {<span class="string">'pushbutton_ChooseProcessModel'</span>};
+        <span class="keyword">case</span> 2
+            <span class="comment">% fault configuration have to be picked</span>
+            imshow(s2,<span class="string">'Parent'</span>,handles.state_pic)
+            buttonList = {<span class="string">'pushbutton_chooseFaultKonf'</span>,<span class="string">'pushbutton_setfault'</span>};
+        <span class="keyword">case</span> 3
+            <span class="comment">% suggest solution have to be klicked</span>
+            imshow(s3,<span class="string">'Parent'</span>,handles.state_pic)
+            buttonList = {<span class="string">'pushbutton_sugsol'</span>};
+        <span class="keyword">case</span> 4
+            <span class="comment">% design have to be clicked</span>
+            imshow(s4,<span class="string">'Parent'</span>,handles.state_pic)
+            buttonList = {<span class="string">'pushbutton_desdet'</span>,<span class="string">'pushbutton_desfil'</span>,<span class="string">'pushbutton_filteringDetector'</span>,<span class="string">'pushbutton_deleteDetector'</span>,<span class="string">'pushbutton_deleteFilter'</span>};
+        <span class="keyword">case</span> 5
+            buttonList = {<span class="string">'pushbutton_export_detector'</span>,<span class="string">'pushbutton_export_filter'</span>};
+        <span class="keyword">otherwise</span>
+            buttonList = {};
+            imshow(s0,<span class="string">'Parent'</span>,handles.state_pic)
+    <span class="keyword">end</span>
+    <span class="comment">% grey out the buttons with the specified buttons</span>
+    greyOutButton(buttonList, handles);
+</pre><h2>save the new state of the machine to the workspace<a name="10"></a></h2><pre class="codeinput">    assignin(<span class="string">'base'</span>,<span class="string">'state_machine'</span>,state);
+    set(handles.state_pic, <span class="string">'Tag'</span>, state_Tag);
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% state_machine
+% this state machine represent the states of the user in the main use case
+% of the framework. These states are used to handle the shown figure and
+% the grey out of the buttons.
+
+function state_machine(state, handles) 
+% check if the handles is empty
+if(not(isempty(handles)))
+    % save the tag name of the axis of the gui
+    state_Tag = get(handles.state_pic, 'Tag');
+    
+    
+    %% read the images which are used in the axis element
+    if(isunix())
+        s0 = imread('gui/pic_state0.png');
+        s1 = imread('gui/pic_state1.png');
+        s2 = imread('gui/pic_state2.png');
+        s3 = imread('gui/pic_state3.png');
+        s4 = imread('gui/pic_state4.png');
+    else
+        s0 = imread('gui\pic_state0.png');
+        s1 = imread('gui\pic_state1.png');
+        s2 = imread('gui\pic_state2.png');
+        s3 = imread('gui\pic_state3.png');
+        s4 = imread('gui\pic_state4.png');
+    end
+
+    %% check through all cased and switch the image and the buttons which will be greyed out
+    switch state
+        case 1
+            % process model have to be picked
+            imshow(s1,'Parent',handles.state_pic)
+            buttonList = {'pushbutton_ChooseProcessModel'};
+        case 2
+            % fault configuration have to be picked
+            imshow(s2,'Parent',handles.state_pic)
+            buttonList = {'pushbutton_chooseFaultKonf','pushbutton_setfault'};
+        case 3
+            % suggest solution have to be klicked
+            imshow(s3,'Parent',handles.state_pic)
+            buttonList = {'pushbutton_sugsol'};
+        case 4
+            % design have to be clicked
+            imshow(s4,'Parent',handles.state_pic)
+            buttonList = {'pushbutton_desdet','pushbutton_desfil','pushbutton_filteringDetector','pushbutton_deleteDetector','pushbutton_deleteFilter'};
+        case 5
+            buttonList = {'pushbutton_export_detector','pushbutton_export_filter'};
+        otherwise
+            buttonList = {};
+            imshow(s0,'Parent',handles.state_pic)
+    end
+    % grey out the buttons with the specified buttons
+    greyOutButton(buttonList, handles);
+    
+    %% save the new state of the machine to the workspace
+    assignin('base','state_machine',state);
+    set(handles.state_pic, 'Tag', state_Tag);
+else
+    %% if there are no handles, get guihandles
+    handles = guihandles;
+    state_Tag = get(handles.state_pic, 'Tag');
+    
+    %% read the images which are used in the axis element
+    if(isunix())
+        s0 = imread('gui/pic_state0.png');
+        s1 = imread('gui/pic_state1.png');
+        s2 = imread('gui/pic_state2.png');
+        s3 = imread('gui/pic_state3.png');
+        s4 = imread('gui/pic_state4.png');
+    else
+        s0 = imread('gui\pic_state0.png');
+        s1 = imread('gui\pic_state1.png');
+        s2 = imread('gui\pic_state2.png');
+        s3 = imread('gui\pic_state3.png');
+        s4 = imread('gui\pic_state4.png');
+    end
+
+    %% check through all cased and switch the image and the buttons which will be greyed out
+    switch state
+        case 1
+            % process model have to be picked
+            imshow(s1,'Parent',handles.state_pic)
+            buttonList = {'pushbutton_ChooseProcessModel'};
+        case 2
+            % fault configuration have to be picked
+            imshow(s2,'Parent',handles.state_pic)
+            buttonList = {'pushbutton_chooseFaultKonf','pushbutton_setfault'};
+        case 3
+            % suggest solution have to be klicked
+            imshow(s3,'Parent',handles.state_pic)
+            buttonList = {'pushbutton_sugsol'};
+        case 4
+            % design have to be clicked
+            imshow(s4,'Parent',handles.state_pic)
+            buttonList = {'pushbutton_desdet','pushbutton_desfil','pushbutton_filteringDetector','pushbutton_deleteDetector','pushbutton_deleteFilter'};
+        case 5
+            buttonList = {'pushbutton_export_detector','pushbutton_export_filter'};
+        otherwise
+            buttonList = {};
+            imshow(s0,'Parent',handles.state_pic)
+    end
+    % grey out the buttons with the specified buttons
+    greyOutButton(buttonList, handles);
+    
+    %% save the new state of the machine to the workspace
+    assignin('base','state_machine',state);
+    set(handles.state_pic, 'Tag', state_Tag);
+end
+##### SOURCE END #####
+--></body></html>
