@@ -50,7 +50,8 @@ toWorkspace = 1;
 % each fault combination.
 % The amount of fault combinations is determined by 2^(number of activated faults).
 num_data = 2^num_faults;
-phase_length = (SimLength/num_data)*(1/SampleTime);
+phase_length = (1/SampleTime)*SimLength;
+
 
 faulty_data_struct = struct();
 for idx=1:num_data
@@ -87,24 +88,40 @@ end
 % run. There is one element for each fault.
 % The order is determined by the Trigger Bus and is based on the fault ids
 % in the fault configuration files.
-trigger_struct = evalin('base','trigger');
+trigger_temp = evalin('base','trigger');
 
-trigger_arr(1).data = double(trigger_struct(1).value_correlated_offset.data);
-trigger_arr(2).data = double(trigger_struct(1).time_correlated_offset.data);
-trigger_arr(3).data = double(trigger_struct(1).value_correlated_noise.data);
-trigger_arr(4).data = double(trigger_struct(1).time_correlated_noise.data);
-trigger_arr(5).data = double(trigger_struct(1).const_offset.data);
-trigger_arr(6).data = double(trigger_struct(1).const_noise.data);
-trigger_arr(7).data = double(trigger_struct(1).outlier.data);
-trigger_arr(8).data = double(trigger_struct(1).spike.data);
-trigger_arr(9).data = double(trigger_struct(1).stuck_at_zero.data);
-trigger_arr(10).data = double(trigger_struct(1).stuck_at_x.data);
-trigger_arr(11).data = double(trigger_struct(1).saturation.data);
-trigger_arr(12).data = double(trigger_struct(1).const_delay.data);
-trigger_arr(13).data = double(trigger_struct(1).time_correlated_delay.data);
+trigger_arr(1).data = double(trigger_temp(1).value_correlated_offset.data);
+trigger_arr(2).data = double(trigger_temp(1).time_correlated_offset.data);
+trigger_arr(3).data = double(trigger_temp(1).value_correlated_noise.data);
+trigger_arr(4).data = double(trigger_temp(1).time_correlated_noise.data);
+trigger_arr(5).data = double(trigger_temp(1).const_offset.data);
+trigger_arr(6).data = double(trigger_temp(1).const_noise.data);
+trigger_arr(7).data = double(trigger_temp(1).outlier.data);
+trigger_arr(8).data = double(trigger_temp(1).spike.data);
+trigger_arr(9).data = double(trigger_temp(1).stuck_at_zero.data);
+trigger_arr(10).data = double(trigger_temp(1).stuck_at_x.data);
+trigger_arr(11).data = double(trigger_temp(1).saturation.data);
+trigger_arr(12).data = double(trigger_temp(1).const_delay.data);
+trigger_arr(13).data = double(trigger_temp(1).time_correlated_delay.data);
 
 if(toWorkspace == 1)
     assignin('base','trigger_arr',trigger_arr);
+end
+
+%% trigger struct
+
+for idx=1:num_data
+    array_start = int32(phase_length*(idx-1)+2);
+    array_end = int32(phase_length*idx);
+     
+    for idy=1:13
+        trigger_struct(idy,idx).data = trigger_arr(idy).data(array_start:array_end);
+    end
+    
+end
+
+if(toWorkspace == 1)
+    assignin('base','trigger_struct',trigger_struct);
 end
 
 %% Builds a struct array which contains the trigger belonging to the data single fault array
@@ -116,12 +133,11 @@ for idy = 1+1:num_faults+1
     phase_start = int32(phase_length*(idy-1)+2);
     phase_end = int32(phase_length*idy);     
     
-    
-    trigger_vec = findTrigger(trigger_arr,idy,phase_length);
+    runTime = (1/SampleTime)*SimLength;
+    trigger_vec = findTrigger(trigger_arr,idy,runTime);
 
     for idz = 1:length(trigger_vec)
         if(trigger_vec(idz) == 1)
-            display('im here')
             curr_trigger = transpose(trigger_arr(idz).data);
             trigger_singlefault_temp(counter).name = char(fault_types(idz));
             trigger_singlefault_temp(counter).data = getsamples(curr_trigger,[phase_start:phase_end]);

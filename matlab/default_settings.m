@@ -52,10 +52,10 @@ catch
 
     % data ordner
     if(isunix())
-        Path_Data = '/Data/02';
+        Path_Data = '/Data/03';
     else
 
-        Path_Data = '\Data\02';
+        Path_Data = '\Data\03';
     end
     assignin('base','Path_Data',Path_Data);
     

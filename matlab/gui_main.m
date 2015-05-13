@@ -323,7 +323,7 @@ if(des == 1)
         display('Faulty data were successfuly generated!');
 
 
-        convertFaultyData2;
+        convertFaultyData;
         display('Converting faulty data was successful!');  
 
 
@@ -362,7 +362,7 @@ if(des == 1)
         display('Faulty data were successfuly generated!');
 
  
-        convertFaultyData2;
+        convertFaultyData;
         display('Converting faulty data was successful!');  
 
         data_multifault = evalin('base','data_multifault');
@@ -1149,7 +1149,7 @@ if(des == 1)
         runScheduleModeFromGenData;
         display('Faulty data were successfuly generated!');
 
-        convertFaultyData2;
+        convertFaultyData;
         display('Converting faulty data was successful!');  
         
         warning off all
