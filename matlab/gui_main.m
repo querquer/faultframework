@@ -623,10 +623,12 @@ if(des == 1)
         name = FileName_Filter;
         warning off all
         if(isunix())
-            add_filter(name, [pwd '/Data/02']);
+            new_filter_collector = test_filter_to_add(name, [pwd '/Data/03']);
         else
-            add_filter(name, [pwd '\Data/02']);
+            new_filter_collector = test_filter_to_add(name, [pwd '\Data\03']);
         end
+        assignin('base', 'X', new_filter_collector);
+        
         warning on all
         
         display('Successfully finished: add_filter');
