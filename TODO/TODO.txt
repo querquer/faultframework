@@ -27,10 +27,12 @@ Georg:
 
 Jonas:
 	- quality check umbenennen
-	- Filter testen bevor hinzufügen
 	- Fourier Analyse zur Classifikation des Prozessmodells
-	- SimLength_Schedule bauen bei Add_Filter
-	- Filter Filter bauen
+	- doku und test von: 
+		-> add_filter
+		-> test_filter_to_add
+		-> filterSuggestedFilter
+
 	
 Alle zusammen:     Baum.
 	- Übersicht wer hat was gemacht?
