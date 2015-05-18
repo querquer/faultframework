@@ -98,8 +98,6 @@
 
 function [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data_multifault, data_eval_multifault, data_singlefault, trigger_multifault, trigger_eval_multifault, trigger_singlefault, sampletime, grad_thr, path_and_name, path_detector, evaluation_model)
 
-%% TODO 
-% Implement checking of all input-values to be formated correctly.
 %get function handles
 [fun_starting_point,fun_config_dependend_output, fun_create, fun_ga_options] = find_functions(path_detector);
 

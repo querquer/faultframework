@@ -42,6 +42,17 @@ function [config, quality, dist] = get_config(model_file)
 %   examples. If not, you will get zero as configuration and the default
 %   configuration will be used.
 
+% try to open a parallelisation pool in order to enable possible
+% sub-routines to make use of it.
+use_parallel = true;
+
+try
+    if(use_parallel)
+        pool = parpool();
+    end
+catch err
+end
+
 set_filter(model_file);
 
 % start the configurationfunction of the filter

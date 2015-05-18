@@ -895,7 +895,7 @@ try
     warning off all
     [det, fil] = suggest_solution( dynamic, failures);
     
-    det = filterSuggestedDetectors(det, str2num(fnrate), str2num(fprate), names);
+    det = filterSuggestedDetectors(det, str2num(fnrate), str2num(fprate), {names});
     warning on all
     
     update_tables(det, fil, handles);

@@ -66,10 +66,10 @@ unsigned int sf_Median_Filter0_process_check_sum_call( int nlhs, mxArray * plhs[
       ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(0U);
       ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(0U);
     } else if (!strcmp(commandName,"makefile")) {
-      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1416848296U);
-      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1169931250U);
-      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2660931856U);
-      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1887436555U);
+      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2164260795U);
+      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1900345440U);
+      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3294380793U);
+      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(3153102366U);
     } else if (nrhs==3 && !strcmp(commandName,"chart")) {
       unsigned int chartFileNumber;
       chartFileNumber = (unsigned int)mxGetScalar(prhs[2]);
@@ -88,18 +88,18 @@ unsigned int sf_Median_Filter0_process_check_sum_call( int nlhs, mxArray * plhs[
         ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(0.0);
       }
     } else if (!strcmp(commandName,"target")) {
-      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3031367619U);
-      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(4001028638U);
-      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3978939492U);
-      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(838979348U);
+      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2083502392U);
+      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1110276785U);
+      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3258378658U);
+      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(3926592909U);
     } else {
       return 0;
     }
   } else {
-    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2596971078U);
-    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2677244465U);
-    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(4091495126U);
-    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1081887444U);
+    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1597032107U);
+    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3528741962U);
+    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(4077461776U);
+    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(3998679444U);
   }
 
   return 1;
