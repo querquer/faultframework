@@ -43,11 +43,11 @@ if(not(isempty(handles)))
             buttonList = {'pushbutton_sugsol'};
         case 4
             % click on a emelemnt in the table
-            buttonList = {};
+            buttonList = {'pushbutton_filteringDetector','pushbutton_filteringFilter','pushbutton_deleteDetector','pushbutton_deleteFilter'};
         case 5
             % design have to be clicked
             imshow(s4,'Parent',handles.state_pic)
-            buttonList = {'pushbutton_desdet','pushbutton_desfil','pushbutton_filteringDetector','pushbutton_deleteDetector','pushbutton_deleteFilter'};
+            buttonList = {'pushbutton_desdet','pushbutton_desfil'};
         case 6
             buttonList = {'pushbutton_export_detector','pushbutton_export_filter'};
         otherwise
@@ -99,11 +99,11 @@ else
             buttonList = {'pushbutton_sugsol'};
         case 4
             % click on a emelemnt in the table
-            buttonList = {};
+            buttonList = {'pushbutton_filteringDetector','pushbutton_filteringFilter','pushbutton_deleteDetector','pushbutton_deleteFilter'};
         case 5
             % design have to be clicked
             imshow(s4,'Parent',handles.state_pic)
-            buttonList = {'pushbutton_desdet','pushbutton_desfil','pushbutton_filteringDetector','pushbutton_deleteDetector','pushbutton_deleteFilter'};
+            buttonList = {'pushbutton_desdet','pushbutton_desfil'};
         case 6
             buttonList = {'pushbutton_export_detector','pushbutton_export_filter'};
         otherwise

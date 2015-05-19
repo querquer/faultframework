@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 19-May-2015 13:21:53
+% Last Modified by GUIDE v2.5 19-May-2015 14:24:08
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -426,15 +426,6 @@ catch ME
     ME = addCause(ME,baseException);
     throw(ME);
 end
-try
-    dynamic = evalin('base','prozess_dynamic');
-catch ME
-    msgID = 'sugSol:NoDynamic';
-    msg = 'Could not find variable: prozess_dynamic. Please run classify processmodel at first!';
-    baseException = MException(msgID,msg);
-    ME = addCause(ME,baseException);
-    throw(ME);
-end
 try  
     fh = str2func(evalin('base','classify_method_name'));
     warning off all 
@@ -449,7 +440,7 @@ try
     display('Start function: suggest_solution');
     
     warning off all
-    [det, fil] = suggest_solution( dynamic, failures);
+    [det, fil] = suggest_solution( prozess_dynamic, failures);
     warning on all
 
     update_tables(det, fil, handles);
@@ -878,30 +869,29 @@ state_machine(1, handles);
 % handles    empty - handles not created until after all CreateFcns called
 
 
-% --- Executes on button press in pushbutton_filteringDetector.
-function pushbutton_filteringDetector_Callback(hObject, eventdata, handles)
+% --- Executes on button press in pushbutton_filteringFilter.
+function pushbutton_filteringFilter_Callback(hObject, eventdata, handles)
 try
-    display('Start function: filterDetector');
+    display('Start function: filterSuggestedFilters');
     
     failures = evalin('base','act_vec');
     dynamic = evalin('base','prozess_dynamic');
     
-    names = get(handles.edit_filteringDet_name, 'string');
-    fprate = get(handles.edit_filteringDet_fprate, 'string');
-    fnrate = get(handles.edit_filteringDet_fnrate, 'string');
+    names = get(handles.edit_filteringFil_name, 'string');
+    quality = get(handles.edit_filteringFil_quality, 'string');
+    dist = get(handles.edit_filteringFil_dist, 'string');
 
-    
     warning off all
     [det, fil] = suggest_solution( dynamic, failures);
     
-    det = filterSuggestedDetectors(det, str2num(fnrate), str2num(fprate), {names});
+    fil = filterSuggestedFilters(fil, str2num(quality), str2num(dist), {names});
     warning on all
     
     update_tables(det, fil, handles);
 
-    display('Successfully finished: filterDetector');
+    display('Successfully finished: filterSuggestedFilters');
 catch ME
-    msgID = 'pushbutton:filterDetectors';
+    msgID = 'pushbutton:filterFilter';
     msg = 'Process could not being started!';
     baseException = MException(msgID,msg);
     ME = addCause(ME,baseException);
@@ -909,7 +899,7 @@ catch ME
     
 end
 
-% hObject    handle to pushbutton_filteringDetector (see GCBO)
+% hObject    handle to pushbutton_filteringFilter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -985,7 +975,6 @@ end
 
 function update_tables(det, fil, handles)
 try
-    display('Start function: updateTables');
     
     %% update detector table table
     if(length(det) > 0)
@@ -1034,10 +1023,7 @@ try
         fil_cell{1,3} = '';
     end
     set(handles.filterTable,'data',fil_cell);
-    %%
-    
-    
-    display('Successfully finished: updateTables');
+ 
     
 catch ME
     msgID = 'function:updateTable';
@@ -1222,5 +1208,85 @@ if FileName_PM > 0
     state_machine(2, handles);
 end
 % hObject    handle to pushbutton_ChooseProcessModel (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function edit_filteringFil_quality_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_filteringFil_quality (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_filteringFil_quality as text
+%        str2double(get(hObject,'String')) returns contents of edit_filteringFil_quality as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_filteringFil_quality_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_filteringFil_quality (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit_filteringFil_dist_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_filteringFil_dist (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_filteringFil_dist as text
+%        str2double(get(hObject,'String')) returns contents of edit_filteringFil_dist as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_filteringFil_dist_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_filteringFil_dist (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton_filteringDetector.
+function pushbutton_filteringDetector_Callback(hObject, eventdata, handles)
+try
+    display('Start function: filterSuggestedDetectors');
+    
+    failures = evalin('base','act_vec');
+    dynamic = evalin('base','prozess_dynamic');
+    
+    names = get(handles.edit_filteringDet_name, 'string');
+    fprate = get(handles.edit_filteringDet_fprate, 'string');
+    fnrate = get(handles.edit_filteringDet_fnrate, 'string');
+
+    warning off all
+    [det, fil] = suggest_solution( dynamic, failures);
+    
+    det = filterSuggestedDetectors(det,str2num(fnrate), str2num(fprate), {names});
+    warning on all
+    
+    update_tables(det, fil, handles);
+
+    display('Successfully finished: filterSuggestedDetectors');
+catch ME
+    msgID = 'pushbutton:filterFilter';
+    msg = 'Process could not being started!';
+    baseException = MException(msgID,msg);
+    ME = addCause(ME,baseException);
+    throw(ME);
+    
+end
+% hObject    handle to pushbutton_filteringDetector (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
