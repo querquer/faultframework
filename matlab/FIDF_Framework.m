@@ -181,7 +181,7 @@ end
 function pushbutton_classify_Callback(hObject, eventdata, handles)
 try  
     method_name = evalin('base','classify_method_name');
-    display('Start function: classify process model');
+    display(['Start function: ' method_name]);
     
     fh = str2func(method_name);
     
@@ -189,7 +189,8 @@ try
     prozess_dynamic = fh(evalin('base','FileName_PM'),(evalin('base','SimLength')));
     warning on all
     
-    display('Successfully finished: classify process model');
+    display(['Successfully finished: ' method_name]);
+    display(['Prcessmodel classified as [' num2str(prozess_dynamic) '] with the funcion [' method_name ']']);
     assignin('base','prozess_dynamic',prozess_dynamic);
 catch 
     display('Error: Could not classify the process model!');
@@ -752,6 +753,10 @@ if FileName_FaultKonf > 0
     assignin('base','PathName_FaultKonf',PathName_FaultKonf);
     loadFaultKonf(FileName_FaultKonf);
     countFaults(FileName_FaultKonf);
+    act_vec = evalin('base','act_vec');
+    types = actVec2str(act_vec);
+    display('The following fault types are activated:');
+    display(types);
     state_machine(3, handles);
     display('Fault configuration were successfully loaded!');
 end

@@ -10,16 +10,11 @@ additional stuff:
 	- GUI Data generation(additional)
 
 Neu 12.5.2015:
-	- /data -> neue Generieren mit gleichem Zeitstempel
-	- Rename GUI Name
-	- Delete Filter Button Rechtschreibung
+
 	- Comando Line
-	- disable gray out Import Panel
-	- Workflow statt State Maschiene (Beschriftung)
-	- Bild drehen und darunter Packen
-	- Classify Process Model Ausgabe
-	- Fehlercombi ausgeben (Optional)
-	- Design ausgrauen erst wenn Filter gewählt und rote Schrift weg machen
+
+
+
 	- Debug update Table
 
 Georg:

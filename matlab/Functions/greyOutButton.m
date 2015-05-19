@@ -37,8 +37,10 @@ else
 
         %% if the button ist not in the buttonList, we grey him out
         if isIn == 0
+            set(pushbuttonHandles(idx),'Enable','off'); 
             set(pushbuttonHandles(idx), 'ForeGroundColor', grey);
         else 
+            set(pushbuttonHandles(idx),'Enable','on');
             set(pushbuttonHandles(idx), 'ForeGroundColor', black);
         end
     end
