@@ -22,7 +22,7 @@ function varargout = main_gui(varargin)
 
 % Edit the above text to modify the response to help main_gui
 
-% Last Modified by GUIDE v2.5 11-May-2015 13:01:23
+% Last Modified by GUIDE v2.5 19-May-2015 13:21:53
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -315,9 +315,6 @@ if(des == 1)
     try
         display('Start function: start_designing_filter');
         
-        popuptext = findobj(gcf,'Tag','popuptext_fil');
-        set(popuptext,'Visible','Off');
-
 
         runScheduleModeFromGenData;
         display('Faulty data were successfuly generated!');
@@ -332,7 +329,7 @@ if(des == 1)
         [config, quality, dist] = get_config(strcat(tableSelection_filter_name,'.slx'));
         result_filter(config, quality, dist);
         
-        state_machine(5, handles);
+        state_machine(6, handles);
         display('Successfully finished: start_designing_filter');
     catch ME
         msgID = 'pushbutton:desfil_Callback';
@@ -353,10 +350,6 @@ des = gui_continue();
 if(des == 1)
     try
         display('Start function: start_designing_detector');
-        
-        popuptext = findobj(gcf,'Tag','popuptext_det');
-        set(popuptext,'Visible','Off');
-
 
         runScheduleModeFromGenData;
         display('Faulty data were successfuly generated!');
@@ -406,7 +399,7 @@ if(des == 1)
         result_detector(fn,fp);
         close_system('Designed_Detector_TEMP');
         
-        state_machine(5, handles);
+        state_machine(6, handles);
         display('Successfully finished: start_designing_detector');
     catch ME
         msgID = 'pushbutton:desdet_Callback';
@@ -460,8 +453,7 @@ try
 
     update_tables(det, fil, handles);
   
-    set(handles.popuptext_det,'Visible','On');
-    set(handles.popuptext_fil,'Visible','On');
+
     state_machine(4, handles);
     
     display('Successfully finished: suggest_solution');
@@ -498,6 +490,7 @@ while(isempty(tableSelection_detector_name) && temp < 50)
 end
 assignin('base','tableSelection_detector_path',tableSelection_detector_path);
 assignin('base','tableSelection_detector_name',tableSelection_detector_name);
+state_machine(5, handles);
 %path_detector
 %selection_sum = sum(sum(selected_vals))
 % hObject    handle to detectorTable (see GCBO)
@@ -521,6 +514,7 @@ while(isempty(tableSelection_filter_name) && temp < 50)
     temp = temp + 1;
 end
 assignin('base','tableSelection_filter_name',tableSelection_filter_name);
+state_machine(5, handles);
 % hObject    handle to filterTable (see GCBO)
 % eventdata  structure with the following fields (see UITABLE)
 %	Indices: row and column indices of the cell(s) currently selecteds

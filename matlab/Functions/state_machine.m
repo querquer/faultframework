@@ -9,6 +9,8 @@ if(not(isempty(handles)))
     % save the tag name of the axis of the gui
     state_Tag = get(handles.state_pic, 'Tag');
     
+    % buttons which dont have to grey out in any state
+    buttonListStatic = {'pushbutton_chooseDetector','pushbutton_chooseFilter','pushbutton_testDetector','pushbutton_testFilter','pushbutton_addDetctor','pushbutton_addFilter'};
     
     %% read the images which are used in the axis element
     if(isunix())
@@ -40,17 +42,20 @@ if(not(isempty(handles)))
             imshow(s3,'Parent',handles.state_pic)
             buttonList = {'pushbutton_sugsol'};
         case 4
+            % click on a emelemnt in the table
+            buttonList = {};
+        case 5
             % design have to be clicked
             imshow(s4,'Parent',handles.state_pic)
             buttonList = {'pushbutton_desdet','pushbutton_desfil','pushbutton_filteringDetector','pushbutton_deleteDetector','pushbutton_deleteFilter'};
-        case 5
+        case 6
             buttonList = {'pushbutton_export_detector','pushbutton_export_filter'};
         otherwise
             buttonList = {};
             imshow(s0,'Parent',handles.state_pic)
     end
     % grey out the buttons with the specified buttons
-    greyOutButton(buttonList, handles);
+    greyOutButton([buttonList buttonListStatic], handles);
     
     %% save the new state of the machine to the workspace
     assignin('base','state_machine',state);
@@ -60,6 +65,9 @@ else
     handles = guihandles;
     state_Tag = get(handles.state_pic, 'Tag');
     
+    % buttons which dont have to grey out in any state
+    buttonListStatic = {'pushbutton_chooseDetector','pushbutton_chooseFilter','pushbutton_testDetector','pushbutton_testFilter','pushbutton_addDetctor','pushbutton_addFilter'};
+   
     %% read the images which are used in the axis element
     if(isunix())
         s0 = imread('gui/pic_state0.png');
@@ -90,17 +98,20 @@ else
             imshow(s3,'Parent',handles.state_pic)
             buttonList = {'pushbutton_sugsol'};
         case 4
+            % click on a emelemnt in the table
+            buttonList = {};
+        case 5
             % design have to be clicked
             imshow(s4,'Parent',handles.state_pic)
             buttonList = {'pushbutton_desdet','pushbutton_desfil','pushbutton_filteringDetector','pushbutton_deleteDetector','pushbutton_deleteFilter'};
-        case 5
+        case 6
             buttonList = {'pushbutton_export_detector','pushbutton_export_filter'};
         otherwise
             buttonList = {};
             imshow(s0,'Parent',handles.state_pic)
     end
     % grey out the buttons with the specified buttons
-    greyOutButton(buttonList, handles);
+    greyOutButton([buttonList buttonListStatic], handles);
     
     %% save the new state of the machine to the workspace
     assignin('base','state_machine',state);

@@ -1,35 +1,35 @@
-function varargout = gui_second(varargin)
-% GUI_SECOND MATLAB code for gui_second.fig
-%      GUI_SECOND, by itself, creates a new GUI_SECOND or raises the existing
+function varargout = FIDF_Testing(varargin)
+% FIDF_TESTING MATLAB code for FIDF_Testing.fig
+%      FIDF_TESTING, by itself, creates a new FIDF_TESTING or raises the existing
 %      singleton*.
 %
-%      H = GUI_SECOND returns the handle to a new GUI_SECOND or the handle to
+%      H = FIDF_TESTING returns the handle to a new FIDF_TESTING or the handle to
 %      the existing singleton*.
 %
-%      GUI_SECOND('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in GUI_SECOND.M with the given input arguments.
+%      FIDF_TESTING('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in FIDF_TESTING.M with the given input arguments.
 %
-%      GUI_SECOND('Property','Value',...) creates a new GUI_SECOND or raises the
+%      FIDF_TESTING('Property','Value',...) creates a new FIDF_TESTING or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before gui_second_OpeningFcn gets called.  An
+%      applied to the GUI before FIDF_Testing_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to gui_second_OpeningFcn via varargin.
+%      stop.  All inputs are passed to FIDF_Testing_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help gui_second
+% Edit the above text to modify the response to help FIDF_Testing
 
-% Last Modified by GUIDE v2.5 19-May-2015 12:57:07
+% Last Modified by GUIDE v2.5 19-May-2015 13:22:58
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @gui_second_OpeningFcn, ...
-                   'gui_OutputFcn',  @gui_second_OutputFcn, ...
+                   'gui_OpeningFcn', @FIDF_Testing_OpeningFcn, ...
+                   'gui_OutputFcn',  @FIDF_Testing_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -44,26 +44,26 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before gui_second is made visible.
-function gui_second_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before FIDF_Testing is made visible.
+function FIDF_Testing_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to gui_second (see VARARGIN)
+% varargin   command line arguments to FIDF_Testing (see VARARGIN)
 
-% Choose default command line output for gui_second
+% Choose default command line output for FIDF_Testing
 handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes gui_second wait for user response (see UIRESUME)
+% UIWAIT makes FIDF_Testing wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = gui_second_OutputFcn(hObject, eventdata, handles) 
+function varargout = FIDF_Testing_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
