@@ -4,18 +4,16 @@ Maik:
 	- anzeige test detector
 	
 additional stuff:
-	- logging to console + unique header
 	- Working-Bildchen	
-	- rework docu to the new changes	
+
 	- GUI Data generation(additional)
 
 Neu 12.5.2015:
 
 	- Comando Line
 
+	- rework docu 
 
-
-	- Debug update Table
 
 Georg:
 	- HMM Fehler zero transisiton

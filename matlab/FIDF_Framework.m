@@ -602,18 +602,11 @@ if(des == 1)
     try
         display('Start function: add_filter');
         
-        FileName_Filter = evalin('base','FileName_Filter');
-        PathName_Filter = evalin('base','PathName_Filter');
+        new_filter_collector = evalin('base','new_filter_collector');
+        Path_Data = evalin('base','Path_Data');
 
-        si = size(FileName_Filter);
-        name = FileName_Filter;
         warning off all
-        if(isunix())
-            test_filter(name, [pwd '/Data/03']);
-        else
-            test_filter(name, [pwd '\Data\03']);
-        end
-        
+        add_filter(new_filter_collector, [pwd Path_Data]);
         warning on all
         
         display('Successfully finished: add_filter');
@@ -805,21 +798,6 @@ end
 % hObject    handle to pushbutton_classify_method (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes during object creation, after setting all properties.
-function state_pic_CreateFcn(hObject, eventdata, handles)   
-state_machine(1, handles);
-% hObject    handle to state_pic (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: place code in OpeningFcn to populate state_pic
-
-% state machine to represent the actual state of process
-% Input: 0 ->  keep state, do imshow
-% Input: 1 ->  next state, do imshow
-% Input: -1 -> back state, do imshow
 
 
 
@@ -1128,21 +1106,16 @@ des = gui_continue();
 if(des == 1)
     try
         display('Start function: testFilter');
-
         FileName_Filter = evalin('base','FileName_Filter');
-        PathName_Filter = evalin('base','PathName_Filter');
-        
-        runScheduleModeFromGenData;
-        display('Faulty data were successfuly generated!');
-
-        convertFaultyData;
-        display('Converting faulty data was successful!');  
+        Path_Data = evalin('base','Path_Data');
         
         warning off all
-        [ quality, dist ]  = test_filter( FileName_Filter);
+        new_filter_collector = test_filter_to_add( FileName_Filter, [pwd Path_Data] );
         warning on all
         
-        result_testFilter(quality, dist);
+        assignin('base','new_filter_collector',new_filter_collector);
+        
+        %result_testFilter(quality, dist);
 
         display('Successfully finished: testFilter');
     catch ME

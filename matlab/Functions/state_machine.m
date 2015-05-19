@@ -5,115 +5,92 @@
 
 function state_machine(state, handles) 
 % check if the handles is empty
-if(not(isempty(handles)))
-    % save the tag name of the axis of the gui
-    state_Tag = get(handles.state_pic, 'Tag');
-    
+if(not(isempty(handles)))   
     % buttons which dont have to grey out in any state
     buttonListStatic = {'pushbutton_chooseDetector','pushbutton_chooseFilter','pushbutton_testDetector','pushbutton_testFilter','pushbutton_addDetctor','pushbutton_addFilter'};
     
-    %% read the images which are used in the axis element
-    if(isunix())
-        s0 = imread('gui/pic_state0.png');
-        s1 = imread('gui/pic_state1.png');
-        s2 = imread('gui/pic_state2.png');
-        s3 = imread('gui/pic_state3.png');
-        s4 = imread('gui/pic_state4.png');
-    else
-        s0 = imread('gui\pic_state0.png');
-        s1 = imread('gui\pic_state1.png');
-        s2 = imread('gui\pic_state2.png');
-        s3 = imread('gui\pic_state3.png');
-        s4 = imread('gui\pic_state4.png');
-    end
+
 
     %% check through all cased and switch the image and the buttons which will be greyed out
     switch state
         case 1
             % process model have to be picked
-            imshow(s1,'Parent',handles.state_pic)
             buttonList = {'pushbutton_ChooseProcessModel'};
+            text_string = 'Choose Process Model';
         case 2
             % fault configuration have to be picked
-            imshow(s2,'Parent',handles.state_pic)
             buttonList = {'pushbutton_chooseFaultKonf','pushbutton_setfault'};
+            text_string = 'Choose Fault Konfiguration';
         case 3
             % suggest solution have to be klicked
-            imshow(s3,'Parent',handles.state_pic)
             buttonList = {'pushbutton_sugsol'};
+            text_string = 'Suggest Solution';
         case 4
             % click on a emelemnt in the table
             buttonList = {'pushbutton_filteringDetector','pushbutton_filteringFilter','pushbutton_deleteDetector','pushbutton_deleteFilter'};
+            text_string = 'Select Element from Table';
         case 5
             % design have to be clicked
-            imshow(s4,'Parent',handles.state_pic)
             buttonList = {'pushbutton_desdet','pushbutton_desfil'};
+            text_string = 'Design Detector or Filter';
         case 6
             buttonList = {'pushbutton_export_detector','pushbutton_export_filter'};
+            text_string = 'Export Detector or Filter';
         otherwise
             buttonList = {};
-            imshow(s0,'Parent',handles.state_pic)
+            text_string = 'error';
     end
     % grey out the buttons with the specified buttons
     greyOutButton([buttonList buttonListStatic], handles);
     
+    % display the new state via text element
+    set(handles.staticText_state,'string',text_string);
+    
     %% save the new state of the machine to the workspace
     assignin('base','state_machine',state);
-    set(handles.state_pic, 'Tag', state_Tag);
 else
     %% if there are no handles, get guihandles
     handles = guihandles;
-    state_Tag = get(handles.state_pic, 'Tag');
     
     % buttons which dont have to grey out in any state
     buttonListStatic = {'pushbutton_chooseDetector','pushbutton_chooseFilter','pushbutton_testDetector','pushbutton_testFilter','pushbutton_addDetctor','pushbutton_addFilter'};
    
-    %% read the images which are used in the axis element
-    if(isunix())
-        s0 = imread('gui/pic_state0.png');
-        s1 = imread('gui/pic_state1.png');
-        s2 = imread('gui/pic_state2.png');
-        s3 = imread('gui/pic_state3.png');
-        s4 = imread('gui/pic_state4.png');
-    else
-        s0 = imread('gui\pic_state0.png');
-        s1 = imread('gui\pic_state1.png');
-        s2 = imread('gui\pic_state2.png');
-        s3 = imread('gui\pic_state3.png');
-        s4 = imread('gui\pic_state4.png');
-    end
 
     %% check through all cased and switch the image and the buttons which will be greyed out
     switch state
         case 1
             % process model have to be picked
-            imshow(s1,'Parent',handles.state_pic)
             buttonList = {'pushbutton_ChooseProcessModel'};
+            text_string = 'Choose Process Model';
         case 2
             % fault configuration have to be picked
-            imshow(s2,'Parent',handles.state_pic)
             buttonList = {'pushbutton_chooseFaultKonf','pushbutton_setfault'};
+            text_string = 'Choose Fault Konfiguration';
         case 3
             % suggest solution have to be klicked
-            imshow(s3,'Parent',handles.state_pic)
             buttonList = {'pushbutton_sugsol'};
+            text_string = 'Press Suggest Solution';
         case 4
             % click on a emelemnt in the table
             buttonList = {'pushbutton_filteringDetector','pushbutton_filteringFilter','pushbutton_deleteDetector','pushbutton_deleteFilter'};
+            text_string = 'Select Element from Table';
         case 5
             % design have to be clicked
-            imshow(s4,'Parent',handles.state_pic)
             buttonList = {'pushbutton_desdet','pushbutton_desfil'};
+            text_string = 'Design Detector or Filter';
         case 6
             buttonList = {'pushbutton_export_detector','pushbutton_export_filter'};
+            text_string = 'Export Detector or Filter';
         otherwise
             buttonList = {};
-            imshow(s0,'Parent',handles.state_pic)
+            text_string = 'error';
     end
     % grey out the buttons with the specified buttons
     greyOutButton([buttonList buttonListStatic], handles);
     
+    % display the new state via text element
+     set(handles.staticText_state,'string',text_string);
+    
     %% save the new state of the machine to the workspace
     assignin('base','state_machine',state);
-    set(handles.state_pic, 'Tag', state_Tag);
 end

@@ -24,7 +24,6 @@ end
 
 myXMLwrite(curr_file,xDoc);
 
-assignin('base','filename', file_name_faultKonf);
 
 
 

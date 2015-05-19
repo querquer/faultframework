@@ -22,7 +22,7 @@ function varargout = FIDF_Testing(varargin)
 
 % Edit the above text to modify the response to help FIDF_Testing
 
-% Last Modified by GUIDE v2.5 19-May-2015 13:22:58
+% Last Modified by GUIDE v2.5 19-May-2015 15:57:29
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -147,5 +147,34 @@ if FileName_FaultKonf > 0
     display('Fault configuration were successfully loaded!');
 end
 % hObject    handle to pushbutton_chooseFaultKonf (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton_export_detector.
+function pushbutton_export_detector_Callback(hObject, eventdata, handles)
+[FileName,PathName] = uiputfile('*.slx','Save Detector');
+display(strcat(PathName,FileName));
+if PathName > 0
+    if(isunix())
+        movefile('Output/Designed_Detector_TEMP.slx',strcat(PathName,FileName));
+    else
+        movefile('Output\Designed_Detector_TEMP.slx',strcat(PathName,FileName));
+    end
+    
+end
+% hObject    handle to pushbutton_export_detector (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton_export_filter.
+function pushbutton_export_filter_Callback(hObject, eventdata, handles)
+currentFolder = pwd;
+PathName_Filter = uigetdir(pwd);
+if PathName_Filter > 0
+    export_filter(PathName_Filter);
+end
+% hObject    handle to pushbutton_export_filter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
