@@ -1,5 +1,5 @@
 %% greyOutButton
-% grey out all buttons except those in the given string array
+% Grey out all buttons except those in the given string array.
 
 function  greyOutButton(buttonList, handles)
 
@@ -14,7 +14,7 @@ if length(buttonList) == 0
         set(pushbuttonHandles(idx), 'ForeGroundColor', black);
     end
 else
-    %%iterate over all buttons in the gui
+    %% Iterate over all buttons in the gui
     for idx=1:length(pushbuttonHandles)
         % get the tag of the actual button
         buttonArray{idx} = get(pushbuttonHandles(idx), 'Tag');
@@ -35,7 +35,7 @@ else
             end
         end
 
-        %% if the button ist not in the buttonList, we grey him out
+        %% If the button ist not in the buttonList, we grey him out
         if isIn == 0
             set(pushbuttonHandles(idx),'Enable','off'); 
             set(pushbuttonHandles(idx), 'ForeGroundColor', grey);

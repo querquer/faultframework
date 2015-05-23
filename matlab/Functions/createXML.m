@@ -1,7 +1,7 @@
 %% createXML
-% Creates a Fault Konfiguration XML-File.
-% The script try to read variables created/enteres through the
-% gui_faultlist/id. IF these variables are not defined, there will be set a default value
+% Creates a Fault Configuration XML-File.
+% The script trys to read variables created/entered through the
+% gui_faultlist/id. If these variables are not defined, a default value will be set instead.
 % instead
 
 

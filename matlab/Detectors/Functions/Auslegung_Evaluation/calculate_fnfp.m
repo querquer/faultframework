@@ -5,13 +5,13 @@
 % comparing the output ('detection') made by the detector with the correct
 % values ('trigger') which where saved from the faultinjection-framework.  
 % Both rates are calculated by using the following equations: 
-% $$ false-negatives = \frac{f_n}{r_p + f_n} $$    $$ false-positives = \frac{f_p}{r_n + fp}$$
+% $$ false-negatives = \frac{f_n}{r_p + f_n} $$ ;   $$ false-positives = \frac{f_p}{r_n + fp} $$
 % 
 %
-% * $f_n$: number of false-negatives detections
-% * $f_p$: number of false-positives detections
-% * $t_n$: number of right-negatives detections
-% * $t_p$: number of right-positives detections
+% * $f_n$: Number of false-negatives detections.
+% * $f_p$: Nnumber of false-positives detections.
+% * $t_n$: Number of right-negatives detections.
+% * $t_p$: Number of right-positives detections.
 %
 
 %% Related Functions
@@ -33,7 +33,7 @@ function [fn, fp] = calculate_fnfp(trigger, detection)
 r = trigger - detection;
 
 %%
-% Determining the values
+% Determining the values.
 
 % Count true-negatives
 a = r(r==0 & detection == 0);
@@ -54,7 +54,7 @@ a = r(r==1 & detection == 0);
 fn =  sum(a);
 
 %%
-% convert fn/fp to rates
+% Convert fn/fp to rates.
 if(tp+fn > 0)
     fn = fn/(tp+fn);
 else

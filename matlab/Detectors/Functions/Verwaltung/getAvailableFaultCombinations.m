@@ -1,7 +1,7 @@
 %% faultCombis
-% This functions searches the folder specified by path_data and class in
+% This function searches the folder specified by path_data and class in
 % order to get all fault type combinations saved until now. It also
-% searches in subdirectories.
+% searches for data in subdirectories assuming that data found there is part of the corresponding class.
 
 %% Related Functions
 

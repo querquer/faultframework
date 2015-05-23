@@ -1,9 +1,9 @@
-%% DESIGN_DETECTOR 
+%% design_detector 
 % This function represents the core of the automated configuration of a
 % sensor fault detector. The algorithm is based on an optimization
 % algorithm, namely a genetic algorithm. Beside the optimization of a good 
 % configuration, another challenge is to cope with various capabilites of 
-% different detector types. Therefore the current implementation finds a single
+% different detector types. Therefore, the current implementation finds a single
 % configuration for every fault type and constructs a separate detector for each of them.
 % At the end, all detectors are placed into one simulink model, where the 
 % maximum of their outputs is found. This is used as the detection result. 
@@ -32,21 +32,20 @@
 % with respect to a given configuration 'x'. Due to the nature of genetic 
 % algorithms and based on the implementation of the detector dependend functions
 % ('generate_starting_point', 'output_detecotr', 'create_detector') the run
-% time of this function can increase up to several hours. In order to
+% time of this function can increase easily up to several hours. In order to
 % enable the expert to take an effect on the genetic algorithm, the
-% function 'set_ga_options*' can be implemented. There one can change
-% options of the genetic algorithm.
+% function 'set_ga_options*' can be implemented. Options of the genetic algorithm can be changed inside this function.
 
 %% Input Parameters
-% * 'data_multifaule': Array of sensor observations where multiple fault types where injected.
+% * 'data_multifault': Array of sensor observations where multiple fault types were injected.
 % * 'data_singlefault': Array of structures with field 'name' specifying the fault type
 % represented by this sample data and field 'data' which contains the
 % sample data. Every entry represents a different fault type. 
-% * 'trigger_multifault': Array of structures with field 'name specifying the fault
-% type represented by this sample data and field 'trigger' which is another
+% * 'trigger_multifault': Array of structures with field 'name' specifying the fault
+% type represented by this sample data and field 'data' which is another
 % array consisting of zeros (sample data at the same index in 'data' is not
 % faulty) and ones (sample data at the same index in 'data' is faulty). The
-% trigger singlas are corresponding to the sensor observations in
+% trigger signals are corresponding to the sensor observations in
 % 'data_multifault'.
 % * 'trigger_singlefault': The same structure as 'trigger_multifault', but
 % containing data corresponding to the sensor observations in
@@ -64,7 +63,7 @@
 % * 'path_detector': Defines the path of the used detector. This path is
 % used to search for the detector specific functions
 % 'generate_starting_point', 'output_detector' and 'create_detector'.
-% * 'evaluation_model': Defines the path and the name of the simulink model 
+% * 'evaluation_model': Defines the path and the name of the Simulink model 
 % used to evaluate the resulting detector in terms of false-negatives and false-positives. 
 
 %% Optional Parameters
@@ -72,7 +71,7 @@
 % disadvantages concerning the computation time. Depending on the
 % implementation of 'output_detector', which is called for every evaluation
 % made by the genetic algorithm, the computation time can increase.
-% Therefore it can be beneficial to set parameters of the genetic algorithm
+% Therefore, it can be beneficial to set parameters of the genetic algorithm
 % based on the knowledge about the current type of detector. Hence, an
 % optional function 'set_ga_options' can be implemented which is called
 % right before starting the genetic algorithm.
@@ -102,7 +101,7 @@ function [x_list, fval, exitflag, FN_final, FP_final] = design_detector(data_mul
 [fun_starting_point,fun_config_dependend_output, fun_create, fun_ga_options] = find_functions(path_detector);
 
 %%
-% try to open a parallelisation pool in order to enable possible
+% Try to open a parallelisation pool in order to enable possible
 % sub-routines to make use of it.
 use_parallel = true;
 
@@ -133,7 +132,7 @@ end
 
 sd = size(data_multifault);
 %%
-% generate starting point for optimisation. This function must be
+% Generate starting point for optimisation. This function must be
 % implemented by the detector itself.
 for i = 1:sd(1,2)
     
@@ -142,7 +141,7 @@ for i = 1:sd(1,2)
   
 
     %%
-    % configure genetic algorithm
+    % Configure genetic algorithm.
     sx = size(x);
     options = gaoptimset('TolFun', grad_thr);
     options = gaoptimset(options,'Display', 'iter');
@@ -154,7 +153,7 @@ for i = 1:sd(1,2)
         options = gaoptimset(options,'PopulationSize',50);
     end
 
-    % check whether there are detector specific setting for ga-options
+    % Check whether there are detector specific setting for ga-options.
     if(isempty(fun_ga_options) == 0)
         options = feval(fun_ga_options, options);
     end
@@ -167,7 +166,7 @@ for i = 1:sd(1,2)
 end
 
 %%
-% create detector as Simulink-Model. This function must be implemented by
+% Create detector as Simulink-Model. This function must be implemented by
 % the detector itself.
 curr_dir = pwd;
 cd(path_detector);
@@ -175,7 +174,7 @@ feval(fun_create, x_list, data_multifault, trigger_multifault, path_and_name);
 cd(curr_dir);
 
 %%
-% use Evaluation.slx to get final fn/fp-rates.
+% Use Evaluation.slx to get final fn/fp-rates.
 [path, name] = extract_path(path_and_name);
 addpath(path);
 

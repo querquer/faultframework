@@ -1,7 +1,7 @@
 %% running_var
 % This function creates windows of size 'window_size' for every sample in
 % data and calculates the variance of all data sampls of this window.
-% Therefore we get a running variance.
+% Therefore, we get a running variance.
 
 %% Related Functions
 

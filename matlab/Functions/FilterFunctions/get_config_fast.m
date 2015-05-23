@@ -1,26 +1,26 @@
 %% get_config_fast
 % Same funktion like <get_config.html get_config> with the difference that
-% the filter is not set. This should save some time. Fore example while
+% the filter is not set. This should save some time. For example while
 % building the <build_suggestion_table.html lookuptable>.
 %
-% Run the actual set filter with different configurations and find the best. The
+% Runs the actual setted filter with different configurations and find the best. The
 % configurations and how they are changed is specified in the .m funktion
 % of the filter. For example for the Median_Filter.slx the configuration
-% options wich will be testet are specified in the median_filter.m
+% options which will be testet are specified in the median_filter.m
 
 %% Input Value
 % * *model_file*:   The name of the filter you want to use
 
 %% Return Values
-% * *config*:       a value witch can tell you, witch configuration is the
+% * *config*:       A value which can tell you, witch configuration is the
 %                   best.
-% * *quality*:      delivers a quality indication. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
-% * *dist*:         delivers a indication how much differ the faultfree and the filtered
-%                   data. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+% * *quality*:      Delivers a quality indication. You can find a detailed explanation here: <filter_evaluation.html filter_evaluation>
+% * *dist*:         A value indicating how much the faultfree and the filtered
+%                   data differ. You can find a detailed explanation here: <filter_evaluation.html filter_evaluation>
 
 %% Add New Filter
-% if you want change the properties of your filter automaticaly you have
-% to write a function wich do so. This function should be added here and in the
+% If you want to change the properties of your filter automaticaly you have
+% to write a function which do so. This function should be added here and in the
 % <get_config.html get_config.m>.
 % 
 % The function should set a new filter configuration and evaluate it with
@@ -37,7 +37,7 @@ function [config, quality, dist] = get_config_fast(model_file)
 %GET_CONFIG set and return the best config of the filter.
 
 %   ######## ADD NEW FILTER #########
-%   if you add a new filter, you should write a function wich trys
+%   if you add a new filter, you should write a function which trys
 %   different configurations and you should pass it here like the given
 %   examples. If not, you will get zero as configuration and the default
 %   configuration will be used.

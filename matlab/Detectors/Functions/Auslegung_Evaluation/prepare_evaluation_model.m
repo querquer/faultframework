@@ -46,7 +46,7 @@ ar = [time ; data];
 save(inputfile, 'ar');
 
 %%
-% Change parameter of model
+% Change parameter of model.
 
 load_system([evaluation_model '.slx']);
 % Set parameters

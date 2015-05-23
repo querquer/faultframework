@@ -1,7 +1,7 @@
 %% build_trigger
 % This function extract the process model and the trigger data from a
 % special input file. Than it generates the triggerbus as input for the
-% FailureProcessing.slx. Therefor it fills the unactivated fauilures
+% FailureProcessing.slx. Therefore, it fills the unactivated fauilures
 % with zeros.
 %
 

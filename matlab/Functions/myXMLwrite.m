@@ -1,6 +1,6 @@
 %% myXMLwrite
-% same functionality as xlmwrite from matlab, but without adding
-% emply lines after every line
+% Same functionality as xlmwrite from matlab, but without adding
+% empty lines after every line.
 
 
 %% Source Code

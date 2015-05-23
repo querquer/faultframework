@@ -1,6 +1,6 @@
 %% filename2bi
 % This function searches for a binary number between two '_' in the
-% file-name given by 'str'. Then it transforms it to an binary number.
+% file-name given by 'str'. If an binary number is found, it is converted from a string to a numeric representation.
 
 %% Related Functions
 

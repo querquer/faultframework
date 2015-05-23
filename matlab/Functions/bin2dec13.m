@@ -1,5 +1,5 @@
 %% bin2dec13
-% this function converts a 1x13 binary row vector to a decimal number
+% This function converts a 1x13 binary row vector to a decimal number
 
 %% Source Code
 function [ dec_number ] = bin2dec13( bin_number )

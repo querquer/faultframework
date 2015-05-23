@@ -1,5 +1,5 @@
 %% loadFaultKonf
-% Set the given Fault Konfiguration File into the Injection Campaign File
+% Set the given Fault Configuration File into the Injection Campaign File
 
 
 %% Source Code

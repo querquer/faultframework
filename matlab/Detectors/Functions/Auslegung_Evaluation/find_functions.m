@@ -5,7 +5,7 @@
 % We consider the implementation of a specific detector to be placed
 % inside a folder. The functions 'generate_starting_point*.m',
 % 'output_detector*.m' and 'create_detector*.m' have to be placed somewhere
-% inside this folder. Furthermore a function to set options used by the
+% inside this folder. Furthermore, a function to set options used by the
 % genetic algorithm can be implemented and has to be named as
 % 'set_ga_options*.m'.
 
@@ -29,7 +29,7 @@ function [fun_starting_point, fun_output, fun_create, fun_ga_options] = find_fun
 % Add path and all subpathes to search path of matlab
 addpath(genpath(path));
 %%
-% Search for functions
+% Search for functions.
 
 % Search for 'generate_starting_point*.m'
 file = rec_search(path, 'generate_starting_point*.m');

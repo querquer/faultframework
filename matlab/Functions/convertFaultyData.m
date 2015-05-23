@@ -125,7 +125,7 @@ if(toWorkspace == 1)
 end
 
 %% Builds a struct array which contains the trigger belonging to the data single fault array
-% The first element contains the trigger information to the first element
+% The first element contains the trigger information corresponding to the first element
 % of the data trigger array.
 
 counter = 1;

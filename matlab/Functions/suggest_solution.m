@@ -1,7 +1,7 @@
 %% suggest_solution
-% This function give back one array for the detecors and one for the
+% This function returns one array for the detecors and one for the
 % filters. The information is taken from the <build_suggestion_table.html
-% lookuptable>, based on the dinamic and the failures of the proces model.
+% lookuptable>, based on the determined dynamic of the process model and the failures specified by the user.
 % 
 % * *Detectors* are sorted based on the false-positive rate at first. If two
 % detectors have the same false-positive rate, they are ranked based on the
@@ -12,24 +12,24 @@
 %
 
 %% Input Values
-% * *dynamic*: 1, 2 or 3. 1 is an high dynamic of the input model. 3 is a
+% * *dynamic*: 1, 2 or 3. 1 classifies the dynamic of the process model as high, while 3 encodes a 
 % low dynamic. 
 % * *failures*: must be an 1x13 Array (row vector). It is filld up with 1 or 0. 1
-%   means that the failuretype is enabled and 0 disabled. The order is the
-%   same like in the fault-trigger-bus. a0 is failures(1), and a12 is
-%   failures(13). if someday a new failuretyp is implemented, the array can be larger.
+%   means that the failure type is enabled and 0 disabled. The order is the
+%   same like in the fault-trigger-bus. a0 is failure(1), and a12 is
+%   failure(13). If someday a new failure type is implemented, the array can be larger.
 %% Related Functions
 % * <bin2dec13.html bin2dec13>
 
 %% Source Code
 % 
 function [ detectors, filters ] = suggest_solution( dynamic, failures )
-%SUGGEST_SOLUTION gives a list of filters and detectors you can use for
+%SUGGEST_SOLUTION Returns a list of filters and detectors you can use for
 %your problem.
 
 LookupTable = load('Functions/lookuptable.mat');            % load the lookupTable
 
-line = bin2dec13(failures);                                 % gives a decimal number of the failures array to get the correct line
+line = bin2dec13(failures);                                 % returns a decimal number of the failures array to get the correct line
 detectors = LookupTable.LookupTable(line,dynamic).detector; % get the detector list
 filters = LookupTable.LookupTable(line,dynamic).filter;     % get the filter list
 
@@ -127,7 +127,7 @@ end
 detectors = det;
 
 %% sort filters
-% filters are sorted by the quality. If the quality of two filters is equal
+% Filters are sorted by the quality. If the quality of two filters is equal
 % the decision is made by the average distance (dist). 
 % The sorting algorithm is a bubblesort.
 

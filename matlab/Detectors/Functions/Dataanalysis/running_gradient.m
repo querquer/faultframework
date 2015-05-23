@@ -1,7 +1,5 @@
 %% running_gradient
 % This function calculates the gradient between every two time steps.
-% The data of a timeseries is expected as data(i,:), different timeseries are
-% expected at data(:,...).
 
 %% Related Functions
 

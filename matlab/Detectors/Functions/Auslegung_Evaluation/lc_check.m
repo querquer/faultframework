@@ -1,7 +1,7 @@
 %% lc_check
 % This is a helper-function to check every value of 'detection' whether its greater or
-%equal(1) to 'threshold' or smaller(0). Depending on this comparsion a new array
-%consisting of zeros and ones is generated and returned.
+% equal(1) to 'threshold' or smaller(0). Depending on this comparsion a new array
+% consisting of zeros and ones is generated and returned.
 
 %% Related Functions
 

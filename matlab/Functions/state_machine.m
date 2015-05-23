@@ -1,5 +1,5 @@
 %% state_machine
-% this state machine represent the states of the user in the main use case
+% This state machine represent the states of the user in the main use case
 % of the framework. These states are used to handle the shown figure and
 % the grey out of the buttons.
 
@@ -11,7 +11,7 @@ if(not(isempty(handles)))
     
 
 
-    %% check through all cased and switch the image and the buttons which will be greyed out
+    %% Check through all cased and switch the image and the buttons which will be greyed out
     switch state
         case 1
             % process model have to be picked
@@ -46,17 +46,17 @@ if(not(isempty(handles)))
     % display the new state via text element
     set(handles.staticText_state,'string',text_string);
     
-    %% save the new state of the machine to the workspace
+    %% Save the new state of the machine to the workspace
     assignin('base','state_machine',state);
 else
-    %% if there are no handles, get guihandles
+    %% If there are no handles, get guihandles
     handles = guihandles;
     
     % buttons which dont have to grey out in any state
     buttonListStatic = {'pushbutton_chooseDetector','pushbutton_chooseFilter','pushbutton_testDetector','pushbutton_testFilter','pushbutton_addDetctor','pushbutton_addFilter'};
    
 
-    %% check through all cased and switch the image and the buttons which will be greyed out
+    %% Check through all cased and switch the image and the buttons which will be greyed out
     switch state
         case 1
             % process model have to be picked
@@ -91,6 +91,6 @@ else
     % display the new state via text element
      set(handles.staticText_state,'string',text_string);
     
-    %% save the new state of the machine to the workspace
+    %% Save the new state of the machine to the workspace
     assignin('base','state_machine',state);
 end

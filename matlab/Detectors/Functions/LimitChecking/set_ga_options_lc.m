@@ -8,7 +8,7 @@
 % As the computation time of the evaluation function of this type of
 % detectors is not very high, we can increase the population size as well
 % as the stall generation and the 'TolFun' value. By doing this, the
-% genetic algorithm will evaluate solutions with a higher diverity on the
+% genetic algorithm will evaluate solutions with a higher diversity on the
 % one hand and will try to optimize good solutions for a longer time on the
 % other hand.
 

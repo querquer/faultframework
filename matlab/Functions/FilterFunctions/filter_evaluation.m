@@ -5,7 +5,7 @@
 %% Return Values
 % * *quality*:          gives the average difference between the filtered faulty_data
 %                       and the filtered faultfree_data, when the faulttrigger is active. This
-%                       is to give an quality value wich not depend on fauilures caused by
+%                       is to give an quality value which not depend on fauilures caused by
 %                          distortion of the filter. A smaller value is better.
 %
 % * *average_dist*:     gives the average difference between the

@@ -1,6 +1,6 @@
-%% Evaluation
+%% evaluation
 % Calculates false-positve rate and false-negativ rate for all
-% fault types in 'trigger'
+% fault types in 'trigger'.
 
 %%
 % As we assume that 'trigger', as well as 'detection' containing data for

@@ -2,8 +2,8 @@
 % This function is meant to compute the configuration dependend output of a
 % detector for a given input 'data'. As some detectors are configured by
 % learning from data, an additional input 'trigger' is provided which
-% contains the classification results. E.g. every faulty timestep in 'data'
-% is marked by a '1' in 'trigger'. Futrhermore every faultfree timestep is
+% contains the classification results. Every faulty timestep in 'data'
+% is marked by a '1' in 'trigger'. Furthermore, every faultfree timestep is
 % marked by a '0'.
 
 %% Related Functions

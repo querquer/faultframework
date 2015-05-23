@@ -28,7 +28,7 @@
 % expected fault types, the 'Suggest
 % Solution' button will provide you with a list of detectors and filters.
 % This table contains the names of the methods on which the detector is
-% based on as well as some performance values, namely false-positives
+% based on as well as false-positives
 % rates and false-negatives rates. If you have choosen multiple faults,
 % every detector will be listed multiple times, each time describing the
 % performance concerning a different fault type. The listed values are
