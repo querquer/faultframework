@@ -124,6 +124,7 @@ assignin('base','id12delay', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit2_CreateFcn(hObject, eventdata, handles)
+assignin('base','id12delay', get(hObject,'String'));
 % hObject    handle to edit2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -255,6 +256,7 @@ assignin('base','id12correlation', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit7_CreateFcn(hObject, eventdata, handles)
+assignin('base','id12correlation', get(hObject,'String'));
 % hObject    handle to edit7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called

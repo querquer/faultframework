@@ -86,6 +86,7 @@ assignin('base','id6amplitude', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit1_CreateFcn(hObject, eventdata, handles)
+assignin('base','id6amplitude', get(hObject,'String'));
 % hObject    handle to edit1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -124,6 +125,7 @@ assignin('base','id6occurrence', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit2_CreateFcn(hObject, eventdata, handles)
+assignin('base','id6occurrence', get(hObject,'String'));
 % hObject    handle to edit2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -255,6 +257,7 @@ assignin('base','id6negative', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit7_CreateFcn(hObject, eventdata, handles)
+assignin('base','id6negative', get(hObject,'String'));
 % hObject    handle to edit7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called

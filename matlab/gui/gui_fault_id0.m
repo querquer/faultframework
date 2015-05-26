@@ -22,7 +22,7 @@ function varargout = gui_fault_id0(varargin)
 
 % Edit the above text to modify the response to help gui_fault_id0
 
-% Last Modified by GUIDE v2.5 22-Mar-2015 20:53:16
+% Last Modified by GUIDE v2.5 26-May-2015 13:30:47
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -86,6 +86,7 @@ assignin('base','id0factor', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit1_CreateFcn(hObject, eventdata, handles)
+assignin('base','id0factor', get(hObject,'String'));
 % hObject    handle to edit1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called

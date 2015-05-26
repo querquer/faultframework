@@ -86,6 +86,7 @@ assignin('base','id3factor', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit1_CreateFcn(hObject, eventdata, handles)
+assignin('base','id3factor', get(hObject,'String'));
 % hObject    handle to edit1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -124,6 +125,7 @@ assignin('base','id3occurrence', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit2_CreateFcn(hObject, eventdata, handles)
+assignin('base','id3occurrence', get(hObject,'String'));
 % hObject    handle to edit2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -148,6 +150,7 @@ assignin('base','id3pdf', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit3_CreateFcn(hObject, eventdata, handles)
+assignin('base','id3pdf', get(hObject,'String'));
 % hObject    handle to edit3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -172,6 +175,7 @@ assignin('base','id3pdfmax', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit4_CreateFcn(hObject, eventdata, handles)
+assignin('base','id3pdfmax', get(hObject,'String'));
 % hObject    handle to edit4 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -196,6 +200,7 @@ assignin('base','id3pdfstep_size', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit5_CreateFcn(hObject, eventdata, handles)
+assignin('base','id3pdfstep_size', get(hObject,'String'));
 % hObject    handle to edit5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -220,6 +225,7 @@ assignin('base','id3pdfmin', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit6_CreateFcn(hObject, eventdata, handles)
+assignin('base','id3pdfmin', get(hObject,'String'));
 % hObject    handle to edit6 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -255,6 +261,7 @@ assignin('base','id3correlation', get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function edit7_CreateFcn(hObject, eventdata, handles)
+assignin('base','id3correlation', get(hObject,'String'));
 % hObject    handle to edit7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
