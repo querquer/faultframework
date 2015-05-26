@@ -742,7 +742,7 @@ if FileName_FaultKonf > 0
     display('The following fault types are activated:');
     display(types);
     state_machine(3, handles);
-    display('Fault configuration were successfully loaded!');
+    display('Configuration loaded successfully!');
 end
 
 % hObject    handle to pushbutton_chooseFaultKonf (see GCBO)
@@ -1254,7 +1254,7 @@ try
     display('Successfully finished: filterSuggestedDetectors');
 catch ME
     msgID = 'pushbutton:filterFilter';
-    msg = 'Process could not being started!';
+    msg = 'Unable to start process!';
     baseException = MException(msgID,msg);
     ME = addCause(ME,baseException);
     throw(ME);
