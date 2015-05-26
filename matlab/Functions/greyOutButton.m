@@ -12,6 +12,7 @@ black = [0 0 0];
 if length(buttonList) == 0
     for idx=1:length(pushbuttonHandles)
         set(pushbuttonHandles(idx), 'ForeGroundColor', black);
+        set(pushbuttonHandles(idx),'Enable','on'); 
     end
 else
     %% Iterate over all buttons in the gui
