@@ -22,7 +22,7 @@ function varargout = untitled1(varargin)
 
 % Edit the above text to modify the response to help untitled1
 
-% Last Modified by GUIDE v2.5 22-Mar-2015 21:06:53
+% Last Modified by GUIDE v2.5 26-May-2015 15:09:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -382,8 +382,31 @@ gui_fault_id12;
 function pushbutton22_Callback(hObject, eventdata, handles)
 [FileName,PathName] = uiputfile('*.xml','Save Fault Configuration',strcat(pwd,'/Faultinjection/XML'));
 if FileName > 0
-    createXML(FileName);
+    createXML2(FileName);
+    
+    assignin('base','FileName_FaultKonf',FileName);
+    assignin('base','PathName_FaultKonf',PathName);
+    
+    loadFaultKonf(FileName);
+    countFaults(FileName);
+    act_vec = evalin('base','act_vec');
+    
+    types = actVec2str(act_vec);
+    display('The following fault types are activated:');
+    display(types);
+    
+    handles_main = evalin('base','handles_main');
+    state_machine(3, handles_main);
+    display('Configuration loaded successfully!');
 end
 % hObject    handle to pushbutton22 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton_actMat.
+function pushbutton_actMat_Callback(hObject, eventdata, handles)
+gui_actMat;
+% hObject    handle to pushbutton_actMat (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
