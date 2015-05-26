@@ -31,7 +31,7 @@ if(not(isempty(handles)))
             text_string = 'Select Element from Table';
         case 5
             % design have to be clicked
-            buttonList = {'pushbutton_desdet','pushbutton_desfil'};
+            buttonList = {'pushbutton_desdet','pushbutton_desfil','pushbutton_filteringDetector','pushbutton_filteringFilter','pushbutton_deleteDetector','pushbutton_deleteFilter'};
             text_string = 'Design Detector or Filter';
         case 6
             buttonList = {'pushbutton_export_detector','pushbutton_export_filter'};

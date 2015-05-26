@@ -53,6 +53,15 @@ thisElement.setTextContent('1');
 
 myXMLwrite(fault_conf_file,xDoc);
 
+%% Open the actual fault konfiguration and get the trigger matrix
+
+thisList  = xDoc.getElementsByTagName('trigger');
+thisElement = thisList.item(0);
+actMat_str = thisElement.getTextContent();
+actMat = str2num(actMat_str);
+assignin('base','actMat',actMat);
+
+
 %% run fault injection
 warning off all
 SimLength_old = SimLength;

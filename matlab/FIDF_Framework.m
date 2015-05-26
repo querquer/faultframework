@@ -79,6 +79,7 @@ varargout{1} = handles.output;
 
 % --- Executes on button press in pushbutton_setfault.
 function pushbutton_setfault_Callback(hObject, eventdata, handles)
+assignin('base','handles_main',handles);
 gui_faultlist;
 % hObject    handle to pushbutton_setfault (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
