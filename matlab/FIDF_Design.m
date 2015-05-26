@@ -1,35 +1,35 @@
-function varargout = FIDF_Designing(varargin)
-% FIDF_DESIGNING MATLAB code for FIDF_Designing.fig
-%      FIDF_DESIGNING, by itself, creates a new FIDF_DESIGNING or raises the existing
+function varargout = FIDF_Design(varargin)
+% FIDF_DESIGN MATLAB code for FIDF_Design.fig
+%      FIDF_DESIGN, by itself, creates a new FIDF_DESIGN or raises the existing
 %      singleton*.
 %
-%      H = FIDF_DESIGNING returns the handle to a new FIDF_DESIGNING or the handle to
+%      H = FIDF_DESIGN returns the handle to a new FIDF_DESIGN or the handle to
 %      the existing singleton*.
 %
-%      FIDF_DESIGNING('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in FIDF_DESIGNING.M with the given input arguments.
+%      FIDF_DESIGN('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in FIDF_DESIGN.M with the given input arguments.
 %
-%      FIDF_DESIGNING('Property','Value',...) creates a new FIDF_DESIGNING or raises the
+%      FIDF_DESIGN('Property','Value',...) creates a new FIDF_DESIGN or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before FIDF_Designing_OpeningFcn gets called.  An
+%      applied to the GUI before FIDF_Design_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to FIDF_Designing_OpeningFcn via varargin.
+%      stop.  All inputs are passed to FIDF_Design_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help FIDF_Designing
+% Edit the above text to modify the response to help FIDF_Design
 
-% Last Modified by GUIDE v2.5 19-May-2015 16:04:36
+% Last Modified by GUIDE v2.5 26-May-2015 13:48:57
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @FIDF_Designing_OpeningFcn, ...
-                   'gui_OutputFcn',  @FIDF_Designing_OutputFcn, ...
+                   'gui_OpeningFcn', @FIDF_Design_OpeningFcn, ...
+                   'gui_OutputFcn',  @FIDF_Design_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -46,26 +46,26 @@ default_settings;
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before FIDF_Designing is made visible.
-function FIDF_Designing_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before FIDF_Design is made visible.
+function FIDF_Design_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to FIDF_Designing (see VARARGIN)
+% varargin   command line arguments to FIDF_Design (see VARARGIN)
 
-% Choose default command line output for FIDF_Designing
+% Choose default command line output for FIDF_Design
 handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes FIDF_Designing wait for user response (see UIRESUME)
+% UIWAIT makes FIDF_Design wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = FIDF_Designing_OutputFcn(hObject, eventdata, handles) 
+function varargout = FIDF_Design_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
