@@ -430,7 +430,8 @@ end
 try  
     fh = str2func(evalin('base','classify_method_name'));
     warning off all 
-    prozess_dynamic = fh(evalin('base','FileName_PM'),(evalin('base','SimLength')));
+    path_and_name_pm = [evalin('base','PathName_PM') evalin('base','FileName_PM')];
+    prozess_dynamic = fh(path_and_name_pm,(evalin('base','SimLength')));
     warning on all
     assignin('base','prozess_dynamic',prozess_dynamic);
 catch 
