@@ -1,6 +1,73 @@
 %% Documentation Graphical User Interface
 %
-%%
+
+
+%% How to use this Graphical User Interface 'FIDF_Framework'
+% This GUI supports the user by choosing an appropriate filter and detector
+% for a given process model. In order to guide the user during this
+% process, images at the lower, left corner will displaying advices.
+% 
+% Nevertheless, the first step is to choose a process model, which should
+% be a Simulink model. We assume that the selected model has exactly one
+% output which returns the sensor observations. The specified process model
+% will be classified in order to estimate the occuring dynamics.
+% Experienced users can choose the algorithm used to classify the process
+% model, too. 
+%
+% The second step is to specify the expected fault types and their
+% parameters. This can be done by either choosing a save fault
+% configuration or setting up a new configuration. Pushing the button
+% 'Suggest Solution' will start the classification method and determine
+% appropriate detectors and filters considering the process model as well
+% as the specified fault configuration. This is done by searching for saved
+% filters and detectors in a special database. The result will be displayed
+% as a list of filters and detectors in their modules.
+%
+% Concerning detectors, this table contains the names of the methods on which the detector is
+% based on as well as false-positives
+% rates and false-negatives rates. If you have choosen multiple faults,
+% every detector will be listed multiple times, each time describing the
+% performance concerning a different fault type. The listed values are
+% only a first gues on how a specific detector could performe on your
+% provided process model. Using the inputs fields and the button
+% 'Filtering' one can filter the displayed detectors. The entered values
+% for false-positive and false-negative rates will be used to compare the
+% values displayed in the table with. If the value of a detectors is worse
+% then the specified one, the detector will be filtered out. 
+% By marking one cell of an detector and using the button 'Delete Selected Detector', one can delete the detector from the lookup talbe. By marking one cell of an
+% detector and using the button 'Design Detector' the framework will start
+% to design the detector for the given process model. This is done by a
+% optimization algorithm and can take some time. At the end a window will
+% show up, displaying the performance of the resulting detector. If the
+% results are appropriate, one can export the designed detector as a
+% Simulink-Model by clicking the button 'Export'. 
+%
+% Concerning filters, the provided filter table contains the name of the filter with a quality
+% value and a distance value. How this values are calculated is described 
+% <filter_quality_check_simple.html here>. The listed values are
+% only a first gues on how a specific filter could performe on your
+% provided process model. By marking one cell of an
+% filter and using the button 'Design Filter' the framework will start
+% to design the filter for the given process model. This is done by a
+% optimization algorithm and can take some time. At the end a window will
+% show up, displaying the performance of the resulting filter. If the
+% results are appropriate, one can export the designed filter as a
+% Simulink-Model by clicking the button 'Export'.
+
+%% Imort New Filters and Detectors
+% New filters and detectors can be imported by using the module placed at
+% the upper right corner. A detector is imported by choosing the folder
+% containing all necessary functions (see also <design_detector.html
+% design_detector>, section 'Specifying a detector type'). Futhermore, one has to specify a the name of imported
+% detector. Using the 'Test Detector' button will start a time consuming
+% process. During this process, the detector will be tested for all
+% combinations of fault types and three different process models
+% representing a process model with low, middle and high dynamics. At the
+% end, the performance of the detector concerning all combinations and
+% dynamics are displayed. If the results are satisfying, one can add the
+% detector to the database by using the button 'Add Detector'. From now on,
+% this detector will be displayed as an possible solution inside the
+% detection module. Likewise, filters are added to the database.
 
 %% Image of the graphical user interface
 % <<gui_main.png>>

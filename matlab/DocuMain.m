@@ -1,4 +1,4 @@
-%% Fault framework
+%% Fault Processing Framework
 
 
 %% Introduction
@@ -13,7 +13,7 @@
 % * find appropriate parameters for this detector.
 
 %%
-% Therefore the design process can be time consuming. To reduce this effort
+% Therefore, the design process can be time consuming. To reduce this effort
 % this framework provides algorithms for analyzing the given process model,
 % suggesting appropriate filters and detectors and designing these.
 % Futhermore, a faultinjection module is used to inject sensor faults based
@@ -21,38 +21,16 @@
 % several others. 
 
 %% How to use this framework
-% --> insert workflow diagramm: Maik
-
-%% Detectors
-% After choosing your process model, classifying it and specifying the 
-% expected fault types, the 'Suggest
-% Solution' button will provide you with a list of detectors and filters.
-% This table contains the names of the methods on which the detector is
-% based on as well as false-positives
-% rates and false-negatives rates. If you have choosen multiple faults,
-% every detector will be listed multiple times, each time describing the
-% performance concerning a different fault type. The listed values are
-% only a first gues on how a specific detector could performe on your
-% provided process model. By marking one cell of an
-% detector and using the button 'Design Detector' the framework will start
-% to design the detector for the given process model. This is done by a
-% optimization algorithm and can take some time. At the end a window will
-% show up, displaying the performance of the resulting detector. If the
-% results are appropriate, one can export the designed detector as a
-% Simulink-Model by clicking the button 'Export'. 
-
-  
-%% Filter
-% The provided filter table contains the name of the filter with a quality
-% value and a distance value. How this values are calculated is described 
-% <filter_quality_check_simple.html here>. The listed values are
-% only a first gues on how a specific filter could performe on your
-% provided process model. By marking one cell of an
-% filter and using the button 'Design Filter' the framework will start
-% to design the filter for the given process model. This is done by a
-% optimization algorithm and can take some time. At the end a window will
-% show up, displaying the performance of the resulting filter. If the
-% results are appropriate, one can export the designed filter as a
-% Simulink-Model by clicking the button 'Export'.
-
-%% Functions
+% The framework supports two different workflows. At the one hand, we
+% assume a situation, where a specific process model as well as a fault
+% model is given and one wants to test a specific detector or filter to
+% determine its performance for this setup. This scenario is support by the
+% graphical user interface <FIDF_Design.html FIDF Design>.
+% 
+% At the other hand, it is a repeating task to design filters and detectors
+% for different process models. Therefore, one has to find appropriate
+% parameters for filters and detectors specific to a given process model,
+% while the implementation of both does not change. The second workflow,
+% which was in main focus while developing this framework, supports the
+% reuse of implementations of filters and detectors. The GUI
+% <gui_docu.html FIDF Framework> encapsulates this workflow.
