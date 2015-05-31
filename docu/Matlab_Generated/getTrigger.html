@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>getTrigger</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="getTrigger.m"><style type="text/css">
+      --><title>getTrigger</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-31"><meta name="DC.source" content="getTrigger.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,10 +66,10 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>getTrigger</h1><!--introduction--><p>Builds a trigger phase vector which contains the trigger data of all active faults in the specific phase of the schedule</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="findTrigger.html">findTrigger</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> trigger_phase_vec = getTrigger(trigger_arr, schedule_nr, phase_length)
+  </style></head><body><div class="content"><h1>getTrigger</h1><!--introduction--><p>Builds a trigger phase vector which contains the trigger data of all active faults in the specific phase of the schedule</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="findTrigger.html">findTrigger</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> trigger_phase_vec = getTrigger(trigger_struct, schedule_nr)
 <span class="comment">% Call findTrigger to get the information which fault was in the given</span>
 <span class="comment">% phase active.</span>
-trigger_vec = findTrigger(trigger_arr,schedule_nr,phase_length);
+trigger_vec = findTrigger(trigger_struct,schedule_nr);
 
 fault_types = {<span class="string">'value_correlated_offset'</span>,<span class="string">'time_correlated_offset'</span>,<span class="string">'value_correlated_noise'</span>,<span class="string">'time_correlated_noise'</span>,<span class="string">'const_offset'</span>,<span class="string">'const_noise'</span>,<span class="string">'outlier'</span>,<span class="string">'spike'</span>,<span class="string">'stuck_at_zero'</span>,<span class="string">'stuck_at_x'</span>,<span class="string">'saturation'</span>,<span class="string">'const_delay'</span>,<span class="string">'time_correlated_delay'</span>};
 
@@ -79,13 +79,9 @@ trigger_phase_vec = struct;
 counter = 1;
 <span class="keyword">for</span> idy = 1:length(trigger_vec)
     <span class="keyword">if</span>(trigger_vec(idy) == 1)
-        curr_trigger = transpose(trigger_arr(idy).data);
-
-        phase_start = int32(phase_length*(schedule_nr-1)+2);
-        phase_end = int32(phase_length*schedule_nr);
-
         trigger_phase_vec(counter).name = fault_types(idy);
-        trigger_phase_vec(counter).data = getsamples(curr_trigger,[phase_start:phase_end]);
+        trigger_phase_vec(counter).data = transpose(trigger_struct(idy,schedule_nr).data);
+
         counter = counter + 1;
     <span class="keyword">end</span>
 <span class="keyword">end</span>
@@ -102,10 +98,10 @@ counter = 1;
 
 
 %% Source Code
-function trigger_phase_vec = getTrigger(trigger_arr, schedule_nr, phase_length)
+function trigger_phase_vec = getTrigger(trigger_struct, schedule_nr)
 % Call findTrigger to get the information which fault was in the given
 % phase active.
-trigger_vec = findTrigger(trigger_arr,schedule_nr,phase_length);
+trigger_vec = findTrigger(trigger_struct,schedule_nr);
 
 fault_types = {'value_correlated_offset','time_correlated_offset','value_correlated_noise','time_correlated_noise','const_offset','const_noise','outlier','spike','stuck_at_zero','stuck_at_x','saturation','const_delay','time_correlated_delay'};
 
@@ -115,13 +111,9 @@ trigger_phase_vec = struct;
 counter = 1;
 for idy = 1:length(trigger_vec)
     if(trigger_vec(idy) == 1)
-        curr_trigger = transpose(trigger_arr(idy).data);
-        
-        phase_start = int32(phase_length*(schedule_nr-1)+2);
-        phase_end = int32(phase_length*schedule_nr);        
-        
         trigger_phase_vec(counter).name = fault_types(idy);
-        trigger_phase_vec(counter).data = getsamples(curr_trigger,[phase_start:phase_end]);
+        trigger_phase_vec(counter).data = transpose(trigger_struct(idy,schedule_nr).data);
+        
         counter = counter + 1;
     end
 end

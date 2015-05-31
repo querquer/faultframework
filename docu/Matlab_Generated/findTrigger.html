@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>findTrigger</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="findTrigger.m"><style type="text/css">
+      --><title>findTrigger</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-31"><meta name="DC.source" content="findTrigger.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,49 +66,47 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>findTrigger</h1><!--introduction--><p>Build a array which contains a 1 if the fault was active in the given schedule</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> trigger_vec = findTrigger(trigger_arr, schedule_nr, phase_length)
+  </style></head><body><div class="content"><h1>findTrigger</h1><!--introduction--><p>Build a array which contains a 1 if the fault was active in the given schedule</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> trigger_vec = findTrigger(trigger_struct, schedule_nr)
 
 trigger_vec = zeros(1,13);
-
-start_search = int32(phase_length*(schedule_nr-1)+2);
-end_search = int32(phase_length*schedule_nr);
+end_search = length(trigger_struct(1,1).data);
 
 <span class="comment">% search which fault(s) are active in the given phase space</span>
-<span class="keyword">for</span> idx = start_search:end_search
-    <span class="keyword">if</span> trigger_arr(1).data(idx) == 1
+<span class="keyword">for</span> idx = 1:end_search
+    <span class="keyword">if</span> trigger_struct(1,schedule_nr).data(idx) == 1
         trigger_vec(1) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(2).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(2,schedule_nr).data(idx) == 1
         trigger_vec(2) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(3).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(3,schedule_nr).data(idx) == 1
         trigger_vec(3) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(4).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(4,schedule_nr).data(idx) == 1
         trigger_vec(4) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(5).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(5,schedule_nr).data(idx) == 1
         trigger_vec(5) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(6).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(6,schedule_nr).data(idx) == 1
         trigger_vec(6) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(7).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(7,schedule_nr).data(idx) == 1
         trigger_vec(7) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(8).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(8,schedule_nr).data(idx) == 1
         trigger_vec(8) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(9).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(9,schedule_nr).data(idx) == 1
         trigger_vec(9) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(10).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(10,schedule_nr).data(idx) == 1
         trigger_vec(10) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(11).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(11,schedule_nr).data(idx) == 1
         trigger_vec(11) = 1;
     <span class="keyword">end</span>
-    <span class="keyword">if</span> trigger_arr(12).data(idx) == 1
+    <span class="keyword">if</span> trigger_struct(12,schedule_nr).data(idx) == 1
         trigger_vec(12) = 1;
     <span class="keyword">end</span>
 <span class="keyword">end</span>
@@ -119,49 +117,47 @@ end_search = int32(phase_length*schedule_nr);
 
 
 %% Source Code
-function trigger_vec = findTrigger(trigger_arr, schedule_nr, phase_length)
+function trigger_vec = findTrigger(trigger_struct, schedule_nr)
 
 trigger_vec = zeros(1,13);
-
-start_search = int32(phase_length*(schedule_nr-1)+2);
-end_search = int32(phase_length*schedule_nr);
+end_search = length(trigger_struct(1,1).data);
 
 % search which fault(s) are active in the given phase space
-for idx = start_search:end_search
-    if trigger_arr(1).data(idx) == 1
+for idx = 1:end_search
+    if trigger_struct(1,schedule_nr).data(idx) == 1
         trigger_vec(1) = 1;
     end
-    if trigger_arr(2).data(idx) == 1
+    if trigger_struct(2,schedule_nr).data(idx) == 1
         trigger_vec(2) = 1;
     end
-    if trigger_arr(3).data(idx) == 1
+    if trigger_struct(3,schedule_nr).data(idx) == 1
         trigger_vec(3) = 1;
     end
-    if trigger_arr(4).data(idx) == 1
+    if trigger_struct(4,schedule_nr).data(idx) == 1
         trigger_vec(4) = 1;
     end
-    if trigger_arr(5).data(idx) == 1
+    if trigger_struct(5,schedule_nr).data(idx) == 1
         trigger_vec(5) = 1;
     end
-    if trigger_arr(6).data(idx) == 1
+    if trigger_struct(6,schedule_nr).data(idx) == 1
         trigger_vec(6) = 1;
     end
-    if trigger_arr(7).data(idx) == 1
+    if trigger_struct(7,schedule_nr).data(idx) == 1
         trigger_vec(7) = 1;
     end
-    if trigger_arr(8).data(idx) == 1
+    if trigger_struct(8,schedule_nr).data(idx) == 1
         trigger_vec(8) = 1;
     end
-    if trigger_arr(9).data(idx) == 1
+    if trigger_struct(9,schedule_nr).data(idx) == 1
         trigger_vec(9) = 1;
     end
-    if trigger_arr(10).data(idx) == 1
+    if trigger_struct(10,schedule_nr).data(idx) == 1
         trigger_vec(10) = 1;
     end
-    if trigger_arr(11).data(idx) == 1
+    if trigger_struct(11,schedule_nr).data(idx) == 1
         trigger_vec(11) = 1;
     end
-    if trigger_arr(12).data(idx) == 1
+    if trigger_struct(12,schedule_nr).data(idx) == 1
         trigger_vec(12) = 1;
     end   
 end

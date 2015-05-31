@@ -24,6 +24,23 @@ toc.appendChild(schedule_node);
 %% Faultlist contains all labels of faults
 fault_types = {'value correlated offset','time correlated offset','value correlated noise','time correlated noise','const offset','const noise','outlier','spike','stuck at zero','stuck at x','saturation','const delay','time correlated delay'};
 
+
+%% create the trigger matrix
+%% vcn, tcn, ncn, out, spi, stz, stx 
+try
+    actMat = mat2str(evalin('base','actMat'));
+    
+catch
+    actMat = '0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;';
+end
+
+trigger_node = docNode.createElement('trigger');
+trigger_node.appendChild(docNode.createTextNode(actMat));
+
+toc.appendChild(trigger_node);
+
+
+
 %% Iterate through the Faultlist and creates entries for general parameters and individual parameters
 for idx = 1:numel(fault_types)
     curr_fault = docNode.createElement('fault');
@@ -46,14 +63,7 @@ for idx = 1:numel(fault_types)
     end
     curr_fault.appendChild(curr_attr);
 
-    curr_attr = docNode.createElement('occurrence');
-    try
-        curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'occurrence'))));
-    catch
-        curr_attr.appendChild(docNode.createTextNode('0'));
-    end
-    curr_fault.appendChild(curr_attr);
-    
+        
     curr_attr = docNode.createElement('factor');
     curr_attr.setAttribute('type','param');
     try

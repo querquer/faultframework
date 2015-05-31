@@ -382,7 +382,7 @@ gui_fault_id12;
 function pushbutton22_Callback(hObject, eventdata, handles)
 [FileName,PathName] = uiputfile('*.xml','Save Fault Configuration',strcat(pwd,'/Faultinjection/XML'));
 if FileName > 0
-    createXML2(FileName);
+    createXML(FileName);
     
     assignin('base','FileName_FaultKonf',FileName);
     assignin('base','PathName_FaultKonf',PathName);

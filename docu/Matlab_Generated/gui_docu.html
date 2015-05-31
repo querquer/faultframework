@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Documentation Graphical User Interface</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-12"><meta name="DC.source" content="gui_docu.m"><style type="text/css">
+      --><title>Documentation Graphical User Interface</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-31"><meta name="DC.source" content="gui_docu.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,88 +66,191 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Documentation Graphical User Interface</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Image of the graphical user interface</a></li><li><a href="#2">Related Functions</a></li><li><a href="#4">Related Graphical User Interfaces</a></li><li><a href="#6">Panel: Process Model</a></li><li><a href="#7">Panel: Global Konfiguration</a></li><li><a href="#8">Panel: Import/Export</a></li><li><a href="#9">Panel: Fault Injection Modul</a></li><li><a href="#10">Panel: Fault Detection Modul</a></li><li><a href="#11">Panel: Fault Filter Modul</a></li></ul></div><h2>Image of the graphical user interface<a name="1"></a></h2><p><img vspace="5" hspace="5" src="gui_main.png" alt=""> </p><h2>Related Functions<a name="2"></a></h2><div><ul><li><a href="set_processModel.html">set_processModel</a></li><li><a href="getModelData.html">getModelData</a></li><li><a href="add_detector.html">add_detector</a></li><li><a href="add_filter.html">add_filter</a></li><li><a href="export_filter.html">export_filter</a></li><li><a href="loadFaultKonf.html">loadFaultKonf</a></li><li><a href="countFaults.html">countFaults</a></li><li><a href="runScheduleMode.html">runScheduleMode</a></li><li><a href="convertFaultyData.html">convertFaultyData</a></li><li><a href="suggest_solution.html">suggest_solution</a></li><li><a href="start_designing_detector.html">start_designing_detector</a></li><li><a href="set_filter.html">set_filter</a></li><li><a href="state_machine.html">state_machine</a></li><li><a href="greyOutButton.html">greyOutButton</a></li></ul></div><h2>Related Graphical User Interfaces<a name="4"></a></h2><div><ul><li><a href="gui_faultlist_docu.html">GUI-Faultlist</a></li></ul></div><h2>Panel: Process Model<a name="6"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Choose Process Model*</span>
-<span class="comment">% Funktion: Get the file name and path of the processmodel with uigetfile()</span>
-<span class="comment">% and call set_processModel() with the given informations</span>
+  </style></head><body><div class="content"><h1>Documentation Graphical User Interface</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">How to use this Graphical User Interface 'FIDF_Framework'</a></li><li><a href="#2">Ipmort New Filters and Detectors</a></li><li><a href="#3">Image of the graphical user interface</a></li><li><a href="#4">Related Functions</a></li><li><a href="#6">Related Graphical User Interfaces</a></li><li><a href="#8">Panel: Process Model</a></li><li><a href="#9">Panel: Configuration</a></li><li><a href="#10">Panel: Import</a></li><li><a href="#11">Panel: Fault Injection Modul</a></li><li><a href="#12">Panel: Detection Modul</a></li><li><a href="#13">Panel: Fault Filter Modul</a></li><li><a href="#14">Panel: Design/Export</a></li></ul></div><h2>How to use this Graphical User Interface 'FIDF_Framework'<a name="1"></a></h2><p>This GUI supports the user by choosing an appropriate filter and detector for a given process model. In order to guide the user during this process, images at the lower, left corner will displaying advices.</p><p>Nevertheless, the first step is to choose a process model, which should be a Simulink model. We assume that the selected model has exactly one output which returns the sensor observations. The specified process model will be classified in order to estimate the occuring dynamics. Experienced users can choose the algorithm used to classify the process model, too.</p><p>The second step is to specify the expected fault types and their parameters. This can be done by either choosing a save fault configuration or setting up a new configuration. Pushing the button 'Suggest Solution' will start the classification method and determine appropriate detectors and filters considering the process model as well as the specified fault configuration. This is done by searching for saved filters and detectors in a special database. The result will be displayed as a list of filters and detectors in their modules.</p><p>Concerning detectors, this table contains the names of the methods on which the detector is based on as well as false-positives rates and false-negatives rates. If you have choosen multiple faults, every detector will be listed multiple times, each time describing the performance concerning a different fault type. The listed values are only a first gues on how a specific detector could performe on your provided process model. Using the inputs fields and the button 'Filtering' one can filter the displayed detectors. The entered values for false-positive and false-negative rates will be used to compare the values displayed in the table with. If the value of a detectors is worse then the specified one, the detector will be filtered out. By marking one cell of an detector and using the button 'Delete Selected Detector', one can delete the detector from the lookup talbe. By marking one cell of an detector and using the button 'Design Detector' the framework will start to design the detector for the given process model. This is done by a optimization algorithm and can take some time. At the end a window will show up, displaying the performance of the resulting detector. If the results are appropriate, one can export the designed detector as a Simulink-Model by clicking the button 'Export'.</p><p>Concerning filters, the provided filter table contains the name of the filter with a quality value and a distance value. How this values are calculated is described <a href="filter_quality_check_simple.html">here</a>. The listed values are only a first gues on how a specific filter could performe on your provided process model. By marking one cell of an filter and using the button 'Design Filter' the framework will start to design the filter for the given process model. This is done by a optimization algorithm and can take some time. At the end a window will show up, displaying the performance of the resulting filter. If the results are appropriate, one can export the designed filter as a Simulink-Model by clicking the button 'Export'.</p><h2>Ipmort New Filters and Detectors<a name="2"></a></h2><p>New filters and detectors can be imported by using the module placed at the upper right corner. A detector is imported by choosing the folder containing all necessary functions (see also <a href="design_detector.html">design_detector</a>, section 'Specifying a detector type'). Futhermore, one has to specify a the name of imported detector. Using the 'Test Detector' button will start a time consuming process. During this process, the detector will be tested for all combinations of fault types and three different process models representing a process model with low, middle and high dynamics. At the end, the performance of the detector concerning all combinations and dynamics are displayed. If the results are satisfying, one can add the detector to the database by using the button 'Add Detector'. From now on, this detector will be displayed as an possible solution inside the detection module. Likewise, filters are added to the database.</p><h2>Image of the graphical user interface<a name="3"></a></h2><p><img vspace="5" hspace="5" src="gui_main.png" alt=""> </p><h2>Related Functions<a name="4"></a></h2><div><ul><li><a href="set_processModel.html">set_processModel</a></li><li><a href="getModelData.html">getModelData</a></li><li><a href="add_detector.html">add_detector</a></li><li><a href="add_filter.html">add_filter</a></li><li><a href="export_filter.html">export_filter</a></li><li><a href="loadFaultKonf.html">loadFaultKonf</a></li><li><a href="countFaults.html">countFaults</a></li><li><a href="runScheduleModeFromGenData.html">runScheduleModeFromGenData</a></li><li><a href="convertFaultyData.html">convertFaultyData</a></li><li><a href="suggest_solution.html">suggest_solution</a></li><li><a href="start_designing_detector.html">start_designing_detector</a></li><li><a href="set_filter.html">set_filter</a></li><li><a href="state_machine.html">state_machine</a></li><li><a href="greyOutButton.html">greyOutButton</a></li></ul></div><h2>Related Graphical User Interfaces<a name="6"></a></h2><div><ul><li><a href="gui_faultlist_docu.html">GUI-Faultlist</a></li></ul></div><h2>Panel: Process Model<a name="8"></a></h2><pre class="codeinput"><span class="comment">% Element: *Choose Process Model*</span>
+<span class="comment">% Function: Get the file name and path of the processmodel with uigetfile()</span>
+<span class="comment">% and call set_processModel() with the given informations to set the</span>
+<span class="comment">% choosen process model and calls set_sampletime() to set up the given</span>
+<span class="comment">% sampletime into this process model</span>
 
-<span class="comment">% Elemtent: *Clasify Process Model*</span>
-<span class="comment">% Funktion: Calls classify_processmodel() and write the result to the</span>
-<span class="comment">% workspace as _prozess_dynamic_</span>
+<span class="comment">% Element: *Choose Clasify Method*</span>
+<span class="comment">% Function: Get the method name with uigetfile() and save the name to</span>
+<span class="comment">% workspace</span>
 
-<span class="comment">% Elemtent: *Run Process Model*</span>
-<span class="comment">% Funktion: Calls getModelData() and write the generated data to the</span>
+<span class="comment">% Element: *Classify Process Model*</span>
+<span class="comment">% Function: Calls classify_processmodel() with the default calssify method or from the choosen methon</span>
+<span class="comment">% from 'Choose Clasify Method' and write the result to the workspace as _prozess_dynamic_</span>
+
+<span class="comment">% Element: *Run Process Model*</span>
+<span class="comment">% Function: Calls getModelData() and write the generated data to the</span>
 <span class="comment">% workspace as _gendata_</span>
 
-<span class="comment">% Elemtent: *Plot Process Model Data*</span>
-<span class="comment">% Funktion: Calls plot() wich _gendata_</span>
-</pre><h2>Panel: Global Konfiguration<a name="7"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Simulation Length*</span>
-<span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
+<span class="comment">% Element: *Plot Process Model Data*</span>
+<span class="comment">% Function: Calls plot() wich _gendata_</span>
+</pre><h2>Panel: Configuration<a name="9"></a></h2><pre class="codeinput"><span class="comment">% Element: *Simulation Length*</span>
+<span class="comment">% Function: Get the consigned data from the field and write it as</span>
 <span class="comment">% _SimLength_ to the workspace</span>
 
-<span class="comment">% Elemtent: *Sample Time*</span>
-<span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
+<span class="comment">% Element: *Sample Time*</span>
+<span class="comment">% Function: Get the consigned data from the field and write it as</span>
 <span class="comment">% _SampleTime_ to the workspace</span>
 
-<span class="comment">% Elemtent: *Global Seed*</span>
-<span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
+<span class="comment">% Element: *Global Seed*</span>
+<span class="comment">% Function: Get the consigned data from the field and write it as</span>
 <span class="comment">% _GlobalSeed_ to the workspace</span>
-</pre><h2>Panel: Import/Export<a name="8"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Detector Name*</span>
-<span class="comment">% Funktion: Get the consigned data from the field and write it as</span>
-<span class="comment">% _FileName_Detector_ to the workspace</span>
 
-<span class="comment">% Elemtent: *Choose Detector*</span>
-<span class="comment">% Funktion: Get the path of the detector with uigetfile()</span>
+<span class="comment">% Element: *hide buttons*</span>
+<span class="comment">% Function: if checked only the buttons which are need for the current</span>
+<span class="comment">% state of the workflow are shown and clickable. if unchecked all buttons</span>
+<span class="comment">% are shown and clickable.</span>
+</pre><h2>Panel: Import<a name="10"></a></h2><pre class="codeinput"><span class="comment">% Element: *Choose Detector*</span>
+<span class="comment">% Function: Get the path of the detector with uigetfile()</span>
 <span class="comment">% and write it as _FilePath_Detector_ to the workspace</span>
 
-<span class="comment">% Elemtent: *Choose Filter*</span>
-<span class="comment">% Funktion: Get the name and the path of the filter with uigetfile()</span>
+<span class="comment">% Element: *Choose Filter*</span>
+<span class="comment">% Function: Get the name and the path of the filter with uigetfile()</span>
 <span class="comment">% and write them as _FileName_Filter_ and _FilePath_Filter_ to the workspace</span>
 
-<span class="comment">% Elemtent: *Add Detector*</span>
-<span class="comment">% Funktion: Calls add_detector() with the given data from the previous</span>
+<span class="comment">% Element: *Detector Name*</span>
+<span class="comment">% Function: Get the consigned data from the field and write it as</span>
+<span class="comment">% _FileName_Detector_ to the workspace</span>
+
+<span class="comment">% Element: *Test Detector*</span>
+<span class="comment">% Function: Calls testDetector() with the choosen detector from *Choose Detector*</span>
+<span class="comment">% and shows his results via the gui result_testDetector()</span>
+
+<span class="comment">% Element: *Test Filter*</span>
+<span class="comment">% Function: Calls test_filter_to_add() with the choosen filter from *Choose Filter*</span>
+<span class="comment">% and shows his results via the gui result_testFilter()</span>
+
+<span class="comment">% Element: *Add Detector*</span>
+<span class="comment">% Function: Calls add_detector() with the given data from the previous</span>
 <span class="comment">% elements</span>
 
-<span class="comment">% Elemtent: *Add Filter*</span>
-<span class="comment">% Funktion: Calls add_filter() with the given data from the previous</span>
+<span class="comment">% Element: *Add Filter*</span>
+<span class="comment">% Function: Calls add_filter() with the given data from the previous</span>
 <span class="comment">% elements</span>
-
-<span class="comment">% Elemtent: *Export*</span>
-<span class="comment">% Funktion: no function yet</span>
-</pre><h2>Panel: Fault Injection Modul<a name="9"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Choose Fault Injection Configuration*</span>
-<span class="comment">% Funktion: Get the name and the path of the fault configuration file with</span>
+</pre><h2>Panel: Fault Injection Modul<a name="11"></a></h2><pre class="codeinput"><span class="comment">% Element: *Choose Fault Injection Configuration*</span>
+<span class="comment">% Function: Get the name and the path of the fault configuration file with</span>
 <span class="comment">% uigetfile() and calls loadFaultKonf() and countFaults()</span>
 
-<span class="comment">% Elemtent: *Set up Faults*</span>
-<span class="comment">% Funktion: Calls the GUI-Faultlist</span>
+<span class="comment">% Element: *Set up Faults*</span>
+<span class="comment">% Function: Calls the GUI-Faultlist, where u can create a new fault</span>
+<span class="comment">% injection configuration file</span>
 
-<span class="comment">% Elemtent: *Generate Test Data*</span>
-<span class="comment">% Funktion: Calls runScheduleMode() with the given fault configuration file</span>
-<span class="comment">% and also calls convertFaultyData() to provide a proper representation of</span>
-<span class="comment">% the results</span>
-
-<span class="comment">% Elemtent: *Suggest Solution*</span>
-<span class="comment">% Funktion: Calls suggest_solution() which fills the detector/filter table</span>
+<span class="comment">% Element: *Suggest Solution*</span>
+<span class="comment">% Function: Calls suggest_solution() which fills the detector/filter table</span>
 <span class="comment">% with the data of filter/detector from the LookUp-Table. These data are</span>
 <span class="comment">% fitted to the actual process model dynamic and fault activation.</span>
-</pre><h2>Panel: Fault Detection Modul<a name="10"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Detection Table*</span>
-<span class="comment">% Funktion: Filled with the data of detector from the LookUp-Table. These data are</span>
+</pre><h2>Panel: Detection Modul<a name="12"></a></h2><pre class="codeinput"><span class="comment">% Element: *Detection Table*</span>
+<span class="comment">% Function: Filled with the data of detector from the LookUp-Table. These data are</span>
 <span class="comment">% fitted to the actual process model dynamic and fault activation. Elements</span>
 <span class="comment">% can be selected to choose a detector for the design detector process.</span>
 
-<span class="comment">% Elemtent: *Design Detector*</span>
-<span class="comment">% Funktion: Calls start_designing_detector()</span>
-</pre><h2>Panel: Fault Filter Modul<a name="11"></a></h2><pre class="codeinput"><span class="comment">% Elemtent: *Filter Table*</span>
-<span class="comment">% Funktion: Filled with the data of filter from the LookUp-Table. These data are</span>
+<span class="comment">% Element: *Filtering*</span>
+<span class="comment">% Function: Update the table with the given parameters next</span>
+<span class="comment">% to the button.(filterSuggestedDetectors())</span>
+
+<span class="comment">% Element: *Delete Selected Detector*</span>
+<span class="comment">% Function: Calls delete_detector() with the selected detector from the</span>
+<span class="comment">% table.</span>
+</pre><h2>Panel: Fault Filter Modul<a name="13"></a></h2><pre class="codeinput"><span class="comment">% Element: *Filter Table*</span>
+<span class="comment">% Function: Filled with the data of filter from the LookUp-Table. These data are</span>
 <span class="comment">% fitted to the actual process model dynamic and fault activation. Elements</span>
 <span class="comment">% can be selected to choose a filter for the design filter process.</span>
 
-<span class="comment">% Elemtent: *Design Filter*</span>
-<span class="comment">% Funktion: Calls set_filter()</span>
+<span class="comment">% Element: *Filtering*</span>
+<span class="comment">% Function: Update the table with the given parameters next</span>
+<span class="comment">% to the button.(filterSuggestedFilter())</span>
+
+<span class="comment">% Element: *Delete Selected Filter*</span>
+<span class="comment">% Function: Calls delete_filter() with the selected detector from the</span>
+<span class="comment">% table.</span>
+</pre><h2>Panel: Design/Export<a name="14"></a></h2><pre class="codeinput"><span class="comment">% Element: *Design Detector*</span>
+<span class="comment">% Function: starts the design process for the choosen detector.(start_designing_detector())</span>
+
+<span class="comment">% Element: *Export Detector*</span>
+<span class="comment">% Function: Uses uiputfile() to define the file destination of the recently</span>
+<span class="comment">% generated detector.</span>
+
+
+<span class="comment">% Element: *Design Filter*</span>
+<span class="comment">% Function: starts the design process for the choosen filter.(get_config())</span>
+
+<span class="comment">% Element: *Export Filter*</span>
+<span class="comment">% Function: Uses uiputfile() to define the file destination of the recently</span>
+<span class="comment">% generated filter.</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Documentation Graphical User Interface
 %
-%%
+
+
+%% How to use this Graphical User Interface 'FIDF_Framework'
+% This GUI supports the user by choosing an appropriate filter and detector
+% for a given process model. In order to guide the user during this
+% process, images at the lower, left corner will displaying advices.
+% 
+% Nevertheless, the first step is to choose a process model, which should
+% be a Simulink model. We assume that the selected model has exactly one
+% output which returns the sensor observations. The specified process model
+% will be classified in order to estimate the occuring dynamics.
+% Experienced users can choose the algorithm used to classify the process
+% model, too. 
+%
+% The second step is to specify the expected fault types and their
+% parameters. This can be done by either choosing a save fault
+% configuration or setting up a new configuration. Pushing the button
+% 'Suggest Solution' will start the classification method and determine
+% appropriate detectors and filters considering the process model as well
+% as the specified fault configuration. This is done by searching for saved
+% filters and detectors in a special database. The result will be displayed
+% as a list of filters and detectors in their modules.
+%
+% Concerning detectors, this table contains the names of the methods on which the detector is
+% based on as well as false-positives
+% rates and false-negatives rates. If you have choosen multiple faults,
+% every detector will be listed multiple times, each time describing the
+% performance concerning a different fault type. The listed values are
+% only a first gues on how a specific detector could performe on your
+% provided process model. Using the inputs fields and the button
+% 'Filtering' one can filter the displayed detectors. The entered values
+% for false-positive and false-negative rates will be used to compare the
+% values displayed in the table with. If the value of a detectors is worse
+% then the specified one, the detector will be filtered out. 
+% By marking one cell of an detector and using the button 'Delete Selected Detector', one can delete the detector from the lookup talbe. By marking one cell of an
+% detector and using the button 'Design Detector' the framework will start
+% to design the detector for the given process model. This is done by a
+% optimization algorithm and can take some time. At the end a window will
+% show up, displaying the performance of the resulting detector. If the
+% results are appropriate, one can export the designed detector as a
+% Simulink-Model by clicking the button 'Export'. 
+%
+% Concerning filters, the provided filter table contains the name of the filter with a quality
+% value and a distance value. How this values are calculated is described 
+% <filter_quality_check_simple.html here>. The listed values are
+% only a first gues on how a specific filter could performe on your
+% provided process model. By marking one cell of an
+% filter and using the button 'Design Filter' the framework will start
+% to design the filter for the given process model. This is done by a
+% optimization algorithm and can take some time. At the end a window will
+% show up, displaying the performance of the resulting filter. If the
+% results are appropriate, one can export the designed filter as a
+% Simulink-Model by clicking the button 'Export'.
+
+%% Ipmort New Filters and Detectors
+% New filters and detectors can be imported by using the module placed at
+% the upper right corner. A detector is imported by choosing the folder
+% containing all necessary functions (see also <design_detector.html
+% design_detector>, section 'Specifying a detector type'). Futhermore, one has to specify a the name of imported
+% detector. Using the 'Test Detector' button will start a time consuming
+% process. During this process, the detector will be tested for all
+% combinations of fault types and three different process models
+% representing a process model with low, middle and high dynamics. At the
+% end, the performance of the detector concerning all combinations and
+% dynamics are displayed. If the results are satisfying, one can add the
+% detector to the database by using the button 'Add Detector'. From now on,
+% this detector will be displayed as an possible solution inside the
+% detection module. Likewise, filters are added to the database.
 
 %% Image of the graphical user interface
 % <<gui_main.png>>
@@ -162,7 +265,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 % * <export_filter.html export_filter>
 % * <loadFaultKonf.html loadFaultKonf>
 % * <countFaults.html countFaults>
-% * <runScheduleMode.html runScheduleMode>
+% * <runScheduleModeFromGenData.html runScheduleModeFromGenData>
 % * <convertFaultyData.html convertFaultyData>
 % * <suggest_solution.html suggest_solution>
 % * <start_designing_detector.html start_designing_detector>
@@ -179,108 +282,151 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 %%% Panel: Process Model
 
-% Elemtent: *Choose Process Model*
-% Funktion: Get the file name and path of the processmodel with uigetfile()
-% and call set_processModel() with the given informations
+% Element: *Choose Process Model*
+% Function: Get the file name and path of the processmodel with uigetfile()
+% and call set_processModel() with the given informations to set the
+% choosen process model and calls set_sampletime() to set up the given
+% sampletime into this process model
 
-% Elemtent: *Clasify Process Model*
-% Funktion: Calls classify_processmodel() and write the result to the
-% workspace as _prozess_dynamic_
+% Element: *Choose Clasify Method*
+% Function: Get the method name with uigetfile() and save the name to
+% workspace
 
-% Elemtent: *Run Process Model*
-% Funktion: Calls getModelData() and write the generated data to the
+% Element: *Classify Process Model*
+% Function: Calls classify_processmodel() with the default calssify method or from the choosen methon 
+% from 'Choose Clasify Method' and write the result to the workspace as _prozess_dynamic_
+
+% Element: *Run Process Model*
+% Function: Calls getModelData() and write the generated data to the
 % workspace as _gendata_
 
-% Elemtent: *Plot Process Model Data*
-% Funktion: Calls plot() wich _gendata_
+% Element: *Plot Process Model Data*
+% Function: Calls plot() wich _gendata_
 
 
 
-%%% Panel: Global Konfiguration
+%%% Panel: Configuration
 
-% Elemtent: *Simulation Length*
-% Funktion: Get the consigned data from the field and write it as
+% Element: *Simulation Length*
+% Function: Get the consigned data from the field and write it as
 % _SimLength_ to the workspace
 
-% Elemtent: *Sample Time*
-% Funktion: Get the consigned data from the field and write it as
+% Element: *Sample Time*
+% Function: Get the consigned data from the field and write it as
 % _SampleTime_ to the workspace
 
-% Elemtent: *Global Seed*
-% Funktion: Get the consigned data from the field and write it as
+% Element: *Global Seed*
+% Function: Get the consigned data from the field and write it as
 % _GlobalSeed_ to the workspace
 
+% Element: *hide buttons*
+% Function: if checked only the buttons which are need for the current
+% state of the workflow are shown and clickable. if unchecked all buttons
+% are shown and clickable.
 
 
-%%% Panel: Import/Export
+%%% Panel: Import
 
-% Elemtent: *Detector Name*
-% Funktion: Get the consigned data from the field and write it as
-% _FileName_Detector_ to the workspace
 
-% Elemtent: *Choose Detector*
-% Funktion: Get the path of the detector with uigetfile()
+% Element: *Choose Detector*
+% Function: Get the path of the detector with uigetfile()
 % and write it as _FilePath_Detector_ to the workspace
 
-% Elemtent: *Choose Filter*
-% Funktion: Get the name and the path of the filter with uigetfile()
+% Element: *Choose Filter*
+% Function: Get the name and the path of the filter with uigetfile()
 % and write them as _FileName_Filter_ and _FilePath_Filter_ to the workspace
 
-% Elemtent: *Add Detector*
-% Funktion: Calls add_detector() with the given data from the previous
+% Element: *Detector Name*
+% Function: Get the consigned data from the field and write it as
+% _FileName_Detector_ to the workspace
+
+% Element: *Test Detector*
+% Function: Calls testDetector() with the choosen detector from *Choose Detector*
+% and shows his results via the gui result_testDetector()
+
+% Element: *Test Filter*
+% Function: Calls test_filter_to_add() with the choosen filter from *Choose Filter*
+% and shows his results via the gui result_testFilter()
+
+% Element: *Add Detector*
+% Function: Calls add_detector() with the given data from the previous
 % elements
 
-% Elemtent: *Add Filter*
-% Funktion: Calls add_filter() with the given data from the previous
+% Element: *Add Filter*
+% Function: Calls add_filter() with the given data from the previous
 % elements
-
-% Elemtent: *Export*
-% Funktion: no function yet
-
 
 
 %%% Panel: Fault Injection Modul
 
-% Elemtent: *Choose Fault Injection Configuration*
-% Funktion: Get the name and the path of the fault configuration file with
+% Element: *Choose Fault Injection Configuration*
+% Function: Get the name and the path of the fault configuration file with
 % uigetfile() and calls loadFaultKonf() and countFaults()
 
-% Elemtent: *Set up Faults*
-% Funktion: Calls the GUI-Faultlist
+% Element: *Set up Faults*
+% Function: Calls the GUI-Faultlist, where u can create a new fault
+% injection configuration file
 
-% Elemtent: *Generate Test Data*
-% Funktion: Calls runScheduleMode() with the given fault configuration file
-% and also calls convertFaultyData() to provide a proper representation of
-% the results
-
-% Elemtent: *Suggest Solution*
-% Funktion: Calls suggest_solution() which fills the detector/filter table
+% Element: *Suggest Solution*
+% Function: Calls suggest_solution() which fills the detector/filter table
 % with the data of filter/detector from the LookUp-Table. These data are
 % fitted to the actual process model dynamic and fault activation.
 
 
 
-%%% Panel: Fault Detection Modul
+%%% Panel: Detection Modul
 
-% Elemtent: *Detection Table*
-% Funktion: Filled with the data of detector from the LookUp-Table. These data are
+% Element: *Detection Table*
+% Function: Filled with the data of detector from the LookUp-Table. These data are
 % fitted to the actual process model dynamic and fault activation. Elements
 % can be selected to choose a detector for the design detector process.
 
-% Elemtent: *Design Detector*
-% Funktion: Calls start_designing_detector()
+% Element: *Filtering*
+% Function: Update the table with the given parameters next
+% to the button.(filterSuggestedDetectors())
+
+% Element: *Delete Selected Detector*
+% Function: Calls delete_detector() with the selected detector from the
+% table.
 
 
 
 %%% Panel: Fault Filter Modul
 
-% Elemtent: *Filter Table*
-% Funktion: Filled with the data of filter from the LookUp-Table. These data are
+% Element: *Filter Table*
+% Function: Filled with the data of filter from the LookUp-Table. These data are
 % fitted to the actual process model dynamic and fault activation. Elements
 % can be selected to choose a filter for the design filter process.
 
-% Elemtent: *Design Filter*
-% Funktion: Calls set_filter()
+% Element: *Filtering*
+% Function: Update the table with the given parameters next
+% to the button.(filterSuggestedFilter())
+
+% Element: *Delete Selected Filter*
+% Function: Calls delete_filter() with the selected detector from the
+% table.
+
+
+
+%%% Panel: Design/Export
+
+% Element: *Design Detector*
+% Function: starts the design process for the choosen detector.(start_designing_detector())
+
+% Element: *Export Detector*
+% Function: Uses uiputfile() to define the file destination of the recently
+% generated detector.
+
+
+% Element: *Design Filter*
+% Function: starts the design process for the choosen filter.(get_config())
+
+% Element: *Export Filter*
+% Function: Uses uiputfile() to define the file destination of the recently
+% generated filter.
+
+
+
 
 
 ##### SOURCE END #####

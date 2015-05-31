@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>createXML</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="createXML.m"><style type="text/css">
+      --><title>createXML</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-31"><meta name="DC.source" content="createXML.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>createXML</h1><!--introduction--><p>Creates a Fault Konfiguration XML-File. The script try to read variables created/enteres through the gui_faultlist/id. IF these variables are not defined, there will be set a default value instead</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li><li><a href="#3">Creates a new XML-File</a></li><li><a href="#4">Set up variable which count the number of active faults</a></li><li><a href="#5">First noce containing the schedule mode</a></li><li><a href="#6">Faultlist contains all labels of faults</a></li><li><a href="#7">Iterate through the Faultlist and creates entries for general parameters and individual parameters</a></li><li><a href="#8">Reads the designated filename if existing</a></li><li><a href="#9">Write the calculated amount of faults as variable to the workspace</a></li><li><a href="#10">Finally creation of the XML-File</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> createXML
+  </style></head><body><div class="content"><h1>createXML</h1><!--introduction--><p>Creates a Fault Configuration XML-File. The script trys to read variables created/entered through the gui_faultlist/id. If these variables are not defined, a default value will be set instead. instead</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li><li><a href="#3">Creates a new XML-File</a></li><li><a href="#4">Set up variable which count the number of active faults</a></li><li><a href="#5">First noce containing the schedule mode</a></li><li><a href="#6">Faultlist contains all labels of faults</a></li><li><a href="#7">create the trigger matrix</a></li><li><a href="#8">vcn, tcn, ncn, out, spi, stz, stx</a></li><li><a href="#9">Iterate through the Faultlist and creates entries for general parameters and individual parameters</a></li><li><a href="#10">Checks the designated filename</a></li><li><a href="#11">Write the calculated amount of faults as variable to the workspace</a></li><li><a href="#12">Finally creation of the XML-File</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> createXML(filename)
 </pre><h2>Creates a new XML-File<a name="3"></a></h2><pre class="codeinput">docNode = com.mathworks.xml.XMLUtils.createDocument(<span class="string">'injection'</span>);
 toc = docNode.getDocumentElement;
 </pre><h2>Set up variable which count the number of active faults<a name="4"></a></h2><pre class="codeinput">num_faults = 0;
@@ -74,7 +74,18 @@ toc = docNode.getDocumentElement;
 schedule_node.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
 toc.appendChild(schedule_node);
 </pre><h2>Faultlist contains all labels of faults<a name="6"></a></h2><pre class="codeinput">fault_types = {<span class="string">'value correlated offset'</span>,<span class="string">'time correlated offset'</span>,<span class="string">'value correlated noise'</span>,<span class="string">'time correlated noise'</span>,<span class="string">'const offset'</span>,<span class="string">'const noise'</span>,<span class="string">'outlier'</span>,<span class="string">'spike'</span>,<span class="string">'stuck at zero'</span>,<span class="string">'stuck at x'</span>,<span class="string">'saturation'</span>,<span class="string">'const delay'</span>,<span class="string">'time correlated delay'</span>};
-</pre><h2>Iterate through the Faultlist and creates entries for general parameters and individual parameters<a name="7"></a></h2><pre class="codeinput"><span class="keyword">for</span> idx = 1:numel(fault_types)
+</pre><h2>create the trigger matrix<a name="7"></a></h2><h2>vcn, tcn, ncn, out, spi, stz, stx<a name="8"></a></h2><pre class="codeinput"><span class="keyword">try</span>
+    actMat = mat2str(evalin(<span class="string">'base'</span>,<span class="string">'actMat'</span>));
+
+<span class="keyword">catch</span>
+    actMat = <span class="string">'0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;'</span>;
+<span class="keyword">end</span>
+
+trigger_node = docNode.createElement(<span class="string">'trigger'</span>);
+trigger_node.appendChild(docNode.createTextNode(actMat));
+
+toc.appendChild(trigger_node);
+</pre><h2>Iterate through the Faultlist and creates entries for general parameters and individual parameters<a name="9"></a></h2><pre class="codeinput"><span class="keyword">for</span> idx = 1:numel(fault_types)
     curr_fault = docNode.createElement(<span class="string">'fault'</span>);
     id = idx-1;
 
@@ -95,13 +106,6 @@ toc.appendChild(schedule_node);
     <span class="keyword">end</span>
     curr_fault.appendChild(curr_attr);
 
-    curr_attr = docNode.createElement(<span class="string">'occurrence'</span>);
-    <span class="keyword">try</span>
-        curr_attr.appendChild(docNode.createTextNode(evalin(<span class="string">'base'</span>,strcat(<span class="string">'id'</span>,int2str(id),<span class="string">'occurrence'</span>))));
-    <span class="keyword">catch</span>
-        curr_attr.appendChild(docNode.createTextNode(<span class="string">'0'</span>));
-    <span class="keyword">end</span>
-    curr_fault.appendChild(curr_attr);
 
     curr_attr = docNode.createElement(<span class="string">'factor'</span>);
     curr_attr.setAttribute(<span class="string">'type'</span>,<span class="string">'param'</span>);
@@ -445,26 +449,29 @@ toc.appendChild(schedule_node);
 
     toc.appendChild(curr_fault);
 <span class="keyword">end</span>
-</pre><h2>Reads the designated filename if existing<a name="8"></a></h2><pre class="codeinput"><span class="keyword">try</span>
-    curr_filename = strcat(<span class="string">'Faultinjection/XML/'</span>,evalin(<span class="string">'base'</span>,<span class="string">'filename'</span>));
-<span class="keyword">catch</span>
+</pre><h2>Checks the designated filename<a name="10"></a></h2><pre class="codeinput"><span class="keyword">if</span> filename &gt; 0
+    <span class="keyword">if</span>(isunix())
+        curr_filename = strcat(<span class="string">'Faultinjection/XML/'</span>,filename);
+    <span class="keyword">else</span>
+        curr_filename = strcat(<span class="string">'Faultinjection\XML\'</span>,filename);
+    <span class="keyword">end</span>
+<span class="keyword">else</span>
     curr_filename = <span class="string">'Faultinjection/XML/faultKonf_TEMP'</span>;
 <span class="keyword">end</span>
-</pre><h2>Write the calculated amount of faults as variable to the workspace<a name="9"></a></h2><pre class="codeinput">assignin(<span class="string">'base'</span>,<span class="string">'num_faults'</span>, num_faults);
-</pre><h2>Finally creation of the XML-File<a name="10"></a></h2><pre class="codeinput">xmlFileName = [curr_filename,<span class="string">'.xml'</span>];
-xmlwrite(xmlFileName,docNode);
-type(xmlFileName);
+</pre><h2>Write the calculated amount of faults as variable to the workspace<a name="11"></a></h2><pre class="codeinput">assignin(<span class="string">'base'</span>,<span class="string">'num_faults'</span>, num_faults);
+</pre><h2>Finally creation of the XML-File<a name="12"></a></h2><pre class="codeinput">xmlwrite(curr_filename,docNode);
+type(curr_filename);
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% createXML
-% Creates a Fault Konfiguration XML-File.
-% The script try to read variables created/enteres through the
-% gui_faultlist/id. IF these variables are not defined, there will be set a default value
+% Creates a Fault Configuration XML-File.
+% The script trys to read variables created/entered through the
+% gui_faultlist/id. If these variables are not defined, a default value will be set instead.
 % instead
 
 
 %% Source Code
-function createXML
+function createXML(filename)
 
 
 %% Creates a new XML-File
@@ -481,6 +488,23 @@ toc.appendChild(schedule_node);
 
 %% Faultlist contains all labels of faults
 fault_types = {'value correlated offset','time correlated offset','value correlated noise','time correlated noise','const offset','const noise','outlier','spike','stuck at zero','stuck at x','saturation','const delay','time correlated delay'};
+
+
+%% create the trigger matrix
+%% vcn, tcn, ncn, out, spi, stz, stx 
+try
+    actMat = mat2str(evalin('base','actMat'));
+    
+catch
+    actMat = '0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;';
+end
+
+trigger_node = docNode.createElement('trigger');
+trigger_node.appendChild(docNode.createTextNode(actMat));
+
+toc.appendChild(trigger_node);
+
+
 
 %% Iterate through the Faultlist and creates entries for general parameters and individual parameters
 for idx = 1:numel(fault_types)
@@ -504,14 +528,7 @@ for idx = 1:numel(fault_types)
     end
     curr_fault.appendChild(curr_attr);
 
-    curr_attr = docNode.createElement('occurrence');
-    try
-        curr_attr.appendChild(docNode.createTextNode(evalin('base',strcat('id',int2str(id),'occurrence'))));
-    catch
-        curr_attr.appendChild(docNode.createTextNode('0'));
-    end
-    curr_fault.appendChild(curr_attr);
-    
+        
     curr_attr = docNode.createElement('factor');
     curr_attr.setAttribute('type','param');
     try
@@ -855,10 +872,14 @@ for idx = 1:numel(fault_types)
     toc.appendChild(curr_fault);
 end
 
-%% Reads the designated filename if existing
-try 
-    curr_filename = strcat('Faultinjection/XML/',evalin('base','filename'));
-catch
+%% Checks the designated filename 
+if filename > 0
+    if(isunix())
+        curr_filename = strcat('Faultinjection/XML/',filename);
+    else
+        curr_filename = strcat('Faultinjection\XML\',filename);
+    end
+else
     curr_filename = 'Faultinjection/XML/faultKonf_TEMP';
 end
 
@@ -866,9 +887,8 @@ end
 assignin('base','num_faults', num_faults);    
 
 %% Finally creation of the XML-File
-xmlFileName = [curr_filename,'.xml'];
-xmlwrite(xmlFileName,docNode);
-type(xmlFileName);
+xmlwrite(curr_filename,docNode);
+type(curr_filename);
 
 
 ##### SOURCE END #####

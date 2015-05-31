@@ -32,9 +32,12 @@
 % Funktion: Opens a individual gui for the corresponding fault where all
 % parameters can be edit.
 
-
-
-
+% Elemtent: *edit activation matrix*
+% Funktion: open a matrix which contains a 7x8 table. 
+% The entries of the table represent the probability from one fault state
+% to another e.g. if you want that after a choosen fault state the next
+% sample is fault free, you have to keep the column of the fault state
+% zero(the probability of all fault states are zero and no fault is triggered).
 
 
 

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>convertFaultyData</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-09"><meta name="DC.source" content="convertFaultyData.m"><style type="text/css">
+      --><title>convertFaultyData</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-31"><meta name="DC.source" content="convertFaultyData.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>convertFaultyData</h1><!--introduction--><p>Convert the faulty data to several spezific data types</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li><li><a href="#5">Load all needed variables from workspace</a></li><li><a href="#6">Builds a struct array from faulty data</a></li><li><a href="#7">Builds a struct array which contains the data from the single fault run</a></li><li><a href="#8">Builds a struct array from the trigger data which were provided by the fault framework</a></li><li><a href="#9">Builds a struct array which contains the trigger belonging to the data single fault array</a></li><li><a href="#10">Builds a array which contains the data of the last schedule run</a></li><li><a href="#11">Builds a struct array which contains the trigger belonging to the data multi fault array</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="findTrigger.html">findTrigger</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> convertFaultyData()
+  </style></head><body><div class="content"><h1>convertFaultyData</h1><!--introduction--><p>Convert the faulty data to several spezific data types</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Related Functions</a></li><li><a href="#3">Source Code</a></li><li><a href="#5">Load all needed variables from workspace</a></li><li><a href="#6">Builds a struct array from faulty data</a></li><li><a href="#7">Builds a struct array which contains the data from the single fault run</a></li><li><a href="#8">Builds a struct array from the trigger data which were provided by the fault framework</a></li><li><a href="#9">trigger struct</a></li><li><a href="#10">Builds a struct array which contains the trigger belonging to the data single fault array</a></li><li><a href="#11">Builds a array which contains the data of the last schedule run</a></li><li><a href="#12">Builds a struct array which contains the trigger belonging to the data multi fault array</a></li></ul></div><h2>Related Functions<a name="1"></a></h2><div><ul><li><a href="findTrigger.html">findTrigger</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> convertFaultyData()
 </pre><h2>Load all needed variables from workspace<a name="5"></a></h2><pre class="codeinput"><span class="keyword">try</span>
     SimLength = evalin(<span class="string">'base'</span>,<span class="string">'SimLength'</span>);
 <span class="keyword">catch</span>
@@ -99,9 +99,10 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 fault_types = {<span class="string">'value_correlated_offset'</span>,<span class="string">'time_correlated_offset'</span>,<span class="string">'value_correlated_noise'</span>,<span class="string">'time_correlated_noise'</span>,<span class="string">'const_offset'</span>,<span class="string">'const_noise'</span>,<span class="string">'outlier'</span>,<span class="string">'spike'</span>,<span class="string">'stuck_at_zero'</span>,<span class="string">'stuck_at_x'</span>,<span class="string">'saturation'</span>,<span class="string">'const_delay'</span>,<span class="string">'time_correlated_delay'</span>};
 
-debugMode = 1;
+toWorkspace = 1;
 </pre><h2>Builds a struct array from faulty data<a name="6"></a></h2><p>The struct array contains the data from the schedule run seperated by each fault combination. The amount of fault combinations is determined by 2^(number of activated faults).</p><pre class="codeinput">num_data = 2^num_faults;
-phase_length = (SimLength/num_data)*(1/SampleTime);
+phase_length = (1/SampleTime)*SimLength;
+
 
 faulty_data_struct = struct();
 <span class="keyword">for</span> idx=1:num_data
@@ -111,7 +112,7 @@ faulty_data_struct = struct();
     faulty_data_struct(idx).value = getsamples(faulty_data,[array_start:array_end]);
 <span class="keyword">end</span>
 
-<span class="keyword">if</span>(debugMode == 1)
+<span class="keyword">if</span>(toWorkspace == 1)
     assignin(<span class="string">'base'</span>,<span class="string">'faulty_data_struct'</span>,faulty_data_struct);
 <span class="keyword">end</span>
 </pre><h2>Builds a struct array which contains the data from the single fault run<a name="7"></a></h2><p>The amount of single fault runs is determined only by the number of activated faults.</p><pre class="codeinput">counter = 0;
@@ -119,75 +120,90 @@ faulty_data_struct = struct();
 <span class="keyword">for</span> idx=1:length(act_vec)
     <span class="keyword">if</span>(act_vec(idx) == 1)
         counter = counter + 1;
-        data_singlefault(counter).name = fault_types(idx);
+        data_singlefault(counter).name = char(fault_types(idx));
         data_singlefault(counter).data = transpose(faulty_data_struct(counter+1).value.Data);
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 
-<span class="keyword">if</span>(debugMode == 1)
+<span class="keyword">if</span>(toWorkspace == 1)
     assignin(<span class="string">'base'</span>,<span class="string">'data_singlefault'</span>,data_singlefault);
 <span class="keyword">end</span>
-</pre><h2>Builds a struct array from the trigger data which were provided by the fault framework<a name="8"></a></h2><p>Each element contains the trigger data of a fault for the whole schdule run. There is one element for each fault. The order is determined by the Trigger Bus and is based on the fault ids in the fault configuration files.</p><pre class="codeinput">trigger_struct = evalin(<span class="string">'base'</span>,<span class="string">'trigger'</span>);
+</pre><h2>Builds a struct array from the trigger data which were provided by the fault framework<a name="8"></a></h2><p>Each element contains the trigger data of a fault for the whole schdule run. There is one element for each fault. The order is determined by the Trigger Bus and is based on the fault ids in the fault configuration files.</p><pre class="codeinput">trigger_temp = evalin(<span class="string">'base'</span>,<span class="string">'trigger'</span>);
 
-trigger_arr(1).data = double(trigger_struct(1).value_correlated_offset.data);
-trigger_arr(2).data = double(trigger_struct(1).time_correlated_offset.data);
-trigger_arr(3).data = double(trigger_struct(1).value_correlated_noise.data);
-trigger_arr(4).data = double(trigger_struct(1).time_correlated_noise.data);
-trigger_arr(5).data = double(trigger_struct(1).const_offset.data);
-trigger_arr(6).data = double(trigger_struct(1).const_noise.data);
-trigger_arr(7).data = double(trigger_struct(1).outlier.data);
-trigger_arr(8).data = double(trigger_struct(1).spike.data);
-trigger_arr(9).data = double(trigger_struct(1).stuck_at_zero.data);
-trigger_arr(10).data = double(trigger_struct(1).stuck_at_x.data);
-trigger_arr(11).data = double(trigger_struct(1).saturation.data);
-trigger_arr(12).data = double(trigger_struct(1).const_delay.data);
-trigger_arr(13).data = double(trigger_struct(1).time_correlated_delay.data);
+trigger_arr(1).data = double(trigger_temp(1).value_correlated_offset.data);
+trigger_arr(2).data = double(trigger_temp(1).time_correlated_offset.data);
+trigger_arr(3).data = double(trigger_temp(1).value_correlated_noise.data);
+trigger_arr(4).data = double(trigger_temp(1).time_correlated_noise.data);
+trigger_arr(5).data = double(trigger_temp(1).const_offset.data);
+trigger_arr(6).data = double(trigger_temp(1).const_noise.data);
+trigger_arr(7).data = double(trigger_temp(1).outlier.data);
+trigger_arr(8).data = double(trigger_temp(1).spike.data);
+trigger_arr(9).data = double(trigger_temp(1).stuck_at_zero.data);
+trigger_arr(10).data = double(trigger_temp(1).stuck_at_x.data);
+trigger_arr(11).data = double(trigger_temp(1).saturation.data);
+trigger_arr(12).data = double(trigger_temp(1).const_delay.data);
+trigger_arr(13).data = double(trigger_temp(1).time_correlated_delay.data);
 
-<span class="keyword">if</span>(debugMode == 1)
+<span class="keyword">if</span>(toWorkspace == 1)
     assignin(<span class="string">'base'</span>,<span class="string">'trigger_arr'</span>,trigger_arr);
 <span class="keyword">end</span>
-</pre><h2>Builds a struct array which contains the trigger belonging to the data single fault array<a name="9"></a></h2><p>The first element contains the trigger information to the first element of the data trigger array.</p><pre class="codeinput"><span class="keyword">if</span>(1 == 1)
-    counter = 1;
-    <span class="keyword">for</span> idy = 1+1:num_faults+1
-        phase_start = int32(phase_length*(idy-1)+2);
-        phase_end = int32(phase_length*idy);
+</pre><h2>trigger struct<a name="9"></a></h2><pre class="codeinput"><span class="keyword">for</span> idx=1:num_data
+    array_start = int32(phase_length*(idx-1)+2);
+    array_end = int32(phase_length*idx);
 
-        trigger_vec = findTrigger(trigger_arr,idy,phase_length);
-
-        <span class="keyword">for</span> idz = 1:length(trigger_vec)
-            <span class="keyword">if</span>(trigger_vec(idz) == 1)
-                curr_trigger = transpose(trigger_arr(idz).data);
-                trigger_singlefault_temp(counter).name = fault_types(idz);
-                trigger_singlefault_temp(counter).data = getsamples(curr_trigger,[phase_start:phase_end]);
-            <span class="keyword">end</span>
-        <span class="keyword">end</span>
-        counter = counter + 1;
+    <span class="keyword">for</span> idy=1:13
+        trigger_struct(idy,idx).data = trigger_arr(idy).data(array_start:array_end);
     <span class="keyword">end</span>
-    assignin(<span class="string">'base'</span>,<span class="string">'trigger_singlefault_temp'</span>,trigger_singlefault_temp);
-    <span class="comment">%sort trigger_singlefault with fault_types</span>
-    counter = 1;
-    <span class="keyword">for</span> ida = 1:length(fault_types)
-        <span class="keyword">for</span> idb = 1:length(trigger_singlefault_temp)
 
-            <span class="keyword">if</span>(strcmp(fault_types(ida),trigger_singlefault_temp(idb).name))
-                trigger_singlefault(counter).name = fault_types(ida);
-                trigger_singlefault(counter).data = trigger_singlefault_temp(idb).data;
-                counter = counter + 1;
-            <span class="keyword">end</span>
-        <span class="keyword">end</span>
-
-    <span class="keyword">end</span>
 <span class="keyword">end</span>
 
-<span class="keyword">if</span>(debugMode == 1)
+<span class="keyword">if</span>(toWorkspace == 1)
+    assignin(<span class="string">'base'</span>,<span class="string">'trigger_struct'</span>,trigger_struct);
+<span class="keyword">end</span>
+</pre><h2>Builds a struct array which contains the trigger belonging to the data single fault array<a name="10"></a></h2><p>The first element contains the trigger information corresponding to the first element of the data trigger array.</p><pre class="codeinput">counter = 1;
+<span class="keyword">for</span> idy = 1+1:num_faults+1
+    phase_start = int32(phase_length*(idy-1)+2);
+    phase_end = int32(phase_length*idy);
+
+    runTime = (1/SampleTime)*SimLength;
+    trigger_vec = findTrigger(trigger_arr,idy,runTime);
+
+    <span class="keyword">for</span> idz = 1:length(trigger_vec)
+        <span class="keyword">if</span>(trigger_vec(idz) == 1)
+            curr_trigger = transpose(trigger_arr(idz).data);
+            trigger_singlefault_temp(counter).name = char(fault_types(idz));
+            trigger_singlefault_temp(counter).data = getsamples(curr_trigger,[phase_start:phase_end]);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    counter = counter + 1;
+<span class="keyword">end</span>
+<span class="keyword">if</span>(toWorkspace == 1)
+    assignin(<span class="string">'base'</span>,<span class="string">'trigger_singlefault_temp'</span>,trigger_singlefault_temp);
+<span class="keyword">end</span>
+<span class="comment">%sort trigger_singlefault with fault_types</span>
+counter = 1;
+<span class="keyword">for</span> ida = 1:length(fault_types)
+    <span class="keyword">for</span> idb = 1:length(trigger_singlefault_temp)
+
+        <span class="keyword">if</span>(strcmp(fault_types(ida),trigger_singlefault_temp(idb).name))
+            trigger_singlefault(counter).name = char(fault_types(ida));
+            trigger_singlefault(counter).data = trigger_singlefault_temp(idb).data;
+            counter = counter + 1;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+
+<span class="keyword">if</span>(toWorkspace == 1)
     assignin(<span class="string">'base'</span>,<span class="string">'trigger_singlefault'</span>,trigger_singlefault);
 <span class="keyword">end</span>
-</pre><h2>Builds a array which contains the data of the last schedule run<a name="10"></a></h2><p>The last run in the schedule containing a fault activation with all faults.</p><pre class="codeinput">data_multifault = transpose(faulty_data_struct(num_data).value.Data);
+</pre><h2>Builds a array which contains the data of the last schedule run<a name="11"></a></h2><p>The last run in the schedule containing a fault activation with all faults.</p><pre class="codeinput">data_multifault = transpose(faulty_data_struct(num_data).value.Data);
 
-<span class="keyword">if</span>(debugMode == 1)
+<span class="keyword">if</span>(toWorkspace == 1)
     assignin(<span class="string">'base'</span>,<span class="string">'data_multifault'</span>,data_multifault);
 <span class="keyword">end</span>
-</pre><h2>Builds a struct array which contains the trigger belonging to the data multi fault array<a name="11"></a></h2><pre class="codeinput">last_phase_start = int32(phase_length*(num_data-1)+2);
+</pre><h2>Builds a struct array which contains the trigger belonging to the data multi fault array<a name="12"></a></h2><pre class="codeinput">last_phase_start = int32(phase_length*(num_data-1)+2);
 last_phase_end = int32(phase_length*num_data);
 
 counter = 0;
@@ -198,12 +214,12 @@ counter = 0;
         <span class="comment">%curr_trigger = delsample(trigger_arr(idx),'Index',1);</span>
         curr_trigger = transpose(trigger_arr(idx).data);
 
-        trigger_multifault(counter).name = fault_types(idx);
+        trigger_multifault(counter).name = char(fault_types(idx));
         trigger_multifault(counter).data = getsamples(curr_trigger,[last_phase_start:last_phase_end]);
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 
-<span class="keyword">if</span>(debugMode == 1)
+<span class="keyword">if</span>(toWorkspace == 1)
     display(<span class="string">'Successfully generated faulty data!'</span>);
     assignin(<span class="string">'base'</span>,<span class="string">'trigger_multifault'</span>,trigger_multifault);
 <span class="keyword">end</span>
@@ -254,24 +270,25 @@ end
    
 fault_types = {'value_correlated_offset','time_correlated_offset','value_correlated_noise','time_correlated_noise','const_offset','const_noise','outlier','spike','stuck_at_zero','stuck_at_x','saturation','const_delay','time_correlated_delay'};
 
-debugMode = 1;
+toWorkspace = 1;
 
 %% Builds a struct array from faulty data
 % The struct array contains the data from the schedule run seperated by
 % each fault combination.
 % The amount of fault combinations is determined by 2^(number of activated faults).
 num_data = 2^num_faults;
-phase_length = (SimLength/num_data)*(1/SampleTime);
+phase_length = (1/SampleTime)*SimLength;
+
 
 faulty_data_struct = struct();
 for idx=1:num_data
     array_start = int32(phase_length*(idx-1)+2);
     array_end = int32(phase_length*idx);
-
+    
     faulty_data_struct(idx).value = getsamples(faulty_data,[array_start:array_end]);
 end
 
-if(debugMode == 1)
+if(toWorkspace == 1)
     assignin('base','faulty_data_struct',faulty_data_struct);
 end
 
@@ -284,12 +301,12 @@ counter = 0;
 for idx=1:length(act_vec)   
     if(act_vec(idx) == 1)
         counter = counter + 1;
-        data_singlefault(counter).name = fault_types(idx);
+        data_singlefault(counter).name = char(fault_types(idx));
         data_singlefault(counter).data = transpose(faulty_data_struct(counter+1).value.Data);
     end 
 end
 
-if(debugMode == 1)
+if(toWorkspace == 1)
     assignin('base','data_singlefault',data_singlefault);
 end
 
@@ -298,63 +315,82 @@ end
 % run. There is one element for each fault.
 % The order is determined by the Trigger Bus and is based on the fault ids
 % in the fault configuration files.
-trigger_struct = evalin('base','trigger');
+trigger_temp = evalin('base','trigger');
 
-trigger_arr(1).data = double(trigger_struct(1).value_correlated_offset.data);
-trigger_arr(2).data = double(trigger_struct(1).time_correlated_offset.data);
-trigger_arr(3).data = double(trigger_struct(1).value_correlated_noise.data);
-trigger_arr(4).data = double(trigger_struct(1).time_correlated_noise.data);
-trigger_arr(5).data = double(trigger_struct(1).const_offset.data);
-trigger_arr(6).data = double(trigger_struct(1).const_noise.data);
-trigger_arr(7).data = double(trigger_struct(1).outlier.data);
-trigger_arr(8).data = double(trigger_struct(1).spike.data);
-trigger_arr(9).data = double(trigger_struct(1).stuck_at_zero.data);
-trigger_arr(10).data = double(trigger_struct(1).stuck_at_x.data);
-trigger_arr(11).data = double(trigger_struct(1).saturation.data);
-trigger_arr(12).data = double(trigger_struct(1).const_delay.data);
-trigger_arr(13).data = double(trigger_struct(1).time_correlated_delay.data);
+trigger_arr(1).data = double(trigger_temp(1).value_correlated_offset.data);
+trigger_arr(2).data = double(trigger_temp(1).time_correlated_offset.data);
+trigger_arr(3).data = double(trigger_temp(1).value_correlated_noise.data);
+trigger_arr(4).data = double(trigger_temp(1).time_correlated_noise.data);
+trigger_arr(5).data = double(trigger_temp(1).const_offset.data);
+trigger_arr(6).data = double(trigger_temp(1).const_noise.data);
+trigger_arr(7).data = double(trigger_temp(1).outlier.data);
+trigger_arr(8).data = double(trigger_temp(1).spike.data);
+trigger_arr(9).data = double(trigger_temp(1).stuck_at_zero.data);
+trigger_arr(10).data = double(trigger_temp(1).stuck_at_x.data);
+trigger_arr(11).data = double(trigger_temp(1).saturation.data);
+trigger_arr(12).data = double(trigger_temp(1).const_delay.data);
+trigger_arr(13).data = double(trigger_temp(1).time_correlated_delay.data);
 
-if(debugMode == 1)
+if(toWorkspace == 1)
     assignin('base','trigger_arr',trigger_arr);
 end
 
-%% Builds a struct array which contains the trigger belonging to the data single fault array
-% The first element contains the trigger information to the first element
-% of the data trigger array.
-if(1 == 1)
-    counter = 1;
-    for idy = 1+1:num_faults+1
-        phase_start = int32(phase_length*(idy-1)+2);
-        phase_end = int32(phase_length*idy);     
-        
-        trigger_vec = findTrigger(trigger_arr,idy,phase_length);
-       
-        for idz = 1:length(trigger_vec)          
-            if(trigger_vec(idz) == 1)
-                curr_trigger = transpose(trigger_arr(idz).data);
-                trigger_singlefault_temp(counter).name = fault_types(idz);
-                trigger_singlefault_temp(counter).data = getsamples(curr_trigger,[phase_start:phase_end]);
-            end
-        end
-        counter = counter + 1;
+%% trigger struct
+
+for idx=1:num_data
+    array_start = int32(phase_length*(idx-1)+2);
+    array_end = int32(phase_length*idx);
+     
+    for idy=1:13
+        trigger_struct(idy,idx).data = trigger_arr(idy).data(array_start:array_end);
     end
-    assignin('base','trigger_singlefault_temp',trigger_singlefault_temp);
-    %sort trigger_singlefault with fault_types
-    counter = 1;
-    for ida = 1:length(fault_types)
-        for idb = 1:length(trigger_singlefault_temp)
-            
-            if(strcmp(fault_types(ida),trigger_singlefault_temp(idb).name))
-                trigger_singlefault(counter).name = fault_types(ida);
-                trigger_singlefault(counter).data = trigger_singlefault_temp(idb).data;
-                counter = counter + 1;
-            end
-        end
-        
-    end
+    
 end
 
-if(debugMode == 1)
+if(toWorkspace == 1)
+    assignin('base','trigger_struct',trigger_struct);
+end
+
+%% Builds a struct array which contains the trigger belonging to the data single fault array
+% The first element contains the trigger information corresponding to the first element
+% of the data trigger array.
+
+counter = 1;
+for idy = 1+1:num_faults+1
+    phase_start = int32(phase_length*(idy-1)+2);
+    phase_end = int32(phase_length*idy);     
+    
+    runTime = (1/SampleTime)*SimLength;
+    trigger_vec = findTrigger(trigger_arr,idy,runTime);
+
+    for idz = 1:length(trigger_vec)
+        if(trigger_vec(idz) == 1)
+            curr_trigger = transpose(trigger_arr(idz).data);
+            trigger_singlefault_temp(counter).name = char(fault_types(idz));
+            trigger_singlefault_temp(counter).data = getsamples(curr_trigger,[phase_start:phase_end]);
+        end
+    end
+    counter = counter + 1;
+end
+if(toWorkspace == 1)
+    assignin('base','trigger_singlefault_temp',trigger_singlefault_temp);
+end
+%sort trigger_singlefault with fault_types
+counter = 1;
+for ida = 1:length(fault_types)
+    for idb = 1:length(trigger_singlefault_temp)
+
+        if(strcmp(fault_types(ida),trigger_singlefault_temp(idb).name))
+            trigger_singlefault(counter).name = char(fault_types(ida));
+            trigger_singlefault(counter).data = trigger_singlefault_temp(idb).data;
+            counter = counter + 1;
+        end
+    end
+
+end
+
+
+if(toWorkspace == 1)
     assignin('base','trigger_singlefault',trigger_singlefault);
 end
 
@@ -365,7 +401,7 @@ end
 
 data_multifault = transpose(faulty_data_struct(num_data).value.Data);
 
-if(debugMode == 1)
+if(toWorkspace == 1)
     assignin('base','data_multifault',data_multifault);
 end
 
@@ -382,12 +418,12 @@ for idx=1:length(act_vec)
         %curr_trigger = delsample(trigger_arr(idx),'Index',1);
         curr_trigger = transpose(trigger_arr(idx).data);
         
-        trigger_multifault(counter).name = fault_types(idx);
+        trigger_multifault(counter).name = char(fault_types(idx));
         trigger_multifault(counter).data = getsamples(curr_trigger,[last_phase_start:last_phase_end]);
     end
 end
 
-if(debugMode == 1)
+if(toWorkspace == 1)
     display('Successfully generated faulty data!');
     assignin('base','trigger_multifault',trigger_multifault);
 end
