@@ -134,7 +134,7 @@ for idy = 1+1:num_faults+1
     phase_end = int32(phase_length*idy);     
     
     runTime = (1/SampleTime)*SimLength;
-    trigger_vec = findTrigger(trigger_arr,idy,runTime);
+    trigger_vec = findTriggerInArr(trigger_arr,idy,runTime);
 
     for idz = 1:length(trigger_vec)
         if(trigger_vec(idz) == 1)
