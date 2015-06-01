@@ -41,7 +41,11 @@ if(not(isempty(handles)))
             text_string = 'error';
     end
     % grey out the buttons with the specified buttons
-    greyOutButton([buttonList buttonListStatic], handles);
+    hideButtons = evalin('base','hideButtons');
+    if hideButtons == 1
+        greyOutButton([buttonList buttonListStatic], handles);    
+    end
+    
     
     % display the new state via text element
     set(handles.staticText_state,'string',text_string);
@@ -86,7 +90,10 @@ else
             text_string = 'error';
     end
     % grey out the buttons with the specified buttons
-    greyOutButton([buttonList buttonListStatic], handles);
+    hideButtons = evalin('base','hideButtons');
+    if hideButtons == 1
+        greyOutButton([buttonList buttonListStatic], handles);    
+    end
     
     % display the new state via text element
      set(handles.staticText_state,'string',text_string);

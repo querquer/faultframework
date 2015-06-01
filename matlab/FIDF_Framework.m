@@ -1141,10 +1141,14 @@ function checkbox_greyOut_Callback(hObject, eventdata, handles)
 try
     if (get(hObject,'Value') == get(hObject,'Max'))
         display('All buttons are no more clickable now!');
+        hideButtons = 1;
+        assignin('base','hideButtons',hideButtons);
         state = evalin('base','state_machine');
         state_machine(state,handles);
     else
         display('All buttons are clickable now!');
+        hideButtons = 0;
+        assignin('base','hideButtons',hideButtons);
         buttonList = {};
         greyOutButton(buttonList, handles);
     end
