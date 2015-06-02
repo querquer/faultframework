@@ -26,11 +26,12 @@ function [config, quality, dist] = median_filter()
     end
 
 % define the options for the genetic algorithm
-options = gaoptimset('TolFun', 1);
+options = gaoptimset('TolFun', 0.005);
+options = gaoptimset(options,'StallGenLimit', 5);
 options = gaoptimset(options,'Display', 'iter');
 options = gaoptimset(options,'UseParallel', false);
 options = gaoptimset(options,'PopulationSize',15);
-options = gaoptimset(options,'Generations',5);
+options = gaoptimset(options,'Generations',40);
 
 % IntInput gives the index of the inputvalues of the fitness function, wich
 % should be integer.

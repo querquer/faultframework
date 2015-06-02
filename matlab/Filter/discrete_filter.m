@@ -26,9 +26,11 @@ function [config_string, quality, dist] = discrete_filter()
 
 % define the options for the genetic algorithm
 options = gaoptimset('Display', 'iter');
+options = gaoptimset(options,'TolFun', 0.005);
+options = gaoptimset(options,'StallGenLimit', 5);
 options = gaoptimset(options,'UseParallel', false);
 options = gaoptimset(options,'PopulationSize',30);
-options = gaoptimset(options,'Generations',20);
+options = gaoptimset(options,'Generations',40);
 
 % run the genetic algorithm
 config = ga(@discrete_fitness,2,[],[],[],[],[0,0],[1,1],[],options);
