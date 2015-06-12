@@ -67,7 +67,9 @@
 % dynamics are displayed. If the results are satisfying, one can add the
 % detector to the database by using the button 'Add Detector'. From now on,
 % this detector will be displayed as an possible solution inside the
-% detection module. Likewise, filters are added to the database.
+% detection module. Likewise, filters are added to the database with the
+% difference, that at the beginning you choose the Simulink model and not the folder of the
+% filter.
 
 %% Image of the graphical user interface
 % <<gui_main.png>>
