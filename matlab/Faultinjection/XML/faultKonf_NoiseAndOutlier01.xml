@@ -46,7 +46,7 @@
       <label>const noise</label>
       <id>5</id>
       <activation>1</activation>
-      <factor type="param">0</factor>
+      <factor type="param">1</factor>
       <permanent>0</permanent>
       <pdf max="5" min="0.05" step_size="0.1">( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )</pdf>
    </fault>
@@ -54,7 +54,7 @@
       <label>outlier</label>
       <id>6</id>
       <activation>1</activation>
-      <factor type="param">0</factor>
+      <factor type="param">1</factor>
       <permanent>0</permanent>
       <negative type="param">0</negative>
    </fault>
