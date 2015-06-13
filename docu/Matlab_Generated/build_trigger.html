@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>build_trigger</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-21"><meta name="DC.source" content="build_trigger.m"><style type="text/css">
+      --><title>build_trigger</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-13"><meta name="DC.source" content="build_trigger.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>build_trigger</h1><!--introduction--><p>This function extract the process model and the trigger data from a special input file. Than it generates the triggerbus as input for the FailureProcessing.slx. Therefor it fills the unactivated fauilures with zeros.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Failures types indicated by the trigger bus</a></li><li><a href="#2">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Failures types indicated by the trigger bus<a name="1"></a></h2><div><ol><li>value correlated offset</li><li>time correlated offset</li><li>value correlated noise</li><li>time correlated noise</li><li>const offset</li><li>const noise</li><li>outlier</li><li>spike</li><li>stuck at zero</li><li>stuck at X</li><li>saturation</li><li>const delay</li><li>time correlated delay</li></ol></div><h2>Related Functions<a name="2"></a></h2><div><ul><li><a href="filename2bi.html">filename2bi</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> [ process, triggerBus] = build_trigger( input_file )
+  </style></head><body><div class="content"><h1>build_trigger</h1><!--introduction--><p>This function extract the process model and the trigger data from a special input file. Than it generates the triggerbus as input for the FailureProcessing.slx. Therefore, it fills the unactivated fauilures with zeros.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Failures types indicated by the trigger bus</a></li><li><a href="#2">Related Functions</a></li><li><a href="#3">Source Code</a></li></ul></div><h2>Failures types indicated by the trigger bus<a name="1"></a></h2><div><ol><li>value correlated offset</li><li>time correlated offset</li><li>value correlated noise</li><li>time correlated noise</li><li>const offset</li><li>const noise</li><li>outlier</li><li>spike</li><li>stuck at zero</li><li>stuck at X</li><li>saturation</li><li>const delay</li><li>time correlated delay</li></ol></div><h2>Related Functions<a name="2"></a></h2><div><ul><li><a href="filename2bi.html">filename2bi</a></li></ul></div><h2>Source Code<a name="3"></a></h2><pre class="codeinput"><span class="keyword">function</span> [ process, triggerBus] = build_trigger( input_file )
 <span class="comment">%BUILD_TRIGGERBUS returns from a .mat file the triggerbus and the</span>
 <span class="comment">%process data</span>
 
@@ -225,7 +225,7 @@ failureCount = 0;
 %% build_trigger
 % This function extract the process model and the trigger data from a
 % special input file. Than it generates the triggerbus as input for the
-% FailureProcessing.slx. Therefor it fills the unactivated fauilures
+% FailureProcessing.slx. Therefore, it fills the unactivated fauilures
 % with zeros.
 %
 

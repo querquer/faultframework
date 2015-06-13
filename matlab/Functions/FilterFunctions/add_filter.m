@@ -1,7 +1,8 @@
 %% add_filter
 % This function integrate a new filter in the <build_suggestion_table.html
-% lookuptable> or update the values of an existing filter. Therefore, the filter is tested on any possible fault
-% configuration.
+% lookuptable> or update the values of an existing filter. Therefore, you
+% must test the filter with the function <test_filter_to_add.html
+% test_filter_to_add>.
 
 %% Related Functions
 % * <set_filter.html set_filter>
@@ -19,7 +20,7 @@
 % # Put your .slx data in the folder /Filter.
 % 
 % # If you want change the properties of your filter automaticaly you have
-% to write a function wich do so. This function should be added in the
+% to write a function which do so. This function should be added in the
 % <get_config.html get_config.m> and the <get_config_fast.html
 % get_config_fast.m>. How the function should look like is described there.
 % 

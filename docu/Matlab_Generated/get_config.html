@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>get_config</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-21"><meta name="DC.source" content="get_config.m"><style type="text/css">
+      --><title>get_config</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-13"><meta name="DC.source" content="get_config.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,14 +66,25 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>get_config</h1><!--introduction--><p>Run the filter with different configurations and find the best. The configurations and how they are changed is specified in the .m funktion of the filter. For example for the Median_Filter.slx the configuration options wich will be testet are specified in the median_filter.m</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Input Value</a></li><li><a href="#2">Return Values</a></li><li><a href="#3">Add New Filter</a></li><li><a href="#4">Related Functions</a></li><li><a href="#5">Source Code</a></li></ul></div><h2>Input Value<a name="1"></a></h2><div><ul><li><b>model_file</b>:   The name of the filter you want to use</li></ul></div><h2>Return Values<a name="2"></a></h2><div><ul><li><b>config</b>:       a value witch can tell you, witch configuration is the                   best.</li><li><b>quality</b>:      delivers a quality indication. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li><li><b>dist</b>:         delivers a indication how much differ the faultfree and the filtered                   data. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li></ul></div><h2>Add New Filter<a name="3"></a></h2><p>if you want change the properties of your filter automaticaly you have to write a function wich do so. This function should be added here and in the <a href="get_config_fast.html">get_config_fast.m</a>.</p><p>The function should set a new filter configuration and evaluate it with the <a href="filter_evaluation.html">filter_evaluation</a> function. The best configuration should be set at the end and the config, quality and dist should be returned. The quality and the dist are delivered by the <a href="filter_evaluation.html">filter_evaluation</a> function. The config value should be a number wich indicate the best configuration.</p><h2>Related Functions<a name="4"></a></h2><div><ul><li><a href="set_filter.html">set_filter</a></li></ul></div><h2>Source Code<a name="5"></a></h2><pre class="codeinput"><span class="keyword">function</span> [config, quality, dist] = get_config(model_file)
+  </style></head><body><div class="content"><h1>get_config</h1><!--introduction--><p>Runs the filter with different configurations and find the best. The configurations and how they are changed is specified in the .m funktion of the filter. For example for the Median_Filter.slx the configuration options wich will be testet are specified in the median_filter.m</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Input Value</a></li><li><a href="#2">Return Values</a></li><li><a href="#3">Add New Filter</a></li><li><a href="#4">Related Functions</a></li><li><a href="#5">Source Code</a></li></ul></div><h2>Input Value<a name="1"></a></h2><div><ul><li><b>model_file</b>:   The name of the filter you want to use</li></ul></div><h2>Return Values<a name="2"></a></h2><div><ul><li><b>config</b>:       A value witch can tell you, which configuration is the                   best.</li><li><b>quality</b>:      Delivers a quality indication. You can find a detailed explanation here: <a href="filter_evaluation.html">filter_evaluation</a></li><li><b>dist</b>:         A value indicating how much the faultfree and the filtered data differ. Detailed explanation you can find here: <a href="filter_evaluation.html">filter_evaluation</a></li></ul></div><h2>Add New Filter<a name="3"></a></h2><p>if you want to change the properties of your filter automaticaly you have to write a function which do so. This function should be added here and in the <a href="get_config_fast.html">get_config_fast.m</a>.</p><p>The function should set a new filter configuration and evaluate it with the <a href="filter_evaluation.html">filter_evaluation</a> function. The best configuration should be set at the end and the config, quality and dist should be returned. The quality and the dist are delivered by the <a href="filter_evaluation.html">filter_evaluation</a> function. The config value should be a number wich indicate the best configuration.</p><h2>Related Functions<a name="4"></a></h2><div><ul><li><a href="set_filter.html">set_filter</a></li></ul></div><h2>Source Code<a name="5"></a></h2><pre class="codeinput"><span class="keyword">function</span> [config, quality, dist] = get_config(model_file)
 <span class="comment">%GET_CONFIG set and return the best config of the filter.</span>
 
 <span class="comment">%   ######## ADD NEW FILTER #########</span>
-<span class="comment">%   if you add a new filter, you should write a function wich trys</span>
+<span class="comment">%   if you add a new filter, you should write a function which trys</span>
 <span class="comment">%   different configurations and you should pass it here like the given</span>
 <span class="comment">%   examples. If not, you will get zero as configuration and the default</span>
 <span class="comment">%   configuration will be used.</span>
+
+<span class="comment">% try to open a parallelisation pool in order to enable possible</span>
+<span class="comment">% sub-routines to make use of it.</span>
+use_parallel = true;
+
+<span class="keyword">try</span>
+    <span class="keyword">if</span>(use_parallel)
+        pool = parpool();
+    <span class="keyword">end</span>
+<span class="keyword">catch</span> err
+<span class="keyword">end</span>
 
 set_filter(model_file);
 
@@ -93,7 +104,7 @@ set_filter(model_file);
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% get_config
-% Run the filter with different configurations and find the best. The
+% Runs the filter with different configurations and find the best. The
 % configurations and how they are changed is specified in the .m funktion
 % of the filter. For example for the Median_Filter.slx the configuration
 % options wich will be testet are specified in the median_filter.m
@@ -102,15 +113,14 @@ set_filter(model_file);
 % * *model_file*:   The name of the filter you want to use
 
 %% Return Values
-% * *config*:       a value witch can tell you, witch configuration is the
+% * *config*:       A value witch can tell you, which configuration is the
 %                   best.
-% * *quality*:      delivers a quality indication. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
-% * *dist*:         delivers a indication how much differ the faultfree and the filtered
-%                   data. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
+% * *quality*:      Delivers a quality indication. You can find a detailed explanation here: <filter_evaluation.html filter_evaluation>
+% * *dist*:         A value indicating how much the faultfree and the filtered data differ. Detailed explanation you can find here: <filter_evaluation.html filter_evaluation>
 
 %% Add New Filter
-% if you want change the properties of your filter automaticaly you have
-% to write a function wich do so. This function should be added here and in the
+% if you want to change the properties of your filter automaticaly you have
+% to write a function which do so. This function should be added here and in the
 % <get_config_fast.html get_config_fast.m>.
 %
 % The function should set a new filter configuration and evaluate it with
@@ -131,10 +141,21 @@ function [config, quality, dist] = get_config(model_file)
 %GET_CONFIG set and return the best config of the filter.
 
 %   ######## ADD NEW FILTER #########
-%   if you add a new filter, you should write a function wich trys
+%   if you add a new filter, you should write a function which trys
 %   different configurations and you should pass it here like the given
 %   examples. If not, you will get zero as configuration and the default
 %   configuration will be used.
+
+% try to open a parallelisation pool in order to enable possible
+% sub-routines to make use of it.
+use_parallel = true;
+
+try
+    if(use_parallel)
+        pool = parpool();
+    end
+catch err
+end
 
 set_filter(model_file);
 

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>export_filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-13"><meta name="DC.source" content="export_filter.m"><style type="text/css">
+      --><title>Classify Processmodel with Fourier Analysis</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-13"><meta name="DC.source" content="classify_processmodel_fourier.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,45 +66,74 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>export_filter</h1><!--introduction--><p>This function export the filter, which is currently set in the Filter.slx. The input specifies the path to export the filter to.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> export_filter( export_path )
-<span class="comment">%EXPORT_FILTER export the current configured filter to the given path</span>
+  </style></head><body><div class="content"><h1>Classify Processmodel with Fourier Analysis</h1><!--introduction--><p>This function makes a fourier analysis of the given process model. The classification is calculated by the number of local maximas of the fourier analysis. If there are less than 2 maximas the dynamic is classified as low. For 2-4 maximas the dynamic is middel. If there are more than 4 maximas the dynamic is high.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Return Value</a></li><li><a href="#2">Source Code</a></li></ul></div><h2>Return Value<a name="1"></a></h2><div><ul><li><b>class</b>:    1 for a low dynamic of the given process model, 2 for middel and 3 for a high dynamic.</li></ul></div><h2>Source Code<a name="2"></a></h2><pre class="codeinput"><span class="keyword">function</span> class = classify_processmodel_fourier( path_and_name, StopTime )
 
-load_system(<span class="string">'Filter.slx'</span>);
-actual_filter = get_param(<span class="string">'Filter/Filter/'</span> ,<span class="string">'ModelNameDialog'</span>);
+data = getModelData(path_and_name, StopTime);
+out = abs(fft(data));
 
-<span class="keyword">if</span>(isunix())
-    file_location = [<span class="string">'Filter/'</span> actual_filter];
-<span class="keyword">else</span>
-    file_location = [<span class="string">'Filter\'</span> actual_filter];
+maxis = findpeaks(out);
+sMaxis = size(maxis);
+
+i = 1;
+<span class="keyword">while</span>(i &lt;= sMaxis(1,2))
+   <span class="keyword">if</span>(maxis(i) &lt; 200)
+       maxis(i) = [];
+       sMaxis = size(maxis);
+       i = i-1;
+   <span class="keyword">end</span>
+   i = i+1;
 <span class="keyword">end</span>
 
-copyfile(file_location, export_path);
+<span class="keyword">if</span>(sMaxis(1,2) &lt;= 2)
+    class = 1;
+<span class="keyword">elseif</span>(sMaxis(1,2) &lt;= 4)
+    class = 2;
+<span class="keyword">else</span>
+    class = 3;
+<span class="keyword">end</span>
 
 <span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-%% export_filter
-% This function export the filter, which is currently set in the Filter.slx.
-% The input specifies the path to export the filter to.
+%% Classify Processmodel with Fourier Analysis
+% This function makes a fourier analysis of the given process model. The
+% classification is calculated by the number of local maximas of the
+% fourier analysis. If there are less than 2 maximas the dynamic is
+% classified as low. For 2-4 maximas the dynamic is middel. If there are 
+% more than 4 maximas the dynamic is high.
+
+%% Return Value
+% * *class*:    1 for a low dynamic of the given process model, 2 for
+% middel and 3 for a high dynamic.
 
 %% Source Code
 
-function export_filter( export_path )
-%EXPORT_FILTER export the current configured filter to the given path
+function class = classify_processmodel_fourier( path_and_name, StopTime )
 
-load_system('Filter.slx');
-actual_filter = get_param('Filter/Filter/' ,'ModelNameDialog');
+data = getModelData(path_and_name, StopTime);
+out = abs(fft(data));
 
-if(isunix())
-    file_location = ['Filter/' actual_filter];
+maxis = findpeaks(out);
+sMaxis = size(maxis);
+
+i = 1;
+while(i <= sMaxis(1,2))
+   if(maxis(i) < 200)
+       maxis(i) = [];
+       sMaxis = size(maxis);
+       i = i-1;
+   end
+   i = i+1;
+end
+
+if(sMaxis(1,2) <= 2)
+    class = 1;
+elseif(sMaxis(1,2) <= 4)
+    class = 2;
 else
-    file_location = ['Filter\' actual_filter];
+    class = 3;
 end
 
-copyfile(file_location, export_path);
-
 end
-
-
 ##### SOURCE END #####
 --></body></html>

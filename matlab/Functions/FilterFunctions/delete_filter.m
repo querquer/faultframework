@@ -2,7 +2,7 @@
 % This function removes the specified filter from the lookup table.
 
 %% Related Functions
-%%
+%
 % There are no sub-functions implemented by ourself.
 
 %% Source Code

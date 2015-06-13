@@ -1,0 +1,164 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>The Graphical User Interface to Test and Design new Filters and Detectors</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-13"><meta name="DC.source" content="FIDF_Design_doc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>The Graphical User Interface to Test and Design new Filters and Detectors</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">How to use this Graphical User Interface 'FIDF_Design'</a></li><li><a href="#2">Image of the graphical user interface</a></li><li><a href="#3">Related Functions</a></li><li><a href="#4">Function overview</a></li></ul></div><h2>How to use this Graphical User Interface 'FIDF_Design'<a name="1"></a></h2><p>This GUI supports the user by designing and testing of filters and detectors on a given process model.</p><p>The first step is to choos a Process Model with the "Choose Process Model" Button. The model should be a Simulink model with exactly one output. It represent the sensor observations.</p><p>The second step is to specify the expected fault types and their parameters. This can be done by choosing a save fault configuration with the button "Choose Fault Konf.".</p><p>Now you can choose a filter or detector by pushing the corresponding button. When choosing a detector, you have to select the folder containing all necessary functions (see also <a href="design_detector.html">design_detector</a>, section 'Specifying a detector type'). If you choose a filter, you have to select the Simulink model of the filter (see also <a href="get_config.html">get_config</a> section 'Add New Filter').</p><p>You can now design your detector or filter by pushing the corresponding button. This will start a time consuming process. During this process, the detector/filter will be tested for the given process model with the given fault configuration. At the end, the performance of the detector/filter is displayed. If the results are satisfying, one can export the detector/filter to a specified folder by using the button 'Export Detector' or 'Export Filter'.</p><h2>Image of the graphical user interface<a name="2"></a></h2><p><img vspace="5" hspace="5" src="FIDF_Design_picture.png" alt=""> </p><h2>Related Functions<a name="3"></a></h2><div><ul><li><a href="set_processModel.html">set_processModel</a></li><li><a href="getModelData.html">getModelData</a></li><li><a href="add_detector.html">add_detector</a></li><li><a href="add_filter.html">add_filter</a></li><li><a href="export_filter.html">export_filter</a></li><li><a href="loadFaultKonf.html">loadFaultKonf</a></li><li><a href="start_designing_detector.html">start_designing_detector</a></li><li><a href="set_filter.html">set_filter</a></li></ul></div><h2>Function overview<a name="4"></a></h2><p>Panel: Processmodel &amp; Fault Konf.</p><p>Element: <b>Choose Process Model</b> Function: Get the file name and path of the processmodel with uigetfile() and call set_processModel() with the given informations to set the choosen process model and calls set_sampletime() to set up the given sampletime into this process model</p><p>Element: <b>Choose Fault Konf.</b> Function: Get the name and the path of the fault configuration file with uigetfile() and calls loadFaultKonf() and countFaults()</p><p>Element: <b>Simulation Length</b> Function: Get the consigned data from the field and write it as <i>SimLength</i> to the workspace</p><p>Element: <b>Sample Time</b> Function: Get the consigned data from the field and write it as <i>SampleTime</i> to the workspace</p><p>Panel: Detector &amp; Filter</p><p>Element: <b>Choose Detector</b> Function: Get the path of the detector with uigetfile() and write it as <i>FilePath_Detector</i> to the workspace</p><p>Element: <b>Design Detector</b> Function: starts the design process for the choosen detector.(start_designing_detector())</p><p>Element: <b>Export Detector</b> Function: Uses uiputfile() to define the file destination of the recently generated detector.</p><p>Element: <b>Choose Filter</b> Function: Get the name and the path of the filter with uigetfile() and write them as <i>FileName_Filter</i> and <i>FilePath_Filter</i> to the workspace</p><p>Element: <b>Design Filter</b> Function: starts the design process for the choosen filter.(get_config())</p><p>Element: <b>Export Filter</b> Function: Uses uiputfile() to define the file destination of the recently generated filter.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% The Graphical User Interface to Test and Design new Filters and Detectors
+%
+
+%% How to use this Graphical User Interface 'FIDF_Design'
+% This GUI supports the user by designing and testing of filters and
+% detectors on a given process model. 
+% 
+% The first step is to choos a Process Model with the "Choose Process Model" 
+% Button. The model should be a Simulink model with exactly one output. It
+% represent the sensor observations.
+% 
+% The second step is to specify the expected fault types and their
+% parameters. This can be done by choosing a save fault configuration with
+% the button "Choose Fault Konf.".
+% 
+% Now you can choose a filter or detector by pushing the corresponding
+% button. When choosing a detector, you have to select the folder containing
+% all necessary functions (see also <design_detector.html design_detector>,
+% section 'Specifying a detector type'). If you choose a filter, you have to
+% select the Simulink model of the filter (see also <get_config.html
+% get_config> section 'Add New Filter').
+% 
+% You can now design your detector or filter by pushing the corresponding
+% button. This will start a time consuming process. During this process, 
+% the detector/filter will be tested for the given process model with the 
+% given fault configuration. At the end, the performance of the detector/filter
+% is displayed. If the results are satisfying, one can export the
+% detector/filter to a specified folder by using the button 'Export Detector' 
+% or 'Export Filter'.
+%
+%% Image of the graphical user interface
+% <<FIDF_Design_picture.png>>
+%
+%% Related Functions
+%
+% * <set_processModel.html set_processModel>
+% * <getModelData.html getModelData>
+% * <add_detector.html add_detector>
+% * <add_filter.html add_filter>
+% * <export_filter.html export_filter>
+% * <loadFaultKonf.html loadFaultKonf>
+% * <start_designing_detector.html start_designing_detector>
+% * <set_filter.html set_filter>
+%
+%% Function overview
+%
+%
+% Panel: Processmodel & Fault Konf.
+%
+% Element: *Choose Process Model*
+% Function: Get the file name and path of the processmodel with uigetfile()
+% and call set_processModel() with the given informations to set the
+% choosen process model and calls set_sampletime() to set up the given
+% sampletime into this process model
+%
+% Element: *Choose Fault Konf.*
+% Function: Get the name and the path of the fault configuration file with
+% uigetfile() and calls loadFaultKonf() and countFaults()
+%
+% Element: *Simulation Length*
+% Function: Get the consigned data from the field and write it as
+% _SimLength_ to the workspace
+%
+% Element: *Sample Time*
+% Function: Get the consigned data from the field and write it as
+% _SampleTime_ to the workspace
+%
+%
+% Panel: Detector & Filter
+%
+% Element: *Choose Detector*
+% Function: Get the path of the detector with uigetfile()
+% and write it as _FilePath_Detector_ to the workspace
+%
+% Element: *Design Detector*
+% Function: starts the design process for the choosen detector.(start_designing_detector())
+%
+% Element: *Export Detector*
+% Function: Uses uiputfile() to define the file destination of the recently
+% generated detector.
+%
+%
+% Element: *Choose Filter*
+% Function: Get the name and the path of the filter with uigetfile()
+% and write them as _FileName_Filter_ and _FilePath_Filter_ to the workspace
+%
+% Element: *Design Filter*
+% Function: starts the design process for the choosen filter.(get_config())
+%
+% Element: *Export Filter*
+% Function: Uses uiputfile() to define the file destination of the recently
+% generated filter.
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,124 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>filter_quality_check_simple.slx</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-13"><meta name="DC.source" content="filter_quality_check_simple_doc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>filter_quality_check_simple.slx</h1><!--introduction--><p>This model evaluates a filter, to get information how the filter performs. The model return a filter quality value and a average distance. In general it is appropriate to build your own filter_quality_check function because the quality calculation depends on the specific problem you want to solve.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Input Values</a></li><li><a href="#2">average_dist</a></li><li><a href="#3">filter_quality</a></li><li><a href="#4">Build your own quality_check</a></li><li><a href="#5">filter_quality_check_simple.slx</a></li></ul></div><h2>Input Values<a name="1"></a></h2><div><ul><li><b>filtered_data</b>: The output of the filter.</li><li><b>fault detection trigger</b>: The trigger bus with information which fault occurs on which time.</li><li><b>faultless_data</b>: The input of the filter without faults.</li></ul></div><h2>average_dist<a name="2"></a></h2><p>This value is the average difference between the filtered_data and the faultless_data. It indicates, how close are the filtered_data to the faultless_data. For example, if the filter leads to a high permanent offset the average_dist will be high (bad).</p><h2>filter_quality<a name="3"></a></h2><p>We want a quality value which ignore drifts or permanent offsets introduced by the filter. Therefore we filter the faultless_data. So the filtered faultless_data and the filtered faulty data have the same influence caused by the filter. For example an offset. The difference between this values indicates the quality. There are some filters wich start drifting if a fault occurs. To minimize such influence on the quality value, the difference is just mesured if a fault is activated in this moment. The information is deliverd by the fault detection trigger. To get a value independet from the length of the dataset, we take the average value. The difference between this two datasets is zero if the filter eliminate every fault. The smaller the filter_quality, the better is the filter.</p><h2>Build your own quality_check<a name="4"></a></h2><p>If you decide to build your own quality check it is necessary that the input and output data have the same structure like filter_quality_check_simple.slx. Than you can use the <a href="set_filter_evaluation.html">set_filter_evaluation</a> function to set the new quality check. You have also to change the set_filter.m file! If you press now the design filter button, the filter is designed with respect to the new quality value. Please note that the suggested solution contain the old quality values until you add every filter again (<a href="add_filter.html">add_filter</a>).</p><h2>filter_quality_check_simple.slx<a name="5"></a></h2><p><img vspace="5" hspace="5" src="filter_quality_check_simple.png" alt=""> </p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% filter_quality_check_simple.slx
+% This model evaluates a filter, to get information how the filter performs. The model return a filter quality value and a
+% average distance. In general it is appropriate to build your own
+% filter_quality_check function because the quality calculation depends on the specific
+% problem you want to solve.
+%
+
+%% Input Values
+% * *filtered_data*: The output of the filter. 
+% * *fault detection trigger*: The trigger bus with information which fault
+% occurs on which time.
+% * *faultless_data*: The input of the filter without faults.
+%
+
+%% average_dist
+% This value is the average difference between the filtered_data and the
+% faultless_data. It indicates, how close are the
+% filtered_data to the faultless_data. For example, if the filter leads to a
+% high permanent offset the average_dist will be high (bad).
+
+%% filter_quality
+% We want a quality value which ignore drifts or permanent offsets
+% introduced by the filter. Therefore we filter the faultless_data. So the
+% filtered faultless_data and the filtered faulty data have the same
+% influence caused by the filter. For example an offset. The difference
+% between this values indicates the quality. There are some filters wich
+% start drifting if a fault occurs. To minimize such influence on the
+% quality value, the difference is just mesured if a fault is activated in
+% this moment. The information is deliverd by the fault detection trigger.
+% To get a value independet from the length of the dataset, we take the
+% average value. The difference between this two datasets is zero if the 
+% filter eliminate every fault. The smaller the filter_quality, the better 
+% is the filter.
+% 
+
+%% Build your own quality_check
+% If you decide to build your own quality check it is necessary that the
+% input and output data have the same structure like
+% filter_quality_check_simple.slx. Than you can use the
+% <set_filter_evaluation.html set_filter_evaluation> function to set the
+% new quality check. You have also to change the set_filter.m file!
+% If you press now the design filter button, the filter 
+% is designed with respect to the new quality value. Please note that the 
+% suggested solution contain the
+% old quality values until you add every filter again (<add_filter.html
+% add_filter>).
+
+%% filter_quality_check_simple.slx
+% 
+% <<filter_quality_check_simple.png>>
+
+
+##### SOURCE END #####
+--></body></html>

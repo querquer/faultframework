@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>set_filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-11"><meta name="DC.source" content="set_filter.m"><style type="text/css">
+      --><title>set_filter</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-13"><meta name="DC.source" content="set_filter.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,11 +66,11 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>set_filter</h1><!--introduction--><p>This function set another filter in the Filter.slx</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> set_filter(model_file)
+  </style></head><body><div class="content"><h1>set_filter</h1><!--introduction--><p>This function sets another filter in the Filter.slx</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> set_filter(model_file)
 <span class="comment">%SET_FILTER set another filter</span>
 <span class="comment">%   We assume, that the model where we want to change the filter is still</span>
 <span class="comment">%   named 'Filter.slx' and is reachable from the current directory.</span>
-<span class="comment">%   Furthermore the model_file is also assumed to be reachable.</span>
+<span class="comment">%   Furthermore, the model_file is also assumed to be reachable.</span>
 
 <span class="comment">%Load system into matlab workspace</span>
 load_system(<span class="string">'Filter.slx'</span>);
@@ -93,7 +93,7 @@ close_system(<span class="string">'Filter/Filter_evaluation/filter_quality_check
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% set_filter
-% This function set another filter in the Filter.slx
+% This function sets another filter in the Filter.slx
 %
 
 %% Source Code
@@ -102,7 +102,7 @@ function set_filter(model_file)
 %SET_FILTER set another filter
 %   We assume, that the model where we want to change the filter is still
 %   named 'Filter.slx' and is reachable from the current directory.
-%   Furthermore the model_file is also assumed to be reachable.
+%   Furthermore, the model_file is also assumed to be reachable.
 
 %Load system into matlab workspace
 load_system('Filter.slx');
