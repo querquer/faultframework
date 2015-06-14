@@ -16,7 +16,7 @@ catch
     % global parameter
     SimLength = 10.0;
     assignin('base','SimLength',SimLength);
-    SampleTime = 0.01;
+    SampleTime = 0.05;
     assignin('base','SampleTime',SampleTime);
     GlobalSeed = 10.0;
     assignin('base','GlobalSeed',GlobalSeed);
