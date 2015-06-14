@@ -23,7 +23,8 @@ function [config_string, quality, dist] = discretefir_filter()
         disp(x);
         
         % evaluate with this configuration
-        [fitness, ~] = filter_evaluation;
+        [quality_value, dist_value] = filter_evaluation;
+        fitness = quality_value + dist_value;
     end
 
 % define the options for the genetic algorithm

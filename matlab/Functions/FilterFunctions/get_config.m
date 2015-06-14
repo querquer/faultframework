@@ -58,7 +58,7 @@ set_filter(model_file);
 % if you add a new filter, the configuration function should be added here
 if(strcmp(model_file,'Median_Filter.slx'))
     [config, quality, dist] = median_filter();
-elseif(strcmp(model_file,'Discrete_Filter.slx'))
+elseif(strcmp(model_file,'discrete_Filter.slx'))
     [config, quality, dist] = discrete_filter();
 elseif(strcmp(model_file,'DiscreteFIR_Filter.slx'))
     [config, quality, dist] = discretefir_filter();

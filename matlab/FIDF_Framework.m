@@ -605,7 +605,7 @@ if(des == 1)
         display('Start function: add_filter');
         
         new_filter_collector = evalin('base','new_filter_collector');
-        Path_Data = evalin('base','Path_Data');
+        Path_Data = evalin('base','path_and_name_lookup');
 
         warning off all
         add_filter(new_filter_collector, [pwd Path_Data]);

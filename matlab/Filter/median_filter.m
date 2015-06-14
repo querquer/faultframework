@@ -22,7 +22,8 @@ function [config, quality, dist] = median_filter()
         set_param('Median_Filter/Constant/', 'Value', num2str(x));
         close_system('Filter/Median_Filter.slx',1);
         
-        [fitness, ~] = filter_evaluation;
+        [quality_value, dist_value] = filter_evaluation;
+        fitness = quality_value + dist_value;
     end
 
 % define the options for the genetic algorithm

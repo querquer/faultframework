@@ -21,19 +21,20 @@ function [config_string, quality, dist] = discrete_filter()
         close_system('Filter/Discrete_Filter.slx',1);
     
         % evaluate with this configuration
-        [fitness, ~] = filter_evaluation;
+        [quality_value, dist_value] = filter_evaluation;
+        fitness = quality_value + dist_value;
     end
 
 % define the options for the genetic algorithm
-options = gaoptimset('Display', 'iter');
-options = gaoptimset(options,'TolFun', 0.005);
+options = gaoptimset('TolFun', 0.005);
 options = gaoptimset(options,'StallGenLimit', 5);
+options = gaoptimset(options,'Display', 'iter');
 options = gaoptimset(options,'UseParallel', false);
 options = gaoptimset(options,'PopulationSize',30);
 options = gaoptimset(options,'Generations',40);
 
 % run the genetic algorithm
-config = ga(@discrete_fitness,2,[],[],[],[],[0,0],[1,1],[],options);
+config = ga(@discrete_fitness,2,[],[],[],[],[0.1,0.1],[1,1],[],options);
 
 % set the best configuration
 config_string = sprintf('[%.1f %.1f]', config(1), config(2));
