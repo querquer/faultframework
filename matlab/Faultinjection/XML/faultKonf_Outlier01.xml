@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<injection>
+   <schedule>0</schedule>
+   <trigger>[0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0.5 0 0 0 0 0 0 0;0.05 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0]</trigger>
+   <fault>
+      <label>value correlated offset</label>
+      <id>0</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>0</permanent>
+   </fault>
+   <fault>
+      <label>time correlated offset</label>
+      <id>1</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>1</permanent>
+      <correlation>sin(x)</correlation>
+      <amplitude type="param">0</amplitude>
+   </fault>
+   <fault>
+      <label>value correlated noise</label>
+      <id>2</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>0</permanent>
+      <pdf max="5" min="0.05" step_size="0.1">( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )</pdf>
+   </fault>
+   <fault>
+      <label>time correlated noise</label>
+      <id>3</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>1</permanent>
+      <pdf max="5" min="0.05" step_size="0.1">( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )</pdf>
+   </fault>
+   <fault>
+      <label>const offset</label>
+      <id>4</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>0</permanent>
+      <amplitude type="param">0</amplitude>
+   </fault>
+   <fault>
+      <label>const noise</label>
+      <id>5</id>
+      <activation>0</activation>
+      <factor type="param">1</factor>
+      <permanent>0</permanent>
+      <pdf max="5" min="0.05" step_size="0.1">( 1 / (sqrt(2*3.1416*1) ) ) * exp( -( ((x-3)^2) / 2) )</pdf>
+   </fault>
+   <fault>
+      <label>outlier</label>
+      <id>6</id>
+      <activation>1</activation>
+      <factor type="param">1</factor>
+      <permanent>0</permanent>
+      <negative type="param">0</negative>
+   </fault>
+   <fault>
+      <label>spike</label>
+      <id>7</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>0</permanent>
+      <length type="param">0.2</length>
+      <amplitude>( 1 / (sqrt(2*3.1416*0.5) ) ) * exp( -( ((x)^2) / 0.2) ) * 1.772455</amplitude>
+   </fault>
+   <fault>
+      <label>stuck at zero</label>
+      <id>8</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>0</permanent>
+      <length type="param">0</length>
+   </fault>
+   <fault>
+      <label>stuck at x</label>
+      <id>9</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>0</permanent>
+      <top type="param">0</top>
+      <bottom type="param">0</bottom>
+      <length type="param">0</length>
+   </fault>
+   <fault>
+      <label>saturation</label>
+      <id>10</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>0</permanent>
+      <top type="param">0</top>
+      <bottom type="param">0</bottom>
+   </fault>
+   <fault>
+      <label>const delay</label>
+      <id>11</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>0</permanent>
+      <param type="param">0</param>
+   </fault>
+   <fault>
+      <label>time correlated delay</label>
+      <id>12</id>
+      <activation>0</activation>
+      <factor type="param">0</factor>
+      <permanent>1</permanent>
+      <correlation>sin(x)+cos(x)</correlation>
+      <delay type="param">2</delay>
+   </fault>
+</injection>
