@@ -39,7 +39,7 @@ while(i<=sDetectors(1,2))
         sn = size(names);
         delete = 0;
         for k=1:sn(1,2)
-            if(strcmp(detectors(i).name, names{1,k}))
+            if~(strcmp(detectors(i).name, names{1,k}))
                 delete = 1;
             end
         end
