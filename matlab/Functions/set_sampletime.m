@@ -10,7 +10,8 @@ load_system(path_and_name);
 si = size(name);
 name_approved = name(1:si(1,2)-4);
 
-set_param(name_approved ,'FixedStep', num2str(sampletime));
+set_param(name_approved ,'FixedStep', 'SampleTime');
+%set_param(name_approved ,'FixedStep', num2str(sampletime));
 
 %save the changed system
 close_system(path_and_name,1);

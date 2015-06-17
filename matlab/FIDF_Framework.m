@@ -119,7 +119,11 @@ assignin('base','SampleTime', sampletime);
 try
     PathName_PM = evalin('base','PathName_PM');
     FileName_PM = evalin('base','FileName_PM');
-    set_sampletime(PathName_PM,FileName_PM,sampletime);
+    if(strcmp(PathName_PM,'ProcessModel\'))
+        display('Can not set SampleTime! Please select a Processmodel and try again.');
+    else
+        set_sampletime(PathName_PM,FileName_PM,sampletime);
+    end
 catch ME
     msgID = 'set_param:SampleTime';
     msg = 'Could not set the sample time in the process model!';
@@ -545,6 +549,18 @@ end
 % --- Executes on button press in plot_gendata.
 function plot_gendata_Callback(hObject, eventdata, handles)
 try
+    display('Start function: getModelData');
+    
+    FileName_PM = evalin('base','FileName_PM');
+    simlength = evalin('base','SimLength');
+    % set sampletime
+    warning off all
+    gendata = getModelData(FileName_PM, simlength);
+    warning on all
+    assignin('base','gendata',gendata);
+    
+    display('Successfully finished: getModelData');
+    
     figure();
     plot(evalin('base','gendata'));
 catch ME
